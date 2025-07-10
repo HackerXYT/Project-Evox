@@ -25,6 +25,7 @@ body {
 
 body {
     background-color: #19191b;
+    padding-top: env(safe-area-inset-top) !important;
 }
 
 .oasa-map {
