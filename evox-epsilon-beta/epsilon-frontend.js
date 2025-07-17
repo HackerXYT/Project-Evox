@@ -1839,7 +1839,7 @@ function loadNotificationsAll(targetNotifications) {
     const nc = document.getElementById("notificationsAll")
     let targetSpawn = targetNotifications ? targetNotifications : 6
     let spawned = 0
-    fetch(`${srv}/notifications?process=get&email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&username=${localStorage.getItem("t50-username")}&rand=${Math.floor(Math.random() * 100000)}`)
+    fetch(`${srv}/notifications?process=getAll&email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&username=${localStorage.getItem("t50-username")}&rand=${Math.floor(Math.random() * 100000)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

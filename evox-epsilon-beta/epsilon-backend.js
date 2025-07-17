@@ -318,7 +318,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.21'
+const appVersion = '8.3.212'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
@@ -4309,7 +4309,7 @@ function getOasaInfo() {
                 document.getElementById("card-oasa").style.display = null
                 processOasaInfo(data)
             } else {
-                document.getElementById("card-oasa").style.display = null
+                document.getElementById("card-oasa").style.display = "none"
                 const container = document.getElementById("oasa-info")
                 container.innerHTML = `<p style="text-align: center">Account does not own Oasa or hasn't used it yet. [DEBUG BETA]</p>`
             }
