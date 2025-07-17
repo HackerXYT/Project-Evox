@@ -37,16 +37,18 @@ setInterval(() => {
         if (usedJSHeap > totalJSHeap * 0.9) {
             heavyLoad = true;
             console.warn("High memory usage detected.");
-            
+
 
         }
     }
 }, 5000); // Check every 5 seconds
 
+
 let performance_status = false
-function performanceMode() {
+
+function performanceMode(nosound) {
     if (performance_status === false) {
-        aitPlay('performance')
+        if (!nosound) { aitPlay('performance') }
         setTimeout(function () {
             try {
                 $("#background").fadeOut("500")
@@ -55,7 +57,7 @@ function performanceMode() {
             }
             $("#performance-mode").fadeIn('fast')
 
-            
+
 
         }, 3000)
         setTimeout(function () {
@@ -74,7 +76,12 @@ function performanceMode() {
 
         }, 100)
         performance_status = true
+        localStorage.setItem("performance_status", "active")
     }
+}
+
+if (localStorage.getItem("performance_status")) {
+    performanceMode('nosound')
 }
 
 function disablePerformance() {
@@ -88,7 +95,7 @@ function disablePerformance() {
             }
             $("#performance-mode").fadeOut('fast')
 
-            
+
 
         }, 500)
         setTimeout(function () {
@@ -124,5 +131,6 @@ function disablePerformance() {
 
         }, 100)
         performance_status = false
+        localStorage.removeItem("performance_status")
     }
 }
