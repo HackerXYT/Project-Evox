@@ -1,0 +1,440 @@
+@font-face {
+    font-family: "SF";
+    src: url("../fonts/SFPRODISPLAYREGULAR.OTF") format("opentype");
+}
+
+html {
+    font-family: "SF";
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #121212;
+    color: #fff;
+    overflow: hidden;
+    overscroll-behavior: none !important;
+}
+
+body {
+    background: linear-gradient(45deg, #1f3609 0%, #0d1408 100%);
+    background-size: 200% 200%;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    animation: bganim 4s ease infinite;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden !important;
+    padding-top: env(safe-area-inset-top) !important;
+    overscroll-behavior: none !important;
+    /* prevents bounce scrolling */
+    touch-action: none !important;
+}
+
+@keyframes bganim {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.topBar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 25px;
+}
+
+.topBar span {
+    font-size: 16px;
+    color: #ffffffa2;
+}
+
+p,
+span {
+    margin: 0;
+}
+
+.farRight {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.serverConnection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    background-color: #0000003f;
+    border-radius: 35px;
+    text-align: left;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.notificationIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0000003f;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    width: auto;
+    height: auto;
+    flex-shrink: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.notificationIcon svg {
+    flex-shrink: 1;
+}
+
+.serverColl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.serverColl p {
+    font-size: 14px;
+}
+
+.serverColl span {
+    font-size: 12px;
+    color: #ffffffa2;
+}
+
+.circular-progress {
+    --size: 35px;
+    --progress: 65;
+    --stroke-width: 7.5;
+    --bg-color: #e0e0e085;
+    --progress-color: #4caf50;
+    width: var(--size);
+    height: var(--size);
+    position: relative;
+    display: inline-block;
+}
+
+.circular-progress svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.circular-progress circle {
+    fill: none;
+    stroke-width: var(--stroke-width);
+    cx: 50;
+    cy: 50;
+    r: 45;
+}
+
+.circular-progress .bg {
+    stroke: var(--bg-color);
+}
+
+.circular-progress .progress {
+    stroke: var(--progress-color);
+    stroke-dasharray: 282.6;
+    /* 2πr for r=45 */
+    stroke-dashoffset: calc(282.6 - (282.6 * var(--progress)) / 100);
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.circular-progress .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: #ffffff;
+}
+
+.mainBody {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.SectionIconName {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.SectionIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    flex-shrink: 1;
+
+}
+
+.SectionIcon img {
+    flex-shrink: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 35px;
+    border: 1px solid #ffffff31;
+}
+
+.SectionInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.SectionInfo p {
+    font-size: 22.5px;
+    font-weight: bold;
+}
+
+.teamSection {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.teamSection p {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.item {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+    background-color: #0d1408;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #ffffff15;
+
+}
+
+.container:has(.item:only-child) .item {
+    flex-basis: 100%;
+}
+
+.teamIcon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.teamIcon img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    flex-shrink: 1;
+    object-fit: cover;
+    opacity: 0.8;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.collTeamInf {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    text-align: left;
+    gap: 5px;
+}
+
+.collTeamInf p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.collTeamInf span {
+    font-size: 12px;
+    font-weight: 200;
+}
+
+.slidingPanel {
+    padding-top: env(safe-area-inset-top) !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    scroll-behavior: smooth;
+    background: transparent;
+    z-index: 998;
+    box-sizing: border-box;
+    color: white;
+    transform: translateX(100vw);
+    transition: transform 0.35s ease, height 1s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    gap: 10px;
+}
+
+.Home {
+    padding-top: env(safe-area-inset-top) !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    scroll-behavior: smooth;
+    background: transparent;
+    z-index: 998;
+    box-sizing: border-box;
+    color: white;
+    transform: translateX(-100vw);
+    transition: transform 0.35s ease, height 1s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    gap: 10px;
+}
+
+.Home.activated {
+    transform: translateX(0);
+}
+
+.slidingPanel.activated {
+    transform: translateX(0);
+}
+
+.backArrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff15;
+}
+
+.topBar.slide {
+    justify-content: space-between;
+}
+
+.item.nonClickable .teamIcon svg {
+    width: 70%;
+    height: 70%;
+}
+
+.item.nonClickable .teamIcon {
+    border-radius: 15px;
+}
+
+.item.nonClickable .teamIcon.rank {
+    background-color: #ffda0b33;
+}
+
+.item.nonClickable .teamIcon.rank svg path {
+    fill: #ffda0b;
+}
+
+.item.nonClickable .teamIcon.wins {
+    background-color: #0bff0b25;
+}
+
+.item.nonClickable .teamIcon.wins svg path {
+    fill: #0bff0b;
+}
+
+.item.nonClickable .teamIcon.draws {
+    background-color: #fbff0b4f;
+}
+
+.item.nonClickable .teamIcon.draws svg path {
+    fill: #fbff0b;
+}
+
+.item.nonClickable .teamIcon.losses {
+    background-color: #ff0b0b4f;
+}
+
+.item.nonClickable .teamIcon.losses svg path {
+    fill: #ff0b0b;
+}
+
+.item.nonClickable .teamIcon.goals {
+    background-color: #2bff004f;
+}
+
+.item.nonClickable .teamIcon.goals svg path {
+    fill: #9dff89;
+}
+
+.item.nonClickable .teamIcon.goalsAgainst {
+    background-color: #ff910046;
+}
+
+.item.nonClickable .teamIcon.goalsAgainst svg path {
+    fill: #ff9100c7;
+}
+
+.item.nonClickable .teamIcon.goalsDiff {
+    background-color: #00f7ff46;
+}
+
+.item.nonClickable .teamIcon.goalsDiff svg path {
+    fill: #00f7ff;
+}
+
+.item.nonClickable .collTeamInf p {
+    font-size: 17px;
+    font-weight: bold;
+}

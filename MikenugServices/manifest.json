@@ -1,0 +1,31 @@
+{
+    "name": "MIKENUG FC APP",
+    "short_name": "MIKENUG FC",
+    "theme_color": "#141414",
+    "background_color": "#141414",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "https://mikenug.halalas-services.xyz/",
+    "icons": [
+        {
+            "src": "https://mikenug.halalas-services.xyz/imgs/mikenug.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://mikenug.halalas-services.xyz/imgs/mikenug.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "https://mikenug.halalas-services.xyz/imgs/mikenug.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "https://mikenug.halalas-services.xyz/imgs/mikenug.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

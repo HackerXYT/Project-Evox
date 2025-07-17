@@ -6131,14 +6131,11 @@ function openDiscovery(el) {
 
                 } else {
                     document.getElementById("notifications-container").innerHTML = `<div id="loading-indicator-notifications"
-                        style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
-            --track-upload: #4a4a4a;width: 25px;">
-                            <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
-                                class="active-upload"></circle>
-                            <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
-                                class="track-upload"></circle>
-                        </svg>
+                        style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;height:500px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45px" height="45px" viewBox="0 0 24 24" fill="none">
+<path d="M5.67139 4.25705L19.7431 18.3287C21.1538 16.6049 22.0001 14.4013 22.0001 12C22.0001 6.47715 17.523 2 12.0001 2C9.59885 2 7.39526 2.84637 5.67139 4.25705Z" fill="#fff"/>
+<path d="M4.25705 5.67126C2.84637 7.39514 2 9.59873 2 12C2 17.5228 6.47715 22 12 22C14.4013 22 16.6049 21.1536 18.3287 19.7429L4.25705 5.67126Z" fill="#fff"/>
+</svg>
                         <p style="text-align:center;">Δεν έχεις καμία ειδοποίηση</p>
                     </div>`
                 }
@@ -7124,17 +7121,17 @@ function openSearch(el, inBackground) {
         document.getElementById("allUsers").innerHTML = '';
         for (let i = 0; i < 9; i++) {
             document.getElementById("allUsers").innerHTML += `<div class="postContainer skel loading" style="padding-bottom: 10px;padding-top: 10px;">
-                        <div class="post extpost" style="flex-direction: row;align-items:center;">
+                        <div class="post extpost" style="flex-direction: row;align-items:center;padding-left: 5px;">
                             <div class="profilePicture">
                                <span style="background-color: #4c4c4c;width: 45px;height: 45px;border-radius: 50%;">
                             </div>
-                            <div class="postInfo" style="width: auto;">
+                            <div class="postInfo" style="width: auto;margin-left:0px;">
                                 <div style="flex-direction: column;align-items:baseline;" class="userInfo">
                                     <p class="skeleton"></p>
                                     <span class="skeleton"></span>
                                 </div>
                             </div>
-                            <div class="showProfileBtn" style="background-color: transparent;width: 90px;margin-left: auto;border: 0.5px solid #4c4c4c91;display:none;"></div>
+                            <div class="showProfileBtn skeleton loading" style="background-color: transparent;width: 90px;margin-left: auto;border: 0.5px solid #4c4c4c91;display:none;"></div>
                         </div>
                     </div>
                     `;
@@ -9385,28 +9382,49 @@ async function Branded(target, replacement) {
     });
 }
 async function GraphicsBranded() {
-  return new Promise((resolve) => {
-    try {
-      document.title = "Evox Unite";
+    return new Promise((resolve) => {
+        try {
+            document.title = "Evox Unite";
 
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) ogTitle.setAttribute('content', 'Evox Unite');
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', 'Evox Unite');
 
-      const favicon = document.querySelector('link[rel="icon"]');
-      if (favicon) favicon.href = `appLogoV2-Branded.png`;
+            const favicon = document.querySelector('link[rel="icon"]');
+            if (favicon) favicon.href = `appLogoV2-Branded.png`;
 
-      const appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
-      if (appleIcon) appleIcon.href = "appLogoV2-Branded.png";
+            const appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
+            if (appleIcon) appleIcon.href = "appLogoV2-Branded.png";
 
-      const splashImages = document.querySelectorAll('link[rel="apple-touch-startup-image"]');
-      splashImages.forEach(link => {
-        link.href = link.href.replace("splashScreens/", "splashScreensBranded/");
-      });
+            const splashImages = document.querySelectorAll('link[rel="apple-touch-startup-image"]');
+            splashImages.forEach(link => {
+                link.href = link.href.replace("splashScreens/", "splashScreensBranded/");
+            });
 
-      resolve(true);  // Resolve when successful
-    } catch (e) {
-      console.error("[ERROR] Replacement failed:", e);
-      resolve(true); // Or resolve(true) if you want to continue anyway
-    }
-  });
+            resolve(true);  // Resolve when successful
+        } catch (e) {
+            console.error("[ERROR] Replacement failed:", e);
+            resolve(true); // Or resolve(true) if you want to continue anyway
+        }
+    });
+}
+
+
+function switchAccountGracefully(accountName, masterPin) {
+
+    fetch(`https://arc.evoxs.xyz/?metode=accountSwitch&emri=${findFirstMatch(accountName) || accountName}&pin=${masterPin}`)
+        .then(response => response.json())
+        .then(data => {
+            if(!data.msg) {
+                localStorage.setItem("jeanDarc_accountData", JSON.stringify(data))
+                console.warn("Account Switched Successfully To:", findFirstMatch(accountName) || accountName)
+                setTimeout(function() {
+                    window.location.reload()
+                }, 2000)
+            } else {
+                console.error("Master Pin Is Wrong.", data.msg)
+            }
+
+        }).catch(error => {
+            console.error(`User: ${accountName} doesn't exist!\n${error}`)
+        });
 }

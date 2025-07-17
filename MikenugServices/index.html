@@ -1,0 +1,406 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="HandheldFriendly" content="true" />
+    <title>MIKENUG FC</title>
+    <link rel="stylesheet" href="./css/version-greg.css" />
+    <link rel="stylesheet" href="./css/offline.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./imgs/icon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="./imgs/icon.png" />
+    <link rel="icon" type="image/png" href="./imgs/mikenug.png" />
+    <!-- <meta name="msapplication-TileColor" content="#da532c" /> -->
+    <!-- <meta name="theme-color" media="(prefers-color-scheme: light)" content="cyan" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" /> -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="MIKENUG APP" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta name="theme-color" content="#141414">
+    <link rel="manifest" href="./manifest.json" />
+</head>
+
+<body>
+
+    <div class="loading-screen" style="display: none;" id="loading">
+        <img src="imgs/mikenug.png" alt="Mikenug" width="235" height="250">
+    </div>
+    <div class="offline-screen" style="display: none;" id="offline-screen">
+        <div class="offline-text">
+            <div class="loader">
+                <div class="loader__bar"></div>
+                <div class="loader__bar"></div>
+                <div class="loader__bar"></div>
+                <div class="loader__bar"></div>
+                <div class="loader__bar"></div>
+                <div class="loader__ball"></div>
+            </div>
+            <span>Servers Offline! Trying to reconnect!</span>
+        </div>
+    </div>
+    <div class="not-phone" style="display: none;">
+        <div class="warning-container">
+            <img src="./imgs/warning-circle-svgrepo-com.svg" alt="Warning" width="100px" height="100px"
+                class="not-phone-warning">
+            <span class="not-phone-text">DEVICE NOT SUPPORTED</span>
+        </div>
+    </div>
+
+    <div class="notification-button" style="display: none;">
+        <button id="notification-btn" onclick="main()"><img src="./imgs/notification-svgrepo-com.svg" alt="Notification"
+                width="35px">
+        </button>
+    </div>
+
+    <div class="show-winner-button loading" style="display: none;">
+        <button id="show-winner-btn" onclick="showWinner()"><img src="./imgs/medal-star-svgrepo-com.svg" alt="Winner"
+                width="35px">
+        </button>
+    </div>
+    <!-- <div class="button-container" style="display: none;" id="button-container">
+        <div class="connection-button">
+            <button id="connection-btn"><img src="./imgs/network-wireless-svgrepo-com.svg" alt="Info" width="35px">
+            </button>
+        </div>
+        <div class="reload-button">
+            <button id="reload-btn" onclick="reload()"><img src="./imgs/refresh-reload-repeat-svgrepo-com.svg"
+                    alt="Reload" width="35px">
+            </button>
+        </div>
+        <div class="info-button">
+            <button id="info-btn" onclick="InfoPage()"><img src="./imgs/info-circle-svgrepo-com.svg" alt="Info" width="35px">
+            </button>
+        </div>
+    </div> -->
+
+    <div class="leaderboard" style="display: none;" id="leaderboard">
+        <div class="league-image" style="display: none;" id="league-image">
+            <img src="./imgs/athens-league.webp" alt="Athens League">
+        </div>
+        <h2 id="org-title" class="loading"><svg width="24px" height="24px" viewBox="0 0 1024 1024" class="icon"
+                version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path
+                        d="M828.5 180.1h-9.9v-54.7h23.5v-44H182v44h23v54.7h-9.5C123.2 180.1 64 239.2 64 311.5v0.1c0 72.3 59.2 131.5 131.5 131.5h9.6c0 1.3 0.1 2.5 0.1 3.7 0.5 17.7 2.7 35.4 6.2 52.5 17.8 85.7 71.8 160 148.3 204 4.8 2.8 9.8 5.4 14.7 7.9 15.3 7.7 31.2 14.1 47.4 19.2 3.4 1 6.8 2 10.2 2.9v165.2H250.4v44h511.9v-44H591.9V733.4c3.7-1 7.3-2.1 10.9-3.2 16.2-5.1 32.2-11.6 47.4-19.4 5-2.5 10-5.3 14.8-8.1 75.6-43.9 129.2-117.8 147-202.7 3.6-17.2 5.8-34.9 6.3-52.4 0.1-1.5 0.1-3 0.1-4.5h10c72.3 0 131.5-59.2 131.5-131.5v-0.1c0.1-72.3-59.1-131.4-131.4-131.4zM205 399.2h-9.5c-23.2 0-45.1-9.1-61.7-25.7s-25.7-38.5-25.7-61.7v-0.1c0-23.2 9.1-45.2 25.7-61.7 16.6-16.6 38.5-25.7 61.7-25.7h9.5v174.9z m370.9 499.4h-128V737.3c20.9 4.5 42.3 6.8 63.9 6.8 21.7 0 43.1-2.3 64.1-6.8v161.3z m198.7-461.4c0 2.9 0 5.9-0.2 8.9-0.5 15-2.3 30.1-5.4 44.9-15.3 72.7-61.2 136-126.1 173.7-4.1 2.4-8.4 4.7-12.7 6.9-13 6.6-26.7 12.2-40.6 16.6-25.2 7.9-51.4 11.9-77.9 11.9-26.2 0-52.2-3.9-77.1-11.6-13.9-4.3-27.5-9.8-40.6-16.4-4.2-2.1-8.5-4.4-12.6-6.8-65.4-37.8-111.7-101.5-126.9-174.8-3.1-14.7-4.9-29.8-5.3-45-0.1-2.7-0.1-5.5-0.1-8.2v-312h525.6v311.9zM916 311.7c0 23.2-9.1 45.2-25.7 61.7-16.6 16.6-38.5 25.7-61.7 25.7h-9.9v-175h9.9c23.2 0 45.1 9.1 61.7 25.7s25.7 38.5 25.7 61.7v0.2z"
+                        fill="#ebd805"></path>
+                    <path
+                        d="M317.428 274.917l70.145-70.144 14.142 14.142-70.145 70.144zM316.055 351.98L456.13 211.904l14.142 14.142-140.076 140.076zM555.4 659.6l-4.8-19.4c0.3-0.1 26.5-6.8 55.4-23.5 37.8-21.9 62-49.7 72-82.7l19.1 5.8c-11.4 37.6-39.6 70.3-81.6 94.5-31.2 18-58.9 25-60.1 25.3z"
+                        fill="#ffffff"></path>
+                </g>
+            </svg> Loading</h2>
+        <div class="leaderboard-container">
+            <!-- Table Headers -->
+            <div class="leaderboard-header">
+                <span class="rank">#</span>
+                <span class="name">Team</span>
+                <span class="wins">W</span>
+                <span class="draws">D</span>
+                <span class="losses">L</span>
+                <span class="gd">GD</span>
+                <span class="points">Pts</span>
+            </div>
+
+            <!-- Skeleton loading state -->
+            <div class="leaderboard-row skeleton"></div>
+            <div class="leaderboard-row skeleton"></div>
+            <div class="leaderboard-row skeleton"></div>
+            <div class="leaderboard-row skeleton"></div>
+            <div class="leaderboard-row skeleton"></div>
+        </div>
+    </div>
+
+    <div class="info-page sliding" id="info-page" style="display: none;">
+        <button id="back-btn" onclick="HideInfo()"><img src="./imgs/back-svgrepo-com.svg" alt="Back" width="35px">
+        </button>
+        <p style="font-weight: bold;padding-bottom: 10px;">Mikenug App</p>
+        <p style="color: rgba(224, 223, 223, 0.774);font-size: 14px;">By Halalas <img
+                src="./imgs/registered-svgrepo-com.svg" alt="Registered" width="16px"></p>
+        <div class="info-container">
+            <p style="font-weight: bold;">Ip Adress:<span id="ipAdress"
+                    style="color: rgba(255, 255, 255, 0.774);font-weight: normal;"></span></p>
+            <p style="font-weight: bold;">Device Type:<span id="DeviceInfo"
+                    style="color: rgba(255, 255, 255, 0.774);font-weight: normal;"></span></p>
+            <p style="font-weight: bold;">App Version:<span
+                    style="color: rgba(255, 255, 255, 0.774);font-weight: normal;"> 1.9</span></p>
+        </div>
+    </div>
+
+    <div class="org-menu" style="display: none;">
+        <h2>Leagues</h2>
+        <span></span>
+    </div>
+    <div class="show-winner" style="display: none;">
+        <h2>Winner</h2>
+        <hr>
+        <span></span>
+    </div>
+</body>
+
+<script>
+    let link = "https://mikenug-server-new.onrender.com";
+    function loading() {
+        connect()
+        // connect().then((m) => {
+        //     $("#loading").fadeOut("fast")
+        //         // const loadingScreen = document.getElementById("loading");
+        //         // loadingScreen.className = `${loadingScreen.className} hidden`
+        // })
+    }
+    function isPhone() {
+        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    //if (!isPhone()) {
+    //    document.querySelector(".not-phone").style.removeProperty("display");
+    //} else {
+        document.querySelector(".loading-screen").style.removeProperty("display");
+        loading();
+    //}
+    let retryInt;
+    async function connect() {
+        fetch(`${link}/`)
+            .then((response) => response.text())
+            .then(async (status) => {
+                try {
+                    clearInterval(retryInt);
+                } catch (error) {
+                    console.log("Ignoring undefined interval");
+                }
+                if (status === "Servers Up") {
+                    loadTeams()
+                    // loadTeams();
+                    // document.querySelector(".leaderboard").style.removeProperty("display");
+                    setTimeout(() => {
+                        $("#loading").fadeOut("fast", () => {
+                        const leaderboard = document.getElementById("leaderboard");
+                        const leagueImage = document.getElementById("league-image");
+                        // const buttonContainer = document.getElementById("button-container");
+                        //const metaThemeColor = document.querySelector("meta[name=theme-color]");
+                        // buttonContainer.className = `${buttonContainer.className} fadeIn`;
+                        leaderboard.className = `${leaderboard.className} fadeIn`;
+                        document.querySelector(".leaderboard").style.removeProperty("display");
+                        // document.querySelector(".button-container").style.removeProperty("display");
+                        // metaThemeColor.setAttribute('content', "#1e1e2e");
+                        // $(".league-image").fadeIn("fast")
+                        leagueImage.className = `${leagueImage.className} fadeIn`;
+                        document.querySelector(".league-image").style.removeProperty("display");
+                        document.querySelector(".notification-button").style.removeProperty("display");
+                        document.querySelector(".show-winner-button").style.removeProperty("display");
+                        availableLeagues();
+                        });
+                    }, 1000)
+                }
+            })
+            .catch((e) => {
+                console.error("Server offline!");
+                    $("#loading").fadeOut("fast", () => {
+                    document.getElementById("offline-screen").style.display = "flex";
+                    });
+                retryInt = setInterval(function () {
+                    fetch(`${link}/`)
+                        .then((response) => response.text())
+                        .then((status) => {
+                            clearInterval(retryInt);
+                            for (let i = 0; i < 5; i++) {
+                                document.querySelectorAll(".loader__bar")[i].style.background = "#5ce65c";
+                            }
+                            document.querySelector(".offline-text span").innerHTML = "Successfully reconnected!"
+                            setTimeout(() => {
+                                document.getElementById("offline-screen").style.display = "none";
+                            }, 1200)
+                            connect();
+                        })
+                        .catch((error) => {
+                            console.log("Still Offline");
+                        });
+                }, 3000);
+                console.log("Error:", e);
+            });
+        return "READY";
+    }
+
+    function loadTeams() {
+        fetch(`${link}/getLeague`)
+            .then(response => response.text())
+            .then(async (data) => {
+                let name = localStorage.getItem("lastOrg");
+                if (!name) {
+                    name = "Athens Cup Youth A' 2025"
+                    localStorage.setItem("lastOrg", name)
+                };
+                const svg = document.querySelector("#org-title").getElementsByTagName("svg")[0].outerHTML;
+                document.querySelector("#org-title").classList.remove("loading");
+                document.querySelector(".show-winner-button").classList.remove("loading");
+                document.querySelector("#org-title").dataset.name = name;
+                document.querySelector("#org-title").innerHTML = `${svg} ${name.split("2")[0]}`;
+                const json = JSON.parse(data)[name];
+                let winner = json.winner;
+                if (json.winner === null) {
+                    winner = "There is no winner yet!"
+                }
+                document.querySelector(".show-winner span").innerHTML = winner;
+                document.querySelector(".show-winner h2").innerHTML = `${name} Winner`;
+                document.querySelector(".leaderboard-container").innerHTML = `
+                <div class="leaderboard-header">
+                <span class="rank">#</span>
+                <span class="name">Team</span>
+                <span class="wins">W</span>
+                <span class="draws">D</span>
+                <span class="losses">L</span>
+                <span class="gd">GD</span>
+                <span class="points">Pts</span>
+            </div>`
+                for (let index = 0; index < Object.keys(json).length; index++) {
+                    const element = Object.values(json)[index];
+                    if (Object.keys(json)[index] === "winner") return;
+                    let rank = "";
+                    if (index === 0) {
+                        rank = "first"
+                    } else if (index === 1) {
+                        rank = "second"
+                    } else if (index === 2) {
+                        rank = "third"
+                    } else if (index === 3) {
+                        rank = "fourth"
+                    }
+                    console.log(rank)
+                    let row = document.createElement("div")
+                    row.classList = `leaderboard-row ${rank}`;
+                    row.id = `${element.name.toLowerCase().split(" ")[0]}`;
+                    row.innerHTML = `
+                    <span class="rank">${index + 1}</span>
+                    <span class="name">
+                        <img src="${element.image.replaceAll("\"", "")}" class="profile-img">
+                        ${element.name.firstUpper()}
+                    </span>
+                    <span class="wins">${element.wins}</span>
+                    <span class="draws">${element.draws}</span>
+                    <span class="losses">${element.looses}</span>
+                    <span class="gd">${element.goalDifference}</span>
+                    <span class="points">${element.points}</span>`
+                    document.querySelector(".leaderboard-container").appendChild(row)
+                }
+            });
+    }
+
+    function reload() {
+        window.location.reload()
+    }
+
+    function storeIp() {
+        fetch("https://api.ipify.org/?format=json")
+            .then((response) => {
+                return response.text()
+            }).then((ip) => {
+                localStorage.setItem("IPV4", JSON.parse(ip).ip)
+            })
+    }
+
+    function getDeviceInfo() {
+        const userAgent = navigator.userAgent;
+
+        let deviceType = "Unknown";
+        let model = "Unknown";
+        let osVersion = "Unknown";
+
+        // Detect device type
+        if (/Mobile|iPhone|Android/.test(userAgent)) {
+            deviceType = "Phone";
+        } else if (/Tablet|iPad/.test(userAgent)) {
+            deviceType = "Tablet";
+        } else if (/Mac|Windows|Linux|X11/.test(userAgent)) {
+            deviceType = "Computer";
+        }
+
+        // Detect model (basic parsing)
+        if (/iPhone/.test(userAgent)) {
+            model = "iPhone";
+        } else if (/iPad/.test(userAgent)) {
+            model = "iPad";
+        } else if (/Android/.test(userAgent)) {
+            const androidMatch = userAgent.match(/Android\s([\d.]+)/);
+            model = "Android Device";
+            osVersion = androidMatch ? androidMatch[1] : osVersion;
+        } else if (/Mac/.test(userAgent)) {
+            model = "Mac";
+        } else if (/Windows/.test(userAgent)) {
+            model = "Windows PC";
+        }
+
+        // Detect OS version (basic parsing)
+        if (/iPhone|iPad/.test(userAgent)) {
+            const iosMatch = userAgent.match(/OS (\d+_\d+)/);
+            osVersion = iosMatch ? iosMatch[1].replace("_", ".") : osVersion;
+        } else if (/Windows/.test(userAgent)) {
+            const windowsMatch = userAgent.match(/Windows NT (\d+\.\d+)/);
+            osVersion = windowsMatch ? windowsMatch[1] : osVersion;
+        } else if (/Mac/.test(userAgent)) {
+            const macMatch = userAgent.match(/Mac OS X (\d+_\d+)/);
+            osVersion = macMatch ? macMatch[1].replace("_", ".") : osVersion;
+        }
+
+        // Return as JSON object
+        return {
+            deviceType,
+            model,
+            osVersion,
+        };
+    }
+
+    function InfoPage() {
+        const { deviceType, model, osVersion } = getDeviceInfo();
+        const infoPage = document.getElementById("info-page");
+        const leaderboard = document.getElementById("leaderboard");
+        const leagueImage = document.getElementById("league-image");
+        const buttonContainer = document.getElementById("button-container");
+        document.getElementById("ipAdress").innerHTML = ` ${localStorage.getItem("IPV4")}`;
+        document.getElementById("DeviceInfo").innerHTML = ` ${deviceType} • ${model} • ${osVersion}`
+        document.getElementById("info-page").classList.add("active");
+    }
+
+    function HideInfo() {
+        document.getElementById("info-page").classList.remove("active");
+    }
+
+    String.prototype.firstUpper = function () {
+        const splitted = this.toLowerCase().split(" ");
+        let wholeWord = [];
+
+        splitted.forEach((word) => {
+            const splittedWord = word.split("");
+            const firstLetter = splittedWord[0];
+            const slicedWord = splittedWord.slice(1)
+            if (word === "fc") {
+                wholeWord.push(word.toUpperCase())
+            } else {
+                wholeWord.push(firstLetter.toUpperCase() + slicedWord.join(""))
+            }
+        })
+
+        return wholeWord.join(" ")
+
+        return wholeWord;
+    }
+    window.onload = isPhone;
+    window.onload = storeIp;
+
+    //show winner
+
+    function showWinner() {
+        document.querySelector(".leaderboard").classList.add("blur");
+        document.querySelector(".notification-button").classList.add("blur");
+        document.querySelector(".show-winner-button").classList.add("blur");
+        $(".show-winner").fadeIn("fast");
+        setTimeout(() => {
+            document.addEventListener("click", outsideCheck);
+        }, 500);
+    }
+</script>
+<script src="js/notification-register.js"></script>
+<script src="js/service-worker.js"></script>
+<script src="org-change.js"></script>
+
+</html>
