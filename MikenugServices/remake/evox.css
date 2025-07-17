@@ -15,12 +15,12 @@ html {
 }
 
 body {
-    background: linear-gradient(45deg, #1f3609 0%, #0d1408 100%);
+    background: linear-gradient(45deg, #1e2a13 0%, #0d1408 100%);
     background-size: 200% 200%;
     height: 100%;
     width: 100%;
     margin: 0;
-    animation: bganim 4s ease infinite;
+    animation: bganim 5s ease infinite;
     padding: 10px;
     box-sizing: border-box;
     overflow: hidden !important;
