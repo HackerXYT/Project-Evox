@@ -10,8 +10,8 @@ html {
     margin: 0;
     background-color: #121212;
     color: #fff;
-    overflow: hidden;
-    overscroll-behavior: none !important;
+    /*overflow: hidden;
+    overscroll-behavior: none !important;*/
 }
 
 body {
@@ -23,9 +23,9 @@ body {
     animation: bganim 5s ease infinite;
     padding: 10px;
     box-sizing: border-box;
-    overflow: hidden !important;
+    /*overflow: hidden !important;*/
     padding-top: env(safe-area-inset-top) !important;
-    overscroll-behavior: none !important;
+    /*overscroll-behavior: none !important;*/
     /* prevents bounce scrolling */
     touch-action: none !important;
 }
@@ -49,6 +49,11 @@ body {
     align-items: center;
     width: 100%;
     font-size: 25px;
+    transition: opacity 0.3s ease;
+}
+
+#halavoxLogo, #SectionInfoName {
+    transition: opacity 0.3s ease;
 }
 
 .topBar span {
@@ -178,9 +183,26 @@ span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /*justify-content: center;*/
     width: 100%;
     gap: 10px;
+    position: relative;
+}
+
+.SectionIcon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+}
+
+.SectionIcon p {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    width: 50%;
+    font-size: 35px;
 }
 
 .SectionIcon {
@@ -191,8 +213,13 @@ span {
     height: 120px;
     object-fit: cover;
     flex-shrink: 1;
-
+    position: absolute;
+    transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+    transform-origin:left;
+    gap: 10px;
 }
+
+
 
 .SectionIcon img {
     flex-shrink: 1;
@@ -203,6 +230,11 @@ span {
     border: 1px solid #ffffff31;
 }
 
+.SectionIcon.rounded img{
+    border-radius: 50%;
+    border: none;
+}
+
 .SectionInfo {
     display: flex;
     flex-direction: column;
@@ -210,6 +242,7 @@ span {
     justify-content: center;
     text-align: center;
     width: 100%;
+    margin-top: 130px;
 }
 
 .SectionInfo p {
@@ -437,4 +470,11 @@ span {
 .item.nonClickable .collTeamInf p {
     font-size: 17px;
     font-weight: bold;
+}
+
+#floatingImage {
+    position: absolute;
+    width: 200px;
+    pointer-events: none;
+    transition: transform 0.3s ease;
 }

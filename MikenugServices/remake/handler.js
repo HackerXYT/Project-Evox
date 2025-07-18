@@ -1,4 +1,5 @@
 
+console.warn("You are working inside the Evox network!")
 let selectedLeague = "Athens Cup Youth A' 2025"
 let persistance = null
 function boot() {
@@ -12,7 +13,6 @@ function boot() {
             const total = Object.keys(workingLeague).length;
             let current = 0;
             Object.entries(workingLeague).forEach(([key, teamInf]) => {
-                console.log("Team:", key)
                 if (key === 'winner') return;
                 const name = teamInf.name
                 const cleanImage = teamInf.image.replace(/^"(.*)"$/, '$1');
@@ -79,3 +79,33 @@ function startInterval() {
             })
     }, 500)
 }
+
+let animated = false;
+function animate() {
+    if(animated === true) return;
+    animated = true;
+    const el = document.getElementById("teamIconOut")
+    el.classList.add("rounded")
+    el.style.transform = "scale(0.4)"
+    document.getElementById("halavoxLogo").style.opacity = '0'
+    document.getElementById("SectionInfoName").style.opacity = '0'
+    setTimeout(function () {
+        el.style.top = "-135px"
+        el.style.left = "0px"
+        el.style.width = "100%"
+        el.querySelector("img").style.width = "120px"
+        el.querySelector("p").style.display = "block"
+        el.querySelector("p").style.opacity = "1"
+    }, 250)
+}
+
+const homeEl = document.getElementById("Home");
+
+homeEl.addEventListener('scroll', () => {
+    const scrollY = homeEl.scrollTop;
+
+    if (scrollY >= 150) {
+        console.log('Scrolled 150 or more inside #Home!');
+        //animate();
+    }
+});
