@@ -1,0 +1,545 @@
+html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #121212;
+    color: #fff;
+
+    /*overflow: hidden;
+    
+    overscroll-behavior: none !important;*/
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    /*overflow: hidden !important;*/
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    overscroll-behavior: none !important;
+    /* prevents bounce scrolling */
+}
+
+
+:root {
+    --color-bg1: rgb(108, 0, 162);
+    --color-bg2: rgb(0, 17, 82);
+    --color1: 18, 113, 255;
+    --color2: 221, 74, 255;
+    --color3: 100, 220, 255;
+    --color4: 200, 50, 50;
+    --color5: 180, 180, 50;
+    --color-interactive: 140, 100, 255;
+    --circle-size: 80%;
+    --blending: hard-light;
+}
+
+@keyframes moveInCircle {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes moveVertical {
+    0% {
+        transform: translateY(-50%);
+    }
+
+    50% {
+        transform: translateY(50%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes moveHorizontal {
+    0% {
+        transform: translateX(-50%) translateY(-10%);
+    }
+
+    50% {
+        transform: translateX(50%) translateY(10%);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-10%);
+    }
+}
+
+.gradient-bg {
+    position: fixed;
+    top: calc(-1 * env(safe-area-inset-top));
+    left: 0;
+    width: 100vw;
+    height: calc(100vh + env(safe-area-inset-top) + env(safe-area-inset-bottom));
+    background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+    z-index: -1;
+}
+
+.gradient-bg svg {
+    display: none;
+}
+
+.gradient-bg .gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+}
+
+.gradient-bg .g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+    opacity: 1;
+}
+
+.gradient-bg .g2 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+    opacity: 1;
+}
+
+.gradient-bg .g3 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+    opacity: 1;
+}
+
+.gradient-bg .g4 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+    opacity: 0.7;
+}
+
+.gradient-bg .g5 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+    opacity: 1;
+}
+
+.gradient-bg .interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+    opacity: 0.7;
+}
+
+.homeScreen {
+    padding-top: env(safe-area-inset-top) !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    scroll-behavior: smooth;
+    background: transparent;
+    z-index: 998;
+    box-sizing: border-box;
+    color: white;
+    transform: translateX(-100vw);
+    transition: transform 0.35s ease, height 1s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    gap: 10px;
+}
+
+.homeScreen.activated {
+    transform: translateX(0);
+}
+
+p,
+span {
+    margin: 0;
+}
+
+.topBar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 22px;
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.welcomeColl {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    text-align: left;
+    justify-content: center;
+}
+
+.welcomeColl p {
+    color: #cecece;
+    font-size: 23px;
+}
+
+.welcomeColl span {
+    font-weight: bold;
+    color: #ffffff
+}
+
+.farRight {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.profilePictureEvox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    flex-shrink: 1;
+    transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+    transform-origin: left;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.profilePictureEvox.inChat {
+    width: 45px;
+    height: 45px;
+}
+
+.profilePictureEvox img {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 25px;
+    border: 1px solid #ffffff2d;
+}
+
+.profilePictureEvox.rounded img {
+    border-radius: 50%;
+    border: 1px solid #ffffff2d;
+}
+
+.mainContent {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.CreateButton {
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 1px solid #ffffff2d;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #121212;
+    box-shadow: 0 0 12px 2px rgba(255, 255, 255, 0.7);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.section {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.section p.title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.viewAll {
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff15;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.slidingHorizontal {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /*overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;*/
+    gap: 10px;
+    padding-right: 10px;
+}
+.slidingHorizontal svg {
+    margin-left: auto;
+
+}
+
+.slidingHorizontal::-webkit-scrollbar {
+    display: none;
+}
+
+.roundedBoxBtn {
+    display: flex;
+    /*white-space: nowrap;*/
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff15;
+    border-radius: 25px;
+    padding: 10px 20px;
+    color: #fff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    gap: 10px;
+}
+
+.slidingPanel {
+    padding-top: env(safe-area-inset-top) !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    scroll-behavior: smooth;
+    background: transparent;
+    z-index: 998;
+    box-sizing: border-box;
+    color: white;
+    transform: translateX(100vw);
+    transition: transform 0.35s ease, height 1s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    gap: 10px;
+}
+
+.slidingPanel.activated {
+    transform: translateX(0);
+}
+
+.backArrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff15;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.topBar.chat {
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.input_btns {
+    position: fixed;
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+    justify-content: space-around;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    transition: padding-bottom 0.3s ease;
+}
+
+.input_btns textarea {
+    border: none;
+    background-color: #cecece;
+    border-radius: 25px;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 13px 20px;
+    /* 13px + 20px = 46px total height */
+    font-family: system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    min-height: 46px;
+    height: 46px;
+}
+
+.input_btns textarea::placeholder {
+    line-height: 20px;
+    display: inline-block;
+}
+
+.sendButton {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+input,
+textarea,
+select,
+button {
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove focus styles */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Remove active styles (e.g. tap highlight on mobile) */
+input:active,
+textarea:active,
+select:active,
+button:active {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Optional: prevent iOS gray background on tap */
+body {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+.chatArea {
+    margin-top: 0px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    height: 100%;
+    margin-bottom: calc(env(safe-area-inset-bottom) + 70px);
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px;
+    border-radius: 25px;
+    transition: margin-bottom 0.3s ease;
+}
+
+.chatArea .chat {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+    font-size: 14px;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.chatArea .chat.response {
+    background-color: #e6e6e645;
+    border-radius: 25px;
+    color: #000;
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
