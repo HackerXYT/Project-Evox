@@ -939,6 +939,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="contentId" id="settingsContainer" style="display: none;">
+                    <div class="header-container navigate nobg">
+                        <div onclick="spawnOnTop(this)" class="switch">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                fill="#fff" width="20px" height="20px" viewBox="0 0 32 32"
+                                enable-background="new 0 0 32 32" id="Glyph" version="1.1" xml:space="preserve">
+                                <path
+                                    d="M27.526,18.036L27,17.732c-0.626-0.361-1-1.009-1-1.732s0.374-1.371,1-1.732l0.526-0.304  c1.436-0.83,1.927-2.662,1.098-4.098l-1-1.732c-0.827-1.433-2.666-1.925-4.098-1.098L23,7.339c-0.626,0.362-1.375,0.362-2,0  c-0.626-0.362-1-1.009-1-1.732V5c0-1.654-1.346-3-3-3h-2c-1.654,0-3,1.346-3,3v0.608c0,0.723-0.374,1.37-1,1.732  c-0.626,0.361-1.374,0.362-2,0L8.474,7.036C7.042,6.209,5.203,6.701,4.375,8.134l-1,1.732c-0.829,1.436-0.338,3.269,1.098,4.098  L5,14.268C5.626,14.629,6,15.277,6,16s-0.374,1.371-1,1.732l-0.526,0.304c-1.436,0.829-1.927,2.662-1.098,4.098l1,1.732  c0.828,1.433,2.667,1.925,4.098,1.098L9,24.661c0.626-0.363,1.374-0.361,2,0c0.626,0.362,1,1.009,1,1.732V27c0,1.654,1.346,3,3,3h2  c1.654,0,3-1.346,3-3v-0.608c0-0.723,0.374-1.37,1-1.732c0.625-0.361,1.374-0.362,2,0l0.526,0.304  c1.432,0.826,3.271,0.334,4.098-1.098l1-1.732C29.453,20.698,28.962,18.865,27.526,18.036z M16,21c-2.757,0-5-2.243-5-5s2.243-5,5-5  s5,2.243,5,5S18.757,21,16,21z"
+                                    id="XMLID_273_"></path>
+                            </svg>
+                        </div>
+                        <p>Ρυθμίσεις</p>
+                    </div>
+                    <div class="profileFullDiv">
+                        <div class="userIcon large">
+                            <img src="reloading-pfp.gif">
+                        </div>
+                        <div class="collumn2">
+                            <span>Hello</span>
+                            <p>Username</p>
+                        </div>
+                        <svg version="1.1" style="margin-left: auto;" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                            viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                            <path opacity="0.2" fill="#fff"
+                                d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                            <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                    from="0 20 20" to="360 20 20" dur="0.3s" repeatCount="indefinite" />
+                            </path>
+                        </svg>
+                    </div>
+                </div>
                 <div id="content"><!--for padding-->
 
                     <div style="display: none;" id="links-container">
@@ -1642,8 +1678,12 @@
                                 </div>
                                 <!--<div class="buttonMore">Περισσότερα</div>-->
                                 <div id="favStation" onclick="favoriteStation(this)" class="buttonMore">
-                                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path style="transition:transform 0.5s ease, fill 0.5s ease;transform-origin:center;" d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#fff"></path>
+                                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            style="transition:transform 0.5s ease, fill 0.5s ease;transform-origin:center;"
+                                            d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                                            fill="#fff"></path>
                                     </svg>
                                 </div>
                             </div>
@@ -1714,14 +1754,16 @@
 
                                         <div class="progress-bar">
                                             <div class="progress-track">
-                                                <div style="width: 10%" id="progress-fill" class="progress-fill"></div>
+                                                <div style="width: 10%" id="progress-fill" class="progress-fill">
+                                                </div>
                                                 <div style="left: 10%" id="progress-indicator"
                                                     class="progress-indicator">
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
-                                        <img src="3dBUS.png" id="bus3D" style="opacity:0;position: absolute;width: auto;height: 60px;top:-10px;z-index: 999;transition: left 0.2s ease,top 0.2s ease,opacity 0.2s ease;">
+                                        <img src="3dBUS.png" id="bus3D"
+                                            style="opacity:0;position: absolute;width: auto;height: 60px;top:-10px;z-index: 999;transition: left 0.2s ease,top 0.2s ease,opacity 0.2s ease;">
                                     </div>
                                 </div>
 
@@ -1784,7 +1826,8 @@
                                     </div>
                                     <div class="info">
 
-                                        <div style="display: none;" class="picture"><img src="favoritesOS.png"></div>
+                                        <div style="display: none;" class="picture"><img src="favoritesOS.png">
+                                        </div>
                                         <div class="text">
                                             <span>Κοντινότερη στάση</span>
                                             <span>Γούναρη</span>
@@ -1891,10 +1934,15 @@
                         <div id="stationsHidden" style="display: none;" class="feedItem fade-in-slide-up">
                             <div class="topDefines">
                                 <div class="itempic">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                                                <path opacity="0.5" d="M3 13.0368C3 11.9338 3 11.3823 3.39264 11.0607C3.53204 10.9465 3.70147 10.8551 3.89029 10.7922C4.42213 10.6151 5.12109 10.7895 6.51901 11.1383C7.58626 11.4046 8.11989 11.5377 8.6591 11.5239C8.85714 11.5189 9.05401 11.4991 9.24685 11.465C9.77191 11.3721 10.2399 11.1386 11.176 10.6715L12.5583 9.98161C13.7574 9.38327 14.3569 9.0841 15.0451 9.01511C15.7333 8.94613 16.4168 9.11668 17.7839 9.45779L18.9487 9.74842C19.9387 9.99544 20.4337 10.119 20.7169 10.413C21 10.707 21 11.0976 21 11.8788V17.9632C21 19.0662 21 19.6177 20.6074 19.9393C20.468 20.0535 20.2985 20.1449 20.1097 20.2078C19.5779 20.3849 18.8789 20.2105 17.481 19.8617C16.4137 19.5954 15.8801 19.4623 15.3409 19.4761C15.1429 19.4811 14.946 19.5009 14.7532 19.535C14.2281 19.6279 13.7601 19.8614 12.824 20.3285L11.4417 21.0184C10.2426 21.6167 9.64311 21.9159 8.95493 21.9849C8.26674 22.0539 7.58319 21.8833 6.21609 21.5422L5.05132 21.2516C4.06129 21.0046 3.56627 20.881 3.28314 20.587C3 20.293 3 19.9024 3 19.1212V13.0368Z" fill="#fff"></path>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.68629 2 6 4.55211 6 7.70031C6 10.8238 7.91499 14.4687 10.9028 15.7721C11.5993 16.076 12.4007 16.076 13.0972 15.7721C16.085 14.4687 18 10.8238 18 7.70031C18 4.55211 15.3137 2 12 2ZM12 10C13.1046 10 14 9.10457 14 8C14 6.89543 13.1046 6 12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10Z" fill="#fff"></path>
-                                            </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path opacity="0.5"
+                                            d="M3 13.0368C3 11.9338 3 11.3823 3.39264 11.0607C3.53204 10.9465 3.70147 10.8551 3.89029 10.7922C4.42213 10.6151 5.12109 10.7895 6.51901 11.1383C7.58626 11.4046 8.11989 11.5377 8.6591 11.5239C8.85714 11.5189 9.05401 11.4991 9.24685 11.465C9.77191 11.3721 10.2399 11.1386 11.176 10.6715L12.5583 9.98161C13.7574 9.38327 14.3569 9.0841 15.0451 9.01511C15.7333 8.94613 16.4168 9.11668 17.7839 9.45779L18.9487 9.74842C19.9387 9.99544 20.4337 10.119 20.7169 10.413C21 10.707 21 11.0976 21 11.8788V17.9632C21 19.0662 21 19.6177 20.6074 19.9393C20.468 20.0535 20.2985 20.1449 20.1097 20.2078C19.5779 20.3849 18.8789 20.2105 17.481 19.8617C16.4137 19.5954 15.8801 19.4623 15.3409 19.4761C15.1429 19.4811 14.946 19.5009 14.7532 19.535C14.2281 19.6279 13.7601 19.8614 12.824 20.3285L11.4417 21.0184C10.2426 21.6167 9.64311 21.9159 8.95493 21.9849C8.26674 22.0539 7.58319 21.8833 6.21609 21.5422L5.05132 21.2516C4.06129 21.0046 3.56627 20.881 3.28314 20.587C3 20.293 3 19.9024 3 19.1212V13.0368Z"
+                                            fill="#fff"></path>
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M12 2C8.68629 2 6 4.55211 6 7.70031C6 10.8238 7.91499 14.4687 10.9028 15.7721C11.5993 16.076 12.4007 16.076 13.0972 15.7721C16.085 14.4687 18 10.8238 18 7.70031C18 4.55211 15.3137 2 12 2ZM12 10C13.1046 10 14 9.10457 14 8C14 6.89543 13.1046 6 12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10Z"
+                                            fill="#fff"></path>
+                                    </svg>
                                 </div>
                                 <div class="infoPost">
                                     <span>Αγαπημένες στάσεις</span>
@@ -1929,11 +1977,11 @@
                                         <div class="button-action skeleton-button"></div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
 
-                        <div class="feedItem">
+                        <div class="feedItem" id="favoritesFeedItem">
                             <div class="topDefines">
                                 <div class="itempic">
                                     <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
@@ -1947,7 +1995,8 @@
                                 <div class="infoPost">
                                     <span>Αγαπημένα</span>
                                 </div>
-                                <div style="display: none;" class="buttonMore" onclick="clearAllCaches()">Περισσότερα
+                                <div style="display: none;" class="buttonMore" onclick="clearAllCaches()">
+                                    Περισσότερα
                                 </div>
 
 
@@ -2040,7 +2089,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="feedItem" id="famousFeed">
                             <div class="topDefines">
                                 <div class="itempic">
@@ -2190,14 +2239,16 @@
                                     <option value="mapbox://styles/mapbox/standard">standard</option>
                                     <option value="mapbox://styles/mapbox/outdoors-v12">outdoors-v12</option>
                                     <option value="mapbox://styles/mapbox/light-v11">light-v11</option>
-                                    <option value="mapbox://styles/mapbox/navigation-day-v1">navigation-day-v1</option>
+                                    <option value="mapbox://styles/mapbox/navigation-day-v1">navigation-day-v1
+                                    </option>
                                     <option value="mapbox://styles/mapbox/navigation-night-v1">navigation-night-v1
                                     </option>
 
                                 </select>
                             </div>
                             <div class="add-item">
-                                <button onclick="clearStorageAndReload()">Clear LocalStorage + Service Worker</button>
+                                <button onclick="clearStorageAndReload()">Clear LocalStorage + Service
+                                    Worker</button>
                             </div>
 
                             <div class="add-item">
@@ -2222,7 +2273,8 @@
                     </div>
 
                     <div class="notification-center" id="update-center" style="height: 230px;">
-                        <p style="text-align: center;align-items: center;" class="header default">Γίνεται ενημέρωση</p>
+                        <p style="text-align: center;align-items: center;" class="header default">Γίνεται ενημέρωση
+                        </p>
                         <div class="rowCentered">
                             <div id="downloading-icon-big" class="active">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="55px" height="55px" viewBox="0 0 24 24"
@@ -2282,19 +2334,25 @@
                                 border-radius: 0.5rem;
                                 border-bottom-left-radius: 0.25rem;
                                 border-bottom-right-radius: 0.25rem;background-color: #000000;color:lime;height: 140px;padding: 20px; max-height: 211px; overflow: auto;font-family: monospace;"
-                                    id="theDebug">Terminal Launched<br>Copyright © Evox 2024<br>OASA Project Registered
+                                    id="theDebug">Terminal Launched<br>Copyright © Evox 2024<br>OASA Project
+                                    Registered
                                     Under Evox Using MIT License<br>
-                                    <span style="color: rgb(255, 0, 0);font-family: monospace;">MIT License</span><br>
+                                    <span style="color: rgb(255, 0, 0);font-family: monospace;">MIT
+                                        License</span><br>
 
-                                    <span style="color: rgb(0, 255, 183);font-family: monospace;">Copyright (c) [2024]
+                                    <span style="color: rgb(0, 255, 183);font-family: monospace;">Copyright (c)
+                                        [2024]
                                         [Papapostolou]</span><br>
 
-                                    <span style="color: rgb(173, 173, 173);font-family: monospace;">Permission is hereby
+                                    <span style="color: rgb(173, 173, 173);font-family: monospace;">Permission is
+                                        hereby
                                         granted, free of charge, to any person obtaining a copy<br>
                                         of this software and associated documentation files (the "Software"), to
                                         deal<br>
-                                        in the Software without restriction, including without limitation the rights<br>
-                                        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br>
+                                        in the Software without restriction, including without limitation the
+                                        rights<br>
+                                        to use, copy, modify, merge, publish, distribute, sublicense, and/or
+                                        sell<br>
                                         copies of the Software, and to permit persons to whom the Software is<br>
                                         furnished to do so, subject to the following conditions:<br>
                                         <br>
@@ -2302,9 +2360,11 @@
                                         all<br>
                                         copies or substantial portions of the Software.<br>
                                         <br>
-                                        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>
+                                        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+                                        OR<br>
                                         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>
-                                        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>
+                                        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+                                        THE<br>
                                         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
                                         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
                                         FROM,<br>
@@ -2316,8 +2376,10 @@
                                 <div onclick="scrollToBottom();openFullScreen()" class="discover-card-info">
                                     <p class="title" id="timetable">Πατήστε εδώ για να δείτε τα αρχεία καταγραφής σε
                                         πλήρη οθόνη.</p>
-                                    <p class="desc">Αυτό το τερματικό χρησιμοποιείται για εκσφαλμάτωση κατά τη διάρκεια
-                                        των δοκιμών. Αν είστε κανονικός χρήστης, πατήστε στο εικονίδιο της αναζήτησης
+                                    <p class="desc">Αυτό το τερματικό χρησιμοποιείται για εκσφαλμάτωση κατά τη
+                                        διάρκεια
+                                        των δοκιμών. Αν είστε κανονικός χρήστης, πατήστε στο εικονίδιο της
+                                        αναζήτησης
                                         για να το κρύψετε.</p>
                                 </div>
                             </a>
@@ -2395,7 +2457,8 @@
                 </div>
 
             </div>
-            <p>Οι ειδοποιήσεις βοηθούν τους χρήστες να ενημερώνονται για ερχόμενα λεωφορεία χωρίς να χρειάζεται να έχουν
+            <p>Οι ειδοποιήσεις βοηθούν τους χρήστες να ενημερώνονται για ερχόμενα λεωφορεία χωρίς να χρειάζεται να
+                έχουν
                 την εφαρμογή ανοιχτή.</p>
             <div class="devices">
 
@@ -2539,7 +2602,8 @@
                 </div>
             </div>
             <p>Το OASA Intelligence βελτιώνει την περιήγηση με ελάχιστα κλικ και εμφανίζοντας μόνο τα απαραίτητα
-                δεδομένα. Παρά τη μείωση των αλληλεπιδράσεων, ορισμένα δεδομένα ενδέχεται να απαιτούν περισσότερο χρόνο
+                δεδομένα. Παρά τη μείωση των αλληλεπιδράσεων, ορισμένα δεδομένα ενδέχεται να απαιτούν περισσότερο
+                χρόνο
                 για να φορτωθούν. </p>
             <div class="devices">
 
@@ -2600,7 +2664,8 @@
 
 
             </div>
-            <p>Οι ειδοποιήσεις παραπάνω είναι συνδεδεμένες με το αναγνωριστικό της συσκευής σας.<br>Μόνο οι ειδοποιήσεις
+            <p>Οι ειδοποιήσεις παραπάνω είναι συνδεδεμένες με το αναγνωριστικό της συσκευής σας.<br>Μόνο οι
+                ειδοποιήσεις
                 που έχετε λάβει σε αυτήν τη συσκευή εμφανίζονται εδώ.</p>
             <div style="margin-top: 20px;" class="devices buttonsContainer" id="devices">
                 <div class="option"><img src="./appleDevice.png">
@@ -2921,7 +2986,8 @@
                         <span id="IOS1" style="display: none;">
                             Για να επιλύσετε το πρόβλημα, πατήστε το εικονίδιο <img
                                 src="images__1_-removebg-preview.png" width="10px" height="10px"
-                                style="width: 20px;height: 20px;margin:0;margin-bottom:-5px;"> στο κάτω μέρος της οθόνης
+                                style="width: 20px;height: 20px;margin:0;margin-bottom:-5px;"> στο κάτω μέρος της
+                            οθόνης
                             και στη συνέχεια επιλέξτε 'Add to Home Screen'.
                         </span>
                         <span id="IOS2" style="display: none;">
@@ -2941,7 +3007,8 @@
             <div style="display: none;" id="loginForm">
                 <!--Login-->
                 <h2 style="font-weight: bold;font-size: 1.3rem;">Σύνδεση</h2>
-                <p>Το Evox λειτουργεί με αναγνωριστικά. Ένας λογαριασμός απαιτείται για τον προσδιορισμό της συσκευής
+                <p>Το Evox λειτουργεί με αναγνωριστικά. Ένας λογαριασμός απαιτείται για τον προσδιορισμό της
+                    συσκευής
                     σας, εάν δεν έχετε λογαριασμό Evox δημιουργήστε έναν λογαριασμό μόνο για το OASA Project.</p>
                 <div id="search-input-container" style="border-radius: 1rem;margin-top: 20px;">
                     <input id="usernameO" type="text" autocomplete="off" placeholder="Όνομα Χρήστη" />
@@ -3349,7 +3416,8 @@
                     </svg>
                 </div>
                 <h1 style="font-weight: bold;">Τελευταίο Βήμα</h1>
-                <p>Το Evox Florida είναι έτοιμο να ξεκινήσει, δημιουργώντας τα απαραίτητα δεδομένα και επιτρέποντάς σας
+                <p>Το Evox Florida είναι έτοιμο να ξεκινήσει, δημιουργώντας τα απαραίτητα δεδομένα και επιτρέποντάς
+                    σας
                     να λαμβάνετε ειδοποιήσεις.<br>Για να ξεκινήσετε, πατήστε το κουμπί 'Εκκίνηση'. </p>
                 <div class="actionBot" style="text-align:center;">
                     <button onclick="start()" class="welcomeButton">Εκκίνηση</button>
@@ -3678,8 +3746,9 @@
             </div>
             <div class="belowIllustration">
                 <h2>Η σύνδεση απέτυχε!</h2>
-                <p>Ελέγξτε τη σύνδεση σας στο <vox style="color: #409cff;">δίκτυο</vox> και βεβαιωθείτε ότι είστε <vox
-                        style="color: #409cff;">ενημερωμένοι</vox> στη νεότερη έκδοση.</p>
+                <p>Ελέγξτε τη σύνδεση σας στο <vox style="color: #409cff;">δίκτυο</vox> και βεβαιωθείτε ότι είστε
+                    <vox style="color: #409cff;">ενημερωμένοι</vox> στη νεότερη έκδοση.
+                </p>
                 <button onclick="window.location.reload()" class="oasaButton">Ανανέωση εφαρμογής</button>
                 <button onclick="updateNew()" class="oasaButton">Έλεγχος για ενημέρωση</button>
                 <i id="italicBuild">OASAP Unk</i>

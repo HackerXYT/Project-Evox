@@ -3,15 +3,16 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.1.651'
+const currentVersion = '2.1.652'
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
 mapboxgl.accessToken = 'pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw';
 const randomString = () => Math.random().toString(36).substring(2, 10);
 
+let fullLine = null
 var menu_open = new Howl({
-	src: ['./OASAFX/menuSuccess.mp3'],
-	volume: 1
+  src: ['./OASAFX/menuSuccess.mp3'],
+  volume: 1
 });
 
 // Listen for the scroll event
@@ -428,14 +429,17 @@ function spawnBlocks(currentLocation) {
 
   console.log('Initializing map with location:', currentLocation);
 
+
   map = new mapboxgl.Map({
     container: 'map-io',
     style: localStorage.getItem("map_style") || 'mapbox://styles/mapbox/dark-v11',
     center: currentLocation,
-    zoom: 10,
+    zoom: 8,
     pitch: 0,
     bearing: 0,
-    antialias: true
+    antialias: false,
+    prefetchZoomDelta: 0,
+    fadeDuration: 0
   });
 
 
@@ -896,104 +900,106 @@ if (localStorage.getItem("oasa_favorites")) {
   console.log(favoriteBuses)
 }
 
+function loadSection(section, bus) {
+  console.warn("Loading section", section, "for bus", bus)
+  let matchingLines = fullLine.filter(line => line.LineID === bus);
+  if (!matchingLines.length) {
+    console.warn(`No matching lines found for bus: ${bus}`);
+    return;
+  }
+
+  //alert(`loadOasa: ${bus}`)
+  let { LineDescr: descr, LineCode: lineCode } = matchingLines[0];
+  if (personalizedAutoBus[bus]) {
+    console.warn('Attempting intelligence...');
+    const searchLineCode = personalizedAutoBus[bus];
+    const result = matchingLines.filter(item => item.LineCode === searchLineCode);
+    ({ LineDescr: descr, LineCode: lineCode } = result[0]);
+    if (result.length > 1) {
+      alert(`More than one matches found. Will proceed with first. ${JSON.stringify(result, null, 2)}`)
+    }
+  }
+
+
+  try {
+    function theSchedule(data) {
+      if (!data || (!data.come && !data.go)) {
+        console.warn(`No schedule data found for bus: ${bus}`);
+        return;
+      }
+
+      //console.log(`Schedule data for ${bus}:`, data);
+
+      // Extract times
+      const times = data.go.map(item => formatTime(item.sde_start1));
+      //console.log(`Formatted times for ${bus}:`, times);
+
+      // Determine the next bus time
+      const nextBusTime = getNextBusTimeLIVE(times);
+
+      if (nextBusTime) {
+        // Store data locally
+        localStorage.setItem(`${bus}_Timetable_go`, JSON.stringify(data));
+        localStorage.setItem(`${bus}_Times_go`, JSON.stringify(times));
+
+        // Display in feed
+        //alert(`Default work ${JSON.stringify(nextBusTime)}`)
+        spawnInFeed(bus, descr, nextBusTime, displayRemainingTimeLIVE(nextBusTime), section); //section is 'frequent', 'favorite', or 'famous'
+      } else {
+        //use times[0] as a fallback
+        try {
+          const [hour, minutes] = times[0].split(":").map(Number);
+          const workingTime = { hour, minutes };
+          //alert(`Fallback: ${JSON.stringify(workingTime)}\n${bus}`)
+          //alert(`loadOasa Failed\nfailed why?:\nnextBusTime returned: ${JSON.stringify(nextBusTime)}\nTimes: ${JSON.stringify(times)}\nBus on work: ${bus}`);
+          console.warn(`Failed to find next bus time for ${bus}.\nWorking on the first value in schedule\nTimes:`, times);
+          spawnInFeed(bus, descr, workingTime, displayRemainingTimeLIVE(workingTime), section); //section is 'frequent', 'favorite', or 'famous'
+        } catch (error) {
+          //work on localStorage
+          if (localStorage.getItem(`${bus}_Times`)) {
+            const times = JSON.parse(localStorage.getItem(`${bus}_Times`));
+            const nextBusTime = getNextBusTimeLIVE(times);
+            if (nextBusTime) {
+              spawnInFeed(bus, descr, nextBusTime, displayRemainingTimeLIVE(nextBusTime), section); //section is 'frequent', 'favorite', or 'famous'
+            } else {
+              spawnFallback(bus, descr, section)
+            }
+          } else {
+            console.log(`loadOasa fallback error: ${error}`)
+            spawnInFeed(bus, descr, nextBusTime, 'Άγνωστη', section)//section is 'frequent', 'favorite', or 'famous'
+          }
+
+        }
+
+      }
+    }
+    fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=getDailySchedule&line_code=${lineCode}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`)
+      .then(response => response.json())
+      .then(data => {
+        localStorage.setItem(`dailySchedule_${lineCode}_go`, JSON.stringify(data))
+        theSchedule(data)
+
+      })
+      .catch(error => {
+        //const lc_Temp = localStorage.getItem(`dailySchedule_${lineCode}`)
+        //if (lc_Temp) {
+        //  theSchedule(JSON.parse(lc_Temp))
+        //} else {
+        //  console.error(`Error fetching schedule for ${bus}:`, error);
+        //}
+        spawnFallback(bus, descr, section);
+
+
+      });
+  } catch {
+    spawnFallback(bus, descr, section);
+  }
+}
 
 
 function loadOasa() {
   //let spawnInFreq = {}; // This is unused but retained for future reference
-  function loadSection(section, bus) {
-    let matchingLines = fullLine.filter(line => line.LineID === bus);
-    if (!matchingLines.length) {
-      console.warn(`No matching lines found for bus: ${bus}`);
-      return;
-    }
 
-    //alert(`loadOasa: ${bus}`)
-    let { LineDescr: descr, LineCode: lineCode } = matchingLines[0];
-    if (personalizedAutoBus[bus]) {
-      console.warn('Attempting intelligence...');
-      const searchLineCode = personalizedAutoBus[bus];
-      const result = matchingLines.filter(item => item.LineCode === searchLineCode);
-      ({ LineDescr: descr, LineCode: lineCode } = result[0]);
-      if (result.length > 1) {
-        alert(`More than one matches found. Will proceed with first. ${JSON.stringify(result, null, 2)}`)
-      }
-    }
-
-
-    try {
-      function theSchedule(data) {
-        if (!data || (!data.come && !data.go)) {
-          console.warn(`No schedule data found for bus: ${bus}`);
-          return;
-        }
-
-        //console.log(`Schedule data for ${bus}:`, data);
-
-        // Extract times
-        const times = data.go.map(item => formatTime(item.sde_start1));
-        //console.log(`Formatted times for ${bus}:`, times);
-
-        // Determine the next bus time
-        const nextBusTime = getNextBusTimeLIVE(times);
-
-        if (nextBusTime) {
-          // Store data locally
-          localStorage.setItem(`${bus}_Timetable_go`, JSON.stringify(data));
-          localStorage.setItem(`${bus}_Times_go`, JSON.stringify(times));
-
-          // Display in feed
-          //alert(`Default work ${JSON.stringify(nextBusTime)}`)
-          spawnInFeed(bus, descr, nextBusTime, displayRemainingTimeLIVE(nextBusTime), section); //section is 'frequent', 'favorite', or 'famous'
-        } else {
-          //use times[0] as a fallback
-          try {
-            const [hour, minutes] = times[0].split(":").map(Number);
-            const workingTime = { hour, minutes };
-            //alert(`Fallback: ${JSON.stringify(workingTime)}\n${bus}`)
-            //alert(`loadOasa Failed\nfailed why?:\nnextBusTime returned: ${JSON.stringify(nextBusTime)}\nTimes: ${JSON.stringify(times)}\nBus on work: ${bus}`);
-            console.warn(`Failed to find next bus time for ${bus}.\nWorking on the first value in schedule\nTimes:`, times);
-            spawnInFeed(bus, descr, workingTime, displayRemainingTimeLIVE(workingTime), section); //section is 'frequent', 'favorite', or 'famous'
-          } catch (error) {
-            //work on localStorage
-            if (localStorage.getItem(`${bus}_Times`)) {
-              const times = JSON.parse(localStorage.getItem(`${bus}_Times`));
-              const nextBusTime = getNextBusTimeLIVE(times);
-              if (nextBusTime) {
-                spawnInFeed(bus, descr, nextBusTime, displayRemainingTimeLIVE(nextBusTime), section); //section is 'frequent', 'favorite', or 'famous'
-              } else {
-                spawnFallback(bus, descr, section)
-              }
-            } else {
-              console.log(`loadOasa fallback error: ${error}`)
-              spawnInFeed(bus, descr, nextBusTime, 'Άγνωστη', section)//section is 'frequent', 'favorite', or 'famous'
-            }
-
-          }
-
-        }
-      }
-      fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=getDailySchedule&line_code=${lineCode}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`)
-        .then(response => response.json())
-        .then(data => {
-          localStorage.setItem(`dailySchedule_${lineCode}_go`, JSON.stringify(data))
-          theSchedule(data)
-
-        })
-        .catch(error => {
-          //const lc_Temp = localStorage.getItem(`dailySchedule_${lineCode}`)
-          //if (lc_Temp) {
-          //  theSchedule(JSON.parse(lc_Temp))
-          //} else {
-          //  console.error(`Error fetching schedule for ${bus}:`, error);
-          //}
-          spawnFallback(bus, descr, section);
-
-
-        });
-    } catch {
-      spawnFallback(bus, descr, section);
-    }
-  }
   frequentBuses.forEach(bus => {
     loadSection('frequent', bus)
   });
@@ -1001,19 +1007,11 @@ function loadOasa() {
   favoriteBuses.forEach(bus => {
     loadSection('favorite', bus)
   })
-  let inte = setInterval(() => {
-    if (famousBuses.length === 0) {
-      return;
-    } else {
-      clearInterval(inte);
-    }
-    famousBuses.forEach(bus => {
-      loadSection('famous', bus)
-    });
-  }, 100)
+
 
 
   if (favoriteBuses.length === 0) {
+    document.getElementById("favoritesFeedItem").style.display = 'none'
     document.getElementById('favorite').innerHTML = `<div class="failed">
                                     <img style="width: 40px;" src="discover.svg" class="failed-icon">
                                     <vox class="failed-message nonImportant">Κανένα αγαπημένο λεωφορείο.</vox>
@@ -1666,12 +1664,29 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       console.log("Unique famous:", uniqueBuses)
       famousBuses = uniqueBuses
+      console.log("famous buses")
+
+      const pre = setInterval(function () {
+        if (fullLine) {
+          clearInterval(pre)
+          famousBuses.forEach(bus => {
+            try {
+              loadSection('famous', bus)
+            } catch (err) {
+              console.error(err)
+            }
+          });
+        } else {
+          console.log("fl not found")
+        }
+      }, 100)
+
 
 
     })
     .catch(error => {
       $("#famousFeed").fadeOut("fast")
-      console.warn("Cannot load famous")
+      console.warn("Cannot load famous", error)
     });
 
 
@@ -4643,7 +4658,7 @@ function openStation(code, descr, busId, busDescr) {
 }
 
 function showMenu() {
-  
+
   $("#account-home").fadeOut("fast");
   $("#notifications-home").fadeOut("fast", function () {
     const navigate = document.getElementById("top-navigate");
@@ -5412,7 +5427,7 @@ async function clearStorageAndReload() {
 let isScreenBusy = false
 function spawnOnTop(el) {
   if (isScreenBusy === true) { return; }
- 
+
   const rect = el.getBoundingClientRect();
   const computedStyle = getComputedStyle(el);
   const X_OFFSET = -7.5; // left
@@ -5431,7 +5446,7 @@ function spawnOnTop(el) {
     const container = document.getElementById("menuContainer");
     container.style.opacity = '1';
 
-     menu_open.play()
+    menu_open.play()
     container.querySelectorAll(".menuItem").forEach((div, index) => {
       if (index === 0) return;
       console.log(div)

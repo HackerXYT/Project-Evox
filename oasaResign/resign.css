@@ -92,6 +92,16 @@
     transition: width 0.3s ease, border-radius 0.3s ease, transform 0.3s ease, height 0.3s ease, padding 0.3s ease;
 }
 
+.navigate.nobg {
+    background-color: transparent;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.navigate.nobg p {
+    font-size: 22px;
+}
+
 .navigate.expand {
     width: 100vw;
     height: 100vh;
@@ -157,7 +167,7 @@
 
 
 
-.navigate .userIcon {
+.userIcon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -167,7 +177,12 @@
     flex-shrink: 0;
 }
 
-.navigate .userIcon img {
+.userIcon.large {
+    width: 60px;
+    height: 60px;
+}
+
+.userIcon img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -893,6 +908,17 @@
     pointer-events: none;
 }
 
+.contentId::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(to bottom, rgba(20, 20, 22, 0) 0%, var(--fade-color) 98%);
+    pointer-events: none;
+}
+
 
 
 .Userfeed .feedItem {
@@ -1057,12 +1083,13 @@
 }
 
 @keyframes card-move {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 40px 40px;
-  }
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
 }
 
 /*.pinned-favorites .item.favorite.justBorder::before {
@@ -1519,6 +1546,7 @@
 }
 
 
+.contentId,
 #content {
     margin-top: env(safe-area-inset-top) !important;
     margin-bottom: env(safe-area-inset-bottom) !important;
@@ -1530,6 +1558,9 @@
     z-index: 10999;
 }
 
+.contentId {
+    padding: 1rem;
+}
 
 .loginContent {
     display: none;
@@ -3319,4 +3350,45 @@ select:focus {
 
 .color-circle:hover {
     border-color: #333;
+}
+
+.profileFullDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+    color: #fff;
+    background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 80%),
+        radial-gradient(circle at 70% 70%,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0) 90%),
+        linear-gradient(to top right,
+            rgba(244, 31, 31, 0) 50%,
+            rgba(244, 31, 31, 0.1) 75%,
+            rgba(244, 31, 31, 0.2) 100%),
+        linear-gradient(to bottom left,
+            rgba(255, 121, 121, 0) 50%,
+            rgba(255, 121, 121, 0.1) 75%,
+            rgba(255, 121, 121, 0.2) 100%),
+        var(--fade-color);
+    background-repeat: no-repeat;
+    background-size: 300% 300%;
+    border-radius: 30px;
+    gap: 10px;
+}
+
+.collumn2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.collumn2 span {
+    font-size: 14px;
+    color: #ffffff8a;
 }

@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.reload()
         return;
     }
+    document.getElementById("username").innerText = localStorage.getItem("t50-username")
     document.getElementById("greeting").innerHTML = getGreeting() + ","
     getProfileData(loggedIn.username)
     fetch(`https://data.evoxs.xyz/profiles?authorize=351c3669b3760b20615808bdee568f33&pfp=${loggedIn.username}`)
@@ -116,7 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
 
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                            Server connection failed.
+                        </div>`
+                        console.error(err)
+                    });
+            } else {
+                document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                            No chats
+                        </div>`
             }
 
         })
