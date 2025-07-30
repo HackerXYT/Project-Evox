@@ -390,11 +390,14 @@
     border-radius: 20px;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
+    transition: background-color 1s ease, border 1s ease;
 }
 
 .Block.favorite {
     background-color: #1f42f433 !important;
 }
+
+
 
 .Block.match {
     background-color: #1f42f4b1 !important;
@@ -1116,7 +1119,8 @@
 
 .pinned-favorites .item.isPreloaded {
     background-color: #f5421f25;
-    border: 2px solid #ac2f29;
+    border: none;
+    /*border: 2px solid #ac2f29;*/
 }
 
 .pinned-favorites .item .info {
@@ -2361,6 +2365,19 @@ body {
     font-weight: bold;
 }
 
+.markerInside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.markerInside span {
+    font-size: 12px;
+    color: #fff;
+}
+
 .busLocation {
     width: auto;
     /* Adjust the size of the dot */
@@ -3019,7 +3036,7 @@ body {
 
 .bus-map-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     gap: 5px;
 }
 
@@ -3391,4 +3408,9 @@ select:focus {
 .collumn2 span {
     font-size: 14px;
     color: #ffffff8a;
+}
+
+.Block.focused {
+    border: 1px solid #1fe6f433;
+    background-color: #1fe6f433 !important;
 }

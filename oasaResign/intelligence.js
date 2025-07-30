@@ -3,7 +3,8 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.1.652'
+const currentVersion = '2.1.7'
+console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
 mapboxgl.accessToken = 'pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw';
@@ -15,6 +16,30 @@ var menu_open = new Howl({
   volume: 1
 });
 
+let mapboxSourcesArray = []
+let mapboxLayersArray = []
+
+function removeGraphics() {
+  mapboxSourcesArray.forEach(sourceid => {
+    console.log(sourceid)
+    if (map.getSource(`route-${sourceid}`)) {
+      map.removeSource(`route-${sourceid}`);
+    } else {
+      console.warn("Saved source doesnt exist", sourceid)
+    }
+  })
+
+  mapboxLayersArray.forEach(sourceid => {
+    console.log(sourceid)
+    if (map.getLayer(`route-${sourceid}`)) {
+      map.removeLayer(`route-${sourceid}`);
+    } else {
+      console.warn("Saved layer doesnt exist", sourceid)
+    }
+  })
+
+
+}
 // Listen for the scroll event
 document.getElementById('main-wrapper').addEventListener('scroll', () => {
   // Check if scroll position exceeds the threshold
@@ -138,7 +163,7 @@ function openSearch() {
   //</svg>Σπίτι
   //                    </div>`
   favoriteBuses.forEach(bus => {
-    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}')" class="Block favorite"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block favorite barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
                   <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
                   <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -151,7 +176,7 @@ function openSearch() {
                                       </div>`
   })
   frequentBuses.forEach(bus => {
-    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}')" class="Block"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
 <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -434,7 +459,7 @@ function spawnBlocks(currentLocation) {
     container: 'map-io',
     style: localStorage.getItem("map_style") || 'mapbox://styles/mapbox/dark-v11',
     center: currentLocation,
-    zoom: 8,
+    zoom: 16,
     pitch: 0,
     bearing: 0,
     antialias: false,
@@ -3164,6 +3189,7 @@ function spawnNearby() {
         },
       },
     });
+    mapboxSourcesArray.push(id)
 
     map.addLayer({
       id: `route-${id}`,
@@ -3178,37 +3204,56 @@ function spawnNearby() {
         "line-width": 4,
       },
     });
+
+    mapboxLayersArray.push(id)
   }
 }
 
 let liveBuses = []
-function spawnAndShowInfo(bus, remain, verification, comego) {
-  markers_intel.forEach((marker) => marker.remove());
+function spawnAndShowInfo(bus, remain, verification, comego, el) {
+  if (el) {
+    const elements = document.querySelectorAll('.Block.barup');
+    elements.forEach((els, i) => {
+      els.classList.remove("focused")
+    });
+    console.log("Element attached", el)
+    el.classList.add("focused")
+    console.log("newel", el)
 
-  markers_intel = []; // Clear marker references
+  }
 
-  // Remove layer and source
-  if (map.getLayer(`route-${previouslines}`)) {
-    map.removeLayer(`route-${previouslines}`);
+  // helper to remove a route layer/source by ID
+  function removeRoute(routeId) {
+    if (!routeId) return;
+    const layerId = `route-${routeId}`;
+    const sourceId = `route-${routeId}`;
+
+    if (map.getLayer(layerId)) {
+      map.removeLayer(layerId);
+    }
+    if (map.getSource(sourceId)) {
+      map.removeSource(sourceId);
+    }
   }
-  if (map.getSource(`route-${previouslines}`)) {
-    map.removeSource(`route-${previouslines}`);
+
+  // helper to clear all markers
+  function clearMarkers() {
+    markers_intel.forEach(marker => marker.remove());
+    markers_intel = [];
   }
-  //get the bus stops
+
+  // --- original “always-do” removal ---
+  clearMarkers();
+  removeRoute(previouslines);
+
+  // --- conditional “deleteAfter” removal ---
   if (remain === 'deleteAfter' && previouslines) {
-    // Remove markers
-    markers_intel.forEach((marker) => marker.remove());
-
-    markers_intel = []; // Clear marker references
-
-    // Remove layer and source
-    if (map.getLayer(`route-${previouslines}`)) {
-      map.removeLayer(`route-${previouslines}`);
-    }
-    if (map.getSource(`route-${previouslines}`)) {
-      map.removeSource(`route-${previouslines}`);
-    }
+    clearMarkers();
+    removeRoute(previouslines);
   }
+
+  removeGraphics()
+
   const linesSearch = fullLine.filter(item => item.LineID === bus);
   let go_or_back = comego ? comego : "go";
   console.warn("MAP:", go_or_back)
@@ -3319,9 +3364,16 @@ function spawnAndShowInfo(bus, remain, verification, comego) {
     console.log("MAPFOUND:", returned);
 
     const colors = [
-      "#007f00", "#ff66b3", "#007cbf", "#ff3300",
-      "#ffff33", "#fff", "#ffffff", "#808080", "#ff9900", "#660066"
+      "#3c5cff",
+      "#5c71ff",
+      "#3557fd",
+      "#0e36ff",
+      "#2c4ef5",
+      "#1f42f4",
     ];
+
+
+    const existingStopCodes = new Set();
 
     function addIt(coordinates, near) {
       console.log('addIt', coordinates);
@@ -3341,6 +3393,12 @@ function spawnAndShowInfo(bus, remain, verification, comego) {
 
       // Add markers
       coordinates.forEach((coord, index) => {
+        if (existingStopCodes.has(coord.StopCode)) {
+          // This station already has a marker — skip adding
+          return;
+        }
+
+        existingStopCodes.add(coord.StopCode);
         const dot = document.createElement('div');
         let offset = [0, 0];
 
@@ -3422,6 +3480,7 @@ function spawnAndShowInfo(bus, remain, verification, comego) {
           },
         },
       });
+      mapboxSourcesArray.push(id)
 
       map.addLayer({
         id: `route-${id}`,
@@ -3436,6 +3495,7 @@ function spawnAndShowInfo(bus, remain, verification, comego) {
           "line-width": 4,
         },
       });
+      mapboxLayersArray.push(id)
     }
     let liveBusDivs = []
     console.log("REACHED LIVE")
@@ -4386,6 +4446,9 @@ function searchInInput() {
   let matchingLines = fullLine.filter(line => line.LineID.includes(lineIdToFind));  // Check for partial matches 
   let shortMatches = fullLine.filter(line => line.LineID === lineIdToFind)
   $("#linesContainer").fadeIn("fast")
+  if (matchingLines.length === 0) {
+    searchAndMarkPlaces(lineIdToFind)
+  }
   //console.log(matchingLines)
   document.getElementById("toSpawnFinds").innerHTML = ""
   matchingLines.forEach((bus, index) => {
@@ -5643,4 +5706,209 @@ function favoriteStation(e) {
     }
 
   }
+}
+
+function getDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371e3; // Earth radius in meters
+  const toRad = angle => (angle * Math.PI) / 180;
+
+  const φ1 = toRad(lat1);
+  const φ2 = toRad(lat2);
+  const Δφ = toRad(lat2 - lat1);
+  const Δλ = toRad(lng2 - lng1);
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) *
+    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c; // Distance in meters
+}
+
+async function searchAndMarkPlaces(query) {
+  const accessToken = mapboxgl.accessToken;
+  if (!query) return;
+
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported by your browser");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const userLng = position.coords.longitude;
+    const userLat = position.coords.latitude;
+
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
+      `access_token=${accessToken}` +
+      `&limit=10` +
+      `&proximity=${userLng},${userLat}` +
+      `&types=place,address,poi`
+    );
+    const data = await response.json();
+
+    if (!data.features || data.features.length === 0) {
+      console.warn("No nearby matches found.");
+      return;
+    }
+
+    // Find the closest feature by calculating distance from user location
+    let closestFeature = data.features[0];
+    let minDistance = getDistance(userLat, userLng, closestFeature.center[1], closestFeature.center[0]);
+
+    for (const feature of data.features) {
+      const [lng, lat] = feature.center;
+      const distance = getDistance(userLat, userLng, lat, lng);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestFeature = feature;
+      }
+    }
+
+    const [lng, lat] = closestFeature.center;
+
+    map.flyTo({
+      center: [lng, lat],
+      zoom: 16,
+      essential: true,
+    });
+
+    const places = data.features.map(feature => ({
+      coords: feature.center,
+      name: feature.text,
+      address: feature.place_name,
+    }));
+
+    addGeneraleMarkers(places);
+
+  }, (error) => {
+    alert("Unable to get your location: " + error.message);
+  });
+}
+
+
+let generaleMarkers = []
+function addGeneraleMarkers(places) {
+  generaleMarkers.forEach(marker => marker.remove());
+  removeGraphics()
+
+  places.forEach(place => {
+    const dot = document.createElement('div');
+    let offset = [0, 0];
+
+
+    dot.className = "station";
+    dot.onclick = function () {
+      if (dot.getAttribute("data-status") === 'hidden') {
+        this.innerHTML = `<p>${place.name}</p>`
+        dot.setAttribute("data-status", 'visible')
+      } else {
+        this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
+<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
+<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
+<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
+<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
+<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
+<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+</svg>`
+        dot.setAttribute("data-status", 'hidden')
+      }
+
+    }
+    dot.setAttribute("data-status", 'hidden')
+    dot.innerHTML = `<vox class="markerInside">
+    <p>${place.name}</p>
+    <span>${place.address}</span>
+    </vox>`
+    spawnClosestStops(place.coords)
+
+
+    const marker = new mapboxgl.Marker({ element: dot, offset: offset })
+      .setLngLat(place.coords)
+      .addTo(map);
+    markers_intel.push(marker);
+    generaleMarkers.push(marker)
+  })
+}
+
+function spawnClosestStops(focusedSpot) {
+  return; //cors error or server proxy err
+  //focusedSpot = {lng: 1, lat: 1}
+  console.log(focusedSpot)
+  //http://telematics.oasa.gr/api/?act=getClosestStops&p1=x&p2=y
+  fetch(`http://telematics.oasa.gr/api/?act=getClosestStops&p1=${focusedSpot[0]}&p2=${focusedSpot[1]}&keyOrigin=evoxEpsilon`)
+    .then(response => response.json())
+    .then(data => {
+      console.log("CLOSE:", data)
+
+      return;
+
+      const dot = document.createElement('div');
+      let offset = [0, 0];
+
+      if (index === coordinates.length - 1 && !asNearStops) {
+        dot.className = "custom-marker";
+      } else if (index === 0 && !asNearStops) {
+        dot.className = "transition";
+        dot.onclick = function () {
+          this.innerHTML = `<p>${capitalizeWords(coord.StopDescr)}</p>`
+        }
+        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#000"/>
+<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#000"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#000"/>
+<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#000"/>
+<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#000"/>
+<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#000"/>
+<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#000"/>
+<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#000"/>
+</svg>`; //
+      } else {
+        dot.className = "station";
+        dot.onclick = function () {
+          if (dot.getAttribute("data-status") === 'hidden') {
+            this.innerHTML = `<p>${capitalizeWords(coord.StopDescr)}</p><svg onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
+            dot.setAttribute("data-status", 'visible')
+          } else {
+            this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
+<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
+<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
+<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
+<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
+<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
+<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+</svg>`
+            dot.setAttribute("data-status", 'hidden')
+          }
+
+        }
+        dot.setAttribute("data-status", 'hidden')
+        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
+<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
+<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
+<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
+<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
+<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
+<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+</svg>`;
+      }
+
+      const marker = new mapboxgl.Marker({ element: dot, offset: offset })
+        .setLngLat([coord.lng, coord.lat])
+        .addTo(map);
+      markers_intel.push(marker);
+    })
+    .catch(error => {
+
+    })
 }
