@@ -233,6 +233,6 @@ body {
     object-fit: cover;
 }
 
-p,span {
+h4,p,span {
     margin:0;
 }
