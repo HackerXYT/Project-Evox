@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="spinner" class="spinner">
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+    </div>
+    <div class="error" id="error">
+        <img src="snap.png">
+        <div class="button off" onclick="window.location.reload()">
+            Reload
+        </div>
+    </div>
+    <div class="error" id="good">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+            <path opacity="0.4"
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                fill="#fff" />
+            <path
+                d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z"
+                fill="#fff" />
+        </svg>
+    </div>
+    <div class="btnscont" id="btns">
+        <h4>Manage Water Flow</h4>
+        <div onclick="run(this)" class="button">
+            Online
+        </div>
+
+        <div onclick="run(this)" class="button off">
+            Offline
+        </div>
+    </div>
+
+</body>
+<script>
+    window.addEventListener("load", (event) => {
+        console.log("page is fully loaded");
+        fetch(`https://data.evoxs.xyz/cron`)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    document.getElementById("spinner").style.opacity = '0'
+                    setTimeout(function () {
+                        document.getElementById("spinner").style.display = 'none'
+                        document.getElementById("btns").style.opacity = '0'
+                        document.getElementById("btns").style.display = 'flex'
+                        setTimeout(function () {
+                            document.getElementById("btns").style.opacity = '1'
+                        }, 100)
+                    }, 300)
+                } else {
+                    alert("Unknown error")
+                }
+            })
+            .catch(error => {
+                document.getElementById("spinner").style.opacity = '0'
+                setTimeout(function () {
+                    document.getElementById("spinner").style.display = 'none'
+                    document.getElementById("error").style.opacity = '0'
+                    document.getElementById("error").style.display = 'flex'
+                    setTimeout(function () {
+                        document.getElementById("error").style.opacity = '1'
+                    }, 100)
+                }, 300)
+            });
+
+    });
+
+    function run(el) {
+        let url = `https://data.evoxs.xyz/house?method=clearWaterOff&username={usrnm}&password={pswd}&email={mail}`
+        if (el.innerHTML.includes("On")) {
+            url = url.replace("clearWaterOff", "clearWaterOn")
+        }
+
+        if (localStorage.getItem("evxHouse")) {
+            const creds = JSON.parse(localStorage.getItem("evxHouse"))
+            url = url.replace("{usrnm}", creds.username).replace("{pswd}", creds.password).replace("{mail}", creds.email)
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    if (data) {
+                        document.getElementById("btns").style.opacity = '0'
+                        setTimeout(function () {
+                            document.getElementById("btns").style.display = 'none'
+                            document.getElementById("good").style.opacity = '0'
+                            document.getElementById("good").style.display = 'flex'
+                            setTimeout(function () {
+                                document.getElementById("good").style.opacity = '1'
+                                setTimeout(function () {
+                                    document.getElementById("good").style.opacity = '0'
+                                    setTimeout(function () {
+                                        document.getElementById("good").style.display = 'none'
+                                        document.getElementById("btns").style.display = 'flex'
+                                        setTimeout(function () {
+                                            document.getElementById("btns").style.opacity = '1'
+                                        }, 200)
+                                    }, 300)
+                                }, 500)
+                            }, 100)
+                        }, 300)
+                    } else {
+                        alert("Unknown error")
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("spinner").style.opacity = '0'
+                    setTimeout(function () {
+                        document.getElementById("spinner").style.display = 'none'
+                        document.getElementById("error").style.opacity = '0'
+                        document.getElementById("error").style.display = 'flex'
+                        setTimeout(function () {
+                            document.getElementById("error").style.opacity = '1'
+                        }, 100)
+                    }, 300)
+                });
+        } else {
+            const creds = prompt("Username:email:pswd");
+            const parts = creds.split(":");
+            const json = {
+                username: parts[0],
+                password: parts[2],
+                email: parts[1]
+            }
+            localStorage.setItem("evxHouse", JSON.stringify(json))
+
+        }
+    }
+</script>
+
+</html>

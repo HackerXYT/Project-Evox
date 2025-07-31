@@ -694,31 +694,52 @@ function updateLocation(locationName) {
 let mylocationMarker = null;
 
 function spawnMyLocation() {
-  if (mylocationMarker) {
-    console.log("Reloading location marker")
-    mylocationMarker.remove()
-    mylocationMarker = null
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      locationReady = true
-      const loc = [longitude, latitude]
-      myLoc = loc
-    })
-  }
-  const markerElement = document.createElement('div');
-  markerElement.style.width = '10px'; // smaller size
-  markerElement.style.height = '10px';
-  markerElement.style.backgroundColor = '#2e77ff';
-  markerElement.style.borderRadius = '50%'; // circle shape
-  markerElement.style.border = '1px solid #fff'; // minimal border for better contrast
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const newLoc = [longitude, latitude];
 
-  // Add the custom marker to the map
-  const marker = new mapboxgl.Marker({ element: markerElement })
-    .setLngLat(myLoc) // coordinates for the marker
-    .addTo(map);
-  mylocationMarker = marker
-  markers_global.push(marker)
+    if (mylocationMarker) {
+      // Smooth transition from old to new location
+      const duration = 500; // animation duration in ms
+      const start = performance.now();
+
+      const startLoc = mylocationMarker.getLngLat();
+      const lngDiff = newLoc[0] - startLoc.lng;
+      const latDiff = newLoc[1] - startLoc.lat;
+
+      function animateMarker(timestamp) {
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const currentLng = startLoc.lng + lngDiff * progress;
+        const currentLat = startLoc.lat + latDiff * progress;
+        mylocationMarker.setLngLat([currentLng, currentLat]);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateMarker);
+        }
+      }
+
+      requestAnimationFrame(animateMarker);
+    } else {
+      // First-time marker creation
+      const markerElement = document.createElement('div');
+      markerElement.style.width = '10px';
+      markerElement.style.height = '10px';
+      markerElement.style.backgroundColor = '#2e77ff';
+      markerElement.style.borderRadius = '50%';
+      markerElement.style.border = '1px solid #fff';
+
+      mylocationMarker = new mapboxgl.Marker({ element: markerElement })
+        .setLngLat(newLoc)
+        .addTo(map);
+
+      markers_global.push(mylocationMarker);
+    }
+
+    // Always update the current location variable
+    myLoc = newLoc;
+    locationReady = true;
+  });
 }
 
 function zoomOnMe() {
@@ -2152,7 +2173,7 @@ function processInfo(evoxId, type, addMore, comego) {
           timetableContent += `
       <div class="timeItem fade-in-slide-up${previous[0] && index === 0 ? " isNext" : ""} ${isLocal ? "isLocal" : ""}" onclick="showDetailedTime('${time.replace(/<\/?vox>/g, "").replace(/<\/?vox>/g, "").replace(/ .*$/, "")}','next')">
       <p>${time}</p>
-        <div class="actions">
+        <div class="actions"${!localStorage.getItem("extVOASA") ? ' style="display: none"' : ""}>
           <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"/>
 </svg>
@@ -2225,6 +2246,13 @@ function processInfo(evoxId, type, addMore, comego) {
                                 </div>`
         findBusInfo2(busInfo.bus, comego, busInfo).then((routeCode) => {
           console.log("Route code found", routeCode);
+          if (document.getElementById("stationsSpawnOut").classList.contains("fade-out-slide-down")) {
+            document.getElementById("stationsSpawnOut").classList.remove("fade-out-slide-down")
+            document.getElementById("stationsSpawnOut").classList.add("fade-out-slide-down")
+            setTimeout(function () {
+              document.getElementById("stationsSpawnOut").classList.remove("fade-out-slide-down")
+            }, 500)
+          }
           getRouteStops(routeCode).then((stations) => {
             console.log("Stations found", stations);
             console.log("Found stations", stations);
@@ -2247,7 +2275,7 @@ function processInfo(evoxId, type, addMore, comego) {
     </svg></span>
                                                 </div>
                                             </div>
-                                            <div class="fav-actions">
+                                            <div class="fav-actions"${!localStorage.getItem("extVOASA") ? ' style="display: none"' : ""}>
                                             <div id="start-schedo-station-${station.StopCode}" onclick="addInfinity('${busInfo.bus}', '${station.StopCode}', 'showUp', this)" style="display:none" class="button-action glowUpGBSM">
                                                     <svg class="glowUpGlobaltxt_title" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5023 14.3674L20.5319 9.35289C21.2563 8.63072 21.6185 8.26963 21.8092 7.81046C22 7.3513 22 6.84065 22 5.81937V5.33146C22 3.76099 22 2.97576 21.5106 2.48788C21.0213 2 20.2337 2 18.6585 2H18.1691C17.1447 2 16.6325 2 16.172 2.19019C15.7114 2.38039 15.3493 2.74147 14.6249 3.46364L9.59522 8.47817C8.74882 9.32202 8.224 9.84526 8.02078 10.3506C7.95657 10.5103 7.92446 10.6682 7.92446 10.8339C7.92446 11.5238 8.48138 12.0791 9.59522 13.1896L9.74492 13.3388L11.4985 11.5591C11.7486 11.3053 12.1571 11.3022 12.4109 11.5523C12.6647 11.8024 12.6678 12.2109 12.4177 12.4647L10.6587 14.2499L10.7766 14.3674C11.8905 15.4779 12.4474 16.0331 13.1394 16.0331C13.2924 16.0331 13.4387 16.006 13.5858 15.9518C14.1048 15.7607 14.6345 15.2325 15.5023 14.3674ZM17.8652 8.47854C17.2127 9.12904 16.1548 9.12904 15.5024 8.47854C14.8499 7.82803 14.8499 6.77335 15.5024 6.12284C16.1548 5.47233 17.2127 5.47233 17.8652 6.12284C18.5177 6.77335 18.5177 7.82803 17.8652 8.47854Z" fill="#FFF"/>
@@ -2307,6 +2335,30 @@ function processInfo(evoxId, type, addMore, comego) {
                                             </div>
                                         </div>`
             })
+
+            function changeStationsSpawnStyle(property, value) {
+              // Loop through all stylesheets
+              for (let sheet of document.styleSheets) {
+                try {
+                  for (let rule of sheet.cssRules) {
+                    if (rule.selectorText === '.stationsSpawn') {
+                      rule.style.setProperty(property, value);
+                      return;
+                    }
+                  }
+                } catch (e) {
+                  console.warn("Could not access stylesheet:", e);
+                }
+              }
+
+              // If rule not found insert it
+              document.styleSheets[0].insertRule(`.stationsSpawn { ${property}: ${value}; }`, 0);
+            }
+
+            if (!localStorage.getItem("extVOASA")) {
+              changeStationsSpawnStyle('height', '230px');
+            }
+
 
             let controller;
             controller = new AbortController();
@@ -2439,6 +2491,8 @@ function processInfo(evoxId, type, addMore, comego) {
             console.error(error);
           });
         }).catch((error) => {
+          document.getElementById("stationsSpawnOut").classList.add("fade-out-slide-down")
+          console.warn("Detected Line Error Generale")
           console.error(error);
         });
       }
@@ -3497,34 +3551,61 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
       });
       mapboxLayersArray.push(id)
     }
-    let liveBusDivs = []
+    let liveBusDivs = {}
     console.log("REACHED LIVE")
     function redoLive() {
       console.warn("Redoing live fetch");
       fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${returned}&type=currentLocation&vevox=${randomString()}`)
         .then(response => response.json())
         .then(data => {
-          console.log("LIVE OK")
-          if (liveBusDivs.length > 0) {
-            liveBusDivs.forEach(div => {
-              div.remove();
-            });
-          }
+          console.log("LIVE OK");
+
+          // Keep track of buses from this update
+          const currentVehNos = new Set();
+
           try {
             data.forEach(location => {
-              const dot = document.createElement('div');
+              const vehNo = location.VEH_NO;
+              currentVehNos.add(vehNo);
 
-              let offset = [0, 0];
+              const newLngLat = [location.CS_LNG, location.CS_LAT];
 
-              dot.className = "busLocation";
-              dot.onclick = function () {
-                if (dot.getAttribute("data-status") === 'hidden') {
-                  this.innerHTML = `<p>${bus}</p><svg onclick="alert('δεν είναι ακόμα έτοιμο αυτό...');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+              // Update existing marker if present
+              if (liveBusDivs[vehNo]) {
+                const marker = liveBusDivs[vehNo].marker;
+                const oldLngLat = marker.getLngLat();
+
+                // Animate to new position
+                let start = null;
+                function animateMarker(timestamp) {
+                  if (!start) start = timestamp;
+                  const progress = Math.min((timestamp - start) / 300, 1); // 300ms
+
+                  const lng = oldLngLat.lng + (newLngLat[0] - oldLngLat.lng) * progress;
+                  const lat = oldLngLat.lat + (newLngLat[1] - oldLngLat.lat) * progress;
+
+                  marker.setLngLat([lng, lat]);
+
+                  if (progress < 1) {
+                    requestAnimationFrame(animateMarker);
+                  }
+                }
+                requestAnimationFrame(animateMarker);
+
+              } else {
+                // Create new marker
+                const dot = document.createElement('div');
+                dot.className = "busLocation";
+                dot.setAttribute("data-status", "hidden");
+
+                dot.onclick = function () {
+                  if (dot.getAttribute("data-status") === 'hidden') {
+                    this.innerHTML = `<p>${bus}</p><svg onclick="alert('δεν είναι ακόμα έτοιμο αυτό...');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
     <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`
-                  dot.setAttribute("data-status", 'visible')
-                } else {
-                  this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                    dot.setAttribute("data-status", 'visible')
+                  } else {
+                    this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
     <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#000"></path>
     <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#000"></path>
     <path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"></path>
@@ -3534,12 +3615,12 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
     <path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#000"></path>
     <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#000"></path>
     </svg>`
-                  dot.setAttribute("data-status", 'hidden')
+                    dot.setAttribute("data-status", 'hidden')
+                  }
+
                 }
 
-              }
-              dot.setAttribute("data-status", 'hidden')
-              dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
     <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#000"></path>
     <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#000"></path>
     <path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"></path>
@@ -3550,25 +3631,35 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
     <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#000"></path>
     </svg>`;
 
-              const marker = new mapboxgl.Marker({ element: dot, offset: offset })
-                .setLngLat([location.CS_LNG, location.CS_LAT])
-                .addTo(map);
-              markers_intel.push(marker);
-              liveBusDivs.push(dot);
-            })
+                const marker = new mapboxgl.Marker({ element: dot, offset: [0, 0] })
+                  .setLngLat(newLngLat)
+                  .addTo(map);
+
+                liveBusDivs[vehNo] = { marker, element: dot };
+                markers_intel.push(marker);
+              }
+            });
+
+            // Remove any buses not in the new data
+            for (const vehNo in liveBusDivs) {
+              if (!currentVehNos.has(vehNo)) {
+                liveBusDivs[vehNo].marker.remove();
+                delete liveBusDivs[vehNo];
+              }
+            }
+
           } catch (error) {
-            console.log("live failed")
+            console.log("live failed", error);
           }
-
-
         })
         .catch(error => console.error('Error:', error));
     }
 
+
     redoLive()
     let into = setInterval(function () {
       redoLive()
-    }, 10000);
+    }, 5000);
     liveBuses.push(into);
 
 
@@ -3676,7 +3767,7 @@ function showDetailedTime(time, type, text) {
 
   const extVOASA = localStorage.getItem("extVOASA");
   if (extVOASA === null) {
-    alert("Florida not enabled!");
+    //alert("Florida not enabled!");
     return;
   }
 
@@ -3965,7 +4056,10 @@ function showVerticalStations() {
           if (toSpawn === null) {
             toSpawn = `<img src="busNotFound.png" width="25px" height="25px">`;
             //show up at start
-            actions.style.display = 'flex'
+            if (localStorage.getItem("extVOASA")) {
+              actions.style.display = 'flex'
+            }
+
             activity[1].style.display = 'flex'
             activity[1].setAttribute("onclick", `addInfinity('${document.getElementById("busInfoID").innerText}', '${stop.StopCode}', 'showUp', this)`)
             activity[1].querySelector("vox").innerText = 'Όταν εμφανιστεί'
@@ -3976,14 +4070,18 @@ function showVerticalStations() {
 <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" fill="#fff"/>
 </svg>`;
             //show up at count start
-            actions.style.display = 'flex'
+            if (localStorage.getItem("extVOASA")) {
+              actions.style.display = 'flex'
+            }
             activity[1].style.display = 'flex'
             activity[1].setAttribute("onclick", `addInfinity('${document.getElementById("busInfoID").innerText}', '${stop.StopCode}', 'showUp', this)`)
             activity[1].querySelector("vox").innerText = 'Όταν εμφανιστεί'
           } else if (toSpawn === "OASAERR") {
             toSpawn = `Σφάλμα`;
             //show up at count start
-            actions.style.display = 'flex'
+            if (localStorage.getItem("extVOASA")) {
+              actions.style.display = 'flex'
+            }
             activity[1].style.display = 'flex'
             activity[1].setAttribute("onclick", `addInfinity('${document.getElementById("busInfoID").innerText}', '${stop.StopCode}', 'showUp', this)`)
             activity[1].querySelector("vox").innerText = 'Όταν εμφανιστεί'
@@ -3992,7 +4090,9 @@ function showVerticalStations() {
             if (Number(stop.time) > 2) {
               //show up 2 mins
               console.log(activity[1])
-              actions.style.display = 'flex'
+              if (localStorage.getItem("extVOASA")) {
+                actions.style.display = 'flex'
+              }
               activity[1].style.display = 'flex'
               activity[1].querySelector("vox").innerText = "2' μακριά"
               activity[1].setAttribute("onclick", `addInfinity('${document.getElementById("busInfoID").innerText}', '${stop.StopCode}', '2min', this)`)
@@ -4282,7 +4382,7 @@ function showStopDetails(stopCode, stopName) {
               const arrivalTimes = Array.from(busesArrivals[lineID]).join("', "); // Convert Set to array and join times with a comma
               const busDesc = start[lineID].desc;
               document.getElementById("busesComingtoStation").innerHTML += `
-                          <div class="timeItem">
+                          <div onclick="openExtLineId('${lineID}', '${busDesc}')" class="timeItem">
                               <p>${lineID}</p>
                               <div class="actions">
                                   <span>${arrivalTimes}'</span>
@@ -5582,8 +5682,45 @@ function changeScreen(el) {
   function nowCheckForFunctions() {
     setTimeout(function () {
       //For complete arrow stop [90%]
+      if (activePage === 2) {
+        return;
+      }
+
+      document.getElementById("content").style.display = 'none'
+      document.getElementById("settingsContainer").style.display = 'none'
+
+
+      document.getElementById("bottomSearchParent").style.opacity = '0'
+      setTimeout(function () {
+        document.getElementById("bottomSearchParent").style.display = 'none'
+      }, 300)
+      if (activePage === 1) {
+        //Home
+        document.getElementById("content").style.display = null
+        document.getElementById("bottomSearchParent").style.display = null
+        setTimeout(function () {
+          document.getElementById("bottomSearchParent").style.display = null
+          document.getElementById("bottomSearchParent").style.opacity = '1'
+        }, 400)
+      }
+
+
+
+      if (activePage === 3) {
+        //Settings
+        document.getElementById("settingsContainer").classList.add("fade-in-slide-up")
+        document.getElementById("content").style.display = 'none'
+        document.getElementById("settingsContainer").style.display = null
+        setTimeout(function () {
+          document.getElementById("settingsContainer").classList.remove("fade-in-slide-up")
+        }, 500)
+      }
+
+
       if (activePage === 4) {
         window.location.reload();
+      } else {
+        closeMenu()
       }
     }, 200)
     //Immediate action
@@ -5740,12 +5877,15 @@ async function searchAndMarkPlaces(query) {
     const userLng = position.coords.longitude;
     const userLat = position.coords.latitude;
 
+    const greeceBBox = [19.3, 34.7, 29.6, 41.8]; // [west, south, east, north] for Greece
+
     const response = await fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
       `access_token=${accessToken}` +
       `&limit=10` +
       `&proximity=${userLng},${userLat}` +
-      `&types=place,address,poi`
+      `&types=place,address,poi` +
+      `&bbox=${greeceBBox.join(',')}`
     );
     const data = await response.json();
 
@@ -5911,4 +6051,13 @@ function spawnClosestStops(focusedSpot) {
     .catch(error => {
 
     })
+}
+
+function openExtLineId(lineId, desc) {
+  returnFromStationInfo()
+  returnFromStationsVertical()
+  //returnFromBusTimetable()
+  document.getElementById("openFromMap").setAttribute("data-name", desc)
+  document.getElementById("openFromMap").setAttribute("data-bus", lineId)
+  openFromMap(document.getElementById("openFromMap"))
 }
