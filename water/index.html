@@ -64,7 +64,7 @@
 <script>
     window.addEventListener("load", (event) => {
         console.log("page is fully loaded");
-        fetch(`https://data.evoxs.xyz/cron`)
+        fetch(`https://water.evoxs.xyz/cron`)
             .then(response => response.text())
             .then(data => {
                 if (data) {
@@ -96,7 +96,7 @@
     });
 
     function run(el) {
-        let url = `https://data.evoxs.xyz/house?method=clearWaterOff&username={usrnm}&password={pswd}&email={mail}`
+        let url = `https://water.evoxs.xyz/control-water?method=clearWaterOff&password={pswd}`
         if (el.innerHTML.includes("On")) {
             url = url.replace("clearWaterOff", "clearWaterOn")
         }
@@ -108,6 +108,17 @@
                 .then(response => response.text())
                 .then(data => {
                     if (data) {
+                        if (data.message && data.message === "Denied") {
+                            const creds = prompt("Username:email:pswd");
+                            const parts = creds.split(":");
+                            const json = {
+                                username: parts[0],
+                                password: parts[2],
+                                email: parts[1]
+                            }
+                            localStorage.setItem("evxHouse", JSON.stringify(json))
+                            return;
+                        }
                         document.getElementById("btns").style.opacity = '0'
                         setTimeout(function () {
                             document.getElementById("btns").style.display = 'none'
