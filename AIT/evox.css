@@ -420,11 +420,13 @@ span {
     background-color: #ffffff15;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    flex-shrink: 0;
 }
 
 .topBar.chat {
     justify-content: space-between;
     font-size: 16px;
+    text-align: center;
 }
 
 .input_btns {
@@ -522,6 +524,7 @@ body {
     gap: 10px;
     border-radius: 25px;
     transition: margin-bottom 0.3s ease;
+    overflow-x: hidden;
 }
 
 .chatArea .chat {

@@ -35,6 +35,7 @@
     --surface-1: light-dark(rgb(0, 0, 0), var(--color-15));
     --surface-2: light-dark(var(--color-2), var(--color-13));
     --surface-3: light-dark(var(--color-6), var(--color-10));
+    --surface-4: #131313;
     --text-1: light-dark(black, var(--color-2));
     --text-2: light-dark(var(--color-7), var(--color-7));
     --border-color: light-dark(var(--color-4), var(--color-12));
@@ -67,7 +68,7 @@
 
   body {
     -webkit-font-smoothing: antialiased;
-    background-color: var(--surface-1);
+    background-color: var(--surface-4);
     /**/
     color: var(--text-1);
     font-size: var(--font-size-body);
@@ -81,7 +82,7 @@
     display: grid;
     place-items: center;
     padding-block: var(--space-fluid-md);
-    background-color: var(--surface-1);
+    background-color: var(--surface-4);
     color: var(--text-1);
     inline-size: 100%;
     padding: 0;
@@ -143,7 +144,7 @@
   .card {
     background-color: var(--surface-2);
     block-size: 100%;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     display: grid;
     grid-template-rows: min-content 1fr;
     overflow: clip;
@@ -152,7 +153,7 @@
   .content {
     align-content: space-between;
     display: grid;
-    gap: var(--space-lg);
+    gap: var(--space-sm);
     padding: var(--space-lg);
     place-items: start;
   }
@@ -284,17 +285,21 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  background-color: aliceblue;
-  color: #000;
+  background-color: rgba(240, 248, 255, 0.185);
+  color: #fff;
   border-radius: 10px;
   padding: 20px;
   justify-content: center;
   max-width: 500px;
-  border: #dfdfe1 1px solid;
+  border: #dfdfe12f 1px solid;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transform: translateY(200px);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  user-select: none;
 }
 
 
@@ -325,7 +330,7 @@
 
 .warning .topRow .text {
   font-size: 1rem;
-  color: #000;
+  color: #fff;
 }
 
 .warning .topRow .dismiss {
@@ -336,7 +341,7 @@
 
 .warning .info {
   margin-top: 10px;
-  color: #575a64;
+  color: #8f929b;
 }
 
 .bottomRow {
@@ -420,7 +425,10 @@
   flex-direction: row;
   padding-bottom: 0;
   font-family: "Light";
+  position: relative;
 }
+
+
 
 #head2 .row {
   display: flex;
@@ -576,17 +584,21 @@
 
 /* Base Styles for Links */
 a.href {
-  color: #00bcd4; /* Bright, eye-catching cyan */
+  color: #00bcd4;
+  /* Bright, eye-catching cyan */
   text-decoration: none;
-  font-weight: 500; /* Slightly bold for better visibility */
+  font-weight: 500;
+  /* Slightly bold for better visibility */
   position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover Effect */
 a.href:hover {
-  color: #1de9b6; /* Lighter shade on hover */
-  transform: translateY(-2px); /* Subtle lift effect */
+  color: #1de9b6;
+  /* Lighter shade on hover */
+  transform: translateY(-2px);
+  /* Subtle lift effect */
 }
 
 /* Underline Effect (Modern Animated Line) */
@@ -594,7 +606,8 @@ a.href::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -2px; /* Slightly below the text */
+  bottom: -2px;
+  /* Slightly below the text */
   width: 0%;
   height: 2px;
   background: linear-gradient(90deg, #1de9b6, #00bcd4);
@@ -608,13 +621,38 @@ a.href:hover::after {
 
 /* Focus State for Accessibility */
 a.href:focus {
-  outline: 0 dashed #00bcd4; /* High contrast outline */
+  outline: 0 dashed #00bcd4;
+  /* High contrast outline */
   outline-offset: 4px;
 }
 
 /* Disabled Link */
 a.href[disabled] {
   pointer-events: none;
-  color: #555; /* Muted for disabled state */
+  color: #555;
+  /* Muted for disabled state */
   opacity: 0.5;
+}
+
+@media (min-width: 1024px) {
+  .head2 {
+    position: absolute;
+    left: 50%;
+    width: 900px;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 999;
+  }
+
+  .section.dark {
+    margin-top: 50px;
+  }
+
+  .collumn.right img {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: center;
+  }
 }

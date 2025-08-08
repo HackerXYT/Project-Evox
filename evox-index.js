@@ -106,6 +106,7 @@ if (window.location.href.includes("https")) {
 function redirect(e) {
     if (e) {
         e.innerText = 'Connecting..'
+        if (window.location.href.includes('192.168.')) return;
         setTimeout(function () {
             let result = window.location.href.replace(/http/g, "https");
             window.location.href = result
@@ -113,6 +114,7 @@ function redirect(e) {
         }, 500)
     } else {
         let result = window.location.href.replace(/http/g, "https");
+        if (window.location.href.includes('192.168.')) return;
         window.location.href = result
     }
 
@@ -175,3 +177,51 @@ if (isPWA()) {
 } else {
     console.log("This page is not a PWA.");
 }
+
+const warning = document.getElementById('warning');
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+warning.style.cursor = 'grab';
+
+warning.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    const rect = warning.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    // Clear bottom/right to allow free movement by top/left
+    warning.style.bottom = 'auto';
+    warning.style.right = 'auto';
+
+    warning.style.zIndex = 1000;
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    let left = e.clientX - offsetX;
+    let top = e.clientY - offsetY;
+
+    // Keep inside viewport bounds
+    const maxLeft = window.innerWidth - warning.offsetWidth;
+    const maxTop = window.innerHeight - warning.offsetHeight;
+
+    if (left < 0) left = 0;
+    if (top < 0) top = 0;
+    if (left > maxLeft) left = maxLeft;
+    if (top > maxTop) top = maxTop;
+
+    warning.style.left = left + 'px';
+    warning.style.top = top + 'px';
+    warning.style.cursor = 'grabbing';
+
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    warning.style.zIndex = '';
+    warning.style.cursor = 'grab';
+});

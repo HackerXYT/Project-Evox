@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.reload()
         return;
     }
+    
     document.getElementById("username").innerText = localStorage.getItem("t50-username")
     document.getElementById("greeting").innerHTML = getGreeting() + ","
     getProfileData(loggedIn.username)
@@ -91,46 +92,71 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => {
             console.error(error);
         });
-    post({ requestMethod: 'getToken', username: localStorage.getItem("t50-username"), password: userPassword(), email: localStorage.getItem("t50-email") })
-        .then(data => {
-            console.log(data)
-            const not = data !== "AIT not configured" && data !== "Password Incorrect" && data !== "Client Error;Username Mismatch" && data !== "Account Not Found" && data !== "Account Disabled"
-            if (not) {
-                loggedIn.token = data
-                post({ requestMethod: 'getAllChats', username: localStorage.getItem("t50-username"), token: data })
-                    .then(data => {
-                        console.log("Chats", JSON.parse(data))
-                        const workChats = JSON.parse(data)
-                        document.getElementById("prevChats").innerHTML = ''
-                        Object.entries(workChats).forEach(([key, value]) => {
-                            const working = JSON.parse(value)
+    function spawnFunction() {
+        post({ requestMethod: 'getToken', username: localStorage.getItem("t50-username"), password: userPassword(), email: localStorage.getItem("t50-email") })
+            .then(data => {
+                console.log(data)
+                const not = data !== "AIT not configured" && data !== "Password Incorrect" && data !== "Client Error;Username Mismatch" && data !== "Account Not Found" && data !== "Account Disabled"
+                if (not) {
+                    loggedIn.token = data
+                    post({ requestMethod: 'getAllChats', username: localStorage.getItem("t50-username"), token: data })
+                        .then(data => {
+                            console.log("Chats", JSON.parse(data))
+                            const workChats = JSON.parse(data)
+                            document.getElementById("prevChats").innerHTML = ''
+                            Object.entries(workChats).forEach(([key, value]) => {
+                                const working = JSON.parse(value)
 
-                            if (working.title) {
-                                document.getElementById("prevChats").innerHTML += `<div onclick="chat('${key.replace("chat-", "").replace(".ait", "")}')" class="roundedBoxBtn">
+                                if (working.title) {
+                                    document.getElementById("prevChats").innerHTML += `<div onclick="chat('${key.replace("chat-", "").replace(".ait", "")}', this)" class="roundedBoxBtn">
                         ${working.title}<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
                             viewBox="0 0 24 24" fill="none">
                             <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#fff" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                     </div>`
-                            }
-                        });
+                                }
+                            });
 
-                    })
-                    .catch(err => {
-                        document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                        })
+                        .catch(err => {
+                            document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
                             Server connection failed.
                         </div>`
-                        console.error(err)
-                    });
-            } else {
-                document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                            console.error(err)
+                        });
+                } else {
+                    document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
                             No chats
                         </div>`
-            }
+                }
 
-        })
-        .catch(err => console.error(err));
+            })
+            .catch(err => {
+                document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                            ${err.message}<div class="loader loader--style1" title="0">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+    C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.3s" repeatCount="indefinite" />
+                                </path>
+                            </svg>
+                        </div>
+                        </div>`
+                console.error(err)
+                setTimeout(function () {
+                    spawnFunction()
+                }, 500)
+            });
+    }
+    spawnFunction()
 })
 
 let loggedIn = {
@@ -141,10 +167,11 @@ let loggedIn = {
     "activeChat": null
 }
 
-function chat(existing) {
+function chat(existing, el) {
     document.getElementById("Home").classList.remove("activated")
     document.getElementById("chat").classList.add("activated")
     if (existing) {
+        document.getElementById("chatName").innerHTML = el.innerText;
         post({ requestMethod: 'getChatContents', username: localStorage.getItem("t50-username"), token: loggedIn.token, chatId: existing })
             .then(data => {
                 console.log(data)
@@ -158,9 +185,17 @@ function chat(existing) {
                 <div class="profilePictureEvox rounded inChat">
                     <img src="${msg.role !== "assistant" ? loggedIn.profilePicture : "icon.png"}">
                 </div>
-                <p>${msg.content.replace(regex, '')}</p>
+                <div>${msg.content.replace(regex, '')}</div>
             </div>`);
                 })
+                if (parsed.chat.length === 0) {
+                    chatArea.innerHTML = `<div class="chat "response">
+                <div class="profilePictureEvox rounded inChat">
+                    <img src="icon.png">
+                </div>
+                <div>There are no messages in this chat.</div>
+            </div>`
+                }
                 document.getElementById("chatName").innerHTML = parsed.title;
 
 
@@ -246,7 +281,7 @@ function sendMessage() {
                 <div class="profilePictureEvox rounded inChat">
                     <img src="icon.png">
                 </div>
-                <p id="${pid}"></p>
+                <div id="${pid}"></div>
             </div>`);
 
         const msg = message //Don't reset before done
