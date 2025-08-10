@@ -107,6 +107,7 @@ function redirect(e) {
     if (e) {
         e.innerText = 'Connecting..'
         if (window.location.href.includes('192.168.')) return;
+        if (window.location.href.includes('localhost')) return;
         setTimeout(function () {
             let result = window.location.href.replace(/http/g, "https");
             window.location.href = result
@@ -115,6 +116,7 @@ function redirect(e) {
     } else {
         let result = window.location.href.replace(/http/g, "https");
         if (window.location.href.includes('192.168.')) return;
+        if (window.location.href.includes('localhost')) return;
         window.location.href = result
     }
 
