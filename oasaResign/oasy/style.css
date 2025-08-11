@@ -24,7 +24,7 @@ body {
 }
 
 body {
-    background-color: #19191b;
+    background-color: #313134; /*19191b*/
     padding-top: env(safe-area-inset-top) !important;
 }
 
@@ -127,6 +127,7 @@ body {
     margin-left: auto;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .main-screen-pop .top .far-right .profile-icon {
@@ -147,4 +148,55 @@ body {
     object-fit: cover;
     flex-shrink: 1;
     border-radius: 50%;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.input-wrap{
+  position: relative;
+  width: 100%;
+  background: #29292c;         /* light grey background */
+  border-radius: 14px;         /* rounded corners */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.03) inset;
+  transition: box-shadow .15s ease;
+}
+
+/* subtle focus ring when input inside wrapper is focused */
+.input-wrap:focus-within{
+  box-shadow: 0 0 0 2px rgba(0,120,255,0.12);
+}
+
+.input-wrap input{
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 16px 14px 16px 56px;
+  font-size: 16px;
+  outline: none;
+  color: #fff;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+.input-icon{
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon svg{
+  width: 18px;
+  height: 18px;
+  fill: #6b6b6b;
+  display: block;
 }

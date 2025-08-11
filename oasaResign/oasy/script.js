@@ -26,7 +26,7 @@ function focusOn(lat, lng) {
     if (!map) {
         map = new mapboxgl.Map({
             container: 'map-io',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12',
+            style: 'mapbox://styles/mapbox/streets-v8',
             center: currentLocation,
             zoom: 10,
             pitch: 0,
