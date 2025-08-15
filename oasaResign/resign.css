@@ -6,8 +6,15 @@
 }
 
 @font-face {
-    font-family: 'Bubble';
+    font-family: 'BubbleOld';
     src: url('./fonts/Bumbbled.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bubble';
+    src: url('Borel-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -66,6 +73,8 @@
     --box-bg: #1f42f425;
     --box-border: #293fac;
     --clock-bg: #3557fd;
+    --safe-top: 40px;
+    /*env(safe-area-inset-top);*/
 }
 
 
@@ -237,10 +246,10 @@
     width: 100%;
     height: 100%;
     /*padding: 20px;*/
-    margin-top: env(safe-area-inset-top) !important;
+    margin-top: var(--safe-top) !important;
     margin-bottom: env(safe-area-inset-bottom) !important;
     /* Adding bottom safe area inset */
-    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(100vh - var(--safe-top) - env(safe-area-inset-bottom));
     /* Adding bottom safe area inset */
 }
 
@@ -586,7 +595,7 @@
 }
 
 #phone {
-    --fade-color: #000b21fc;
+    --fade-color: #090f1bfc;
     /*121216*/
     /* Slightly lighter shade, still close to OLED black */
     background: linear-gradient(to bottom left,
@@ -1320,7 +1329,7 @@
     width: 100vw;
     height: 100vh;
     position: fixed;
-    margin-top: calc(-1 * env(safe-area-inset-top)) !important;
+    margin-top: calc(-1 * var(--safe-top)) !important;
     margin-bottom: env(safe-area-inset-bottom) !important;
     /* Adding bottom safe area inset */
 }
@@ -1553,10 +1562,10 @@
 
 .contentId,
 #content {
-    margin-top: env(safe-area-inset-top) !important;
+    margin-top: var(--safe-top) !important;
     margin-bottom: env(safe-area-inset-bottom) !important;
     /* Adding bottom safe area inset */
-    /*height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))*/
+    /*height: calc(100vh - var(--safe-top) - env(safe-area-inset-bottom))*/
     ;
     height: auto;
     /* Adjusting content height to fill the viewport */
@@ -1569,10 +1578,10 @@
 
 .loginContent {
     display: none;
-    margin-top: env(safe-area-inset-top) !important;
+    margin-top: var(--safe-top) !important;
     margin-bottom: env(safe-area-inset-bottom) !important;
     /* Adding bottom safe area inset */
-    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(100vh - var(--safe-top) - env(safe-area-inset-bottom));
     /* Adjusting content height to fill the viewport */
     width: 100%;
     height: 100%;
@@ -1602,8 +1611,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: calc(85vh - env(safe-area-inset-top));
-    padding-top: env(safe-area-inset-top);
+    height: calc(85vh - var(--safe-top));
+    padding-top: var(--safe-top);
     /* Ensure it accounts for the safe area */
     transition: height 1.3s ease, padding-top 1.3s ease;
 }
@@ -1787,6 +1796,19 @@ body {
     font-size: 90px;
 }
 
+#hello-text {
+    font-family: 'Bubble';
+    font-size: 5rem;
+    font-weight: lighter;
+    color: #ffffff;
+    display: inline-block;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: draw 1s forwards;
+    animation-delay: 0.5s;
+}
+
 #hello-text span {
     font-size: 5rem;
     font-weight: lighter;
@@ -1802,12 +1824,17 @@ body {
 @keyframes draw {
     0% {
         opacity: 0;
-        transform: scaleX(0);
+        transform: scaleY(0);
+    }
+
+    75% {
+        opacity: 1;
+        transform: scaleY(1.15);
     }
 
     100% {
         opacity: 1;
-        transform: scaleX(1);
+        transform: scaleY(1);
     }
 }
 
@@ -1850,7 +1877,7 @@ body {
     flex-direction: column;
     z-index: 999;
     height: 100%;
-    padding-top: env(safe-area-inset-top);
+    padding-top: var(--safe-top);
 }
 
 .loginStep1.nopadding {
@@ -1866,8 +1893,8 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 999;
-    height: calc(85vh - env(safe-area-inset-top));
-    padding-top: env(safe-area-inset-top);
+    height: calc(85vh - var(--safe-top));
+    padding-top: var(--safe-top);
 }
 
 .topActions {
@@ -1955,7 +1982,22 @@ body {
     padding: 0px 10px;
 }
 
-.buttonsContainerSplash .aButton:nth-child(1) {
+.blinkLogin {
+    animation: blinkLogin 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes blinkLogin {
+    from {
+        background-color: #8989891e;
+    }
+
+    to {
+        background-color: #ffffff21;
+    }
+}
+
+.buttonsContainerSplash .aButton:nth-child(1),
+.buttonsContainerSplash .aButton.actAsFirst {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -1971,6 +2013,12 @@ body {
 
 .buttonsContainerSplash .aButton svg {
     margin-right: 5px;
+}
+
+.buttonsContainerSplash span.title {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #c8c8c8;
 }
 
 .stationsSpawn {
@@ -3431,4 +3479,53 @@ select:focus {
 
 .header-container.navigate.left p {
     font-size: 20px;
+}
+
+.alertInMenu {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-right: 55px;
+    box-sizing: border-box;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    background-color: #ffffff21;
+}
+
+.actionButtonIn {
+    border-radius: 15px;
+    background-color: #9cfa5024;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 15px;
+    /* margin-left: -5px; */
+    /* margin-top: 10px; */
+    margin-right: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.alertInMenu .col {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.alertInMenu .col p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.alertInMenu .col span {
+    font-size: 15px;
+    font-weight: normal;
+    color: #ffffffb5;
 }

@@ -178,6 +178,10 @@ function clientVerified() {
                     return;
                 }
             }
+
+            checkForOasaCompatibility()
+
+
             //$("#bggradient").fadeIn("slow")
             loadBackground()
             fetch(`${srv}/accounts?email=${email}&password=${password}&autologin=true&ip=${ip}`)
@@ -938,6 +942,8 @@ function startLogin() {
                             return;
                         }
                     }
+
+                    checkForOasaCompatibility()
                 } else if (data === "Credentials Incorrect") {
                     shake_me("voxPassword")
                     //fadeError("2")
@@ -1110,6 +1116,7 @@ function on2FAComplete() {
                         return;
                     }
                 }
+                checkForOasaCompatibility()
             } else if (data === "Exists") {
                 successLogin.play()
                 document.getElementById("form2FA").classList.remove('active')
@@ -1151,6 +1158,7 @@ function on2FAComplete() {
                         return;
                     }
                 }
+                checkForOasaCompatibility()
             } else if (data === "Wrong Code") {
                 //shake_me("ver_code")
                 document.getElementById("form2FA").style.paddingBottom = '50px'
@@ -3916,4 +3924,15 @@ function beginRegistration(el) {
         aitPlay("register_off")
 
     }, 100)
+}
+
+function checkForOasaCompatibility() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('redirectLogin')) {
+        const value = params.get('redirectLogin');
+        if (value === 'oasa') {
+            window.location.href = `../oasaResign/?S=localStorage`
+            return;
+        }
+    }
 }

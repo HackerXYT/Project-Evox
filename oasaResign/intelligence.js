@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.1.8'
+const currentVersion = '2.1.9'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -646,8 +646,7 @@ function toAccusative_noWork(locationName) {
 }
 
 
-function toAccusative(locationName) {
-  // Normalize text (lowercase and remove accents for easier matching)
+function toAccusative(locationNameVanilla) {
   const accentsMap = {
     'Ά': 'Α', 'Έ': 'Ε', 'Ή': 'Η', 'Ί': 'Ι', 'Ό': 'Ο', 'Ύ': 'Υ', 'Ώ': 'Ω',
     'ά': 'α', 'έ': 'ε', 'ή': 'η', 'ί': 'ι', 'ό': 'ο', 'ύ': 'υ', 'ώ': 'ω'
@@ -656,32 +655,20 @@ function toAccusative(locationName) {
   const normalize = (str) =>
     str.replace(/[ΆΈΉΊΌΎΏάέήίόύώ]/g, (match) => accentsMap[match] || match).toLowerCase();
 
-  const name = normalize(locationName);
+  const words = locationNameVanilla.trim().split(/\s+/).slice(0, 2);
 
-  // Handle masculine place names ending in -ς
-  if (name.endsWith("ας")) {
-    return locationName.slice(0, -2) + "α";
-  }
-  if (name.endsWith("ης")) {
-    return locationName.slice(0, -2) + "η";
-  }
-  if (name.endsWith("ος")) {
-    return locationName.slice(0, -1);
-  }
+  const transformed = words.map(word => {
+    const name = normalize(word);
 
-  // Handle feminine place names (no changes typically needed)
-  if (name.endsWith("α") || name.endsWith("η")) {
-    return locationName;
-  }
+    if (name.endsWith("ας")) return word.slice(0, -2) + "α";
+    if (name.endsWith("ης")) return word.slice(0, -2) + "η";
+    if (name.endsWith("ος")) return word.slice(0, -1);
+    return word;
+  });
 
-  // Handle neutral place names
-  if (name.endsWith("ο") || name.endsWith("ι") || name.endsWith("μα")) {
-    return locationName;
-  }
-
-  // Default fallback: return unchanged
-  return locationName;
+  return transformed.join(" ");
 }
+
 
 // Function to update the UI with the correct location
 function updateLocation(locationName) {
@@ -1302,10 +1289,11 @@ const helloElement = document.getElementById('hello-text');
 // Function to display each character of "Hello" with a drawing effect
 function displayHello() {
   helloText.split('').forEach((char, index) => {
-    const span = document.createElement('span');
-    span.textContent = char;
-    span.style.animationDelay = `${index * 0.4}s`;  // Add delay based on index
-    helloElement.appendChild(span);
+    helloElement.append(char)
+    //const span = document.createElement('span');
+    //span.textContent = char;
+    //span.style.animationDelay = `${index * 0.4}s`;  // Add delay based on index
+    //helloElement.appendChild(span);
   });
 }
 
@@ -1319,7 +1307,10 @@ function goBackToSplash() {
   $("#runalpha2").fadeOut("fast")
   $("#runalpha3").fadeOut("fast")
   $("#runalpha4").fadeOut("fast")
-  document.getElementById("loginForming").querySelector(".infoWelcome").style.display = null
+  setTimeout(function () {
+    document.getElementById("loginForming").querySelector(".infoWelcome").style.display = null
+
+  }, 1000)
 
   document.getElementById("loginContentFlex").classList.remove("noSplash")
   document.getElementById("hello-text").classList.remove("noSplash")
@@ -1585,9 +1576,22 @@ document.addEventListener('DOMContentLoaded', () => {
     //console.log(`Email: ${userData.email}`);
   }
 
-  if (localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50pswd") || localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50-pswd")) {
+  checkForLoginCompatibility()
+  const loggedInLocally = localStorage.getItem("isOasaLoggedIn") && localStorage.getItem("isOasaLoggedIn") === 'true'
+  const check1 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50pswd")
+  const check2 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50-pswd")
+
+  const loggedInGlobally = check1 || check2
+
+  const completeCheck = check1 && loggedInLocally || check2 && loggedInLocally
+  if (completeCheck) {
     getReady()
     registerPWA()
+
+    if (!localStorage.getItem("extVOASA")) {
+      document.getElementById("notificationsOff").style.display = null;
+      document.getElementById("noticecircle").style.display = null;
+    }
     //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
 
     if (hasInternetConnection()) {
@@ -1595,11 +1599,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       document.getElementById("oasaPfp").src = 'apple.png'
     }
-
-
-
   } else {
-
+    if (loggedInGlobally) {
+      document.getElementById("evoxLogin").classList.add("blinkLogin")
+    }
     document.getElementById("oasaPfp").src = 'cbimage.png'
     if (localStorage.getItem("hasDismissedSetup") !== 'true') {
       document.getElementById("main").classList.add("setupNeeded")
@@ -1607,7 +1610,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("phone").classList.add("login")
         $("#content").fadeOut("fast", function () {
           $("#phone").fadeIn("fast")
+          document.getElementById("loginForming").querySelector(".infoWelcome").style.display = 'none'
           $("#loginContent").fadeIn("fast")
+          setTimeout(function () {
+            document.getElementById("loginForming").querySelector(".infoWelcome").style.display = null
+          }, 1000)
           document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
           displayHello();
           let isTouching = false;
@@ -5350,6 +5357,9 @@ function loginFlorida() {
     'username': username,
     'password': password
   }
+  if(evoxJson.username === "" || evoxJson.password === "") {
+    return;
+  }
   fetch('https://florida.evoxs.xyz/oasaReg', {
     method: 'POST',
     body: JSON.stringify(evoxJson),
@@ -5610,7 +5620,7 @@ function spawnOnTop(el) {
     container.style.opacity = '1';
 
     menu_open.play()
-    container.querySelectorAll(".menuItem").forEach((div, index) => {
+    container.querySelectorAll(".menuItem, .alertInMenu").forEach((div, index) => {
       if (index === 0) return;
       console.log(div)
       setTimeout(function () {
@@ -5621,7 +5631,7 @@ function spawnOnTop(el) {
     });
     setTimeout(() => {
       isScreenBusy = false;
-    }, (container.querySelectorAll(".menuItem").length - 2) * 100 + 50); // +50ms buffer
+    }, (container.querySelectorAll(".menuItem, .alertInMenu").length - 2) * 100 + 50); // +50ms buffer
   }, 100);
 
 }
@@ -5634,8 +5644,8 @@ function closeMenu() {
   container.querySelectorAll(".menuItem").forEach((div, index) => {
     if (index === 0) return;
     setTimeout(function () {
-      container.querySelectorAll(".menuItem")[container.querySelectorAll(".menuItem").length - index].style.transform = 'translateY(50px)'
-      container.querySelectorAll(".menuItem")[container.querySelectorAll(".menuItem").length - index].style.opacity = '0'
+      container.querySelectorAll(".menuItem, .alertInMenu")[container.querySelectorAll(".menuItem, .alertInMenu").length - index].style.transform = 'translateY(50px)'
+      container.querySelectorAll(".menuItem, .alertInMenu")[container.querySelectorAll(".menuItem, .alertInMenu").length - index].style.opacity = '0'
 
     }, (index - 1) * 100)
 
@@ -5648,7 +5658,7 @@ function closeMenu() {
   }, 400)
   setTimeout(() => {
     isScreenBusy = false;
-  }, (container.querySelectorAll(".menuItem").length - 2) * 100 + 50); // +50ms buffer
+  }, (container.querySelectorAll(".menuItem, .alertInMenu").length - 2) * 100 + 50); // +50ms buffer
 }
 
 let activePage = 1;
@@ -6060,4 +6070,64 @@ function openExtLineId(lineId, desc) {
   document.getElementById("openFromMap").setAttribute("data-name", desc)
   document.getElementById("openFromMap").setAttribute("data-bus", lineId)
   openFromMap(document.getElementById("openFromMap"))
+}
+
+function patchSafeAreaInsetTop() {
+  const probe = document.getElementById('safe-area-probe');
+  requestAnimationFrame(() => {
+    const insetTop = probe.offsetHeight;
+
+    console.log("safe-area-inset-top is:", insetTop + "px");
+    if (insetTop !== 0) return;
+
+    const styleSheets = Array.from(document.styleSheets);
+    styleSheets.forEach(sheet => {
+      try {
+        if (sheet.href && new URL(sheet.href).origin !== location.origin) return; // Skip cross-origin
+
+        // Function to process the fetched or inline CSS
+        function processCSS(cssText) {
+          if (cssText.includes("env(safe-area-inset-top)")) {
+            const model = getDeviceInfo().model
+            const newEnv = model === "iPhone" || model === "iPad" || model === "Mac" ? "47px" : "20px"
+            document.getElementById("notice-text").innerText += ` -> ${newEnv}`
+            const patched = cssText.replace(/env\(safe-area-inset-top\)/g, newEnv);
+            const newStyle = document.createElement("style");
+            newStyle.textContent = patched;
+            document.head.appendChild(newStyle);
+          }
+        }
+
+        // Handle external CSS
+        if (sheet.href) {
+          fetch(sheet.href)
+            .then(res => res.text())
+            .then(processCSS)
+            .catch(err => console.warn("Failed to fetch", sheet.href, err));
+        } else if (sheet.ownerNode && sheet.ownerNode.textContent) {
+          processCSS(sheet.ownerNode.textContent);
+        }
+      } catch (err) {
+        console.warn("Could not access stylesheet:", sheet.href || "[inline]", err);
+      }
+    });
+  });
+}
+patchSafeAreaInsetTop()
+
+function redirectToEvoxAndLogin() {
+  window.location.href = "../evox-epsilon-beta/?redirectLogin=oasa"
+}
+
+function checkForLoginCompatibility() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('loginAs')) {
+    const value = params.get('loginAs');
+    if (value === 'localStorage') {
+      localStorage.setItem("isOasaLoggedIn", "true")
+      const url = new URL(window.location.href);
+      url.searchParams.delete('loginAs');
+      window.location.href = url.toString();
+    }
+  }
 }
