@@ -1385,9 +1385,6 @@ function registerPWA() {
       const extVOASA = localStorage.getItem("extVOASA");
       const extV = localStorage.getItem("extV");
 
-      console.log("extVOASA:", extVOASA);
-      console.log("extV:", extV);
-
       if (extVOASA && !extV) {
         console.warn("Fixing extVOASA to extV");
         localStorage.setItem("extV", extVOASA);

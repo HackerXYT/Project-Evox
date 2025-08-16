@@ -1,0 +1,322 @@
+html {
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    margin: 0;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    margin: 0;
+}
+
+p,
+span {
+    margin: 0;
+}
+
+.topNavigator {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #202020;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.topNavigator .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.topNavigator .item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(105, 105, 105, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.topNavigator .item img:hover {
+    box-shadow: 0 6px 18px rgba(105, 105, 105, 0.3);
+}
+
+.topNavigator .item:nth-child(1) p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    border: 1px solid #161616;
+    border-radius: 15px;
+    padding: 7px 10px;
+    background-color: #262626;
+}
+
+.search-container svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    background: transparent;
+    color: #fff;
+}
+
+.search-container input::placeholder {
+    color: #aaa;
+}
+
+.item.navigate {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.item.navigate p {
+  position: relative;
+  display: inline-block; /* needed for underline sizing */
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.item.navigate p::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px; /* distance from text */
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: 3px; /* underline thickness */
+  background: currentColor; /* same as text color */
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.item.navigate p:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.item.navigate p.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px; /* distance from text */
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: 3px; /* underline thickness */
+  background: #ccc; /* same as text color */
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.item.navigate p.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.item .loginBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #262626;
+    border-radius: 15px;
+    padding: 7px 15px;
+}
+
+.feedContainers {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.feedContainers .feed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.row:nth-child(1) p:nth-child(1) {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.farRight {
+    margin-left: auto;
+    color: #aaa;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+}
+
+.itemBig {
+    display: flex;
+    align-items: flex-end;
+    /* text will align at bottom */
+    justify-content: center;
+    width: 500px;
+    height: 425px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: #1f1f1f 1px solid;
+    flex-shrink: 0;
+    /* make sure the gradient doesn’t overflow the rounded corners */
+}
+
+.itemBig img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.itemBig::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    /* adjust how far up the fade goes */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    border-radius: 20px;
+    pointer-events: none;
+    /* allows clicks to pass through */
+    z-index: 1;
+}
+
+.ontop {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ontop p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ontop span {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.collumn {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.collumn .itemMed {
+    height: 207.5px;
+    width: 100%;
+    border-radius: 20px;
+    justify-content: center;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    border: #1f1f1f 1px solid;
+    flex-shrink: 0;
+}
+
+.itemMed::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    /* adjust how far up the fade goes */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    border-radius: 0px;
+    pointer-events: none;
+    /* allows clicks to pass through */
+    z-index: 1;
+}
+
+.collumn .itemMed img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+    margin-top: 10px;
+  width: 8px;       /* vertical scrollbar width */
+  height: 8px;      /* horizontal scrollbar height */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* scrollbar track (background) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4); /* scrollbar handle */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;           /* "auto" | "thin" | "none" */
+  scrollbar-color: #aaaaaa6e transparent;
+}
