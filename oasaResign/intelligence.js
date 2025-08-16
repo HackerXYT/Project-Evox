@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.1.9'
+const currentVersion = '2.1.91'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -5357,7 +5357,7 @@ function loginFlorida() {
     'username': username,
     'password': password
   }
-  if(evoxJson.username === "" || evoxJson.password === "") {
+  if (evoxJson.username === "" || evoxJson.password === "") {
     return;
   }
   fetch('https://florida.evoxs.xyz/oasaReg', {
@@ -5381,6 +5381,8 @@ function loginFlorida() {
         localStorage.setItem("t50-email", `${username}@evoxs.xyz`)
         $("#loginStep2").fadeOut("fast", function () {
           $("#loginStep3").fadeIn("fast", function () {
+            localStorage.setItem("isOasaLoggedIn", "true")
+            localStorage.setItem("loginType", "floridaDirect")
             document.getElementById("bottomSearchParent").style.zIndex = '-1'
           })
         })
@@ -6125,6 +6127,7 @@ function checkForLoginCompatibility() {
     const value = params.get('loginAs');
     if (value === 'localStorage') {
       localStorage.setItem("isOasaLoggedIn", "true")
+      localStorage.setItem("loginType", "evoxBridge")
       const url = new URL(window.location.href);
       url.searchParams.delete('loginAs');
       window.location.href = url.toString();
