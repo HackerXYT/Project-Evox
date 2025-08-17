@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.1.91'
+const currentVersion = '2.2.0'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -147,9 +147,18 @@ function openSearch() {
     zoomOnMe()
     map.resize()
   })
+
+  spawnOnBarBuses()
+
+
+
+
+  //andMore
+}
+
+function spawnOnBarBuses() {
   document.getElementById("recommendSpawn").innerHTML = ''
-  document.getElementById("recommendSpawn").innerHTML += `<div onclick="window.location.href = '../'" class="Block"><img src="../evox-epsilon-beta/epsilon-transparent.png" width="20px" height="20px">Evox
-                    </div>`
+
 
   //document.getElementById("recommendSpawn").innerHTML += `<div onclick="window.location.href = '../oasaMobile/'" class="Block"><img src="doodle.png" height="20px">
   //</div>`
@@ -189,9 +198,28 @@ function openSearch() {
                     </div>`
   })
 
+  const filteredRecents = getRecentSearchs().filter(
+    item => !frequentBuses.includes(item) && !favoriteBuses.includes(item)
+  );
+
+  filteredRecents.forEach(bus => {
+    document.getElementById("recommendSpawn").innerHTML = `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block recent barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
+<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
+<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
+<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#FFF"/>
+<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#FFF"/>
+<path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"/>
+<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"/>
+<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"/>
+</svg>${bus}
+                    </div>` + document.getElementById("recommendSpawn").innerHTML
+  })
+
+  document.getElementById("recommendSpawn").innerHTML = `<div onclick="window.location.href = '../'" class="Block"><img src="../evox-epsilon-beta/epsilon-transparent.png" width="20px" height="20px">Evox
+                    </div>` + document.getElementById("recommendSpawn").innerHTML
 
 
-  //andMore
 }
 
 function closeSearch() {
@@ -200,6 +228,7 @@ function closeSearch() {
     $("#recommendSpawn").fadeIn("fast")
     document.getElementById("searchContainer").classList.remove("active")
     document.getElementById('toSpawnFinds').classList.add('hidden');
+    spawnOnBarBuses()
   } else {
     searchIntelli.style.backgroundColor = null;
     bottomSearchParent.style.width = null;
@@ -754,7 +783,7 @@ function greeting() {
 }
 
 function getName() {
-  if (localStorage.getItem("t50-username")) {
+  if (localStorage.getItem("t50-username") && !localStorage.getItem("hasDismissedSetup")) {
     return localStorage.getItem("t50-username");
   } else {
     return "Επισκέπτη";
@@ -794,12 +823,6 @@ function convertTimeApprox(minutes) {
     return `${hoursText}`;
   }
 }
-
-// Example usage:
-console.log(convertTime(65)); // "1 hour and 5 minutes"
-console.log(convertTime(120)); // "2 hours"
-console.log(convertTime(59)); // "59 minutes"
-console.log(convertTime(1));  // "1 minute"
 
 
 function displayRemainingTimeLIVE(nextBusTime, elid) {
@@ -989,8 +1012,8 @@ function loadSection(section, bus) {
           spawnInFeed(bus, descr, workingTime, displayRemainingTimeLIVE(workingTime), section); //section is 'frequent', 'favorite', or 'famous'
         } catch (error) {
           //work on localStorage
-          if (localStorage.getItem(`${bus}_Times`)) {
-            const times = JSON.parse(localStorage.getItem(`${bus}_Times`));
+          if (localStorage.getItem(`${bus}_Times_go`)) {
+            const times = JSON.parse(localStorage.getItem(`${bus}_Times_go`));
             const nextBusTime = getNextBusTimeLIVE(times);
             if (nextBusTime) {
               spawnInFeed(bus, descr, nextBusTime, displayRemainingTimeLIVE(nextBusTime), section); //section is 'frequent', 'favorite', or 'famous'
@@ -1288,13 +1311,13 @@ const helloElement = document.getElementById('hello-text');
 
 // Function to display each character of "Hello" with a drawing effect
 function displayHello() {
-  helloText.split('').forEach((char, index) => {
-    helloElement.append(char)
-    //const span = document.createElement('span');
-    //span.textContent = char;
-    //span.style.animationDelay = `${index * 0.4}s`;  // Add delay based on index
-    //helloElement.appendChild(span);
-  });
+  //helloText.split('').forEach((char, index) => {
+  //  helloElement.append(char)
+  //const span = document.createElement('span');
+  //span.textContent = char;
+  //span.style.animationDelay = `${index * 0.4}s`;  // Add delay based on index
+  //helloElement.appendChild(span);
+  //});
 }
 
 function hasInternetConnection() {
@@ -1367,6 +1390,7 @@ const setLoadingState = (isLoading) => {
 
 
 function registerPWA() {
+  return; //REMOVE ME
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -1520,329 +1544,340 @@ function setupServiceWorkerMessaging() {
     });
 }
 
+function isLightMode() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
 let outsideOfZone = false;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  function loop() {
-    console.log('Calling handleActivity');
-    handleActivity(startingJson);
-    setTimeout(loop, 10000);
-  }
+  document.fonts.ready.then(() => {
+    console.log("All fonts are fully loaded!");
+    // Do your stuff that requires fonts here
 
-  loop();
-  function getCookie(name) {
-    // Find the cookie in document.cookie string
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
 
-    if (parts.length === 2) {
-      // Return the decoded cookie value
-      return decodeURIComponent(parts.pop().split(';').shift());
+
+    function loop() {
+      console.log('Calling handleActivity');
+      handleActivity(startingJson);
+      setTimeout(loop, 10000);
     }
-    return null;  // If the cookie doesn't exist
-  }
 
-  const cookieValue = getCookie('userData');
+    loop();
+    function getCookie(name) {
+      // Find the cookie in document.cookie string
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
 
-  let blockMoves = false
-  if (cookieValue && !localStorage.getItem("hasRetrievedCookie") && !localStorage.getItem("t50pswd") && !localStorage.getItem("hasRetrievedCookie")) {
-    // Parse the JSON string back into a JavaScript object
-    const userData = JSON.parse(cookieValue);
-    console.log(userData); // Access the JSON data
-    //alert(userData)
-    if (userData) {
-      blockMoves = true
-      let userConfirmed = window.confirm(`Βρέθηκε ο χρήστης ${userData.username} στην συσκευή.\nΘέλετε να συνδεθείτε αυτόματα;`);
-      if (userConfirmed) {
-        localStorage.setItem("t50-username", userData.username)
-        localStorage.setItem("t50-email", userData.email)
-        localStorage.setItem("t50pswd", userData.password)
-        localStorage.setItem("hasRetrievedCookie", "true")
-        setTimeout(() => {
-          window.location.reload()
-        }, 300);
-      } else {
-        // User clicked "Cancel"
-        localStorage.setItem("hasBlockedCookie", "true")
-        console.log("User canceled.");
+      if (parts.length === 2) {
+        // Return the decoded cookie value
+        return decodeURIComponent(parts.pop().split(';').shift());
       }
-
+      return null;  // If the cookie doesn't exist
     }
-    //console.log(`Username: ${userData.username}`);
-    //console.log(`Email: ${userData.email}`);
-  }
+    const cookieValue = getCookie('userData');
 
-  checkForLoginCompatibility()
-  const loggedInLocally = localStorage.getItem("isOasaLoggedIn") && localStorage.getItem("isOasaLoggedIn") === 'true'
-  const check1 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50pswd")
-  const check2 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50-pswd")
+    let blockMoves = false
+    if (cookieValue && !localStorage.getItem("hasRetrievedCookie") && !localStorage.getItem("t50pswd") && !localStorage.getItem("hasRetrievedCookie")) {
+      // Parse the JSON string back into a JavaScript object
+      const userData = JSON.parse(cookieValue);
+      console.log(userData); // Access the JSON data
+      //alert(userData)
+      if (userData) {
+        blockMoves = true
+        let userConfirmed = window.confirm(`Βρέθηκε ο χρήστης ${userData.username} στην συσκευή.\nΘέλετε να συνδεθείτε αυτόματα;`);
+        if (userConfirmed) {
+          localStorage.setItem("t50-username", userData.username)
+          localStorage.setItem("t50-email", userData.email)
+          localStorage.setItem("t50pswd", userData.password)
+          localStorage.setItem("hasRetrievedCookie", "true")
+          setTimeout(() => {
+            window.location.reload()
+          }, 300);
+        } else {
+          // User clicked "Cancel"
+          localStorage.setItem("hasBlockedCookie", "true")
+          console.log("User canceled.");
+        }
 
-  const loggedInGlobally = check1 || check2
-
-  const completeCheck = check1 && loggedInLocally || check2 && loggedInLocally
-  if (completeCheck) {
-    getReady()
-    registerPWA()
-
-    if (!localStorage.getItem("extVOASA")) {
-      document.getElementById("notificationsOff").style.display = null;
-      document.getElementById("noticecircle").style.display = null;
+      }
+      //console.log(`Username: ${userData.username}`);
+      //console.log(`Email: ${userData.email}`);
     }
-    //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
 
-    if (hasInternetConnection()) {
-      document.getElementById("oasaPfp").src = `https://data.evoxs.xyz/profiles?authorize=imagePfp&name=${localStorage.getItem("t50-username")}&v=${randomString()}`
+    checkForLoginCompatibility()
+    const loggedInLocally = localStorage.getItem("isOasaLoggedIn") && localStorage.getItem("isOasaLoggedIn") === 'true'
+    const check1 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50pswd")
+    const check2 = localStorage.getItem("t50-username") && localStorage.getItem("t50-email") && localStorage.getItem("t50-pswd")
+
+    const loggedInGlobally = check1 || check2
+
+    const completeCheck = check1 && loggedInLocally || check2 && loggedInLocally
+    if (completeCheck) {
+      getReady()
+      registerPWA()
+
+      if (!localStorage.getItem("extVOASA")) {
+        document.getElementById("notificationsOff").style.display = null;
+        document.getElementById("noticecircle").style.display = null;
+      }
+      //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
+
+      if (hasInternetConnection()) {
+        document.getElementById("oasaPfp").src = `https://data.evoxs.xyz/profiles?authorize=imagePfp&name=${localStorage.getItem("t50-username")}&v=${randomString()}`
+      } else {
+        document.getElementById("oasaPfp").src = 'apple.png'
+      }
     } else {
-      document.getElementById("oasaPfp").src = 'apple.png'
-    }
-  } else {
-    if (loggedInGlobally) {
-      document.getElementById("evoxLogin").classList.add("blinkLogin")
-    }
-    document.getElementById("oasaPfp").src = 'cbimage.png'
-    if (localStorage.getItem("hasDismissedSetup") !== 'true') {
-      document.getElementById("main").classList.add("setupNeeded")
-      $("#phone").fadeOut("fast", function () {
-        document.getElementById("phone").classList.add("login")
-        $("#content").fadeOut("fast", function () {
-          $("#phone").fadeIn("fast")
-          document.getElementById("loginForming").querySelector(".infoWelcome").style.display = 'none'
-          $("#loginContent").fadeIn("fast")
-          setTimeout(function () {
-            document.getElementById("loginForming").querySelector(".infoWelcome").style.display = null
-          }, 1000)
-          document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
-          displayHello();
-          let isTouching = false;
-          document.addEventListener('touchstart', (e) => {
-            isTouching = true;
-          });
-
-          document.addEventListener('touchmove', (e) => {
-            if (!isTouching) return;
-
-            const touch = e.touches[0];
-            createTrail(touch.clientX, touch.clientY);
-          });
-
-          document.addEventListener('touchend', () => {
-            isTouching = false;
-          });
-
-          function createTrail(x, y) {
-            const trail = document.createElement('div');
-            trail.className = 'trail';
-            trail.style.left = `${x - 7.5}px`;
-            trail.style.top = `${y - 7.5}px`;
-
-            document.body.appendChild(trail);
-
-            // Remove the trail after the animation ends
-            trail.addEventListener('animationend', () => {
-              trail.remove();
-            });
-          }
-
-          let startY;
-
-          document.addEventListener('touchstart', (e) => {
-            // Get the starting Y position of the touch
-            startY = e.touches[0].clientY;
-          });
-
-          document.addEventListener('touchend', (e) => {
-            // Get the ending Y position of the touch
-            const endY = e.changedTouches[0].clientY;
-
-            // Detect swipe direction and distance
-            if (startY - endY > 50 && outsideOfZone === false) { // 50px threshold for swipe up
-              runFunction();  // Your function to run on swipe up
-            }
-          });
-
-          function runFunction() {
-
-            document.getElementById("loginContentFlex").classList.add("noSplash")
-            document.getElementById("hello-text").classList.add("noSplash")
+      if (loggedInGlobally) {
+        document.getElementById("evoxLogin").classList.add("blinkLogin")
+      }
+      document.getElementById("oasaPfp").src = 'cbimage.png'
+      if (localStorage.getItem("hasDismissedSetup") !== 'true') {
+        document.getElementById("main").classList.add("setupNeeded")
+        $("#phone").fadeOut("fast", function () {
+          document.getElementById("phone").classList.add("login")
+          $("#content").fadeOut("fast", function () {
+            $("#phone").fadeIn("fast")
             document.getElementById("loginForming").querySelector(".infoWelcome").style.display = 'none'
+            $("#loginContent").fadeIn("fast")
             setTimeout(function () {
+              document.getElementById("loginForming").querySelector(".infoWelcome").style.display = null
+            }, 1000)
+            document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
+            displayHello();
+            let isTouching = false;
+            document.addEventListener('touchstart', (e) => {
+              isTouching = true;
+            });
 
-              $("#loginForming").fadeOut("fast", function () {
-                $("#phone").fadeOut("fast", function () {
-                  //document.getElementById("phone").classList.remove("login")
-                  $("#phone").fadeIn("fast", function () {
-                    $("#loginStep1").fadeIn("fast")
-                    outsideOfZone = true;
+            document.addEventListener('touchmove', (e) => {
+              if (!isTouching) return;
+
+              const touch = e.touches[0];
+              createTrail(touch.clientX, touch.clientY);
+            });
+
+            document.addEventListener('touchend', () => {
+              isTouching = false;
+            });
+
+            function createTrail(x, y) {
+              const trail = document.createElement('div');
+              trail.className = 'trail';
+              trail.style.left = `${x - 7.5}px`;
+              trail.style.top = `${y - 7.5}px`;
+
+              document.body.appendChild(trail);
+
+              // Remove the trail after the animation ends
+              trail.addEventListener('animationend', () => {
+                trail.remove();
+              });
+            }
+
+            let startY;
+
+            document.addEventListener('touchstart', (e) => {
+              // Get the starting Y position of the touch
+              startY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchend', (e) => {
+              // Get the ending Y position of the touch
+              const endY = e.changedTouches[0].clientY;
+
+              // Detect swipe direction and distance
+              if (startY - endY > 50 && outsideOfZone === false) { // 50px threshold for swipe up
+                runFunction();  // Your function to run on swipe up
+              }
+            });
+
+            function runFunction() {
+
+              document.getElementById("loginContentFlex").classList.add("noSplash")
+              document.getElementById("hello-text").classList.add("noSplash")
+              document.getElementById("loginForming").querySelector(".infoWelcome").style.display = 'none'
+              setTimeout(function () {
+
+                $("#loginForming").fadeOut("fast", function () {
+                  $("#phone").fadeOut("fast", function () {
+                    //document.getElementById("phone").classList.remove("login")
+                    $("#phone").fadeIn("fast", function () {
+                      $("#loginStep1").fadeIn("fast")
+                      outsideOfZone = true;
+                    })
                   })
+
                 })
+                //$("#runalpha1").fadeIn("fast")
+                //$("#runalpha2").fadeIn("fast")
+                //$("#runalpha3").fadeIn("fast")
+                //$("#runalpha4").fadeIn("fast")
 
-              })
-              //$("#runalpha1").fadeIn("fast")
-              //$("#runalpha2").fadeIn("fast")
-              //$("#runalpha3").fadeIn("fast")
-              //$("#runalpha4").fadeIn("fast")
+              }, 800)
+              console.log('Swipe up detected! Running the function...');
+              // Add your custom function logic here
+            }
+            //setTimeout(function() {
+            //  //document.getElementById("loginForming").classList.add("start")
+            //  setTimeout(function() {
+            //    document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
+            //    setTimeout(function() {
+            //      document.getElementById("loginForming").querySelectorAll("p")[1].classList.add("show")
+            //    }, 1000)
+            //  }, 400)
+            //}, 500)
+          })
 
-            }, 800)
-            console.log('Swipe up detected! Running the function...');
-            // Add your custom function logic here
-          }
-          //setTimeout(function() {
-          //  //document.getElementById("loginForming").classList.add("start")
-          //  setTimeout(function() {
-          //    document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
-          //    setTimeout(function() {
-          //      document.getElementById("loginForming").querySelectorAll("p")[1].classList.add("show")
-          //    }, 1000)
-          //  }, 400)
-          //}, 500)
+
         })
+      } else {
+        getReady()
+      }
+    }
+
+    fetch(`famousBuses.json?vevox=${randomString()}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("famous")
+        let uniqueBuses = data.list.filter(bus =>
+          !frequentBuses.includes(bus) && !favoriteBuses.includes(bus)
+        );
+        console.log("Unique famous:", uniqueBuses)
+        famousBuses = uniqueBuses
+        console.log("famous buses")
+
+        const pre = setInterval(function () {
+          if (fullLine) {
+            clearInterval(pre)
+            famousBuses.forEach(bus => {
+              try {
+                loadSection('famous', bus)
+              } catch (err) {
+                console.error(err)
+              }
+            });
+          } else {
+            console.warn("fullLine not found! CRITICAL")
+            connectOASABridge()
+          }
+        }, 100)
+
 
 
       })
-    } else {
-      getReady()
-    }
-  }
-
-  fetch(`famousBuses.json?vevox=${randomString()}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log("famous")
-      let uniqueBuses = data.list.filter(bus =>
-        !frequentBuses.includes(bus) && !favoriteBuses.includes(bus)
-      );
-      console.log("Unique famous:", uniqueBuses)
-      famousBuses = uniqueBuses
-      console.log("famous buses")
-
-      const pre = setInterval(function () {
-        if (fullLine) {
-          clearInterval(pre)
-          famousBuses.forEach(bus => {
-            try {
-              loadSection('famous', bus)
-            } catch (err) {
-              console.error(err)
-            }
-          });
-        } else {
-          console.log("fl not found")
-        }
-      }, 100)
-
-
-
-    })
-    .catch(error => {
-      $("#famousFeed").fadeOut("fast")
-      console.warn("Cannot load famous", error)
-    });
-
-
-  const allLines = encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`);
-
-  function runOASABridge(data) {
-    fullLine = data
-    loadOasa() //BETA
-    if (data) {
-      let lc = localStorage.getItem("oasa_favorites");
-      if (lc) {
-        lc = JSON.parse(lc);
-      }
-      // Map each line to a promise for asynchronous handling
-      let linesPromises = data.map(eachLine => {
-        return new Promise((resolve, reject) => {
-          document.getElementById("spawnHere").querySelectorAll("button").forEach(editBus => {
-            if (lc && lc.includes(editBus.getAttribute("data-bus"))) {
-              editBus.classList.add("favoriteBus")
-            }
-          })
-          resolve(); // Mark the promise as resolved after DOM update
-        });
+      .catch(error => {
+        $("#famousFeed").fadeOut("fast")
+        console.warn("Cannot load famous", error)
       });
 
-      // Wait for all promises to resolve (i.e., all buttons are added to the DOM)
-      Promise.all(linesPromises)
-        .then(() => {
-          console.log('All lines have been spawned!');
-          const element_b = document.getElementById('indexLoading');
-          if (element_b) {
-            element_b.remove(); // Remove the loading element
-          }
 
-          // Add additional functionality here
-        })
-        .catch(err => {
-          console.error('An error occurred while spawning stops:', err);
-        });
-    }
-  }
-  fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLines}`)
-    .then(response => response.json())
-    .then(data => {
-      localStorage.setItem("allLines", JSON.stringify(data))
-      runOASABridge(data)
+    const allLines = encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`);
 
-
-    })
-    .catch(error => {
-      console.log("All Lines Get Error:", error)
-      if (localStorage.getItem("allLines")) {
-        const tmp = localStorage.getItem("allLines")
-        runOASABridge(JSON.parse(tmp))
-      }
-      return;
-      if (isNearEvery3Hours()) {
-        //alert(`Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`)
-        document.getElementById("performance").style.display = 'flex'
-        document.getElementById("messagePerformance").innerHTML = 'Μερική Διακοπή'
-        document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
-
-        document.getElementById("spawnHere").innerHTML = 'Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.'
-        document.getElementById("logErrors").innerHTML = `Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`
-      } else {
-        //alert(`Δεν ηταν δυνατη η συνδεση στον διακομιστη.\nΑγνωστο σφαλμα`)
-        document.getElementById("performance").style.display = 'flex'
-        document.getElementById("messagePerformance").innerHTML = 'Σοβαρό περιστατικό'
-        document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
-
-        document.getElementById("spawnHere").innerHTML = 'Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα'
-        document.getElementById("logErrors").innerHTML = `Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα<br>${error}`
-      }
-      if (error.toString().includes('Unexpected token')) {
-        //alert("OASA SQL error. Δοκιμάστε ξανά.")
-        document.getElementById("performance").style.display = 'flex'
-        document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
-        document.getElementById("messagePerformance").innerHTML = 'Σφάλμα OASA'
-        document.getElementById("spawnHere").innerHTML = "OASA SQL error. Δοκιμάστε ξανά."
-        document.getElementById("logErrors").innerHTML = `Σφάλμα από την πλευρά του OASA [SQL].<br>Επανεκκινήστε την εφαρμογή.<br>${error}`
-
-      }
-      const pers = localStorage.getItem("personalization")
-      if (pers) {
-        const personalize = JSON.parse(pers);
-        const savedDate = new Date(personalize.date); // Convert to Date object
-        const currentDate = new Date();
-
-        // Calculate the difference in days
-        const differenceInDays = (currentDate - savedDate) / (1000 * 60 * 60 * 24);
-
-        if (differenceInDays <= 3 && type === "muteOfflineAlerts") {
-          return;
-          console.log("Date is within 2 days. Do something.");
+    function runOASABridge(data) {
+      fullLine = data
+      loadOasa() //BETA
+      if (data) {
+        let lc = localStorage.getItem("oasa_favorites");
+        if (lc) {
+          lc = JSON.parse(lc);
         }
-        // else {
-        //    console.log("Date is older than 2 days. Do something else.");
-        //}
-      } else if (!hasInternetConnection()) {
-        return;
+        // Map each line to a promise for asynchronous handling
+        let linesPromises = data.map(eachLine => {
+          return new Promise((resolve, reject) => {
+            document.getElementById("spawnHere").querySelectorAll("button").forEach(editBus => {
+              if (lc && lc.includes(editBus.getAttribute("data-bus"))) {
+                editBus.classList.add("favoriteBus")
+              }
+            })
+            resolve(); // Mark the promise as resolved after DOM update
+          });
+        });
+
+        // Wait for all promises to resolve (i.e., all buttons are added to the DOM)
+        Promise.all(linesPromises)
+          .then(() => {
+            console.log('All lines have been spawned!');
+            const element_b = document.getElementById('indexLoading');
+            if (element_b) {
+              element_b.remove(); // Remove the loading element
+            }
+
+            // Add additional functionality here
+          })
+          .catch(err => {
+            console.error('An error occurred while spawning stops:', err);
+          });
       }
-      //showErrors()
-      //updateCountdown();
+    }
+    fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLines}`)
+      .then(response => response.json())
+      .then(data => {
+        localStorage.setItem("allLines", JSON.stringify(data))
+        runOASABridge(data)
 
 
-    })
+      })
+      .catch(error => {
+        console.log("All Lines Get Error:", error)
+        if (localStorage.getItem("allLines")) {
+          const tmp = localStorage.getItem("allLines")
+          runOASABridge(JSON.parse(tmp))
+        }
+        return;
+        if (isNearEvery3Hours()) {
+          //alert(`Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`)
+          document.getElementById("performance").style.display = 'flex'
+          document.getElementById("messagePerformance").innerHTML = 'Μερική Διακοπή'
+          document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
+
+          document.getElementById("spawnHere").innerHTML = 'Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.'
+          document.getElementById("logErrors").innerHTML = `Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`
+        } else {
+          //alert(`Δεν ηταν δυνατη η συνδεση στον διακομιστη.\nΑγνωστο σφαλμα`)
+          document.getElementById("performance").style.display = 'flex'
+          document.getElementById("messagePerformance").innerHTML = 'Σοβαρό περιστατικό'
+          document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
+
+          document.getElementById("spawnHere").innerHTML = 'Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα'
+          document.getElementById("logErrors").innerHTML = `Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα<br>${error}`
+        }
+        if (error.toString().includes('Unexpected token')) {
+          //alert("OASA SQL error. Δοκιμάστε ξανά.")
+          document.getElementById("performance").style.display = 'flex'
+          document.getElementById("italicBuild").innerHTML = `Evox© OASAP V${currentVersion}`
+          document.getElementById("messagePerformance").innerHTML = 'Σφάλμα OASA'
+          document.getElementById("spawnHere").innerHTML = "OASA SQL error. Δοκιμάστε ξανά."
+          document.getElementById("logErrors").innerHTML = `Σφάλμα από την πλευρά του OASA [SQL].<br>Επανεκκινήστε την εφαρμογή.<br>${error}`
+
+        }
+        const pers = localStorage.getItem("personalization")
+        if (pers) {
+          const personalize = JSON.parse(pers);
+          const savedDate = new Date(personalize.date); // Convert to Date object
+          const currentDate = new Date();
+
+          // Calculate the difference in days
+          const differenceInDays = (currentDate - savedDate) / (1000 * 60 * 60 * 24);
+
+          if (differenceInDays <= 3 && type === "muteOfflineAlerts") {
+            return;
+            console.log("Date is within 2 days. Do something.");
+          }
+          // else {
+          //    console.log("Date is older than 2 days. Do something else.");
+          //}
+        } else if (!hasInternetConnection()) {
+          return;
+        }
+        //showErrors()
+        //updateCountdown();
+
+
+      })
+  });
 })
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -2046,7 +2081,13 @@ function processInfo(evoxId, type, addMore, comego) {
           }
 
         });
-      document.getElementById("timetableSpawn").innerHTML = `<div class="timeItem skeleton-button2"></div><div class="timeItem skeleton-button2"></div><div class="timeItem skeleton-button2"></div>`;  // Clear existing content
+      document.getElementById("timetableSpawn").innerHTML = `<div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>
+      <div class="timeItem skeleton-button2"></div>`;  // Clear existing content
       function dailySchedule(data) {
         activeBusInfo = data
         const splitter = splitValue(busInfo.descr);
@@ -2116,8 +2157,29 @@ function processInfo(evoxId, type, addMore, comego) {
         } else {
           try {
             const timesNew = localStorage.getItem(`${busInfo.bus}_Times_${comego}`);
-            times = JSON.parse(timesNew);
-            isLocal = true
+            if (timesNew) {
+              times = JSON.parse(timesNew);
+              isLocal = true
+            } else {
+              console.warn("Cannot fallback.")
+              if (!capitalizeWords(formattedText).includes("κυκλικη")) {
+                document.getElementById("timetableSpawn").classList.add("fade-out-slide-down")
+                setTimeout(function () {
+                  document.getElementById("timetableSpawn").innerHTML = `<div class="failed">
+    <img src="snap.png" class="failed-icon">
+    <vox class="failed-message">Δεν βρέθηκαν δεδομένα</vox>
+    <span class="failed-subtext">Δεν υπάρχει διαθέσιμη διαδρομή επιστροφής για αυτό το λεωφορείο.</span>
+</div>
+`;
+                  document.getElementById("timetableSpawn").classList.remove("fade-out-slide-down")
+                  document.getElementById("timetableSpawn").classList.add("fade-in-slide-up")
+                }, 500)
+              }
+
+
+              return;
+            }
+
           } catch {
             console.error("Failed to find times for", busInfo.bus)
           }
@@ -2177,8 +2239,10 @@ function processInfo(evoxId, type, addMore, comego) {
           timetableContent += `
       <div class="timeItem fade-in-slide-up${previous[0] && index === 0 ? " isNext" : ""} ${isLocal ? "isLocal" : ""}" onclick="showDetailedTime('${time.replace(/<\/?vox>/g, "").replace(/<\/?vox>/g, "").replace(/ .*$/, "")}','next')">
       <p>${time}</p>
-        <div class="actions"${!localStorage.getItem("extVOASA") ? ' style="display: none"' : ""}>
-          <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+        <div class="actions">
+        ${isLocal ? `<img style='width:20px;height:20px'
+                                src="snap.png">` : ""}
+          <svg ${!localStorage.getItem("extVOASA") ? ' style="display: none;transform: rotate(180deg)"' : 'style="transform: rotate(180deg)"'}  xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"/>
 </svg>
         </div>
@@ -2261,6 +2325,19 @@ function processInfo(evoxId, type, addMore, comego) {
             console.log("Stations found", stations);
             console.log("Found stations", stations);
             container.innerHTML = ''
+            if (stations.length === 0) {
+              //Will handle this as error, localstorage returned 0 because fetch failed and localstorage doesnt exist
+              document.getElementById("stationsSpawnOut").classList.add("fade-out-slide-down")
+              setTimeout(function () {
+                document.getElementById("stationsSpawnOut").style.display = 'none'
+                document.getElementById("stationsSpawnOut").classList.remove("fade-out-slide-down")
+                document.getElementById("stationsSpawnOut").classList.add("fade-in-slide-up")
+              }, 500)
+              return;
+            } else {
+              document.getElementById("stationsSpawnOut").style.display = null
+
+            }
 
 
             stations.forEach((station, index) => {
@@ -2596,6 +2673,10 @@ function getNextBuses(times, more) {
   const now = new Date();
   const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes since midnight
 
+  if (!times) {
+    console.warn("Prevented Crash")
+    return null;
+  }
   const busTimes = times.map(time => {
     const [hours, minutes] = time.split(':').map(Number);
     const busTime = hours * 60 + minutes; // Bus time in minutes since midnight
@@ -2734,120 +2815,134 @@ async function spawnBusOnMap(lineId) {
 
 }
 let activeRouteCode = null
-async function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJustRouteCode = true) {
-  async function routeOasa(lineCode) {
-    const getStops = encodeURIComponent(`https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`);
-    const response = await fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${getStops}&vevox=${randomString()}`);
-    const data = await response.json();
+function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJustRouteCode = true) {
+  function routeOasa(lineCode) {
 
-    console.log('Route:', data, comego, data[`${comego === "go" ? 0 : 1}`]);
-
-    try {
-      if (comego === 'go' || comego === undefined || comego === null) {
-        activeRouteCode = data[0].route_code;
-        if (data && data.length > 0) {
-          return data[0].route_code;
-        } else {
-          throw new Error("Route Code not found. comego=go");
-        }
-      } else {
-        const vanilaDesc = data[0].route_descr;
-        console.warn("Tuning starting for:", data);
-
-        // Separate extra info like "(μπλα)" or "[μπλα]" if exists
-        const extraMatch = vanilaDesc.match(/^(.*?)(\s*[\(\[].*[\)\]])?$/);
-        if (!extraMatch) throw new Error("Route format not recognized.");
-
-        const coreRoute = extraMatch[1].trim(); // The actual route part
-        const extra = extraMatch[2] || "";      // The suffix like (μπλα), [μπλα], etc.
-
-        // Reverse parts separated by ' - '
-        const reversedCore = coreRoute.split(" - ").reverse().join(" - ");
-        const reversed = `${reversedCore}${extra}`;
-
-        console.log("Reversed:", reversed);
-
-        let found = false;
-        for (const route of data) {
-          if (route.route_descr === reversed) {
-            console.warn("VOXNEW FOUND:", route, route.route_descr);
-            activeRouteCode = route.route_code;
-            found = true;
-            return route.route_code;
+    function insider(data) {
+      console.log('Route:', data, comego, data[`${comego === "go" ? 0 : 1}`]);
+      try {
+        if (comego === 'go' || comego === undefined || comego === null) {
+          activeRouteCode = data[0].route_code;
+          if (data && data.length > 0) {
+            return data[0].route_code;
+          } else {
+            throw new Error("Route Code not found. comego=go");
           }
-        }
-
-        if (!found) {
+        } else {
+          const vanilaDesc = data[0].route_descr;
+          console.warn("Tuning starting for:", data);
+          const extraMatch = vanilaDesc.match(/^(.*?)(\s*[\(\[].*[\)\]])?$/);
+          if (!extraMatch) throw new Error("Route format not recognized.");
+          const coreRoute = extraMatch[1].trim();
+          const extra = extraMatch[2] || "";
+          const reversedCore = coreRoute.split(" - ").reverse().join(" - ");
+          const reversed = `${reversedCore}${extra}`;
+          console.log("Reversed:", reversed);
+          let found = false;
           for (const route of data) {
-            if (route.route_descr.includes(reversed)) {
+            if (route.route_descr === reversed) {
               console.warn("VOXNEW FOUND:", route, route.route_descr);
               activeRouteCode = route.route_code;
               found = true;
               return route.route_code;
             }
           }
-          throw new Error("Route Code not found.");
-        }
-
-      }
-    } catch (error) {
-      if (completeJson && completeJson.descr !== data[0].LineDescr) {
-        console.log("Will decide which one is needed on these:", data)
-        let found = false;
-        activeRouteCode = data[0].route_code;
-        if (!data[1]) {
-          return data[0].route_code;
-        }
-        for (const route of data) {
-          if (route.route_descr === completeJson.descr || route.route_descr === capitalizeGreek(document.getElementById("busInfoDesc").innerText)) {
-            console.warn("VOXNEW FOUND:", route, route.route_descr);
-            activeRouteCode = route.route_code;
-            found = true;
-            console.log("FOUND!", route)
-            return route.route_code;
+          if (!found) {
+            for (const route of data) {
+              if (route.route_descr.includes(reversed)) {
+                console.warn("VOXNEW FOUND:", route, route.route_descr);
+                activeRouteCode = route.route_code;
+                found = true;
+                return route.route_code;
+              }
+            }
+            throw new Error("Route Code not found.");
           }
         }
-
-        if (found === false) {
-          console.error(`Warning! Available lines don't match the requested one. ${data}\nRequested: ${completeJson}`)
+      } catch (error) {
+        if (completeJson && completeJson.descr !== data[0].LineDescr) {
+          console.log("Will decide which one is needed on these:", data)
+          let found = false;
+          activeRouteCode = data[0].route_code;
+          if (!data[1]) {
+            return data[0].route_code;
+          }
+          for (const route of data) {
+            if (route.route_descr === completeJson.descr || route.route_descr === capitalizeGreek(document.getElementById("busInfoDesc").innerText)) {
+              console.warn("VOXNEW FOUND:", route, route.route_descr);
+              activeRouteCode = route.route_code;
+              found = true;
+              console.log("FOUND!", route)
+              return route.route_code;
+            }
+          }
+          if (found === false) {
+            console.error(`Warning! Available lines don't match the requested one. ${data}\nRequested: ${completeJson}`)
+          }
+        } else {
+          alert(`FATAL: ${error}`)
         }
-      } else {
-        alert(`FATAL: ${error}`)
       }
     }
-
-
-
-  }
-
-
-  async function nextUp() {
-    const allLinesUrl = encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`);
-    const response = await fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`);
-    const fullLine = await response.json();
-    const matchingLines = fullLine.filter(line => line.LineID === id);
-
-    if (matchingLines.length > 0) {
-      let selectedLine = matchingLines[0]
-      matchingLines.forEach(line => {
-        if (line.LineDescr === capitalizeGreek(document.getElementById("busInfoDesc").innerText)) {
-          selectedLine = line
-          console.warn("Method 2 Used.")
+    const getStops = encodeURIComponent(`https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`);
+    return fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${getStops}&vevox=${randomString()}`)
+      .then(response => response.json())
+      .then(data => {
+        localStorage.setItem(`getRoutesForLine_${lineCode}`, JSON.stringify(data))
+        insider(data)
+      }).catch(error => {
+        const localSave = localStorage.getItem(`getRoutesForLine_${lineCode}`)
+        if (localSave) {
+          const use = JSON.parse(localSave)
+          insider(use)
         } else {
-          console.warn("Check", line.LineDescr, document.getElementById("busInfoDesc").innerText)
+          console.error("Process crashed. Cannot revive using localstorage", error, "localSave Status:", localSave)
         }
-      })
-      console.warn('Found Lines:', matchingLines, "Selected:", selectedLine);
-      const resu = await routeOasa(selectedLine.LineCode)
-      triggerSave(id, selectedLine.LineCode, resu)
-      return resu;
-    } else {
-      throw new Error("No matching lines found.");
-    }
+      });
   }
 
-  return await nextUp();
+  function nextUp() {
+    function insider(fullLine) {
+      const matchingLines = fullLine.filter(line => line.LineID === id);
+      if (matchingLines.length > 0) {
+        let selectedLine = matchingLines[0]
+        matchingLines.forEach(line => {
+          if (line.LineDescr === capitalizeGreek(document.getElementById("busInfoDesc").innerText)) {
+            selectedLine = line
+            console.warn("Method 2 Used.")
+          } else {
+            console.warn("Check", line.LineDescr, document.getElementById("busInfoDesc").innerText)
+          }
+        })
+        console.warn('Found Lines:', matchingLines, "Selected:", selectedLine);
+        return routeOasa(selectedLine.LineCode).then(resu => {
+          triggerSave(id, selectedLine.LineCode, resu)
+          return resu;
+        })
+      } else {
+        throw new Error("No matching lines found.");
+      }
+    }
+    const allLinesUrl = encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`);
+    return fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`)
+      .then(response => response.json())
+      .then(fullLine => {
+        insider(fullLine)
+      }).catch(error => {
+        console.warn("Server is not accessible. Using local storage")
+        const localSave = localStorage.getItem("allLines")
+        if (localSave) {
+          const temp = JSON.parse(localSave)
+          insider(temp)
+        } else {
+          console.error("Process crashed. Cannot revive using localstorage [1st]", error, "localSave Status:", localSave)
+        }
+      });
+  }
+
+  return nextUp();
 }
+
 
 
 async function findCurrentBusLocation(routeCode, retries = 5, delay = 10) {
@@ -3203,30 +3298,38 @@ function spawnNearby() {
 </svg>`
             dot.setAttribute("data-status", 'visible')
           } else {
-            this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+            this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`
             dot.setAttribute("data-status", 'hidden')
           }
 
         }
         dot.setAttribute("data-status", 'hidden')
-        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`;
       }
 
@@ -3268,7 +3371,7 @@ function spawnNearby() {
 }
 
 let liveBuses = []
-function spawnAndShowInfo(bus, remain, verification, comego, el) {
+function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
   if (el) {
     const elements = document.querySelectorAll('.Block.barup');
     elements.forEach((els, i) => {
@@ -3277,9 +3380,26 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
     console.log("Element attached", el)
     el.classList.add("focused")
     console.log("newel", el)
-
+    if (!el.innerHTML.includes("<vox>")) {
+      el.innerHTML += `<vox><svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15px" height="15px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                                </path>
+                            </svg></vox>`
+    }
   }
 
+  if (saveSearch) {
+    saveRecentSearch(bus)
+  }
   // helper to remove a route layer/source by ID
   function removeRoute(routeId) {
     if (!routeId) return;
@@ -3293,22 +3413,19 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
       map.removeSource(sourceId);
     }
   }
-
-  // helper to clear all markers
   function clearMarkers() {
     markers_intel.forEach(marker => marker.remove());
     markers_intel = [];
   }
-
-  // --- original “always-do” removal ---
   clearMarkers();
   removeRoute(previouslines);
 
-  // --- conditional “deleteAfter” removal ---
   if (remain === 'deleteAfter' && previouslines) {
     clearMarkers();
     removeRoute(previouslines);
   }
+
+
 
   removeGraphics()
 
@@ -3411,13 +3528,21 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
         })
         .catch(error => {
           console.log("Error fetching daily schedule data:", error);
+
         });
     }, timeout)
 
   })
 
   findBusInfo2(bus, comego).then((returned) => {
+    if (!returned) {
+      el.querySelector("vox").remove()
+      if (!el.innerHTML.includes("<img")) {
+        el.innerHTML += `<img style='width:15px;height:15px' src="snap.png">`
 
+      }
+      return;
+    }
 
     console.log("MAPFOUND:", returned);
 
@@ -3445,6 +3570,8 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
           return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         }
       });
+
+      el.querySelector("vox").remove()
 
       const id = randomString();
       previouslines = id; // Track current line ID
@@ -3481,20 +3608,52 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
           dot.className = "station";
           dot.onclick = function () {
             if (dot.getAttribute("data-status") === 'hidden') {
-              this.innerHTML = `<p>${capitalizeWords(coord.StopDescr)}</p><svg onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+              this.innerHTML = `<div class="dotBusInfoShow">
+                    <p>${capitalizeWords(coord.StopDescr)}</p>
+                    <div class="dotrow">
+                    <div onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}', '${bus}', '${verification}');" class="actiondot">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                                        <path opacity="0.5" d="M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z" fill="#fff"></path>
+                                                        <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" fill="#fff"></path>
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.25 10.5C6.25 10.0858 6.58579 9.75 7 9.75H7.5C7.91421 9.75 8.25 10.0858 8.25 10.5C8.25 10.9142 7.91421 11.25 7.5 11.25H7C6.58579 11.25 6.25 10.9142 6.25 10.5ZM9.75 10.5C9.75 10.0858 10.0858 9.75 10.5 9.75H17C17.4142 9.75 17.75 10.0858 17.75 10.5C17.75 10.9142 17.4142 11.25 17 11.25H10.5C10.0858 11.25 9.75 10.9142 9.75 10.5ZM6.25 14C6.25 13.5858 6.58579 13.25 7 13.25H7.5C7.91421 13.25 8.25 13.5858 8.25 14C8.25 14.4142 7.91421 14.75 7.5 14.75H7C6.58579 14.75 6.25 14.4142 6.25 14ZM9.75 14C9.75 13.5858 10.0858 13.25 10.5 13.25H17C17.4142 13.25 17.75 13.5858 17.75 14C17.75 14.4142 17.4142 14.75 17 14.75H10.5C10.0858 14.75 9.75 14.4142 9.75 14ZM6.25 17.5C6.25 17.0858 6.58579 16.75 7 16.75H7.5C7.91421 16.75 8.25 17.0858 8.25 17.5C8.25 17.9142 7.91421 18.25 7.5 18.25H7C6.58579 18.25 6.25 17.9142 6.25 17.5ZM9.75 17.5C9.75 17.0858 10.0858 16.75 10.5 16.75H17C17.4142 16.75 17.75 17.0858 17.75 17.5C17.75 17.9142 17.4142 18.25 17 18.25H10.5C10.0858 18.25 9.75 17.9142 9.75 17.5Z" fill="#fff"></path>
+                                                        </svg></div>
+
+                    <div onclick='walkMeTo("${coord.lng}", "${coord.lat}", event, "${capitalizeWords(coord.StopDescr)}")' class="actiondot"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-768.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(768.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M11.9999,2 C13.6567,2 14.9999,3.34315 14.9999,5 C14.9999,6.35582174 14.1004285,7.50158382 12.8656975,7.8731619 L12.6953,7.91898 L15.123,10.6935 L16.9471,11.6055 C17.4411,11.8525 17.6413,12.4532 17.3943,12.9472 C17.1649429,13.4058214 16.6306959,13.6112878 16.1600211,13.4405382 L16.0527,13.3944 L14.2286,12.4823 C14.054375,12.395225 13.8941563,12.2832875 13.7527531,12.1503266 L13.6178,12.0105 L12.5997,10.8469 L11.9402,13.485 C11.87836,13.73236 11.772936,13.95732 11.634168,14.153736 L11.524,14.2956 L13.4524,16.0587 C13.7008857,16.2859286 13.8873633,16.5716388 13.9955854,16.8886889 L14.0431,17.0497 L14.7807,20 L14.9999,20 C15.5522,20 15.9999,20.4477 15.9999,21 C15.9999,21.5127571 15.613873,21.9354959 15.1165239,21.9932711 L14.9999,22 L14.078,22 C13.6152667,22 13.2069833,21.7112806 13.0478704,21.285967 L13.0108,21.1667 L12.1028,17.5347 L9.0933,14.7832 C8.32760588,14.3947765 7.88328478,13.5453758 8.02593056,12.6776961 L8.05962,12.5149 L8.5727,10.4626 L8.25039,10.6928 L6.8574,13.0145 C6.57325,13.488 5.95899,13.6416 5.48541,13.3574 C5.04565714,13.0935929 4.8818399,12.5450724 5.08817946,12.0889477 L5.14241,11.9855 L6.53541,9.66381 C6.648338,9.475586 6.7912884,9.3075604 6.95826568,9.16622536 L7.08791,9.06533 L9.85002,7.0924 C9.32392,6.55194 8.99988,5.81381 8.99988,5 C8.99988,3.34315 10.343,2 11.9999,2 Z M9.31613,15.5513 C9.84008,15.7259 10.1232,16.2922 9.94859,16.8162 L9.52324,18.0922 C9.42506,18.3868 9.25964,18.6544 9.04009,18.874 L7.38331,20.5308 C7.58424,20.9088 7.52548,21.3886 7.20701,21.7071 C6.81649,22.0976 6.18332,22.0976 5.7928,21.7071 L5.29987,21.2141 C4.90544,20.8197 4.90544,20.1802 5.29987,19.7858 L7.62587,17.4598 L8.05122,16.1837 C8.22587,15.6598 8.79219,15.3766 9.31613,15.5513 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
+</svg></div>
+                    </div>
+                    </div>`
+              dot.setAttribute("data-status", 'visible')
+              return;
+              this.innerHTML = `<p>${capitalizeWords(coord.StopDescr)}{EVX-DEBUG-3}</p><svg onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`
-              dot.setAttribute("data-status", 'visible')
+
             } else {
-              this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+              this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`
               dot.setAttribute("data-status", 'hidden')
             }
@@ -3502,21 +3661,22 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
           }
 
           dot.setAttribute("data-status", 'hidden')
-          dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+          dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`;
           if (coord === near) {
-            dot.innerHTML = `<p>${capitalizeWords(coord.StopDescr)}</p><svg onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`
-            dot.setAttribute("data-status", 'visible')
+            dot.click()
             console.log("Clicking dot")
           }
         }
@@ -3604,10 +3764,13 @@ function spawnAndShowInfo(bus, remain, verification, comego, el) {
 
                 dot.onclick = function () {
                   if (dot.getAttribute("data-status") === 'hidden') {
+
+
+                    dot.setAttribute("data-status", 'visible')
                     this.innerHTML = `<p>${bus}</p><svg onclick="alert('δεν είναι ακόμα έτοιμο αυτό...');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
     <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`
-                    dot.setAttribute("data-status", 'visible')
+
                   } else {
                     this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
     <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#000"></path>
@@ -4519,6 +4682,16 @@ document.getElementById('searchInSearch').addEventListener('input', function () 
 
 function searchInInput() {
   const lineIdToFind = document.getElementById("searchInSearch").value
+  if (lineIdToFind === "") {
+    console.log("Clearing")
+    $("#recommendSpawn").fadeIn("fast")
+    document.getElementById("searchContainer").classList.remove("active")
+    document.getElementById('toSpawnFinds').classList.add('hidden');
+    spawnOnBarBuses()
+  } else {
+    $("#recommendSpawn").fadeOut("fast")
+    document.getElementById("searchContainer").classList.add("active")
+  }
   if (lineIdToFind.length < 2) {
     if (previouslines) {
       // Remove markers
@@ -4558,8 +4731,8 @@ function searchInInput() {
   matchingLines.forEach((bus, index) => {
     const delay = index * 0.1;
     if (shortMatches[0] === bus) {
-      spawnAndShowInfo(shortMatches[0].LineID, 'deleteAfter')
-      document.getElementById("toSpawnFinds").innerHTML = `<div onclick="spawnAndShowInfo('${bus.LineID}', 'remain', '${bus.LineDescr}')" class="Block simple-fadeIn match" style="opacity:0;">
+      spawnAndShowInfo(shortMatches[0].LineID, 'deleteAfter', null, null, null, 'saveSearch')
+      document.getElementById("toSpawnFinds").innerHTML = `<div onclick="spawnAndShowInfo('${bus.LineID}', 'remain', '${bus.LineDescr}',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"></path>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"></path>
@@ -4574,7 +4747,7 @@ function searchInInput() {
               </svg>
   </div>${document.getElementById("toSpawnFinds").innerHTML}`
     } else {
-      document.getElementById("toSpawnFinds").innerHTML += `<div onclick="spawnAndShowInfo('${bus.LineID}', 'remain', '${bus.LineDescr}')" class="Block simple-fadeIn" style="animation-delay: ${delay}s;opacity:0;">
+      document.getElementById("toSpawnFinds").innerHTML += `<div onclick="spawnAndShowInfo('${bus.LineID}', 'remain', '${bus.LineDescr}',null,null, 'saveSearch')" class="Block simple-fadeIn" style="animation-delay: ${delay}s;opacity:0;">
                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"></path>
                   <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"></path>
@@ -5160,6 +5333,8 @@ function openNotificationsView() {
     document.getElementById("userFeed").style.display = 'none'
   }, 400)
   document.getElementById("searchIntelli").classList.add('notLoaded')
+  document.getElementById("busInfo-onerror-show").style.display = "none"
+  document.getElementById("busInfodefault").style.display = null
 
   fetch(`https://florida.evoxs.xyz/devices?username=${localStorage.getItem("t50-username")}&password=${atob(localStorage.getItem("t50pswd"))}&vevox=${randomString()}`)
     .then(response => response.json())
@@ -5271,7 +5446,22 @@ function openNotificationsView() {
 
     })
     .catch(error => {
+      document.getElementById("busInfo-onerror-show").style.display = null
+      document.getElementById("busInfodefault").style.display = "none"
+      document.getElementById("current-device").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M18.364 5.63604C19.9926 7.26472 21 9.51472 21 12C21 16.9706 16.9706 21 12 21C9.51472 21 7.26472 19.9926 5.63604 18.364M18.364 5.63604C16.7353 4.00736 14.4853 3 12 3C7.02944 3 3 7.02944 3 12C3 14.4853 4.00736 16.7353 5.63604 18.364M18.364 5.63604L5.63604 18.364" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
+      document.getElementById("devices").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M18.364 5.63604C19.9926 7.26472 21 9.51472 21 12C21 16.9706 16.9706 21 12 21C9.51472 21 7.26472 19.9926 5.63604 18.364M18.364 5.63604C16.7353 4.00736 14.4853 3 12 3C7.02944 3 3 7.02944 3 12C3 14.4853 4.00736 16.7353 5.63604 18.364M18.364 5.63604L5.63604 18.364" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
       console.log('Load Florida List Error:', error)
+      if (error.message.includes("Account Not Found")) {
+        document.getElementById("noAccountNotice").style.display = null
+        document.getElementById("defaultNotice").style.display = "none"
+      } else {
+        document.getElementById("noAccountNotice").style.display = "none"
+        document.getElementById("defaultNotice").style.display = null
+      }
     });
 
   fetch(`https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem("t50-username")}&deviceId=${localStorage.getItem("extV") ? localStorage.getItem("extV") : localStorage.getItem("extVOASA")}&vevox=${randomString()}`)
@@ -5318,6 +5508,9 @@ function openNotificationsView() {
     })
     .catch(error => {
       console.log('Load Florida List Error:', error)
+      document.getElementById("active-notifications").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M18.364 5.63604C19.9926 7.26472 21 9.51472 21 12C21 16.9706 16.9706 21 12 21C9.51472 21 7.26472 19.9926 5.63604 18.364M18.364 5.63604C16.7353 4.00736 14.4853 3 12 3C7.02944 3 3 7.02944 3 12C3 14.4853 4.00736 16.7353 5.63604 18.364M18.364 5.63604L5.63604 18.364" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
     });
 }
 
@@ -5344,7 +5537,15 @@ function loginNew() {
     $("#loginStep2").fadeIn("fast", function () {
     })
   })
+}
 
+function loginAsGuest() {
+  document.getElementById("bottomSearchParent").style.zIndex = '-1'
+  $("#loginStep1").fadeOut("fast", function () {
+    document.querySelector(".loginContentFlex.noSplash").style.height = 'auto'
+    $("#loginStepGuest").fadeIn("fast", function () {
+    })
+  })
 }
 
 function loginFlorida() {
@@ -5391,6 +5592,32 @@ function loginFlorida() {
       alert(`Failed: ${error.message}`);
       console.error('Fetch error:', error);
     });
+}
+
+function loginAsGuestFinal() {
+  $("#loginStepGuest").fadeOut("fast", function () {
+    $("#loginStepLast").fadeIn("fast", function () {
+      //localStorage.setItem("isOasaLoggedIn", "false")
+
+      const bottomText = document.getElementById("bottomText");
+      bottomText.innerHTML = `1/2 Προετοιμασία`;
+      bottomText.style.display = 'flex';
+
+      setTimeout(function () {
+        bottomText.classList.add("fade-out-slide-down");
+        setTimeout(() => {
+          bottomText.innerHTML = `2/2 Ολοκλήρωση`;
+          bottomText.classList.remove("fade-out-slide-down");
+          localStorage.setItem("hasDismissedSetup", "true");
+          setTimeout(function () {
+            window.location.reload()
+          }, 1500)
+        }, 200);
+      }, 1500)
+
+
+    })
+  })
 }
 
 function getOS() {
@@ -5560,6 +5787,12 @@ function urlBase64ToUint8Array(base64String) {
 
 function goBackToLogin() {
   $("#loginStep2").fadeOut("fast", function () {
+    $("#loginStep1").fadeIn("fast")
+  })
+}
+
+function goBackToLoginGuest() {
+  $("#loginStepGuest").fadeOut("fast", function () {
     $("#loginStep1").fadeIn("fast")
   })
 }
@@ -5954,15 +6187,19 @@ function addGeneraleMarkers(places) {
         this.innerHTML = `<p>${place.name}</p>`
         dot.setAttribute("data-status", 'visible')
       } else {
-        this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+        this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`
         dot.setAttribute("data-status", 'hidden')
       }
@@ -6025,30 +6262,38 @@ function spawnClosestStops(focusedSpot) {
 </svg>`
             dot.setAttribute("data-status", 'visible')
           } else {
-            this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+            this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`
             dot.setAttribute("data-status", 'hidden')
           }
 
         }
         dot.setAttribute("data-status", 'hidden')
-        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#fff"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#fff"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#fff"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#fff"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#fff"/>
-<path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#fff"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#fff"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#fff"/>
+        dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>`;
       }
 
@@ -6089,7 +6334,6 @@ function patchSafeAreaInsetTop() {
           if (cssText.includes("env(safe-area-inset-top)")) {
             const model = getDeviceInfo().model
             const newEnv = model === "iPhone" || model === "iPad" || model === "Mac" ? "47px" : "20px"
-            document.getElementById("notice-text").innerText += ` -> ${newEnv}`
             const patched = cssText.replace(/env\(safe-area-inset-top\)/g, newEnv);
             const newStyle = document.createElement("style");
             newStyle.textContent = patched;
@@ -6123,11 +6367,267 @@ function checkForLoginCompatibility() {
   if (params.has('loginAs')) {
     const value = params.get('loginAs');
     if (value === 'localStorage') {
-      localStorage.setItem("isOasaLoggedIn", "true")
-      localStorage.setItem("loginType", "evoxBridge")
-      const url = new URL(window.location.href);
-      url.searchParams.delete('loginAs');
-      window.location.href = url.toString();
+      if (sessionStorage.getItem("ignoreparam") === 'true') {
+        sessionStorage.removeItem("ignoreparam")
+        const url = new URL(window.location.href);
+        url.searchParams.delete('loginAs');
+        window.location.href = url.toString();
+      }
+      
+
+
+
+
+      document.getElementById("loginContentFlex").classList.add("noSplash")
+      document.getElementById("hello-text").classList.add("noSplash")
+      document.getElementById("loginForming").querySelector(".infoWelcome").style.display = 'none'
+      setTimeout(function () {
+
+        document.getElementById("hideifloggedviaevox").style.display = 'none'
+        $("#loginForming").fadeOut("fast", function () {
+          $("#phone").fadeOut("fast", function () {
+            //document.getElementById("phone").classList.remove("login")
+            $("#phone").fadeIn("fast", function () {
+              //$("#loginStepLast").fadeIn("fast")
+
+              $("#loginStep2").fadeOut("fast", function () {
+                $("#loginStep3").fadeIn("fast", function () {
+                  sessionStorage.setItem("ignoreparam", 'true')
+                  localStorage.setItem("isOasaLoggedIn", "true")
+                  localStorage.setItem("loginType", "evoxBridge")
+                  document.getElementById("bottomSearchParent").style.zIndex = '-1'
+                })
+              })
+              outsideOfZone = true;
+            })
+          })
+
+        })
+
+      }, 800)
     }
+  }
+}
+
+let hasBridgeStarted = false;
+function connectOASABridge() {
+  if (hasBridgeStarted === true) {
+    return;
+  }
+  hasBridgeStarted = true
+  const allLines = encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`);
+  fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLines}`)
+    .then(response => response.json())
+    .then(data => {
+      localStorage.setItem("allLines", JSON.stringify(data))
+      fullLine = data
+      setTimeout(function () {
+        hasBridgeStarted = false;
+      }, 3000)
+    }).catch(error => {
+      const localSave = localStorage.getItem("allLines")
+      if (localSave) {
+        fullLine = JSON.parse(localSave)
+        hasBridgeStarted = false;
+      }
+      console.warn("It looks like oasa proxies are offline. using fallback. [storage]")
+    })
+}
+
+function getDeviceInfo() {
+  const userAgent = navigator.userAgent;
+
+  let deviceType = "Unknown";
+  let model = "Unknown";
+  let osVersion = "Unknown";
+
+  // Detect device type
+  if (/Mobile|iPhone|Android/.test(userAgent)) {
+    deviceType = "Κινητή";
+  } else if (/Tablet|iPad/.test(userAgent)) {
+    deviceType = "Τάμπλετ";
+  } else if (/Mac|Windows|Linux|X11/.test(userAgent)) {
+    deviceType = "Υπολογιστής";
+  }
+
+  // Detect model (basic parsing)
+  if (/iPhone/.test(userAgent)) {
+    model = "iPhone";
+  } else if (/iPad/.test(userAgent)) {
+    model = "iPad";
+  } else if (/Android/.test(userAgent)) {
+    const androidMatch = userAgent.match(/Android\s([\d.]+)/);
+    model = "Android Device";
+    osVersion = androidMatch ? androidMatch[1] : osVersion;
+  } else if (/Mac/.test(userAgent)) {
+    model = "Mac";
+  } else if (/Windows/.test(userAgent)) {
+    model = "Windows PC";
+  }
+
+  // Detect OS version (basic parsing)
+  if (/iPhone|iPad/.test(userAgent)) {
+    const iosMatch = userAgent.match(/OS (\d+_\d+)/);
+    osVersion = iosMatch ? iosMatch[1].replace("_", ".") : osVersion;
+  } else if (/Windows/.test(userAgent)) {
+    const windowsMatch = userAgent.match(/Windows NT (\d+\.\d+)/);
+    osVersion = windowsMatch ? windowsMatch[1] : osVersion;
+  } else if (/Mac/.test(userAgent)) {
+    const macMatch = userAgent.match(/Mac OS X (\d+_\d+)/);
+    osVersion = macMatch ? macMatch[1].replace("_", ".") : osVersion;
+  }
+
+  // Return as JSON object
+  return {
+    deviceType,
+    model,
+    osVersion,
+  };
+}
+
+
+
+function getWalkingRoute(start, end) {
+  fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`)
+    .then(res => res.json())
+    .then(data => {
+      const route = data.routes[0].geometry.coordinates;
+
+      // Remove existing route if present
+      if (map.getSource('route')) {
+        map.getSource('route').setData({
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: route }
+        });
+      } else {
+        // Add route layer
+        // First add the source with an ID
+        map.addSource('route', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: route }
+          }
+        });
+
+        // Then add the layer using that source
+        map.addLayer({
+          id: 'route',
+          type: 'line',
+          source: 'route',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#00ccff', 'line-width': 5 }
+        });
+
+      }
+
+      // Fit map to route
+      const bounds = route.reduce((b, coord) => b.extend(coord), new mapboxgl.LngLatBounds(route[0], route[0]));
+      map.fitBounds(bounds, { padding: 50 });
+    });
+}
+
+
+let watchId;
+let currentRouteEnd;
+
+let currentDirectionsInfo = {
+  dest_lng: null,
+  dest_lat: null,
+  dest_name: null
+}
+function walkMeTo(lng, lat, event, destinationName) {
+  document.getElementById("destinationName").innerText = destinationName
+  document.getElementById("directionsContainer").style.display = null
+  currentDirectionsInfo = {
+    dest_lng: lng,
+    dest_lat: lat,
+    dest_name: destinationName
+  }
+  //event.stopPropagation();
+
+  const end = [lng, lat]; // destination
+  currentRouteEnd = end;
+
+  // Start tracking user location
+  if (navigator.geolocation) {
+    // Stop previous watch if any
+    if (watchId) navigator.geolocation.clearWatch(watchId);
+
+    watchId = navigator.geolocation.watchPosition(position => {
+      const userLoc = [position.coords.longitude, position.coords.latitude];
+
+      // Zoom to user location
+      map.flyTo({
+        center: userLoc,
+        zoom: 16, // adjust zoom level as needed
+        speed: 1.2,
+        curve: 1
+      });
+
+      // Update walking route
+      getWalkingRoute(userLoc, currentRouteEnd);
+    },
+      err => console.error(err),
+      { enableHighAccuracy: true, maximumAge: 1000, timeout: 5000 });
+  }
+}
+
+function stopDirections() {
+  map.flyTo({
+    center: [parseFloat(currentDirectionsInfo.dest_lng), parseFloat(currentDirectionsInfo.dest_lat)],
+    zoom: 16,
+    curve: 1,
+    easing(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+  });
+  document.getElementById("directionsContainer").classList.add("fade-out-slide-down")
+  setTimeout(function () {
+    document.getElementById("directionsContainer").style.display = 'none'
+    document.getElementById("directionsContainer").classList.remove("fade-out-slide-down")
+  }, 500)
+  if (watchId) navigator.geolocation.clearWatch(watchId);
+  if (map.getLayer('route')) {
+    map.removeLayer('route');   // remove the layer first
+  }
+
+  if (map.getSource('route')) {
+    map.removeSource('route');  // then remove its source
+  }
+}
+
+function saveRecentSearch(busid) {
+  const recentSearchs = localStorage.getItem("recentSearchs");
+
+  if (recentSearchs) {
+    let parsed = JSON.parse(recentSearchs);
+
+    // Remove duplicates and keep only last 5
+    parsed = parsed.filter((v, i, a) => a.indexOf(v) === i);
+
+    if (!parsed.includes(busid)) {
+      parsed.push(busid);
+    }
+
+    // Keep only the last 5 items
+    if (parsed.length > 5) {
+      parsed = parsed.slice(-5);
+    }
+
+    localStorage.setItem("recentSearchs", JSON.stringify(parsed));
+
+  } else {
+    localStorage.setItem("recentSearchs", JSON.stringify([busid]));
+  }
+}
+
+
+function getRecentSearchs() {
+  const recentSearchs = localStorage.getItem("recentSearchs")
+  if (recentSearchs) {
+    return JSON.parse(recentSearchs)
+  } else {
+    return []
   }
 }

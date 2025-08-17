@@ -405,7 +405,9 @@
 .Block.favorite {
     background-color: #1f42f433 !important;
 }
-
+.Block.recent {
+    background-color: #1ff47133 !important;
+}
 
 
 .Block.match {
@@ -617,6 +619,12 @@
     background-size: 300% 300%;
 }
 
+@media (prefers-color-scheme: light) {
+    #phone {
+        --fade-color: #7c7c7c;
+        /* light mode */
+    }
+}
 
 #phone.image {
     --fade-color: #0a0a0d;
@@ -1479,10 +1487,10 @@
 
 
 
-.timetableSpawn .timeItem.isLocal {
+/*.timetableSpawn .timeItem.isLocal {
     background-color: #f5421f25;
     border: 2px solid #ac2f29;
-}
+}*/
 
 .timetableSpawn .timeItem.currentLocation {
     background-color: var(--box-bg);
@@ -1556,7 +1564,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-
+    gap: 10px;
 }
 
 
@@ -1788,16 +1796,17 @@ body {
     animation: float 7s ease-in-out infinite;
 }
 
-#hello-text span {
-    transition: font-size 1s ease-in-out;
+#hello-text {
+    transition: font-size 1s ease-in-out, opacity 2s ease-out;
 }
 
-#hello-text.noSplash span {
+#hello-text.noSplash {
     font-size: 90px;
+    opacity: 0;
 }
 
 #hello-text {
-    font-family: 'Bubble';
+    font-family: 'Bubble', cursive;
     font-size: 5rem;
     font-weight: lighter;
     color: #ffffff;
@@ -1807,6 +1816,12 @@ body {
     transform-origin: left;
     animation: draw 1s forwards;
     animation-delay: 0.5s;
+    /*Connecting letters*/
+    font-feature-settings: "calt" 1;
+    -webkit-font-feature-settings: "calt" 1;
+    font-variant-ligatures: discretionary-ligatures;
+    -webkit-font-variant-ligatures: discretionary-ligatures;
+    -webkit-font-smoothing: antialiased;
 }
 
 #hello-text span {
@@ -2992,18 +3007,32 @@ body {
     background-color: #f44336;
 }
 
-.map-bus-info {
+.map-bus-info-container {
+    position: fixed;
+    bottom: 20px;
     display: flex;
     flex-direction: column;
     width: 90%;
+    justify-content: center;
+    z-index: 999;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    gap: 10px;
+}
+
+.map-bus-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     height: auto;
     background-color: #2c2c2e73;
     border-radius: 20px;
     padding: 15px;
     box-sizing: border-box;
     color: #fff;
-    position: fixed;
-    bottom: 20px;
+
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 999;
@@ -3103,6 +3132,8 @@ body {
     color: #fff;
     flex: -1;
     gap: 5px;
+    /*Take full space*/
+    width: 100%;
 }
 
 
@@ -3528,4 +3559,40 @@ select:focus {
     font-size: 15px;
     font-weight: normal;
     color: #ffffffb5;
+}
+
+.dotBusInfoShow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.dotrow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 5px;
+    width: 100%;
+}
+
+.actiondot {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0056b3;
+    border-radius: 15px;
+    padding: 7px 10px;
+    box-sizing: border-box;
+}
+
+vox.keepDefault {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }

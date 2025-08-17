@@ -3931,7 +3931,7 @@ function checkForOasaCompatibility() {
     if (params.has('redirectLogin')) {
         const value = params.get('redirectLogin');
         if (value === 'oasa') {
-            window.location.href = `../oasaResign/?S=localStorage`
+            window.location.href = `../oasaResign/?loginAs=localStorage`
             return;
         }
     }
