@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.2.0'
+const currentVersion = '2.2.01'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -3114,11 +3114,13 @@ async function getRouteStops(routeCode) {
     }
     const data = await response.json();
     const stops = data.stops || [];
+    alert(`Got data from server: \n${JSON.stringify(data)}`)
     localStorage.setItem(`stations_${routeCode}`, JSON.stringify(stops));
     return stops;
   } catch (error) {
     console.warn('Fetch failed, falling back to localStorage:', error);
     const cachedStops = localStorage.getItem(`stations_${routeCode}`);
+    alert(`Fetch failed. Falling back to lc\n${cachedStops}`)
     return cachedStops ? JSON.parse(cachedStops) : [];
   }
 }
