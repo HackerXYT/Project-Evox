@@ -112,7 +112,6 @@ input {
 
 #phone {
   background-color: rgb(var(--theme-background));
-
   height: 851px;
   width: 393px;
   margin: 100px auto;
@@ -310,8 +309,8 @@ input {
   gap: 0.5rem;
   background-color: rgb(255 255 255 / 10%);
   backdrop-filter: blur(5px);
-    /* Adjust the blur amount as needed */
-    -webkit-backdrop-filter: blur(5px);
+  /* Adjust the blur amount as needed */
+  -webkit-backdrop-filter: blur(5px);
   padding: 1rem 0.75rem;
   text-decoration: none;
 }
@@ -2363,13 +2362,50 @@ button img.buttonPFP {
     width: 100%;
     margin: 0;
   }
+
   #phone {
-    height: 85%;
+    height: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
     margin: 0px auto;
+  }
+
+  .insideSearch {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 851px !important;
+    width: 393px !important;
+  }
+
+  .behind {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 95% !important;
+    width: 393px !important;
+  }
+
+  .oasa-map {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 25px;
+  }
+
+  .timetableItem .topDefines {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 393px !important;
+  }
+
+  .paddingonpc {
+    padding-left: 38%;
+    padding-right: 38%;
   }
 }
 

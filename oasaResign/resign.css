@@ -2389,7 +2389,7 @@ body {
     width: auto;
     /* Adjust the size of the dot */
     height: auto;
-    background-color: white;
+    background-color: #ccc;
     border-radius: 25px;
     /* Make it a circle */
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -2406,6 +2406,10 @@ body {
 .transition p {
     color: #000 !important;
     font-weight: bold;
+}
+
+.transition svg.defaultTransitionIcon path:nth-child(2) {
+    fill: #121212;
 }
 
 .station {
