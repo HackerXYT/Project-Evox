@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.2.1'
+const currentVersion = '2.2.11'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -223,7 +223,7 @@ function spawnOnBarBuses() {
 }
 
 function closeSearch() {
-  triggerNotificationsReload()
+  //triggerNotificationsReload()
   if (document.getElementById("searchContainer").classList.contains("active")) {
     $("#recommendSpawn").fadeIn("fast")
     document.getElementById("searchContainer").classList.remove("active")
@@ -1392,7 +1392,6 @@ const setLoadingState = (isLoading) => {
 
 
 function registerPWA() {
-  return; //REMOVE ME
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
