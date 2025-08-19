@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <p>Starting sandbox..</p>
+        <input placeholder="bus id" id="busid">
+
+        <input placeholder="descr" value="ΠΕΙΡΑΙΑΣ - ΑΝΩ ΓΛΥΦΑΔΑ" id="descr">
+        <input placeholder="come-go" id="comego">
+        <button onclick="run()">Start</button>
+    </body>
+    <script>
+    function run() {
+        const busInfo = {
+    "bus": getIn('busid'),
+    "descr": getIn("descr"),
+    "nextBusTime": null,
+    "timeInM": null,
+    "type": null,
+    "multiple": null
+}
+findBusInfo2(busInfo.bus, getIn("comego"), busInfo)
+    }
+
+    function getIn(id) {
+        return document.getElementById(id).value
+    }
+</script>
+    <script src="businfo.js"></script>
+</html>

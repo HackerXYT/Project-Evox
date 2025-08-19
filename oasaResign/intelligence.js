@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.2.11'
+const currentVersion = '2.2.2'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -20,6 +20,15 @@ let mapboxSourcesArray = []
 let mapboxLayersArray = []
 
 function removeGraphics() {
+  mapboxLayersArray.forEach(sourceid => {
+    console.log(sourceid)
+    if (map.getLayer(`route-${sourceid}`)) {
+      map.removeLayer(`route-${sourceid}`);
+    } else {
+      console.warn("Saved layer doesnt exist", sourceid)
+    }
+  })
+
   mapboxSourcesArray.forEach(sourceid => {
     console.log(sourceid)
     if (map.getSource(`route-${sourceid}`)) {
@@ -29,14 +38,7 @@ function removeGraphics() {
     }
   })
 
-  mapboxLayersArray.forEach(sourceid => {
-    console.log(sourceid)
-    if (map.getLayer(`route-${sourceid}`)) {
-      map.removeLayer(`route-${sourceid}`);
-    } else {
-      console.warn("Saved layer doesnt exist", sourceid)
-    }
-  })
+
 
 
 }
@@ -172,7 +174,7 @@ function spawnOnBarBuses() {
   //</svg>Σπίτι
   //                    </div>`
   favoriteBuses.forEach(bus => {
-    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block favorite barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block favorite barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
                   <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
                   <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -185,7 +187,7 @@ function spawnOnBarBuses() {
                                       </div>`
   })
   frequentBuses.forEach(bus => {
-    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    document.getElementById("recommendSpawn").innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
 <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -203,7 +205,7 @@ function spawnOnBarBuses() {
   );
 
   filteredRecents.forEach(bus => {
-    document.getElementById("recommendSpawn").innerHTML = `<div onclick="spawnAndShowInfo('${bus}', null, null, null, this)" class="Block recent barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    document.getElementById("recommendSpawn").innerHTML = `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block recent barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
 <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -810,6 +812,30 @@ function convertTime(minutes) {
   }
 }
 
+function convertTimeDays(minutes) {
+  const days = Math.floor(minutes / (60 * 24));
+  const hours = Math.floor((minutes % (60 * 24)) / 60);
+  const remainingMinutes = minutes % 60;
+
+  const daysText = days === 1 ? "1 μέρα" : `${days} μέρες`;
+  const hoursText = hours === 1 ? "1 ώρα" : `${hours} ώρες`;
+  const minutesText = remainingMinutes === 1 ? "1 λεπτό" : `${remainingMinutes} λεπτά`;
+
+  let parts = [];
+  if (days > 0) parts.push(daysText);
+  if (hours > 0) parts.push(hoursText);
+  if (remainingMinutes > 0) parts.push(minutesText);
+
+  if (parts.length === 0) {
+    return "0 λεπτά";
+  } else if (parts.length === 1) {
+    return parts[0];
+  } else {
+    return parts.slice(0, -1).join(", ") + " και " + parts.slice(-1);
+  }
+}
+
+
 function convertTimeApprox(minutes) {
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
@@ -1392,6 +1418,7 @@ const setLoadingState = (isLoading) => {
 
 
 function registerPWA() {
+  return; //Remove me
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -2311,6 +2338,7 @@ function processInfo(evoxId, type, addMore, comego) {
                                         <div class="button-action skeleton-button"></div>
                                     </div>
                                 </div>`
+        console.log("Get this:", busInfo.bus, comego, busInfo)
         findBusInfo2(busInfo.bus, comego, busInfo).then((routeCode) => {
           console.log("Route code found", routeCode);
           if (document.getElementById("stationsSpawnOut").classList.contains("fade-out-slide-down")) {
@@ -2815,6 +2843,7 @@ async function spawnBusOnMap(lineId) {
 }
 let activeRouteCode = null
 function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJustRouteCode = true) {
+  console.log("Complete JSON Given", completeJson)
   function routeOasa(lineCode) {
 
     function insider(data) {
@@ -2830,12 +2859,24 @@ function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJust
         } else {
           const vanilaDesc = data[0].route_descr;
           console.warn("Tuning starting for:", data);
-          const extraMatch = vanilaDesc.match(/^(.*?)(\s*[\(\[].*[\)\]])?$/);
+          const extraMatch = vanilaDesc.match(/^(.*?)([\(\[].*[\)\]])?$/);
           if (!extraMatch) throw new Error("Route format not recognized.");
-          const coreRoute = extraMatch[1].trim();
-          const extra = extraMatch[2] || "";
-          const reversedCore = coreRoute.split(" - ").reverse().join(" - ");
-          const reversed = `${reversedCore}${extra}`;
+
+          let coreRoute = extraMatch[1].trim();
+          let extra = extraMatch[2] || "";
+
+          // Ensure coreRoute has no trailing extra
+          coreRoute = coreRoute.replace(/[\(\[].*[\)\]]\s*$/, "").trim();
+
+          // Reverse stops
+          const stops = coreRoute.split(" - ").map(s => s.trim()).reverse();
+
+          // Append extra to the *last* stop after reversing
+          if (extra) {
+            stops[stops.length - 1] += extra;
+          }
+
+          const reversed = stops.join(" - ");
           console.log("Reversed:", reversed);
           let found = false;
           for (const route of data) {
@@ -2855,6 +2896,66 @@ function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJust
                 return route.route_code;
               }
             }
+            //throw new Error("Route Code not found.");
+          }
+
+          if (!found) {
+            const newSearch = reversed.replace(/(\S)\[/, "$1 [");
+
+            console.log("Re-searching for:", newSearch)
+            for (const route of data) {
+              if (route.route_descr === newSearch || route.route_descr.includes(newSearch)) {
+                console.warn("VOXNEW FOUND:", route, route.route_descr);
+                activeRouteCode = route.route_code;
+                found = true;
+                return route.route_code;
+              }
+            }
+          }
+
+          if (!found) {
+            console.warn("Hard to match, inserting intelligence. 🙄")
+            function levenshtein(a, b) {
+              const dp = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+              for (let j = 1; j <= b.length; j++) dp[0][j] = j;
+
+              for (let i = 1; i <= a.length; i++) {
+                for (let j = 1; j <= b.length; j++) {
+                  if (a[i - 1] === b[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                  } else {
+                    dp[i][j] = Math.min(
+                      dp[i - 1][j] + 1,    // deletion
+                      dp[i][j - 1] + 1,    // insertion
+                      dp[i - 1][j - 1] + 1 // substitution
+                    );
+                  }
+                }
+              }
+              return dp[a.length][b.length];
+            }
+
+            const newSearch = reversed.replace(/(\S)\[/, "$1 [");
+
+            let bestRoute = null;
+            let bestScore = Infinity;
+
+            for (const route of data) {
+              const d = levenshtein(route.route_descr, newSearch);
+
+              if (d < bestScore) {
+                bestScore = d;
+                bestRoute = route;
+              }
+            }
+
+            if (bestRoute) {
+              console.warn("VOXINTELLI FOUND:", bestRoute, bestRoute.route_descr);
+              activeRouteCode = bestRoute.route_code;
+              found = true;
+              return bestRoute.route_code;
+            }
+
             throw new Error("Route Code not found.");
           }
         }
@@ -2915,7 +3016,7 @@ function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJust
         })
         console.warn('Found Lines:', matchingLines, "Selected:", selectedLine);
         return routeOasa(selectedLine.LineCode).then(resu => {
-          triggerSave(id, selectedLine.LineCode, resu)
+          //triggerSave(id, selectedLine.LineCode, resu)
           return resu;
         })
       } else {
@@ -2941,6 +3042,7 @@ function findBusInfo2(id, comego, completeJson, getJustLineCode = false, getJust
 
   return nextUp();
 }
+
 
 
 
@@ -3117,7 +3219,7 @@ async function getRouteStops(routeCode) {
     const data = await response.json();
     const stops = data.stops || [];
     //alert(`Got data from server: \n${JSON.stringify(data)}`)
-    if(stops.length !== 0) {
+    if (stops.length !== 0) {
       localStorage.setItem(`stations_${routeCode}`, JSON.stringify(stops))
     }
 
@@ -3494,14 +3596,14 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
                                           </div>`
       } else {
         const result1 = splitter.getSecondPart() // Trim any leading or trailing spa
-        document.getElementById("busDirections").innerHTML += `<div class="Block ${go_or_back === "go" ? " active" : ""}" onclick="changeToOpposite('go', '${bus}', '${verification}')">
+        document.getElementById("busDirections").innerHTML += `<div class="Block ${go_or_back === "go" ? " active" : ""}" onclick="changeToOpposite('go', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>Προς ${capitalizeWords(result1)}
                                           </div>`
         const result2 = splitter.getFirstPart() // Trim any leading or trailing spa
-        document.getElementById("busDirections").innerHTML += `<div class="Block${go_or_back === "come" ? " active" : ""}" onclick="changeToOpposite('come', '${bus}', '${verification}')">
+        document.getElementById("busDirections").innerHTML += `<div class="Block${go_or_back === "come" ? " active" : ""}" onclick="changeToOpposite('come', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -3583,7 +3685,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         dot.onclick = function () {
           if (dot.getAttribute("data-status") === 'hidden') {
             this.innerHTML = `<div class="dotBusInfoShow">
-                    <p>${capitalizeWords(coord.StopDescr)}</p>
+                    <p>${capitalizeWords(coord.StopDescr)}<!--${comego}EVXDEBUG--></p>
                     <div class="dotrow">
                     <div onclick="openStation('${coord.StopCode}', '${capitalizeWords(coord.StopDescr)}', '${bus}', '${verification}');" class="actiondot">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
@@ -3615,7 +3717,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
 </svg>`
 
           } else {
-            this.innerHTML = `<svg class="defaultTransitionIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+            this.innerHTML = `<!--${comego}EVXDEBUG--><svg class="defaultTransitionIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
             <g transform="translate(720.000000, 48.000000)">
@@ -3626,7 +3728,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         }
 
         dot.setAttribute("data-status", 'hidden')
-        dot.innerHTML = `<svg class="defaultTransitionIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+        dot.innerHTML = `<!--${comego}EVXDEBUG--><svg class="defaultTransitionIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
             <g transform="translate(720.000000, 48.000000)">
@@ -4502,13 +4604,15 @@ function showStopDetails(stopCode, stopName) {
               const arrivalTimes = Array.from(busesArrivals[lineID]).join("', "); // Convert Set to array and join times with a comma
               const busDesc = start[lineID].desc;
               document.getElementById("busesComingtoStation").innerHTML += `
-                          <div onclick="openExtLineId('${lineID}', '${busDesc}')" class="timeItem">
+                          <div onclick="openExtLineId('${lineID}', '${busDesc}', this)" class="timeItem">
                               <p>${lineID}</p>
                               <div class="actions">
                                   <span>${arrivalTimes}'</span>
+                                  <vox>
                                   <svg style="transform: rotate(180deg);margin-left:5px;" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
                                       <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path>
                                   </svg>
+                                  </vox>
                               </div>
                           </div>
                       `;
@@ -5152,7 +5256,7 @@ function triggerSave(busId, busLineCode, RouteCode, type, stopCode) {
 
 }
 
-function openFromMap(el) {
+function openFromMap(el, elem, old) {
   const busId = el.getAttribute("data-bus");
   const busDescr = el.getAttribute("data-name");
   const linesSearch = fullLine.filter(item => item.LineID === busId);
@@ -5177,6 +5281,7 @@ function openFromMap(el) {
     document.getElementById("bottomSearchParent").style.display = 'none'
     setTimeout(function () {
       processInfo(evoxId, 'getTimes')
+      elem.innerHTML = old
     }, 200)
 
   })
@@ -5222,9 +5327,11 @@ function showOnMap(evoxId) {
   searchInInput()
 }
 
-function changeToOpposite(whereto, bus, verify) {
+function changeToOpposite(whereto, bus, verify, element) {
   console.warn("Changing to opposite direction:", whereto, bus, verify);
   spawnAndShowInfo(bus, null, verify, whereto)
+  document.getElementById("busDirections").querySelector("div.active").classList.remove("active")
+  element.classList.add("active")
 }
 
 
@@ -6260,13 +6367,27 @@ function spawnClosestStops(focusedSpot) {
     })
 }
 
-function openExtLineId(lineId, desc) {
+function openExtLineId(lineId, desc, elem) {
+  const old = elem.querySelector(".actions vox").innerHTML
+  elem.querySelector(".actions vox").innerHTML = ` <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                                </path>
+                            </svg>`
   returnFromStationInfo()
   returnFromStationsVertical()
   //returnFromBusTimetable()
   document.getElementById("openFromMap").setAttribute("data-name", desc)
   document.getElementById("openFromMap").setAttribute("data-bus", lineId)
-  openFromMap(document.getElementById("openFromMap"))
+  openFromMap(document.getElementById("openFromMap"), elem.querySelector(".actions vox"), old)
 }
 
 function patchSafeAreaInsetTop() {
@@ -6441,11 +6562,17 @@ function getDeviceInfo() {
 
 
 function getWalkingRoute(start, end) {
+  document.getElementById("timeNeeded").innerText = "Εκτίμηση διαδρομής.."
   fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`)
     .then(res => res.json())
     .then(data => {
       const route = data.routes[0].geometry.coordinates;
 
+      const durationSeconds = data.routes[0].duration; // duration in seconds
+      const durationMinutes = Math.round(durationSeconds / 60);
+
+      console.log(`Estimated walking time: ${durationMinutes} min or ${convertTimeDays(durationMinutes)}`);
+      document.getElementById("timeNeeded").innerText = convertTimeDays(durationMinutes)
       // Remove existing route if present
       if (map.getSource('route')) {
         map.getSource('route').setData({
@@ -6521,8 +6648,13 @@ function walkMeTo(lng, lat, event, destinationName) {
       // Update walking route
       getWalkingRoute(userLoc, currentRouteEnd);
     },
-      err => console.error(err),
+      err => {
+        console.error("geofatal", err)
+        document.getElementById("timeNeeded").innerText = "Αποτυχία. Τοποθεσία άγνωστη."
+      },
       { enableHighAccuracy: true, maximumAge: 1000, timeout: 5000 });
+  } else {
+    document.getElementById("timeNeeded").innerText = "Αποτυχία. Τοποθεσία άγνωστη."
   }
 }
 
@@ -6585,3 +6717,8 @@ function getRecentSearchs() {
   }
 }
 
+document.getElementById("password0").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      loginFlorida()
+    }
+  });

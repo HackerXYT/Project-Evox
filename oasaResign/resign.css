@@ -267,7 +267,7 @@
 #searchContainer.active {
     padding-top: 25px;
     padding-bottom: 25px;
-    background-color: #141416d8;
+    background-color: #141416;
     border-radius: 20px;
     margin-left: 15px;
     margin-right: 15px;
@@ -3051,6 +3051,11 @@ body {
     align-items: center;
 }
 
+.map-bus-info .busNames-row.coll {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .map-bus-info .busNames-row p {
     font-size: 20px;
     font-weight: bold;
@@ -3069,6 +3074,10 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 5px;
+}
+
+.map-bus-info .busNames-row.coll span {
+    margin-left: 0;
 }
 
 .busDirections::-webkit-scrollbar {
@@ -3184,7 +3193,7 @@ body {
     padding-left: 20px;
     border-radius: 0.2rem;
     border-bottom-left-radius: 0.5rem;
-    padding-right: 90px;
+    /*padding-right: 90px;*/
 }
 
 
