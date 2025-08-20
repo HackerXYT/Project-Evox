@@ -987,6 +987,14 @@ input {
   border: none;
 }
 
+.welcomeButton.terms {
+  background-color: rgb(148 148 148);
+}
+
+.welcomeButton.terms.accept {
+  background-color: #3c75ff;
+}
+
 .dismissButton {
   background-color: #56565638;
   border-radius: 1rem;

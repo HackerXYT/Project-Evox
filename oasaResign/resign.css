@@ -405,6 +405,7 @@
 .Block.favorite {
     background-color: #1f42f433 !important;
 }
+
 .Block.recent {
     background-color: #1ff47133 !important;
 }
@@ -619,10 +620,88 @@
     background-size: 300% 300%;
 }
 
+.fullScreenLoader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    background-color: #090f1bfc;
+    z-index: 99999;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+.fullScreenLoader.appLoaded {
+    opacity: 0;
+}
+
+.logo-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    /* adjust as needed */
+    height: auto;
+    margin: auto;
+}
+
+.logo {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Shine layer that is clipped to logo shape */
+.shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(120deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.7) 50%,
+            rgba(255, 255, 255, 0) 100%);
+
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shine 2.5s infinite;
+
+    /* CLIP to image shape */
+    mask-image: url('epsilon-transparent.png');
+    mask-size: cover;
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    -webkit-mask-image: url('epsilon-transparent.png');
+    /* for Safari */
+    -webkit-mask-size: cover;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+
+
 @media (prefers-color-scheme: light) {
     #phone {
         --fade-color: #7c7c7c;
         /* light mode */
+    }
+
+    .fullScreenLoader {
+        background-color: #7c7c7c;
     }
 }
 
@@ -1934,6 +2013,16 @@ body {
     width: 100%;
 }
 
+.illustrationImage p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.illustrationImage span {
+    font-weight: normal;
+    font-size: 14px;
+}
+
 .illustrationImage img {
     width: 100%;
     height: auto;
@@ -1951,11 +2040,29 @@ body {
     align-items: center;
 }
 
+.infoBelow.terms {
+    background-color: #acacac;
+    height: 100vh;
+    align-items: flex-start;
+    padding: 0px 25px;
+    gap: 10px;
+    padding-top: 20px;
+
+    overflow-y: auto !important;
+    touch-action: auto;
+    box-sizing: border-box;
+}
+
 .infoBelow h1 {
     font-size: 25px;
     margin: 10px 50px;
     text-align: center;
     font-weight: bold;
+}
+
+.infoBelow.terms h1 {
+    margin: 0;
+    text-align: left;
 }
 
 .infoBelow h1.page2 {
@@ -1974,6 +2081,26 @@ body {
     text-align: center;
 }
 
+.infoBelow.terms p {
+    margin: 0;
+    text-align: left;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.infoBelow.terms li {
+    color: #fff;
+    font-size: 15px;
+    font-weight: normal;
+    margin-top: -5px;
+}
+
+.infoBelow h3 {
+    font-size: 17px;
+    font-weight: bold;
+}
 
 .buttonsContainerSplash {
     margin-top: 10px;

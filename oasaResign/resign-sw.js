@@ -13,8 +13,8 @@ self.addEventListener('notificationclick', function (event) {
   );
 });
 
-const STATIC_CACHE_NAME = 'static-cache-v103';
-const APP_CACHE_NAME = 'app-cache-v103';
+const STATIC_CACHE_NAME = 'static-cache-v104';
+const APP_CACHE_NAME = 'app-cache-v104';
 const CACHE_STATIC = [
   '/oasaResign/',
   '/oasaResign/index.html',
@@ -68,6 +68,7 @@ const CACHE_STATIC = [
   '/oasaResign/fonts/sf-pro-text_light.woff2',
   '/oasaResign/fonts/sf-pro-text_regular.woff2',
   '/oasaResign/fonts/sf-pro-text_semibold.woff2',
+  '/oasaResign/epsilon-transparent.png'
 ];
 const CACHE_APP = [
   '/oasaResign/intelligence.js'

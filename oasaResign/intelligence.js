@@ -1,9 +1,9 @@
-const scrollThreshold = 15; // Adjust this value to your needs
+const scrollThreshold = 15;
 const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.2.2'
+const currentVersion = '2.2.3'
 console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
@@ -359,7 +359,6 @@ function getReady() {
               document.getElementById("locationName").innerHTML = toAccusative(cityOrAreaName) || 'Unknown location';
               updateLocation(cityOrAreaName);
 
-              // Adjust styles dynamically (optional, based on your existing logic)
               if (cityOrAreaName.length > 12) {
                 document.getElementById("locationName").classList.remove("glowUpGB");
                 document.getElementById("locationName").classList.add("glowUpGBSM");
@@ -456,7 +455,6 @@ function bypassAny() {
             document.getElementById("locationName").innerHTML = toAccusative(cityOrAreaName) || 'Unknown location';
             updateLocation(cityOrAreaName);
 
-            // Adjust styles dynamically (optional, based on your existing logic)
             if (cityOrAreaName.length > 12) {
               document.getElementById("locationName").classList.remove("glowUpGB");
               document.getElementById("locationName").classList.add("glowUpGBSM");
@@ -1418,7 +1416,7 @@ const setLoadingState = (isLoading) => {
 
 
 function registerPWA() {
-  return; //Remove me
+  //return; //Remove me after debug
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -1581,6 +1579,10 @@ let outsideOfZone = false;
 document.addEventListener('DOMContentLoaded', () => {
 
   document.fonts.ready.then(() => {
+    document.getElementById("loaderFullscreen").classList.add("appLoaded")
+    setTimeout(function() {
+      document.getElementById("loaderFullscreen").style.display = 'none'
+    }, 300)
     console.log("All fonts are fully loaded!");
     // Do your stuff that requires fonts here
 
@@ -2710,7 +2712,7 @@ function getNextBuses(times, more) {
     const diff = busTime - currentTime;
     return {
       time,
-      remainingTime: diff >= 0 ? diff : diff + 24 * 60 // Adjust for next day if time is negative
+      remainingTime: diff >= 0 ? diff : diff + 24 * 60 
     };
   });
 
@@ -5608,6 +5610,8 @@ function loginAsGuest() {
   })
 }
 
+
+
 function loginFlorida() {
   const username = document.getElementById("username0").value;
   const password = document.getElementById("password0").value;
@@ -5637,6 +5641,7 @@ function loginFlorida() {
         localStorage.setItem("t50-pswd", btoa(password))
         localStorage.setItem("t50pswd", btoa(password))
         localStorage.setItem("t50-email", `${username}@evoxs.xyz`)
+        document.getElementById("nameterms").innerText = username
         $("#loginStep2").fadeOut("fast", function () {
           $("#loginStep3").fadeIn("fast", function () {
             localStorage.setItem("isOasaLoggedIn", "true")
@@ -5864,9 +5869,22 @@ function goBackToLoginNew() {
 }
 
 function skipFlorida() {
-  window.location.reload();
+
+  $("#loginStep3").fadeOut("fast", function () {
+    $("#loginStepLast").fadeOut("fast", function () {
+      //document.getElementById("main").classList.remove("setupNeeded")
+
+      $("#loginStepTerms").fadeIn("fast")
+    })
+  })
+  //window.location.reload();
 }
 
+function disagreeTerms() {
+  $("#loginStepTerms").fadeOut("fast", function() {
+    $("#loginStep3").fadeIn("fast")
+  })
+}
 const select = document.getElementById('mySelect');
 
 select.addEventListener('change', () => {
@@ -6718,7 +6736,29 @@ function getRecentSearchs() {
 }
 
 document.getElementById("password0").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      loginFlorida()
-    }
-  });
+  if (event.key === "Enter") {
+    loginFlorida()
+  }
+});
+
+function acceptTerms(el) {
+  console.log("accepted terms")
+  el.innerHTML += `<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                                </path>
+                            </svg>`
+  localStorage.setItem("acceptedTerms", 'true')
+  $("#loginStepTerms").fadeOut("fast", function() {
+    window.location.reload()
+  })
+
+}
