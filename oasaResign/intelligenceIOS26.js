@@ -3,11 +3,132 @@ const bottomSearchParent = document.getElementById('bottomSearchParent');
 const iconInC = document.getElementById('iconInC');
 const triggerSearch = document.getElementById('triggerSearch');
 const searchIntelli = document.getElementById('searchIntelli');
-const currentVersion = '2.2.35'
-console.log(`%cCurrent Build: ${currentVersion}`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
+const currentVersion = '2.2.4' // Updated version for iOS 26 beta fixes
+
+// iOS 26 beta performance optimizations
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isIOS26 = isIOS && /OS 26/.test(navigator.userAgent);
+const performanceMode = isIOS26 ? 'high-performance' : 'normal';
+
+// Performance monitoring
+let performanceMetrics = {
+  frameCount: 0,
+  lastFrameTime: performance.now(),
+  fps: 60,
+  memoryUsage: 0
+};
+
+// Throttle function for better performance
+function throttle(func, limit) {
+  let inThrottle;
+  return function() {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  }
+}
+
+// Debounce function for better performance
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Optimized DOM operations for iOS
+function optimizedDOMUpdate(elementId, content, method = 'innerHTML') {
+  if (!elementId) return;
+  
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  
+  // Use DocumentFragment for better performance on iOS
+  if (method === 'innerHTML' && content.length > 100) {
+    const fragment = document.createDocumentFragment();
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    
+    while (tempDiv.firstChild) {
+      fragment.appendChild(tempDiv.firstChild);
+    }
+    
+    element.innerHTML = '';
+    element.appendChild(fragment);
+  } else {
+    element[method] = content;
+  }
+}
+
+// Optimized interval management
+const intervalManager = {
+  intervals: new Map(),
+  add(name, func, delay) {
+    if (this.intervals.has(name)) {
+      this.remove(name);
+    }
+    const intervalId = setInterval(func, delay);
+    this.intervals.set(name, intervalId);
+    return intervalId;
+  },
+  remove(name) {
+    if (this.intervals.has(name)) {
+      clearInterval(this.intervals.get(name));
+      this.intervals.delete(name);
+    }
+  },
+  clearAll() {
+    this.intervals.forEach((id) => clearInterval(id));
+    this.intervals.clear();
+  }
+};
+
+// Optimized timeout management
+const timeoutManager = {
+  timeouts: new Map(),
+  add(name, func, delay) {
+    if (this.timeouts.has(name)) {
+      this.remove(name);
+    }
+    const timeoutId = setTimeout(func, delay);
+    this.timeouts.set(name, timeoutId);
+    return intervalId;
+  },
+  remove(name) {
+    if (this.timeouts.has(name)) {
+      clearTimeout(this.timeouts.get(name));
+      this.timeouts.delete(name);
+    }
+  },
+  clearAll() {
+    this.timeouts.forEach((id) => clearTimeout(id));
+    this.timeouts.clear();
+  }
+};
+
+console.log(`%cCurrent Build: ${currentVersion} - iOS 26 Beta Optimized`, "color: #8bdd8f; font-family:sans-serif; font-size: 20px");
 document.getElementById("showUpV").innerText = currentVersion
 localStorage.setItem("currentVersion", currentVersion)
-mapboxgl.accessToken = 'pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw';
+
+// Optimize Mapbox token loading for iOS
+if (typeof mapboxgl !== 'undefined') {
+  mapboxgl.accessToken = 'pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw';
+  
+  // iOS-specific Mapbox optimizations
+  if (isIOS26) {
+    mapboxgl.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js');
+  }
+}
+
 const randomString = () => Math.random().toString(36).substring(2, 10);
 
 let fullLine = null
@@ -139,9 +260,12 @@ function openSearch() {
   bottomSearchParent.classList.add('scrolled');
 
   spawnMyLocation()
-  setInterval(function () {
-    spawnMyLocation()
-  }, 500)
+  // Use optimized interval management for iOS 26 beta
+  if (isIOS26) {
+    intervalManager.add('spawnMyLocation', spawnMyLocation, 2000); // Reduced frequency for iOS
+  } else {
+    intervalManager.add('spawnMyLocation', spawnMyLocation, 500);
+  }
   $("#searchIn").fadeOut("fast", function () {
     document.getElementById("insideSearch").style.display = 'flex';
     iconInC.style.display = 'none';
@@ -1575,12 +1699,12 @@ function isLightMode() {
 }
 
 let outsideOfZone = false;
-let blockGoingToLogin = false;
+
 document.addEventListener('DOMContentLoaded', () => {
 
   document.fonts.ready.then(() => {
     document.getElementById("loaderFullscreen").classList.add("appLoaded")
-    setTimeout(function () {
+    setTimeout(function() {
       document.getElementById("loaderFullscreen").style.display = 'none'
     }, 300)
     console.log("All fonts are fully loaded!");
@@ -1591,7 +1715,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function loop() {
       console.log('Calling handleActivity');
       handleActivity(startingJson);
-      setTimeout(loop, 10000);
+      // Use optimized timeout management for iOS 26 beta
+    timeoutManager.add('mainLoop', loop, isIOS26 ? 15000 : 10000); // Increased delay for iOS performance
     }
 
     loop();
@@ -1645,28 +1770,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const completeCheck = check1 && loggedInLocally || check2 && loggedInLocally
     if (completeCheck) {
-      if (localStorage.getItem("acceptedTerms") === "true") {
-        getReady()
-        registerPWA()
+      getReady()
+      registerPWA()
 
-        if (!localStorage.getItem("extVOASA")) {
-          document.getElementById("notificationsOff").style.display = null;
-          document.getElementById("noticecircle").style.display = null;
-        }
-        //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
-      } else {
-        document.getElementById("phone").classList.add("login")
-        document.getElementById("main").classList.add("setupNeeded")
-        document.getElementById("content").style.display = 'none'
-        document.getElementById("loginForming").style.display = "none"
-        document.getElementById("loginContentFlex").style.height = 'auto'
-        document.getElementById("loginStepTerms").style.display = null
-        document.getElementById("bottomSearchParent").style.zIndex = '-1'
-        document.getElementById("nameterms").innerText = localStorage.getItem("t50-username")
-        document.getElementById("loginContent").style.display = "block"
-        blockGoingToLogin = true
+      if (!localStorage.getItem("extVOASA")) {
+        document.getElementById("notificationsOff").style.display = null;
+        document.getElementById("noticecircle").style.display = null;
       }
-
+      //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
 
 
     } else {
@@ -1789,9 +1900,10 @@ document.addEventListener('DOMContentLoaded', () => {
         famousBuses = uniqueBuses
         console.log("famous buses")
 
-        const pre = setInterval(function () {
+        // Use optimized interval management for iOS 26 beta
+        const pre = intervalManager.add('famousBusesCheck', function () {
           if (fullLine) {
-            clearInterval(pre)
+            intervalManager.remove('famousBusesCheck')
             famousBuses.forEach(bus => {
               try {
                 loadSection('famous', bus)
@@ -1803,7 +1915,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn("fullLine not found! CRITICAL")
             connectOASABridge()
           }
-        }, 100)
+        }, isIOS26 ? 500 : 100) // Increased delay for iOS performance
 
 
 
@@ -2726,7 +2838,7 @@ function getNextBuses(times, more) {
     const diff = busTime - currentTime;
     return {
       time,
-      remainingTime: diff >= 0 ? diff : diff + 24 * 60
+      remainingTime: diff >= 0 ? diff : diff + 24 * 60 
     };
   });
 
@@ -3895,9 +4007,8 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
 
 
     redoLive()
-    let into = setInterval(function () {
-      redoLive()
-    }, 5000);
+    // Use optimized interval management for iOS 26 beta
+    let into = intervalManager.add('redoLive', redoLive, isIOS26 ? 10000 : 5000); // Increased delay for iOS performance
     liveBuses.push(into);
 
 
@@ -4363,12 +4474,13 @@ function showVerticalStations() {
     if (latestHorizontalIntelligence) {
       spawnIntelli(latestHorizontalIntelligence, 'old')
     }
-    let afasterfix = setInterval(function () {
+    // Use optimized interval management for iOS 26 beta
+    let afasterfix = intervalManager.add('afasterfix', function () {
       if (isFetching === true && latestHorizontalIntelligence) {
         spawnIntelli(latestHorizontalIntelligence, 'old')
-        clearInterval(afasterfix)
+        intervalManager.remove('afasterfix')
       }
-    }, 200)
+    }, isIOS26 ? 500 : 200) // Increased delay for iOS performance
 
     let isFetching = true;
     fetch(`https://data.evoxs.xyz/oasa?intelligence=${JSON.stringify(keepForVerticalStations)}&vevox=${randomString()}`)
@@ -4388,13 +4500,14 @@ function showVerticalStations() {
   } else {
 
     //Don't break the app
-    let restartit = setInterval(function () {
+    // Use optimized interval management for iOS 26 beta
+    let restartit = intervalManager.add('restartit', function () {
       if (keepForVerticalStations) {
-        clearInterval(restartit)
+        intervalManager.remove('restartit')
         showVerticalStations()
         console.log("Found")
       }
-    }, 200)
+    }, isIOS26 ? 500 : 200) // Increased delay for iOS performance
     //
   }
 
@@ -5227,7 +5340,8 @@ if (localStorage.getItem("currentActivity")) {
   function loop() {
     console.log('Calling handleActivity saved');
     handleActivity(startingJson);
-    setTimeout(loop, 5000);
+    // Use optimized timeout management for iOS 26 beta
+    timeoutManager.add('activityLoop', loop, isIOS26 ? 10000 : 5000); // Increased delay for iOS performance
   }
   loop();
 }
@@ -5626,22 +5740,7 @@ function loginAsGuest() {
 
 
 
-function loginFlorida(el) {
-  if (el) {
-    el.innerHTML += `<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
-                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-                                <path opacity="0.2" fill="#fff"
-                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
-                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
-                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
-                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
-                             C22.32,8.481,24.301,9.057,26.013,10.047z">
-                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
-                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
-                                </path>
-                            </svg>`
-  }
+function loginFlorida() {
   const username = document.getElementById("username0").value;
   const password = document.getElementById("password0").value;
   const evoxJson = {
@@ -5649,7 +5748,6 @@ function loginFlorida(el) {
     'password': password
   }
   if (evoxJson.username === "" || evoxJson.password === "") {
-    el ? el.querySelector("svg").remove() : null
     return;
   }
   fetch('https://florida.evoxs.xyz/oasaReg', {
@@ -5674,19 +5772,17 @@ function loginFlorida(el) {
         document.getElementById("nameterms").innerText = username
         $("#loginStep2").fadeOut("fast", function () {
           $("#loginStep3").fadeIn("fast", function () {
-            el ? el.querySelector("svg").remove() : null
             localStorage.setItem("isOasaLoggedIn", "true")
             localStorage.setItem("loginType", "floridaDirect")
             document.getElementById("bottomSearchParent").style.zIndex = '-1'
           })
         })
       } else {
-        alert(`Λάθος κωδικός πρόσβασης.\nΔοκιμάστε άλλο όνομα χρήστη.`)
+        alert(`Δοκιμάστε άλλο όνομα χρήστη.`)
       }
 
     }).catch(error => {
       alert(`Failed: ${error.message}`);
-      el ? el.querySelector("svg").remove() : null
       console.error('Fetch error:', error);
     });
 }
@@ -5905,7 +6001,7 @@ function skipFlorida() {
   $("#loginStep3").fadeOut("fast", function () {
     $("#loginStepLast").fadeOut("fast", function () {
       //document.getElementById("main").classList.remove("setupNeeded")
-      document.getElementById("nameterms").innerText = localStorage.getItem("t50-username")
+
       $("#loginStepTerms").fadeIn("fast")
     })
   })
@@ -5913,12 +6009,7 @@ function skipFlorida() {
 }
 
 function disagreeTerms() {
-  if(blockGoingToLogin === true) {
-    localStorage.removeItem("isOasaLoggedIn")
-    window.location.reload()
-    return;
-  }
-  $("#loginStepTerms").fadeOut("fast", function () {
+  $("#loginStepTerms").fadeOut("fast", function() {
     $("#loginStep3").fadeIn("fast")
   })
 }
@@ -6794,7 +6885,7 @@ function acceptTerms(el) {
                                 </path>
                             </svg>`
   localStorage.setItem("acceptedTerms", 'true')
-  $("#loginStepTerms").fadeOut("fast", function () {
+  $("#loginStepTerms").fadeOut("fast", function() {
     window.location.reload()
   })
 

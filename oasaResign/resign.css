@@ -2041,7 +2041,7 @@ body {
 }
 
 .infoBelow.terms {
-    background-color: #acacac;
+    background-color: #161616;
     height: 100vh;
     align-items: flex-start;
     padding: 0px 25px;
@@ -2051,6 +2051,7 @@ body {
     overflow-y: auto !important;
     touch-action: auto;
     box-sizing: border-box;
+    border-radius: 25px 25px 0 0;
 }
 
 .infoBelow h1 {
@@ -3351,6 +3352,10 @@ body {
     margin-top: 20px;
     border: none;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 

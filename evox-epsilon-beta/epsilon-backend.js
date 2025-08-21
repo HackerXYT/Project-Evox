@@ -66,7 +66,10 @@ let stopForPWA = false;
 function PWACheck() {
     if (!isPWA() && isMobileDevice() && localStorage.getItem("t50pswd") && !localStorage.getItem("trusted_web")) {
         //alert("must alert")
-        document.getElementById("install-app").classList.add("active")
+        if (!new URLSearchParams(window.location.search).toString()) {
+            document.getElementById("install-app").classList.add("active")
+        }
+
         stopForPWA = true
         const jsonData = {
             "isLoggedIn": true,
@@ -318,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.215'
+const appVersion = '8.3.216'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
