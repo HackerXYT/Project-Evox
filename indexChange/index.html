@@ -39,7 +39,7 @@
     </head>
     <body>
         <div class="topNavigator">
-            <div class="item">
+            <div class="item left">
                 <img src="../evox-epsilon-beta/evox-logo-apple-simple.png">
                 <p>Evox</p>
             </div>
@@ -58,103 +58,444 @@
             </div>
 
             <div class="item navigate"> <!--Navigator-->
-                <p class="active">Explore</p>
-                <p>My Profile</p>
-                <p>My Apps</p>
-                <p>About Evox</p>
+                <p onclick="switchFeed(this)" id="feed-1"
+                    class="active">Explore</p>
+                <p onclick="switchFeed(this)" id="feed-2">My Account</p>
+                <p onclick="switchFeed(this)" id="feed-3">My Apps</p>
+                <p onclick="switchFeed(this)" id="feed-4">About Evox</p>
             </div>
 
-            <div class="item">
+            <div id="accountPreview" class="item">
+
                 <div class="loginBtn">
                     Create
                 </div>
-                <div class="loginBtn">
+                <div onclick="showlogin()" class="loginBtn">
                     Login
                 </div>
             </div>
         </div>
-        <div class="feedContainers">
-            <div class="feed">
-                <div class="row">
-                    <p>Top Applications</p>
-                    <div class="farRight">
-                        Today <svg xmlns="http://www.w3.org/2000/svg"
-                            width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path
-                                d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
-                                fill="#aaa" />
-                        </svg>
+        <div class="feedContainers fade-in-slide-up" style="display: none;"
+            id="myaccount">
+            <div class="feedgeneral">
+                <div class="rowfull profilerow">
+                    <img class="imageProfile" id="imageProfile"
+                        src="../arduino-uno-uhd-wallpapers-4965-x-2666-v0-6oxtph48x9jb1.webp">
+                    <div class="collumnVanilla" style="width: auto;gap:10px;">
+                        <h2 id="fullname"></h2>
+                        <span id="profileLink"
+                            class="profileLink">https://</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="itemBig">
-                        <img
-                            src="../evox-epsilon-beta/epsilon-assets/apple-splash-dark-2160-1620.png">
-                        <div class="ontop">
-                            <p>Evox Nexus</p>
-                            <span>by Evox</span>
-                        </div>
+                <div class="rowfull profilerow">
+                    <div class="collumnVanilla" style="gap:10px;">
+                        <h3>Evox Profile</h3>
+                        <p
+                            style="padding-bottom: 10px;border-bottom: 1px solid #acacac;">Update
+                            your Evox account information here.</p>
                     </div>
-                    <div class="collumn">
-                        <div class="itemMed">
-                            <img
-                                src="../oasaMobile/splashScreens/apple-splash-2388-1668.png">
-                            <div class="ontop">
-                                <p>OASA</p>
-                                <span>Reimagined Application</span>
-                            </div>
-                        </div>
-                        <div class="itemMed">
-                            <img
-                                src="../jeanne/splashScreens/apple-splash-2388-1668.png">
-                            <div class="ontop">
-                                <p>Jeanne d'Arc</p>
-                                <span>School Management</span>
-                            </div>
-                        </div>
+                </div>
+                <div class="rowfull profilerow"
+                    style="padding-top:0px;align-items: flex-start;border-bottom: 1px solid #acacac">
+
+                    <div class="collumnVanilla" style="width: 235px;gap: 5px;">
+                        <h3>Public Profile</h3>
+                        <span class="profilespan">This will be displayed on your
+                            profile</span>
                     </div>
-                    <div class="collumn">
-                        <div class="itemMed">
-                            <img
-                                src="../AIT/splash/apple-splash-2388-1668.png">
-                            <div class="ontop">
-                                <p>AIT</p>
-                                <span>Personal Assistant</span>
+
+                    <div class="collumnVanilla"
+                        style="max-width: 400px;gap: 10px;">
+
+                        <div class="input_container">
+                            <div class="row" style="align-items: flex-end;">
+                                <div class="collumn">
+                                    <label for="name_field"
+                                        class="input_label">Full Name</label>
+                                    <input style="width: auto;"
+                                        class="input_field"
+                                        type="text" name="name" id="name_field"
+                                        title="Evox fullname"
+                                        placeholder="Enter your full name">
+                                </div>
+
+                                <div class="launchBtn">
+                                    Save
+                                </div>
                             </div>
-                        </div>
-                        <div class="itemMed">
-                            <img
-                                src="../t50-gateway-alpha/t50gatewayalpha.png">
-                            <div class="ontop">
-                                <p>Evox Gateway</p>
-                                <span>The Default Evox Experience</span>
+                            <div class="row" style="align-items: flex-end;">
+                                <div class="collumn">
+                                    <label for="birthdate"
+                                        class="input_label">Birthdate</label>
+                                    <input style="width: auto;"
+                                        class="input_field"
+                                        type="text" name="birthdate"
+                                        id="birthdate"
+                                        title="Evox birthdate"
+                                        placeholder="Enter your birthdate">
+                                </div>
+                                <div class="launchBtn">
+                                    Save
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="collumn">
-                        <div class="itemMed">
-                            <img
-                                src="../evox-epsilon/nexusBeta.png">
-                            <div class="ontop">
-                                <p>Evox Gateway 2</p>
-                                <span>A New Way Of Interacting With Evox</span>
+                    <div class="collumnVanilla"
+                        style="max-width: 400px;gap: 10px;">
+
+                        <div class="input_container">
+                            <label for="name_field"
+                                class="input_label">Tags</label>
+                            <div id="usertags" class="tags">
+
                             </div>
                         </div>
-                        <div class="itemMed">
-                            <img
-                                src="../t50-app-thumbnail.png">
-                            <div class="ontop">
-                                <p>T50</p>
-                                <span>Abandoned</span>
+                    </div>
+                </div>
+
+                <div class="rowfull profilerow"
+                    style="padding-top:0px;align-items: flex-start;border-bottom: 1px solid #acacac">
+
+                    <div class="collumnVanilla"
+                        style="width: 235px;gap: 5px;">
+                        <h3>Your Information</h3>
+                        <span class="profilespan">The following
+                            information is
+                            only visible to you and may be used for Evox
+                            Services.</span>
+                    </div>
+
+                    <div class="collumnVanilla"
+                        style="max-width: 400px;gap: 10px;">
+
+                        <div class="input_container">
+
+                            <label for="main_email"
+                                class="input_label">Main Email</label>
+                            <input style="width: auto;"
+                                class="input_field"
+                                type="email" name="email"
+                                id="main_email"
+                                title="Evox Email"
+                                placeholder="Enter your email." disabled>
+
+                            <div class="row" style="align-items: flex-end;">
+                                <div class="collumn">
+                                    <label for="birthdate"
+                                        class="input_label">Phone Number</label>
+                                    <input style="width: auto;"
+                                        class="input_field"
+                                        type="tel" name="phone" id="phonenum"
+                                        title="Evox phone number"
+                                        placeholder="Enter your phone number">
+                                </div>
+                                <div class="launchBtn">
+                                    Save
+                                </div>
                             </div>
                         </div>
-                        
+                    </div>
+
+                    <div class="collumnVanilla"
+                        style="max-width: 400px;gap: 10px;">
+
+                        <div class="input_container">
+
+                            <label for="main_email"
+                                class="input_label">Username</label>
+                            <input style="width: auto;"
+                                class="input_field"
+                                type="name" name="username"
+                                id="main_username"
+                                title="Evox Username"
+                                placeholder="Enter your username." disabled>
+
+                            <div class="row" style="align-items: flex-end;">
+                                <div class="collumn">
+                                    <label for="birthdate"
+                                        class="input_label">Two Factor
+                                        Authentication</label>
+                                    <input style="width: auto;"
+                                        class="input_field"
+                                        type="text" name="2fa"
+                                        id="2fatoggle"
+                                        title="enter the value for 2fa"
+                                        placeholder="Set ON/OFF">
+                                </div>
+                                <div class="launchBtn">
+                                    Save
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="rowfull profilerow"
+                        style="padding-top:0px;align-items: flex-start;border-bottom: 1px solid #acacac">
+
+                        <div class="collumnVanilla"
+                            style="width: 235px;gap: 5px;">
+                            <h3>Evox Social</h3>
+                            <span class="profilespan">Your Evox Social information.</span>
+                        </div>
+
+                        <div class="collumnVanilla"
+                            style="max-width: 400px;gap: 10px;">
+
+                            
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        <div class="feedContainers fade-in-slide-up" id="home">
+            <div class="feed">
+                <div class="collumnVanilla">
+                    <div class="row">
+                        <p>Top Applications</p>
+                        <div class="farRight">
+                            Today <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20px" height="20px"
+                                viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                                    fill="#aaa" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="row margTop">
+                        <div onclick="openApp(this)" class="itemBig" data-link="/evox-epsilon-beta/">
+                            <img
+                                src="../evox-epsilon-beta/epsilon-assets/apple-splash-dark-2160-1620.png">
+                            <div class="ontop">
+                                <p>Epsilon Nexus</p>
+                                <span>Current Evox Gateway</span>
+                                <vox class="hidden">Manage Evox apps,
+                                    friends,
+                                    and chats securely with the new Evox
+                                    Epsilon
+                                    Nexus. Enjoy a modern, optimized
+                                    interface designed for speed and
+                                    enhanced
+                                    security, delivering the best user
+                                    experience yet.
+                                </vox>
+                            </div>
+                        </div>
+                        <div class="collumn">
+                            <div onclick="openApp(this)" class="itemMed" data-link="/oasaMobile/">
+                                <img
+                                    src="../oasaMobile/splashScreens/apple-splash-2388-1668.png">
+                                <div class="ontop">
+                                    <p>OASA</p>
+                                    <span>Reimagined Application</span>
+                                    <vox class="hidden">A reimagined
+                                        OASA Mobile
+                                        app, now allowing you to access
+                                        timetables offline and receive
+                                        notifications
+                                        when your bus arrives at a
+                                        transition
+                                        point.
+                                    </vox>
+                                </div>
+                            </div>
+                            <div onclick="openApp(this)" class="itemMed" data-link="/jeanne/">
+                                <img
+                                    src="../jeanne/splashScreens/apple-splash-2388-1668.png">
+                                <div class="ontop">
+                                    <p>Jeanne d'Arc</p>
+                                    <span>School Management</span>
+                                    <vox class="hidden">Connect with
+                                        friends and
+                                        classmates, share your thoughts,
+                                        and
+                                        discover what they think of you
+                                        with
+                                        Jeanne D'Arc's yearbook app.
+                                    </vox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collumn">
+                            <div onclick="openApp(this)" class="itemMed" data-link="/AIT/">
+                                <img
+                                    src="../AIT/splash/apple-splash-2388-1668.png">
+                                <div class="ontop b-ait">
+                                    <p>AIT</p>
+                                    <span>Personal Assistant</span>
+                                    <vox class="hidden">Chat smarter
+                                        with Evox
+                                        AIT — your personal AI
+                                        assistant. Start
+                                        and manage conversations
+                                        seamlessly in a
+                                        sleek, fast, and secure
+                                        environment
+                                        built for clarity and
+                                        control.</vox>
+
+                                </div>
+                            </div>
+                            <div onclick="openApp(this)" class="itemMed" data-link="/t50-gateway-alpha/">
+                                <img
+                                    src="../t50-gateway-alpha/t50gatewayalpha.png">
+                                <div class="ontop">
+                                    <p>Evox Gateway</p>
+                                    <span>The Default Evox
+                                        Experience</span>
+                                    <vox class="hidden">
+                                        Also known as T50 gateway, Evox
+                                        gateway
+                                        is an all-in-one solution for
+                                        streamlined organization and
+                                        secure
+                                        communication
+                                    </vox>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="rightFlex">
+                    <div class="row onehund">
+                        <p>Other Applications</p>
+
+                    </div>
+                    <div onclick="openApp(this)" class="apphorizontal" data-link="/evox-app/">
+                        <img class="nobord"
+                            src="../evox-app/t50-select_verified.png">
+                        <span>T50 App</span>
+                        <div class="launchBtn">
+                            Launch
+                        </div>
+                    </div>
+                    <div onclick="openApp(this)" class="apphorizontal" data-link="/evox-epsilon/">
+                        <img src="../evox-logo-apple.png">
+                        <span>Evox Epsilon</span>
+                        <div class="launchBtn">
+                            Launch
+                        </div>
+                    </div>
+
+                    <div onclick="openApp(this)" class="apphorizontal" data-link="/jeanneBeta/">
+                        <img src="../jeanneBeta/appLogoV2.png">
+                        <span>Jeanne Beta</span>
+                        <div class="launchBtn">
+                            Launch
+                        </div>
+                    </div>
+
+                    <div onclick="openApp(this)" class="apphorizontal" data-link="/oasaResign/">
+                        <img src="../oasaResign/apple.png">
+                        <span>OASA Beta</span>
+                        <div class="launchBtn">
+                            Launch
+                        </div>
+                    </div>
+
+                    <div onclick="openApp(this)" class="apphorizontal" data-link="/tascoTasks/">
+                        <img src="../tascoTasks/tasco.png">
+                        <span>Tasco Deluxe</span>
+                        <div class="launchBtn disabled">
+                            Disabled
+                        </div>
                     </div>
 
                 </div>
             </div>
+            <div class="feedgeneral">
+                <div class="collumnVanilla">
+                    <div class="row">
+                        <p>Latest Updates</p>
+                        <div style="display: none;" class="farRight">
+                            Today <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20px" height="20px"
+                                viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                                    fill="#aaa" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="updates" class="rowfull margTop">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="login" class="login fade-in-slide-up">
+            <div id="mainlogin" class="box fade-in-slide-up">
+                <img src="../evox-epsilon-beta/epsilon-transparent.png">
+                <h3>Welcome Back!</h3>
+                <span>Don't have an account? <a>Create one</a></span>
+                <div class="evoxform">
+                    <div class="input_container">
+                        <label for="email_field"
+                            class="input_label">Email</label>
+                        <input id="email_field" class="input_field"
+                            type="email" name="input-name"
+                            title="your Evox email"
+                            placeholder="Enter your Evox email">
+                    </div>
+                    <div class="input_container">
+                        <label for="password_field"
+                            class="input_label">Password</label>
+                        <input id="password_field" class="input_field"
+                            type="password" title="Your Evox Password"
+                            placeholder="Enter your Evox password">
+                    </div>
+
+                </div>
+                <span id="messageLogin" style="display: none;"
+                    class="fade-in-slide-up"></span>
+                <div onclick="checkCredentials()" id="loginButton"
+                    class="startLogin">
+                    Login
+                </div>
+            </div>
+
+            <div id="2fa" class="box twofa fade-in-slide-up">
+                <img src="../evox-epsilon-beta/epsilon-transparent.png">
+                <h3>One Last Step</h3>
+                <span>Enter the one time password sent to your
+                    email.</span>
+                <div class="evoxform">
+                    <div class="input_container">
+                        <label for="twofa_field" class="input_label">One
+                            Time
+                            Password</label>
+                        <input id="twofa_field" class="input_field"
+                            type="number" name="input-name"
+                            title="your one time password"
+                            placeholder="OTP">
+                    </div>
+
+                </div>
+                <span id="2famsg" style="display: none;"
+                    class="fade-in-slide-up"></span>
+                <div onclick="check2FA()" class="startLogin">
+                    Verify
+                </div>
+            </div>
+        </div>
+        <div id="launchApp" class="launchApp fade-in-slide-up">
+            <img id="launchAppSrc" src="/evox-epsilon-beta/evox-logo-apple-simple.png">
+            <h2>Launching <vox id="launchAppname"></vox>..</h2>
+        </div>
+        <div class="footer">
+            <p>© <vox id="year">2025</vox> Evox</p>
+            <span>All rights reserved</span>
         </div>
     </body>
+    <script src="script.js"></script>
 </html>

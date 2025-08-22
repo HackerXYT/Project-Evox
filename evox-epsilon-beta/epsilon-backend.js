@@ -321,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.216'
+const appVersion = '8.3.3'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
@@ -3090,6 +3090,7 @@ function loadProfile(reload, withoutCanvas) {
         });
 
     function loadNotifications() {
+        return;
         fetch(`${srv}/notifications?process=get&email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&username=${localStorage.getItem("t50-username")}&rand=${Math.floor(Math.random() * 100000)}`)
             .then(response => {
                 if (!response.ok) {

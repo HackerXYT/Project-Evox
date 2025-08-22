@@ -5,6 +5,7 @@ html {
     margin: 0;
     color: #fff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    user-select: none;
 }
 
 body {
@@ -40,7 +41,7 @@ span {
     gap: 10px;
 }
 
-.topNavigator .item img {
+.topNavigator .item.left img {
     width: 40px;
     height: 40px;
     object-fit: cover;
@@ -49,7 +50,7 @@ span {
     transition: box-shadow 0.3s ease;
 }
 
-.topNavigator .item img:hover {
+.topNavigator .item.left img:hover {
     box-shadow: 0 6px 18px rgba(105, 105, 105, 0.3);
 }
 
@@ -94,48 +95,55 @@ span {
 }
 
 .item.navigate p {
-  position: relative;
-  display: inline-block; /* needed for underline sizing */
-  font-weight: normal;
-  cursor: pointer;
+    position: relative;
+    display: inline-block;
+    /* needed for underline sizing */
+    font-weight: normal;
+    cursor: pointer;
 }
 
 .item.navigate p::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -7px; /* distance from text */
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
-  width: 100%;
-  height: 3px; /* underline thickness */
-  background: currentColor; /* same as text color */
-  border-radius: 2px;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    /* distance from text */
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: 3px;
+    /* underline thickness */
+    background: currentColor;
+    /* same as text color */
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .item.navigate p:hover::after {
-  transform: translateX(-50%) scaleX(1);
+    transform: translateX(-50%) scaleX(1);
 }
 
 .item.navigate p.active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -7px; /* distance from text */
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
-  width: 100%;
-  height: 3px; /* underline thickness */
-  background: #ccc; /* same as text color */
-  border-radius: 2px;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    /* distance from text */
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: 3px;
+    /* underline thickness */
+    background: #ccc;
+    /* same as text color */
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .item.navigate p.active::after {
-  transform: translateX(-50%) scaleX(1);
+    transform: translateX(-50%) scaleX(1);
 }
 
 .item .loginBtn {
@@ -147,6 +155,8 @@ span {
     background-color: #262626;
     border-radius: 15px;
     padding: 7px 15px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .feedContainers {
@@ -166,17 +176,66 @@ span {
     gap: 20px;
 }
 
+.feedContainers .feedgeneral {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.feedContainers .feed {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    /* new flex space to the right */
+    justify-content: start;
+    max-width: 100%;
+}
+
+.rightFlex {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.collumnVanilla {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
 .row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    width: auto;
     gap: 10px;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
+.rowfull {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;          /* Fill container width */
+    max-width: 100%;      /* Never exceed container */
+    overflow-x: auto;     /* Horizontal scroll if content too wide */
+    overflow-y: hidden;
+    box-sizing: border-box; /* Include padding/gap in width */
+}
+
+.rowfull > * {
+    flex-shrink: 0;       /* Prevent children from shrinking (so scroll works) */
+}
 .row:nth-child(1) p:nth-child(1) {
     font-size: 20px;
     font-weight: bold;
@@ -203,14 +262,22 @@ span {
     overflow: hidden;
     border: #1f1f1f 1px solid;
     flex-shrink: 0;
+    user-select: none;
+    cursor: pointer;
     /* make sure the gradient doesn’t overflow the rounded corners */
 }
+
 
 .itemBig img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
+    transition: filter 0.3s ease;
+}
+
+.itemBig:hover img {
+    filter: brightness(0.8)
 }
 
 .itemBig::after {
@@ -228,9 +295,16 @@ span {
     z-index: 1;
 }
 
+.hidden {
+    opacity: 0;
+    box-sizing: border-box;
+    padding-right: 10px;
+    transition: opacity 0.3s ease;
+}
+
 .ontop {
     position: absolute;
-    bottom: 20px;
+    bottom: -50px;
     left: 20px;
     color: white;
 
@@ -238,6 +312,23 @@ span {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    transition: bottom 0.3s ease;
+}
+
+.ontop.b-ait {
+    bottom: -70px;
+}
+
+.itemBig:hover .ontop,
+.itemMed:hover .ontop {
+    bottom: 20px;
+
+}
+
+.itemBig:hover .hidden,
+.itemMed:hover .hidden {
+    opacity: 1;
+
 }
 
 .ontop p {
@@ -272,6 +363,8 @@ span {
     overflow: hidden;
     border: #1f1f1f 1px solid;
     flex-shrink: 0;
+    user-select: none;
+    cursor: pointer;
 }
 
 .itemMed::after {
@@ -294,29 +387,444 @@ span {
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
+    transition: filter 0.3s ease;
+}
+
+.collumn .itemMed:hover img {
+    filter: brightness(0.8);
 }
 
 ::-webkit-scrollbar {
     margin-top: 10px;
-  width: 8px;       /* vertical scrollbar width */
-  height: 8px;      /* horizontal scrollbar height */
+    width: 8px;
+    /* vertical scrollbar width */
+    height: 8px;
+    /* horizontal scrollbar height */
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* scrollbar track (background) */
+    background: transparent;
+    /* scrollbar track (background) */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.4); /* scrollbar handle */
-  border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    /* scrollbar handle */
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 /* For Firefox */
 * {
-  scrollbar-width: thin;           /* "auto" | "thin" | "none" */
-  scrollbar-color: #aaaaaa6e transparent;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE & Edge (legacy) */
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.onehund {
+    width: 100%;
+}
+
+.margTop {
+    margin-top: 10px;
+}
+
+.apphorizontal {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px;
+    background-color: #262626;
+    border-radius: 20px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 7px;
+}
+
+.apphorizontal img {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.apphorizontal img.nobord {
+    border-radius: 0;
+}
+
+.launchBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #007AFF;
+    margin-left: auto;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+}
+
+.launchBtn.disabled {
+    background-color: #ff0800a4;
+    cursor: not-allowed;
+}
+
+.launchBtn:hover {
+    background-color: #2f91fa;
+}
+
+.launchBtn.disabled:hover {
+    background-color: #fe413b;
+}
+
+.updateBox {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: #262626;
+    gap: 10px;
+    width: 350px;
+    height: 200px;
+
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url("../evox-epsilon-beta/epsilon-assets/apple-splash-dark-2360-1640.png") center/cover no-repeat;
+    background-repeat: no-repeat;
+    /* Prevents tiling */
+    background-size: cover;
+    /* Makes image cover the element */
+    background-position: center;
+    /* Centers the image */
+    border: 1px solid #ffffff2f;
+}
+
+.updateBox p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.updateBox .bottomRow {
+    display: flex;
+    margin-top: auto;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+    
+}
+
+.updateBox .bottomRow vox {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+
+.updateBox .bottomRow vo {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #1e1e1e;
+    margin-top: auto; 
+
+    display: none;
+}
+.footer p {
+    font-size: 14px;
+}
+.footer span {
+    color: #aaa;
+    font-size: 14px;
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        /* Adjust the Y value for how far the element slides up */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-slide-up {
+    animation: fadeInSlideUp 0.5s ease forwards;
+    /* Adjust duration and timing function as needed */
+}
+
+@keyframes SlideDownfadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0px);
+        /* Adjust the Y value for how far the element slides up */
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.fade-out-slide-down {
+    animation: SlideDownfadeOut 0.5s ease forwards;
+    /* Adjust duration and timing function as needed */
+}
+
+.login {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    display: none;
+    z-index: 999;
+}
+
+.login.active {
+    opacity: 1;
+    display: flex;
+}
+
+.login .box {
+    display: flex;
+    flex-direction: column;
+    background-color: #131313;
+    border-radius: 20px;
+    padding: 50px 70px;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+    gap: 10px;
+    border: 1px solid #aaaaaa57;
+}
+
+.box span {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.box span a{
+    color: #6db4ff;
+}
+
+.login .box img {
+    width: 50px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+}
+
+.evoxform {
+    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.input_container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+  gap: 15px;
+}
+
+.split input {
+  width: 100%;
+}
+
+.input_label {
+  font-size: 10px;
+  color: #8B8E98;
+  font-weight: 600;
+}
+
+.startLogin {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #007AFF;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    user-select: none;
+    gap: 10px;
+}
+
+.input_field {
+  width: auto;
+  height: 40px;
+  padding: 0 0 0 16px;
+  border-radius: 9px;
+  outline: none;
+  background-color: #F2F2F2;
+  border: 1px solid #e5e5e500;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.input_field:focus {
+  border: 1px solid #e5e5e500;
+  background-color: #F2F2F2;
+}
+
+
+/* Reset input number styles */
+.input_field::-webkit-outer-spin-button,
+.input_field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input_field[type=number] {
+  -moz-appearance: textfield;
+}
+
+h3,h2 {
+    margin: 0;
+}
+
+.box.twofa {
+    display: none;
+}
+
+.accountInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.accountInfo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountInfo p {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.imageProfile {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.profilerow {
+    padding: 30px;
+    gap: 30px;
+}
+
+.profileLink {
+    font-size: 14px;
+    color:#5aa9fd;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.profilespan {
+    font-size: 14px;
+}
+
+.tags {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 10px; /* space between tags */
+    max-height: calc(2 * 60px); /* optional: prevents more than 2 rows visually */
+    overflow: hidden; /* hides extra rows if more than 2 */
+}
+
+.tags .tag {
+    padding: 10px 20px;
+    background-color: #ffffff57;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.launchApp {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    display: none;
+    z-index: 999;
+    gap: 10px;
+}
+
+.launchApp img {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+    border-radius: 20px;
 }

@@ -925,6 +925,7 @@ function startLogin() {
                     //FloridaRun()
                     console.log("Registering Service Worker..")
                     if ('serviceWorker' in navigator) {
+                        //return //Remove me
                         navigator.serviceWorker.register('./epsilon-serviceWorker.js')
                             .then(registration => {
                                 console.log('Service Worker registered with scope:', registration.scope);
@@ -1098,6 +1099,7 @@ function on2FAComplete() {
                     aitPlay('beta_intro')
                 }, 1000)
                 if ('serviceWorker' in navigator) {
+                    //return //remove me
                     navigator.serviceWorker.register('./epsilon-serviceWorker.js')
                         .then(registration => {
                             console.log('Service Worker registered with scope:', registration.scope);
@@ -1332,7 +1334,7 @@ function verificationComplete() {
                 // Create the image element
                 const img = document.createElement('img');
                 if (appsDictionary) {//[app].custom === 'true'
-                    if (appsDictionary[app].custom === 'true') {
+                    if (appsDictionary[app] && appsDictionary[app].custom && appsDictionary[app].custom === 'true') {
                         img.src = appsDictionary[app].appPoster;
                     } else {
                         img.src = `./posters/${app}.png`;
@@ -3315,6 +3317,7 @@ console.log('Operating System Version:', osVersion);
 function loadFlorida() {
     if (localStorage.getItem("extV")) {
         if ('serviceWorker' in navigator && 'PushManager' in window) {
+            //return; //remove me
             navigator.serviceWorker.register('./epsilon-serviceWorker.js')
                 .then(function (swReg) {
                     console.log('Service Worker is registered', swReg);
@@ -3346,6 +3349,7 @@ function loadFlorida() {
 function enableFlorida() {
     console.log("Working")
     if ('serviceWorker' in navigator && 'PushManager' in window) {
+        //return; //remove me
         navigator.serviceWorker.register('./epsilon-serviceWorker.js')
             .then(function (swReg) {
                 console.log('Service Worker is registered', swReg);
