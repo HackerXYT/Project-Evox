@@ -925,7 +925,7 @@ function startLogin() {
                     //FloridaRun()
                     console.log("Registering Service Worker..")
                     if ('serviceWorker' in navigator) {
-                        //return //Remove me
+                        //return; //remove me
                         navigator.serviceWorker.register('./epsilon-serviceWorker.js')
                             .then(registration => {
                                 console.log('Service Worker registered with scope:', registration.scope);
@@ -1099,7 +1099,7 @@ function on2FAComplete() {
                     aitPlay('beta_intro')
                 }, 1000)
                 if ('serviceWorker' in navigator) {
-                    //return //remove me
+                    //return; //remove me
                     navigator.serviceWorker.register('./epsilon-serviceWorker.js')
                         .then(registration => {
                             console.log('Service Worker registered with scope:', registration.scope);
@@ -3228,15 +3228,15 @@ function attachSettingsData(data, container) {// data -> personal, security, cyp
 
 function loadPersonal() {
     const myUser = localStorage.getItem("t50-username")
-    fetch(`${srv}/accounts?method=getName&username=${myUser}`)
+    fetch(`${srv}/accounts?method=getName&username=${myUser}&v=${Math.floor(Math.random() * 100000)}`)
         .then(response => response.text())
         .then(name => {
-            document.getElementById("name-preview").innerHTML = document.getElementById("name-preview").innerHTML.replace("null", name)
+            document.getElementById("name-preview").innerHTML = name.replace("null", "")
             if (name !== 'Unknown') {
                 const parts = name.split(' ');
                 const result = [`${parts[0]} `, parts[1]];
-                document.getElementById("nameInput").value = result[0]
-                document.getElementById("lastInput").value = result[1]
+                document.getElementById("nameInput").value = result[0] || ""
+                document.getElementById("lastInput").value = result[1] || ""
             }
         })
         .catch(error => {

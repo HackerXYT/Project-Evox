@@ -321,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.3'
+const appVersion = '8.3.35'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
@@ -1202,27 +1202,38 @@ function grabberEvents(id) {
         }
     }
 
-    function endDrag() {
+    function endDrag(e) {
         isDragging = false;
-        notice.style.transition = "transform 0.3s ease";  // Add smooth return or dismiss transition
-        console.log(currentY - startY)
-        if (currentY - startY > 400) {
+        notice.style.transition = "transform 0.3s ease";
 
+        let deltaY = currentY - startY;
+
+        // If movement is tiny, it was just a click -> ignore
+        if (Math.abs(deltaY) < 10) {
+            notice.style.transform = ``;
+            return;
+        }
+
+        if (deltaY > 400) { //|| deltaY > Number(notice.style.height.replace("px", "")) - 100s
+            console.warn(`Triggered by: \ndeltaY ${deltaY > 400}\nCalc: ${deltaY > Number(notice.style.height.replace("px", "")) - 80}\ndelta: ${deltaY}\n calc res: ${Number(notice.style.height.replace("px", "")) - 100}`)
             notice.style.transform = `translateY(100vh)`;
 
             if (id === 'secureline') {
                 $("#galaxyBackTo").fadeIn("fast")
-                //getthis
             }
+            if (["settings"].includes(id)) {
+                hideSettings();
+            }
+
             notice.addEventListener("transitionend", () => {
                 notice.classList.remove("active");
                 notice.style.transform = ``;
-
             }, { once: true });
         } else {
-            notice.style.transform = ``;  // Reset if not dismissed
+            notice.style.transform = ``;
         }
     }
+
 }
 grabberEvents("secureline")
 
@@ -2813,6 +2824,8 @@ grab.addEventListener('touchstart', function (e) {
     document.addEventListener('touchmove', moveDiv);
     document.addEventListener('touchend', stopMoveDiv);
 });
+
+//grabberEvents("settings")
 
 function moveDiv(e) {
     const touch = e.touches[0];
@@ -4609,4 +4622,36 @@ function processOasaInfo(data) {
     spawnStation(stations[1])
     spawnStation(stations[2])
 }
+function updateSocialInfo(type, value) {
+    let toset = {
+        "phone": null,
+        "first_name": null,
+        "last_name": null
+    }
+    if (type === 'firstname') {
+        toset.first_name = value
+    } else if(type === "lastname") {
+        toset.last_name = value
+    } else if(type === "phone") {
+        toset.phone = value
+    }
 
+
+    fetch(`${srv}/accounts?method=setSocial&email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&evoxDataJson=${encodeURIComponent(JSON.stringify(toset))}&v=${Math.floor(Math.random() * 100000)}`)
+        .then(response => response.text())
+        .then(data => {
+            console.warn(data)
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+}
+document.getElementById("nameInput").addEventListener("input", function (event) {
+    console.log("Input changed:", event.target.value);
+    updateSocialInfo("firstname", event.target.value)
+});
+
+document.getElementById("lastInput").addEventListener("input", function (event) {
+    console.log("Input changed:", event.target.value);
+    updateSocialInfo("lastname", event.target.value)
+});

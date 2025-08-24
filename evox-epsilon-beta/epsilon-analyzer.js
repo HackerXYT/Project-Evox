@@ -52,8 +52,12 @@ function performanceMode(nosound) {
         setTimeout(function () {
             try {
                 $("#background").fadeOut("500")
+                document.getElementById("background").remove()
+
             } catch (error) {
                 document.getElementById("background").style.display = 'none'
+                document.getElementById("background").remove()
+                
             }
             $("#performance-mode").fadeIn('fast')
 
@@ -61,10 +65,10 @@ function performanceMode(nosound) {
 
         }, 3000)
         setTimeout(function () {
-            document.getElementById("self-video-forDisplay").style.visibility = 'hidden'
-            document.getElementById("user-video-forDisplay").style.visibility = 'hidden'
-            $("#more_options_edit").fadeOut("fast")
-            document.getElementById("background").innerHTML = ''
+            //document.getElementById("self-video-forDisplay").style.visibility = 'hidden'
+            //document.getElementById("user-video-forDisplay").style.visibility = 'hidden'
+            //$("#more_options_edit").fadeOut("fast")
+            //document.getElementById("background").innerHTML = ''
             document.getElementById("opa").style.transform = 'scale(0)'
             setTimeout(function () {
                 const bg = 'rgba(106, 121, 255, 0.1)'
@@ -80,13 +84,15 @@ function performanceMode(nosound) {
     }
 }
 
-if (localStorage.getItem("performance_status")) {
+if (localStorage.getItem("performance_status") === "active") {
     performanceMode('nosound')
 }
 
 function disablePerformance() {
     if (performance_status === true) {
-        aitPlay('performance_off')
+        notice("Cannot disable performace.")
+        return;
+        //aitPlay('performance_off')
         setTimeout(function () {
             try {
                 $("#background").fadeIn("500")
