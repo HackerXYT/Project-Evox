@@ -901,6 +901,7 @@ function processFile(event, type) {
                             name: data.file,
                             type: data.fileType
                         })
+                        input.value = '';
                         //alert(data.file)
                     })
                     .catch(error => {
@@ -5269,7 +5270,42 @@ function setTag(emri, el) {
                 const result = sentbyuser.find(entry => entry.marresi === targetMarresi);
                 if (result) {
                     console.log("Found:", result);
-                    document.getElementById("input-textarea").value += result.contents.vleresim
+                    const regex = /%img:server\((.*?)\):mediaId\((.*?)\):mediaType\((.*?)\)%/g;
+                    const postFiles = [];
+                    let match;
+                    while ((match = regex.exec(result.contents.vleresim)) !== null) {
+                        postFiles.push({ server: match[1], id: match[2], type: match[3] });
+                    }
+                    const cleanText = result.contents.vleresim.replace(regex, '');
+                    if (postFiles.length > 0) {
+                        console.log("postFiles:", postFiles);
+                        console.log("cleanText:", cleanText.trim());
+                    }
+                    let media = ''
+                    const acc = account_data
+                    let hasMedia = false
+                    postFiles.forEach(async (file) => {
+                        const randomString = [...Array(15)]
+                            .map(() => Math.random().toString(36)[2])
+                            .join('');
+                        hasMedia = true
+                        media += `<div id="file-${randomString}" class="media" style="width: 95%; height: 360px;">
+                        <div class="topRight">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M3 6.38597C3 5.90152 3.34538 5.50879 3.77143 5.50879L6.43567 5.50832C6.96502 5.49306 7.43202 5.11033 7.61214 4.54412C7.61688 4.52923 7.62232 4.51087 7.64185 4.44424L7.75665 4.05256C7.8269 3.81241 7.8881 3.60318 7.97375 3.41617C8.31209 2.67736 8.93808 2.16432 9.66147 2.03297C9.84457 1.99972 10.0385 1.99986 10.2611 2.00002H13.7391C13.9617 1.99986 14.1556 1.99972 14.3387 2.03297C15.0621 2.16432 15.6881 2.67736 16.0264 3.41617C16.1121 3.60318 16.1733 3.81241 16.2435 4.05256L16.3583 4.44424C16.3778 4.51087 16.3833 4.52923 16.388 4.54412C16.5682 5.11033 17.1278 5.49353 17.6571 5.50879H20.2286C20.6546 5.50879 21 5.90152 21 6.38597C21 6.87043 20.6546 7.26316 20.2286 7.26316H3.77143C3.34538 7.26316 3 6.87043 3 6.38597Z" fill="#FFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.42543 11.4815C9.83759 11.4381 10.2051 11.7547 10.2463 12.1885L10.7463 17.4517C10.7875 17.8855 10.4868 18.2724 10.0747 18.3158C9.66253 18.3592 9.29499 18.0426 9.25378 17.6088L8.75378 12.3456C8.71256 11.9118 9.01327 11.5249 9.42543 11.4815Z" fill="#FFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.5747 11.4815C14.9868 11.5249 15.2875 11.9118 15.2463 12.3456L14.7463 17.6088C14.7051 18.0426 14.3376 18.3592 13.9254 18.3158C13.5133 18.2724 13.2126 17.8855 13.2538 17.4517L13.7538 12.1885C13.795 11.7547 14.1625 11.4381 14.5747 11.4815Z" fill="#FFF"/>
+<path d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12405C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001Z" fill="#FFF"/>
+<script xmlns=""/><script xmlns=""/></svg>
+                        </div>
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                    })
+
+                    const container = document.getElementById('evox-media-container');
+                    if (hasMedia) {
+                        container.innerHTML += media
+                    }
+                    document.getElementById("input-textarea").value += cleanText
                     const event = new Event('input', { bubbles: true });
                     document.getElementById("input-textarea").dispatchEvent(event);
                 } else {
@@ -6917,7 +6953,7 @@ function showProfileInfo(emri) {
                 <div class="postContainer ${sent.contents.question.includes("AIT-2501") ? "pushToTop" : ""}" style="padding-bottom: 10px;padding-top: 10px;">
                     <div class="post extpost">
                         <div class="profilePicture">
-                            <img src="${sent.marresi !== "AIT" ? src : "placeholder.png"}">
+                            <img src="${sent.marresi !== "AIT" ? src : "ait.icon.svg"}">
                         </div>
                         <div class="postInfo">
                             <div class="userInfo">
@@ -7858,6 +7894,17 @@ function EvalertNext(json) {
 }
 
 function showMedia(el) {
+    if (!localStorage.getItem("hasSeenMediaDesc")) {
+        EvalertNext({
+            title: "Πολυμέσα",
+            description: "Τα πολυμέσα σου περιέχουν εικόνες από όλο το δίκτυο όπου εμφανίζεται το πρόσωπό σου.<br>Αν βρεις μια εικόνα που δεν θέλεις να υπάρχει, μπορείς να τη διαγράψεις άμεσα.",
+            buttons: ["Εντάξει"],
+            buttonAction: ["localStorage.setItem('hasSeenMediaDesc', 'true')"],
+            addons: [],
+            "clouds": true,
+            "clouds_data": ["SELF"]
+        });
+    }
     document.getElementById("carouselItem-1").classList.remove("active")
     document.getElementById("carouselItem-2").classList.remove("active")
     document.getElementById("carouselItem-3").classList.remove("active")
@@ -8342,7 +8389,7 @@ function showUsersMedia(el) {
 
             if (mediaFiles.length === 0) {
                 document.getElementById("userMediaSpawn").innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;"><svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="40px" height="40px" viewBox="0 0 24 24" data-name="Layer 1"><path d="M19.5,4H10a1,1,0,0,0,0,2H19.5a1,1,0,0,1,1,1v6.76l-1.88-1.88a3,3,0,0,0-1.14-.71,1,1,0,1,0-.64,1.9.82.82,0,0,1,.36.23l3.31,3.29a.66.66,0,0,0,0,.15.83.83,0,0,0,0,.15,1.18,1.18,0,0,0,.13.18.48.48,0,0,0,.09.11.9.9,0,0,0,.2.14.6.6,0,0,0,.11.06.91.91,0,0,0,.37.08,1,1,0,0,0,1-1V7A3,3,0,0,0,19.5,4ZM3.21,2.29A1,1,0,0,0,1.79,3.71L3.18,5.1A3,3,0,0,0,2.5,7V17a3,3,0,0,0,3,3H18.09l1.7,1.71a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42ZM4.5,7a1,1,0,0,1,.12-.46L7.34,9.25a3,3,0,0,0-1,.63L4.5,11.76Zm1,11a1,1,0,0,1-1-1V14.58l3.3-3.29a1,1,0,0,1,1.4,0L15.91,18Z"/></svg>
-            <p>Η συλλογή του/της είναι άδεια.</p></div>`
+            <p>Η συλλογή του χρήστη είναι άδεια.</p></div>`
             }
         }).catch(error => {
             console.log('Error:', error);
@@ -8999,6 +9046,11 @@ function accountRecoveryBegin() {
                                     .catch(err => {
                                         console.error('Error:', err);
                                     });
+                            } else {
+                                if (res.message.message.includes("Request failed")) {
+                                    document.getElementById("showAccount-failed").classList.remove("b")
+                                    document.getElementById("start-recovery").classList.add("b")
+                                }
                             }
                         }).catch(error => {
                             console.error("EVX error", error)
@@ -9414,10 +9466,10 @@ function switchAccountGracefully(accountName, masterPin) {
     fetch(`https://arc.evoxs.xyz/?metode=accountSwitch&emri=${findFirstMatch(accountName) || accountName}&pin=${masterPin}`)
         .then(response => response.json())
         .then(data => {
-            if(!data.msg) {
+            if (!data.msg) {
                 localStorage.setItem("jeanDarc_accountData", JSON.stringify(data))
                 console.warn("Account Switched Successfully To:", findFirstMatch(accountName) || accountName)
-                setTimeout(function() {
+                setTimeout(function () {
                     window.location.reload()
                 }, 2000)
             } else {

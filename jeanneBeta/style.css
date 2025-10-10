@@ -7244,3 +7244,11 @@ select:focus {
 .postContainer.skel.loading {
     padding: 10px;
 }
+
+.media .topRight {
+    display: flex;
+    flex-direction: row;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+}

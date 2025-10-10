@@ -3092,11 +3092,10 @@ function settingsOpen(panel) {
     //panel -> security or epsilon
 
     //hiding previous may shown divs
-    document.getElementById("settings-personal").style.display = 'none'
-    document.getElementById("settings-customize").style.display = 'none'
-    document.getElementById("settings-about").style.display = 'none'
-    document.getElementById("settings-notifications").style.display = 'none'
-    document.getElementById("settings-name").style.display = 'none'
+    document.getElementById("settings").querySelectorAll(".settings-panel").forEach(div => {
+        if (div.id === "settings-security") return;
+        div.style.display = 'none'
+    })
     if (document.getElementById("changeBackgroundSlider").classList.contains("expanded")) {
         changeBackgroundSlider(document.getElementById("changeBackgroundSlider"))
     }
@@ -3198,25 +3197,41 @@ function attachSettingsData(data, container) {// data -> personal, security, cyp
                 if (data === 'customize') {
                     settingsGrabCloseTrigger = 726
                     document.getElementById("settings").style.height = '200px'
-                }
-                if (data === 'personal') {
+                } else if (data === 'personal') {
                     pickRandFromDict('personal_info')
-                    settingsGrabCloseTrigger = 527
+                    settingsGrabCloseTrigger = 427
                     loadPersonal()
-                    document.getElementById("settings").style.height = '400px'
-                }
-                if (data === 'name') {
+                    document.getElementById("settings").style.height = '300px'
+                } else if (data === 'name') {
                     settingsGrabCloseTrigger = 726
                     document.getElementById("settings").style.height = '250px'
-                }
-                if (data === 'about') {
+                } else if (data === 'about') {
                     loadAppAbout()
                     settingsGrabCloseTrigger = 520
                     hideThreshold = 618
                     document.getElementById("settings").style.height = '435px'
-                }
-                if (data === 'notifications') {
+                } else if (data === 'notifications') {
                     loadFlorida()
+                } else if (data === "signin_security") {
+                    settingsGrabCloseTrigger = 527
+                    document.getElementById("settings").style.height = '400px'
+
+                    //Move me to main function
+                    const myUser = localStorage.getItem("t50-username")
+                    fetch(`${srv}/authip?method=Eget&email=${localStorage.getItem("t50-email")}&ip=null&username=${myUser}&password=${atob(localStorage.getItem("t50pswd"))}`)
+                        .then(response => response.text())
+                        .then(status => {
+                            if (status === 'IP is Mapped') {
+                                document.getElementById("2fa-preview").innerHTML = document.getElementById("2fa-preview").innerHTML.replace("Unknown", 'Disabled')
+                            } else {
+                                console.log("Status 2fa:", status)
+                                document.getElementById("2fa-preview").innerHTML = document.getElementById("2fa-preview").innerHTML.replace("Unknown", 'Enabled')
+                            }
+
+                        })
+                        .catch(error => {
+                            console.log('phone Error:', error);
+                        });
                 }
             } else {
                 console.log("EBETA404")
@@ -3253,20 +3268,7 @@ function loadPersonal() {
         .catch(error => {
             console.log('phone Error:', error);
         });
-    fetch(`${srv}/authip?method=Eget&email=${localStorage.getItem("t50-email")}&ip=null&username=${myUser}&password=${atob(localStorage.getItem("t50pswd"))}`)
-        .then(response => response.text())
-        .then(status => {
-            if (status === 'IP is Mapped') {
-                document.getElementById("2fa-preview").innerHTML = document.getElementById("2fa-preview").innerHTML.replace("Unknown", 'Disabled')
-            } else {
-                console.log("Status 2fa:", status)
-                document.getElementById("2fa-preview").innerHTML = document.getElementById("2fa-preview").innerHTML.replace("Unknown", 'Enabled')
-            }
 
-        })
-        .catch(error => {
-            console.log('phone Error:', error);
-        });
 }
 
 function getOS() {

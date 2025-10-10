@@ -6849,6 +6849,22 @@ vo input {
   margin-left: 15px;
 }
 
+.option .evxcanvas {
+  width: 30px;
+  height: 30px;
+  border-radius: 0.5rem;
+  margin-left: 15px;
+  background-color: var(--evxcolor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.option .evxcanvas svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 !important;
+}
 .option svg {
   margin-left: auto;
   margin-right: 10px;
