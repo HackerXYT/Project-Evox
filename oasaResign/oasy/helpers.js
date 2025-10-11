@@ -112,3 +112,37 @@ setInterval(function () {
     );
   }
 }, 1000);
+
+function SpawnNewBusMarker(busId, location) {
+  // REMOVED: veh_codes_spawned check (unnecessary)
+  const newLngLat = [parseFloat(location.CS_LNG), parseFloat(location.CS_LAT)];
+  const el = document.createElement("div");
+  el.style.width = "40px";
+  el.style.height = "40px";
+  el.style.padding = "10px 10px";
+  el.style.display = "flex";
+  el.style.justifyContent = "center";
+  el.style.alignItems = "center";
+  el.style.backgroundColor = "#674ef4";
+  el.style.color = "#fff";
+  el.style.borderRadius = "50%";
+  el.style.boxSizing = "border-box";
+  el.style.border = "1px solid white";
+  el.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
+  el.style.opacity = "0"
+  el.style.transition = "opacity 0.5s ease-in"
+  el.innerHTML = busId;
+
+  const marker = new mapboxgl.Marker(el)
+    .setLngLat(newLngLat)
+    .addTo(map);
+  setTimeout(function () {
+    el.style.opacity = "1"
+  }, 1500)
+  busMarkersLive.push(marker);
+  // REMOVED: busData assignment (handled by caller)
+  // REMOVED: veh_codes_spawned.push (unnecessary)
+
+  // NEW: Return the marker for assignment
+  return marker;
+}
