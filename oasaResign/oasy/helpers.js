@@ -129,20 +129,63 @@ function SpawnNewBusMarker(busId, location) {
   el.style.boxSizing = "border-box";
   el.style.border = "1px solid white";
   el.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
-  el.style.opacity = "0"
-  el.style.transition = "opacity 0.5s ease-in"
+  el.style.opacity = "0";
+  el.style.transition = "opacity 0.5s ease-in";
   el.innerHTML = busId;
 
-  const marker = new mapboxgl.Marker(el)
-    .setLngLat(newLngLat)
-    .addTo(map);
+  const marker = new mapboxgl.Marker(el).setLngLat(newLngLat).addTo(map);
   setTimeout(function () {
-    el.style.opacity = "1"
-  }, 1500)
+    el.style.opacity = "1";
+  }, 1500);
   busMarkersLive.push(marker);
   // REMOVED: busData assignment (handled by caller)
   // REMOVED: veh_codes_spawned.push (unnecessary)
 
   // NEW: Return the marker for assignment
   return marker;
+}
+
+function changeToSection(section) {
+  const text = document.getElementById("sectionName");
+  if (text.innerHTML === section) return;
+  text.style.opacity = "0";
+  setTimeout(function () {
+    text.innerHTML = section;
+    text.style.opacity = "1";
+  }, 300);
+}
+
+function addMinutesToCurrentTime(minutesToAdd) {
+  // Get current time
+  const now = new Date();
+
+  // Add minutes
+  const newTime = new Date(now.getTime() + minutesToAdd * 60 * 1000);
+
+  // Format to 12-hour with AM/PM (Greek: πμ/μμ)
+  const hours = newTime.getHours();
+  const minutes = newTime.getMinutes();
+
+  // Convert to 12-hour format
+  const hour12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  const period = hours >= 12 ? "ΜΜ" : "ΠΜ"; // μμ = afternoon, πμ = morning
+
+  // Format with leading zero for minutes if needed
+  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+
+  // Return formatted result
+  return {
+    currentTime: formatTime(now),
+    parameter: minutesToAdd,
+    result: `${hour12}:${formattedMinutes} ${period}`,
+  };
+}
+
+function formatTime(date) {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const hour12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+  return `${hour12}:${formattedMinutes} ${period}`;
 }

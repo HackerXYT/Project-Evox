@@ -1,99 +1,148 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>oasy</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover , user-scalable=no'>
-    <link rel="icon" type="image/png" href="../apple.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css'>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
-    <script
-        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css"
-        type="text/css">
-</head>
+    <head>
+        <title>oasy</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <meta name='viewport'
+            content='width=device-width, initial-scale=1, viewport-fit=cover , user-scalable=no'>
+        <link rel="icon" type="image/png" href="../apple.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent">
+        <link rel='stylesheet'
+            href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css'>
+        <script
+            src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+        <script
+            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
+        <link rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css"
+            type="text/css">
+    </head>
 
-<body>
-    <div id="map-io" class="oasa-map"></div>
-    <div class="map-options">
-        <div class="option">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                <g opacity="0.5">
+    <body>
+        <div id="map-io" class="oasa-map"></div>
+        <div class="map-options">
+            <div class="option">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none">
+                    <g opacity="0.5">
+                        <path
+                            d="M3 8.70938V16.8377C3 17.8813 3 18.4031 3.28314 18.7959C3.56627 19.1888 4.06129 19.3538 5.05132 19.6838L6.21609 20.072C7.58318 20.5277 8.26674 20.7556 8.95493 20.6634C8.96999 20.6614 8.98501 20.6593 9 20.6569V6.65705C8.88712 6.67391 8.77331 6.68433 8.6591 6.68823C8.11989 6.70664 7.58626 6.52877 6.51901 6.17302C5.12109 5.70705 4.42213 5.47406 3.89029 5.71066C3.70147 5.79466 3.53204 5.91678 3.39264 6.06935C3 6.49907 3 7.23584 3 8.70938Z" />
+                        <path
+                            d="M21 15.2907V7.16229C21 6.11872 21 5.59692 20.7169 5.20409C20.4337 4.81126 19.9387 4.64625 18.9487 4.31624L17.7839 3.92799C16.4168 3.47229 15.7333 3.24444 15.0451 3.3366C15.03 3.33861 15.015 3.34078 15 3.34309V17.343C15.1129 17.3261 15.2267 17.3157 15.3409 17.3118C15.8801 17.2934 16.4137 17.4713 17.481 17.827C18.8789 18.293 19.5779 18.526 20.1097 18.2894C20.2985 18.2054 20.468 18.0833 20.6074 17.9307C21 17.501 21 16.7642 21 15.2907Z" />
+                    </g>
                     <path
-                        d="M3 8.70938V16.8377C3 17.8813 3 18.4031 3.28314 18.7959C3.56627 19.1888 4.06129 19.3538 5.05132 19.6838L6.21609 20.072C7.58318 20.5277 8.26674 20.7556 8.95493 20.6634C8.96999 20.6614 8.98501 20.6593 9 20.6569V6.65705C8.88712 6.67391 8.77331 6.68433 8.6591 6.68823C8.11989 6.70664 7.58626 6.52877 6.51901 6.17302C5.12109 5.70705 4.42213 5.47406 3.89029 5.71066C3.70147 5.79466 3.53204 5.91678 3.39264 6.06935C3 6.49907 3 7.23584 3 8.70938Z" />
+                        d="M9.24685 6.60921C9.16522 6.6285 9.08286 6.64435 9 6.65673V20.6566C9.66964 20.5533 10.2689 20.1538 11.4416 19.3719L12.824 18.4503C13.7601 17.8263 14.2281 17.5143 14.7532 17.3902C14.8348 17.3709 14.9171 17.355 15 17.3427V3.34277C14.3304 3.44613 13.7311 3.84561 12.5583 4.62747L11.176 5.54905C10.2399 6.17308 9.77191 6.48509 9.24685 6.60921Z" />
                     <path
-                        d="M21 15.2907V7.16229C21 6.11872 21 5.59692 20.7169 5.20409C20.4337 4.81126 19.9387 4.64625 18.9487 4.31624L17.7839 3.92799C16.4168 3.47229 15.7333 3.24444 15.0451 3.3366C15.03 3.33861 15.015 3.34078 15 3.34309V17.343C15.1129 17.3261 15.2267 17.3157 15.3409 17.3118C15.8801 17.2934 16.4137 17.4713 17.481 17.827C18.8789 18.293 19.5779 18.526 20.1097 18.2894C20.2985 18.2054 20.468 18.0833 20.6074 17.9307C21 17.501 21 16.7642 21 15.2907Z" />
-                </g>
-                <path
-                    d="M9.24685 6.60921C9.16522 6.6285 9.08286 6.64435 9 6.65673V20.6566C9.66964 20.5533 10.2689 20.1538 11.4416 19.3719L12.824 18.4503C13.7601 17.8263 14.2281 17.5143 14.7532 17.3902C14.8348 17.3709 14.9171 17.355 15 17.3427V3.34277C14.3304 3.44613 13.7311 3.84561 12.5583 4.62747L11.176 5.54905C10.2399 6.17308 9.77191 6.48509 9.24685 6.60921Z" />
-                <path d="M17.481 17.8267C17.5684 17.8558 17.653 17.884 17.735 17.9113Z" />
-            </svg>
-        </div>
-        
-        <div onclick="reFocus()" class="option">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                <path style="transform: scale(1.2);transform-origin: center;"
-                    d="M13.4227 17.3618L16.9348 8.19598C17.2164 7.46107 16.5389 6.78361 15.804 7.06521L6.63824 10.5773C5.80779 10.8955 5.78079 12.06 6.5981 12.3083L10.0751 13.3648C10.3455 13.447 10.553 13.6545 10.6352 13.9249L11.6917 17.4019C11.94 18.2192 13.1045 18.1922 13.4227 17.3618Z" />
-            </svg>
-        </div>
-    </div>
-    <div id="main-screen" class="main-screen-pop">
-        <div class="top">
-            <h2>My Buses</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                <path
-                    d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" />
-            </svg>
-            <div class="far-right">
-                <div style="display: none;" class="share-friends">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6C15 7.65685 13.6569 9 12 9Z"
-                            stroke="#fff" stroke-width="1.5" />
-                        <path
-                            d="M5.5 21C3.84315 21 2.5 19.6569 2.5 18C2.5 16.3431 3.84315 15 5.5 15C7.15685 15 8.5 16.3431 8.5 18C8.5 19.6569 7.15685 21 5.5 21Z"
-                            stroke="#fff" stroke-width="1.5" />
-                        <path
-                            d="M18.5 21C16.8431 21 15.5 19.6569 15.5 18C15.5 16.3431 16.8431 15 18.5 15C20.1569 15 21.5 16.3431 21.5 18C21.5 19.6569 20.1569 21 18.5 21Z"
-                            stroke="#fff" stroke-width="1.5" />
-                        <path
-                            d="M20 13C20 10.6106 18.9525 8.46589 17.2916 7M4 13C4 10.6106 5.04752 8.46589 6.70838 7M10 20.748C10.6392 20.9125 11.3094 21 12 21C12.6906 21 13.3608 20.9125 14 20.748"
-                            stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                    </svg>
-                </div>
-                <div class="profile-icon">
-                    <img
-                        src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg">
-                </div>
+                        d="M17.481 17.8267C17.5684 17.8558 17.653 17.884 17.735 17.9113Z" />
+                </svg>
+            </div>
+
+            <div onclick="reFocus()" class="option">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none">
+                    <path
+                        style="transform: scale(1.2);transform-origin: center;"
+                        d="M13.4227 17.3618L16.9348 8.19598C17.2164 7.46107 16.5389 6.78361 15.804 7.06521L6.63824 10.5773C5.80779 10.8955 5.78079 12.06 6.5981 12.3083L10.0751 13.3648C10.3455 13.447 10.553 13.6545 10.6352 13.9249L11.6917 17.4019C11.94 18.2192 13.1045 18.1922 13.4227 17.3618Z" />
+                </svg>
             </div>
         </div>
-        <div class="input">
-            <div class="input-wrap">
-                <span class="input-icon" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                        <path opacity="0.1"
-                            d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                            fill="#fff" />
-                        <path d="M15 15L21 21" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path
-                            d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                            stroke="#fff" stroke-width="2" />
-                    </svg>
-                </span>
-
-                <input type="text" placeholder="Search..." aria-label="Search" />
+        <div id="main-screen" class="main-screen-pop">
+            <div class="top">
+                <h2 id="sectionName">My Buses</h2>
+                <!--My Buses, My Stations, Nearby-->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none">
+                    <path
+                        d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" />
+                </svg>
+                <div class="far-right">
+                    <div style="display: none;" class="share-friends">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30px"
+                            height="30px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6C15 7.65685 13.6569 9 12 9Z"
+                                stroke="#fff" stroke-width="1.5" />
+                            <path
+                                d="M5.5 21C3.84315 21 2.5 19.6569 2.5 18C2.5 16.3431 3.84315 15 5.5 15C7.15685 15 8.5 16.3431 8.5 18C8.5 19.6569 7.15685 21 5.5 21Z"
+                                stroke="#fff" stroke-width="1.5" />
+                            <path
+                                d="M18.5 21C16.8431 21 15.5 19.6569 15.5 18C15.5 16.3431 16.8431 15 18.5 15C20.1569 15 21.5 16.3431 21.5 18C21.5 19.6569 20.1569 21 18.5 21Z"
+                                stroke="#fff" stroke-width="1.5" />
+                            <path
+                                d="M20 13C20 10.6106 18.9525 8.46589 17.2916 7M4 13C4 10.6106 5.04752 8.46589 6.70838 7M10 20.748C10.6392 20.9125 11.3094 21 12 21C12.6906 21 13.3608 20.9125 14 20.748"
+                                stroke="#fff" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div onclick="window.location.reload()"
+                        class="profile-icon">
+                        <img
+                            src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg">
+                    </div>
+                </div>
             </div>
+            <div class="input">
+                <div class="input-wrap">
+                    <span class="input-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="none">
+                            <path opacity="0.1"
+                                d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                fill="#fff" />
+                            <path d="M15 15L21 21" stroke="#fff"
+                                stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                stroke="#fff" stroke-width="2" />
+                        </svg>
+                    </span>
+
+                    <input type="text" placeholder="Search..."
+                        aria-label="Search" />
+
+                </div>
+            </div>
+
+            <div class="section column height100" id="section-station">
+                <div class="busNode">
+                    <div class="column aligncenter justifycenter">
+                        <p>40</p>
+                        <span>ΛΕΠΤΑ</span>
+                    </div>
+                    <div class="column width100">
+                        <div class="row spacebetween width100">
+                            <span>6:45 ΜΜ</span>
+                            <span class="globalgreen">Καθοδόν</span>
+                        </div>
+                        <div class="row gap5">
+                            <p class="larger">Αιγαλεω</p><span> - </span><p
+                                class="larger">Πειραιας</p>
+                        </div>
+                        <div class="row spacebetween">
+                            <span class="row aligncenter globalgrey">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    fill="#0fb867" width="25px" height="25px"
+                                    viewBox="0 0 256 256" id="Flat">
+                                    <path
+                                        d="M201.541,54.458a104,104,0,1,0,0,147.07813A104.10845,104.10845,0,0,0,201.541,54.458ZM163.99414,147.9971a8,8,0,0,1-16,0V119.3096l-42.34375,42.34375a7.99915,7.99915,0,0,1-11.3125-11.3125l42.34375-42.34375h-28.6875a8,8,0,0,1,0-16h48a8.02753,8.02753,0,0,1,8,8Z" />
+                                </svg>
+                                Αιγαλεω
+                                <p class="globalgreen">6:05 MM</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-</body>
-<script src="helpers.js"></script>
-<script src="script.js"></script>
+    </body>
+    <script src="helpers.js"></script>
+    <script src="script.js"></script>
 
 </html>

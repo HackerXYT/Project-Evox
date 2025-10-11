@@ -35,21 +35,25 @@ function focusOn(lat, lng) {
       pitch: 0,
       bearing: 0,
       antialias: true,
-      offset: [0, -200],
+      offset: [0, -150],
     });
 
     map.on("load", () => {
       map.easeTo({
         center: currentLocation,
-        offset: [0, -200],
+        offset: [0, -150],
         zoom: 15,
       });
+    });
+    map.on("error", (e) => {
+      console.error("Map error:", e.error);
+      // This will log style load failures
     });
   } else {
     map.easeTo({
       zoom: 15,
       center: currentLocation,
-      offset: [0, -200],
+      offset: [0, -150],
     });
   }
 }
@@ -71,6 +75,7 @@ function spawnLocation(lat, lng) {
   el.style.borderRadius = "50%";
   el.style.border = "2px solid white";
   el.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
+  el.style.zIndex = "999";
 
   locationMarker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
 }
@@ -111,6 +116,12 @@ function setup() {
           el.style.boxSizing = "border-box";
           el.style.border = "1px solid white";
           el.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
+          el.setAttribute("StopCode", stop.StopCode);
+          el.setAttribute("StopDescr", stop.StopDescr);
+          el.setAttribute("StopID", stop.StopID);
+          el.addEventListener("click", function (event) {
+            openStationFromMap(this);
+          });
           el.innerHTML = capitalizeWords(stop.StopDescr);
 
           const marker = new mapboxgl.Marker(el)
@@ -126,18 +137,23 @@ function setup() {
             const { details, vehicles } = routeData;
             const activeVehicles = Object.keys(vehicles);
 
-            fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
-              `https://telematics.oasa.gr/api/?act=getBusLocation&p1=${routecode}&keyOrigin=evoxEpsilon`
-            )}&vevox=${randomString()}`)
-              .then(res => res.json())
-              .then(busLocations => {
+            fetch(
+              `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+                `https://telematics.oasa.gr/api/?act=getBusLocation&p1=${routecode}&keyOrigin=evoxEpsilon`
+              )}&vevox=${randomString()}`
+            )
+              .then((res) => res.json())
+              .then((busLocations) => {
                 if (!Array.isArray(busLocations)) return;
 
-                busLocations.forEach(location => {
+                busLocations.forEach((location) => {
                   // CHANGED: Use routeData.vehicles for existence check
                   const vehNo = location.VEH_NO;
                   const existingMarker = routeData.vehicles[vehNo];
-                  const newLngLat = [parseFloat(location.CS_LNG), parseFloat(location.CS_LAT)];
+                  const newLngLat = [
+                    parseFloat(location.CS_LNG),
+                    parseFloat(location.CS_LAT),
+                  ];
 
                   if (existingMarker) {
                     const currentLngLat = existingMarker.getLngLat();
@@ -149,7 +165,7 @@ function setup() {
                   }
                 });
               })
-              .catch(err => console.error("Bus update failed", err));
+              .catch((err) => console.error("Bus update failed", err));
           });
         }, 5000);
 
@@ -165,8 +181,6 @@ function setup() {
           }
           requestAnimationFrame(animate);
         }
-
-
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
@@ -211,7 +225,7 @@ function spawnLiveBusesOfStop(stopcode) {
         // CHANGED: Key by routecode, add vehicles sub-object
         liveSpawned[routecode] = {
           details: { busId, routecode },
-          vehicles: {}
+          vehicles: {},
         };
 
         function spawnTheBus() {
@@ -231,7 +245,7 @@ function spawnLiveBusesOfStop(stopcode) {
                 const existingMarker = liveSpawned[routecode].vehicles[vehNo];
 
                 if (existingMarker) {
-                  console.log("Found a bus that is already spawned.")
+                  console.log("Found a bus that is already spawned.");
                   existingMarker.setLngLat([location.CS_LNG, location.CS_LAT]);
                   return;
                 }
@@ -245,10 +259,134 @@ function spawnLiveBusesOfStop(stopcode) {
             });
         }
         spawnTheBus();
-
       });
+    })
+    .catch((error) => {
+      console.error("Stop load failed", stopcode, error);
+    });
+}
 
+function openStationFromMap(el) {
+  const StopCode = el.getAttribute("StopCode");
+  const StopDescr = el.getAttribute("StopDescr");
+  const StopID = el.getAttribute("StopID");
+  console.log(StopCode, StopDescr, StopID);
+  changeToSection(capitalizeWords(StopDescr));
+  const container = document.getElementById("section-station");
+  container.classList.add("shown");
+  container.innerHTML = ""; //loader
+  fetch(
+    `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${StopCode}&keyOrigin=evoxEpsilon`
+    )}&vevox=${randomString()}`
+  )
+    .then((response) => response.json())
+    .then((stopBuses) => {
+      if (!stopBuses) return;
+      console.log(stopBuses);
+      let routes = stopBuses;
+      stopBuses.forEach((bus, i) => {
+        const busId = bus.LineID;
+        const routecode = bus.RouteCode;
+        const id = randomString();
+        routes[i].evxid = id;
+        container.innerHTML += `<div class="busNode">
+                    <div class="column aligncenter justifycenter">
+                        <p id="finishtime-${id}">-</p>
+                        <span id="finishtimetype-${id}">ΛΕΠΤΑ</span>
+                    </div>
+                    <div class="column width100">
+                        <div class="row spacebetween width100">
+                            <span id="finishtimefull-${id}">- ΜΜ</span>
+                            <span id="iscoming-${id}" class="globalred">Άγνωστο</span>
+                        </div>
+                        <div class="column width100 inner">
+                            <div class="row gap5">
+                                <p class="larger">${capitalizeWords(
+                                  bus.LineDescr.split("-")[0]
+                                )}</p><span> - </span><p
+                                    class="larger">${capitalizeWords(
+                                      bus.LineDescr.split("-")[1].split("(")[0]
+                                    )}</p>
+                            </div>
+                            ${
+                              bus.LineDescr.split("-")[1].split("(")[1]
+                                ? `<div class="row gap5">
+                                <span>(${capitalizeWords(
+                                  bus.LineDescr.split("-")[1].split("(")[1]
+                                )}</span>
+                            </div>`
+                                : ""
+                            }
+                        </div>
+                        
+                        <div class="row spacebetween">
+                            <span class="row aligncenter globalgrey">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    fill="#0fb867" width="25px" height="25px"
+                                    viewBox="0 0 256 256" id="Flat">
+                                    <path
+                                        d="M201.541,54.458a104,104,0,1,0,0,147.07813A104.10845,104.10845,0,0,0,201.541,54.458ZM163.99414,147.9971a8,8,0,0,1-16,0V119.3096l-42.34375,42.34375a7.99915,7.99915,0,0,1-11.3125-11.3125l42.34375-42.34375h-28.6875a8,8,0,0,1,0-16h48a8.02753,8.02753,0,0,1,8,8Z" />
+                                </svg>
+                                ${bus.LineID}
+                                <p id="startTime-${id}" class="globalgreen">- MM</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>`;
+      });
+      fetch(
+        `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+          `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${StopCode}&keyOrigin=evoxEpsilon`
+        )}&vevox=${randomString()}`
+      )
+        .then((response) => response.json())
+        .then((busesComing) => {
+          if (!busesComing) return;
+          console.log(busesComing);
+          busesComing.forEach((bus) => {});
+          const routeMap = routes.reduce((map, route) => {
+            const code = route.RouteCode;
+            if (!map.has(code)) {
+              map.set(code, []);
+            }
+            map.get(code).push(route);
+            return map;
+          }, new Map());
 
+          // Now match for each vehicle
+          const matchedResults = busesComing.map((vehicle) => {
+            const matchingRoutes = routeMap.get(vehicle.route_code) || []; // Array of matches (could be empty)
+            return {
+              vehicle: vehicle,
+              matchingRoutes: matchingRoutes, // Attach all matches
+            };
+          });
+          console.log(matchedResults);
+          matchedResults.forEach((m) => {
+            m.matchingRoutes.forEach((busesMatch) => {
+              document.getElementById(
+                `finishtime-${busesMatch.evxid}`
+              ).innerHTML = m.vehicle.btime2;
+              document.getElementById(
+                `finishtimefull-${busesMatch.evxid}`
+              ).innerHTML = addMinutesToCurrentTime(Number(m.vehicle.btime2)).result;
+              document.getElementById(
+                `iscoming-${busesMatch.evxid}`
+              ).innerHTML = "Καθοδόν";
+               document.getElementById(
+                `iscoming-${busesMatch.evxid}`
+              ).classList.remove("globalred")
+              document.getElementById(
+                `iscoming-${busesMatch.evxid}`
+              ).classList.add("globalgreen")
+
+            });
+          });
+        })
+        .catch((error) => {
+          console.error("Stop coming bus load failed", StopCode, error);
+        });
     })
     .catch((error) => {
       console.error("Stop load failed", stopcode, error);
