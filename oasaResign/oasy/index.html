@@ -5,6 +5,7 @@
         <title>oasy</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="outer.css">
         <meta name='viewport'
             content='width=device-width, initial-scale=1, viewport-fit=cover , user-scalable=no'>
         <link rel="icon" type="image/png" href="../apple.png">
@@ -24,8 +25,25 @@
     </head>
 
     <body>
+        <div class="mapLoaderIndicator">
+            <div class="loader">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+                <div class="bar4"></div>
+                <div class="bar5"></div>
+                <div class="bar6"></div>
+                <div class="bar7"></div>
+                <div class="bar8"></div>
+                <div class="bar9"></div>
+                <div class="bar10"></div>
+                <div class="bar11"></div>
+                <div class="bar12"></div>
+            </div>
+            Γίνεται εκκίνηση..
+        </div>
         <div id="map-io" class="oasa-map"></div>
-        <div class="map-options">
+        <div class="map-options" id="options">
             <div class="option">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     fill="none">
@@ -42,7 +60,7 @@
                 </svg>
             </div>
 
-            <div onclick="reFocus()" class="option">
+            <div onclick="reFocus(true)" class="option">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     fill="none">
                     <path
@@ -51,9 +69,9 @@
                 </svg>
             </div>
         </div>
-        <div id="main-screen" class="main-screen-pop">
+        <div id="main-screen" class="main-screen-pop hidden">
             <div class="top">
-                <h2 id="sectionName">My Buses</h2>
+                <h2 id="sectionName">Λεωφορεία</h2>
                 <!--My Buses, My Stations, Nearby-->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     fill="none">
@@ -81,7 +99,7 @@
                     </div>
                     <div onclick="window.location.reload()"
                         class="profile-icon">
-                        <img
+                        <img id="pfp"
                             src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg">
                     </div>
                 </div>
@@ -142,6 +160,7 @@
 
         </div>
     </body>
+    <script src="haptics.js"></script>
     <script src="helpers.js"></script>
     <script src="script.js"></script>
 

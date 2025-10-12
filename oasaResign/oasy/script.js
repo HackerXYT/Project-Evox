@@ -1,8 +1,8 @@
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw";
-
 let map = null;
-function reFocus() {
+function reFocus(userTrigger) {
+  if (userTrigger) {
+    haptics.trigger();
+  }
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -24,31 +24,114 @@ function reFocus() {
 }
 
 reFocus();
+document.getElementById(
+  "pfp"
+).src = `https://data.evoxs.xyz/profiles?authorize=imagePfp&name=${
+  localStorage.getItem("t50-username")
+    ? localStorage.getItem("t50-username")
+    : "EVOXGUESTUSER001"
+}&v=${randomString()}`;
 function focusOn(lat, lng) {
   const currentLocation = [lng, lat];
   if (!map) {
     map = new mapboxgl.Map({
       container: "map-io",
-      style: "mapbox://styles/papostol/cmgkx6muz00e901qy4vl31i3c",
+      style: "mapbox://styles/mapbox/light-v10",
       center: currentLocation,
       zoom: 15,
       pitch: 0,
       bearing: 0,
       antialias: true,
-      offset: [0, -150],
+      maxZoom: 18, // Prevent excessive detail
+      minZoom: 8, // Avoid rendering too much at low zooms
+      interactive: true, // Ensure map is interactive
+      glyphs: "./glyphs/{range}.pbf",
+      dragPan: {
+        linearity: 0.3, // Controls momentum curve (0 to 1, lower feels snappier)
+        easing: (t) => t, // Linear easing for consistent momentum
+        maxSpeed: 1400, // Max speed of panning
+        deceleration: 2500, // How quickly momentum slows down
+      },
     });
 
     map.on("load", () => {
+      map.dragPan.enable();
+      map.touchZoomRotate.enable();
+      map.touchPitch.enable();
+      map.touchZoomRotate.enableRotation();
       map.easeTo({
         center: currentLocation,
         offset: [0, -150],
         zoom: 15,
+        duration: 10,
       });
+      map.getStyle().layers.forEach((l) => console.log(l.id, l.type));
+
+      document.getElementById("options").style.opacity = "1";
+      document.getElementById("map-io").style.opacity = "1";
+      document.getElementById("main-screen").classList.remove("hidden");
+
+      map.setPaintProperty("water", "fill-color", "#0d2355"); // Darker blue for water
+      map.setPaintProperty("landuse", "fill-color", "#214d27"); // darker green for parks
+      map.setPaintProperty("landcover", "fill-color", "#00ff22");
+      map.setPaintProperty("land", "background-color", "#404A67");
+      map.setPaintProperty("building", "fill-color", "#606680");
+      map.setPaintProperty("building-outline", "line-color", "#21222a");
+
+      map.setPaintProperty("road-street", "line-color", "#2f343f");
+      map.setPaintProperty("road-path", "line-color", "#2f343f");
+      map.setPaintProperty("road-street-low", "line-color", "#2f343f");
+      map.setPaintProperty("road-street-case", "line-color", "#2f343f");
+
+      map.setPaintProperty("road-pedestrian-case", "line-color", "#757983");
+
+      map.setPaintProperty("road-minor-case", "line-color", "#2f343f");
+      map.setPaintProperty("road-primary-case", "line-color", "#2f343f");
+      map.setPaintProperty("road-motorway-trunk-case", "line-color", "#2f343f");
+      map.setPaintProperty("road-construction", "line-color", "#ff0000");
+
+      map.setPaintProperty("road-pedestrian", "line-color", "#363e56");
+      map.setPaintProperty("road-minor", "line-color", "#2f343f");
+      map.setPaintProperty("road-secondary-tertiary", "line-color", "#2f343f");
+      map.setPaintProperty("road-primary", "line-color", "#2f343f");
+      map.setPaintProperty("road-motorway-trunk", "line-color", "#2f343f");
+      map.setPaintProperty("road-trunk", "line-color", "#ff0000");
+      map.setPaintProperty("road-label", "text-color", "#000"); // Set text color to red
+      map.setPaintProperty("road-label", "outline-color", "#000"); // Set text color to red
+      map.setPaintProperty("road-label", "text-size", 12); // Set text size
+
+      return;
+      map.setPaintProperty("background", "background-color", "#404A67"); // dark city base
+
+      map.setPaintProperty("road-primary", "line-color", "#8a2be2"); // Vibrant purple for primary roads
+      map.setPaintProperty("building", "fill-color", "#d3d3d3"); // Soft gray for buildings
+      map.setPaintProperty("land", "fill-color", "#f5f5f5"); // Light gray for land
+      map.setPaintProperty("place-label", "text-color", "#333333"); // Dark charcoal for place labels
+      map.setPaintProperty("road-label", "text-color", "#444444"); // Slightly lighter charcoal for road labels
     });
+
     map.on("error", (e) => {
       console.error("Map error:", e.error);
       // This will log style load failures
     });
+
+    function updateMarkerVisibility() {
+      const zoom = map.getZoom();
+      const toHide = zoom < 13;
+      const allMarkers = [...stopMarkers, ...busMarkersLive];
+
+      stopMarkers.forEach((marker) => {
+        const el = marker.getElement();
+        if (!el) return;
+        if (toHide) {
+          el.classList.add("opacity0");
+        } else {
+          el.classList.remove("opacity0");
+        }
+      });
+    }
+
+    map.on("zoom", updateMarkerVisibility);
   } else {
     map.easeTo({
       zoom: 15,
@@ -116,10 +199,12 @@ function setup() {
           el.style.boxSizing = "border-box";
           el.style.border = "1px solid white";
           el.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
+          el.style.transition = "opacity 0.3s ease";
           el.setAttribute("StopCode", stop.StopCode);
           el.setAttribute("StopDescr", stop.StopDescr);
           el.setAttribute("StopID", stop.StopID);
           el.addEventListener("click", function (event) {
+            haptics.trigger();
             openStationFromMap(this);
           });
           el.innerHTML = capitalizeWords(stop.StopDescr);
@@ -370,17 +455,18 @@ function openStationFromMap(el) {
               ).innerHTML = m.vehicle.btime2;
               document.getElementById(
                 `finishtimefull-${busesMatch.evxid}`
-              ).innerHTML = addMinutesToCurrentTime(Number(m.vehicle.btime2)).result;
+              ).innerHTML = addMinutesToCurrentTime(
+                Number(m.vehicle.btime2)
+              ).result;
               document.getElementById(
                 `iscoming-${busesMatch.evxid}`
               ).innerHTML = "Καθοδόν";
-               document.getElementById(
-                `iscoming-${busesMatch.evxid}`
-              ).classList.remove("globalred")
-              document.getElementById(
-                `iscoming-${busesMatch.evxid}`
-              ).classList.add("globalgreen")
-
+              document
+                .getElementById(`iscoming-${busesMatch.evxid}`)
+                .classList.remove("globalred");
+              document
+                .getElementById(`iscoming-${busesMatch.evxid}`)
+                .classList.add("globalgreen");
             });
           });
         })

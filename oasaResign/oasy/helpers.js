@@ -1,3 +1,7 @@
+mapboxgl.accessToken =
+  "pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw";
+
+  
 function capitalizeWords(str) {
   if (typeof str !== "string") {
     return ""; // Return an empty string if the input is not a valid string
