@@ -52,24 +52,32 @@ function login() {
               document.getElementById("welcomeMsg").style.display = "block";
               setTimeout(function () {
                 loading.classList.add("popout");
-                if (localStorage.getItem("uni_notifications") === "true") {
-                  document.getElementById("statusNotif").innerText = "ενεργές";
-                  document.getElementById("statusNotif").style.color =
-                    "rgb(92, 255, 105)";
-                  document.getElementById("notificationsToggle").checked = true;
-                } else {
-                  document.getElementById("statusNotif").innerText =
-                    "ανενεργές";
-                  document.getElementById("statusNotif").style.color =
-                    "rgb(255, 92, 92)";
-                  document.getElementById(
-                    "notificationsToggle"
-                  ).checked = false;
-                }
-                document.getElementById("name-username").innerText = `${
-                  localStorage.getItem("uni_name") || "Άγνωστο"
-                } - ${getToken().slice(0, 10)}`;
-                document.getElementById("main").style.display = "flex";
+                setTimeout(function () {
+                  loading.style.display = "none";
+                  loading.classList.remove("popout");
+
+                  if (localStorage.getItem("uni_notifications") === "true") {
+                    document.getElementById("statusNotif").innerText =
+                      "ενεργές";
+                    document.getElementById("statusNotif").style.color =
+                      "rgb(92, 255, 105)";
+                    document.getElementById(
+                      "notificationsToggle"
+                    ).checked = true;
+                  } else {
+                    document.getElementById("statusNotif").innerText =
+                      "ανενεργές";
+                    document.getElementById("statusNotif").style.color =
+                      "rgb(255, 92, 92)";
+                    document.getElementById(
+                      "notificationsToggle"
+                    ).checked = false;
+                  }
+                  document.getElementById("name-username").innerText = `${
+                    localStorage.getItem("uni_name") || "Άγνωστο"
+                  } - ${getToken().slice(0, 10)}`;
+                  document.getElementById("main").style.display = "flex";
+                }, 400);
               }, 3500);
             } else {
               //Failed
@@ -102,7 +110,7 @@ async function initPush() {
   }
   if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
     console.warn("Push messaging not supported");
-    alert("Η συσκευή σας δεν υποστηρίζεται.")
+    alert("Η συσκευή σας δεν υποστηρίζεται.");
     return;
   }
 
@@ -145,9 +153,9 @@ async function toggleNotifications(el, event) {
       Authorization: `Bearer ${token}`,
     }).then((data) => {
       console.log(data);
-      if(data.success === false) {
-            document.getElementById("notificationsToggle").checked = true
-        }
+      if (data.success === false) {
+        document.getElementById("notificationsToggle").checked = true;
+      }
       localStorage.setItem("uni_notifications", "false");
     });
   } else {
@@ -158,8 +166,8 @@ async function toggleNotifications(el, event) {
         Authorization: `Bearer ${token}`,
       }).then((data) => {
         console.log(data);
-        if(data.success === false) {
-            document.getElementById("notificationsToggle").checked = false
+        if (data.success === false) {
+          document.getElementById("notificationsToggle").checked = false;
         }
         localStorage.setItem("uni_notifications", "false");
       });
