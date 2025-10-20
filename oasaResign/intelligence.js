@@ -3,7 +3,9 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.4";
+const currentVersion = "2.2.5";
+
+let serverIP = "https://data.evoxs.xyz/";
 console.log(
   `%cCurrent Build: ${currentVersion}`,
   "color: #8bdd8f; font-family:sans-serif; font-size: 20px"
@@ -236,6 +238,7 @@ function spawnOnBarBuses() {
 }
 
 function closeSearch() {
+  haptics.trigger();
   //triggerNotificationsReload()
   if (document.getElementById("searchContainer").classList.contains("active")) {
     $("#recommendSpawn").fadeIn("fast");
@@ -540,12 +543,17 @@ function spawnBlocks(currentLocation) {
     style:
       localStorage.getItem("map_style") || "mapbox://styles/mapbox/dark-v11",
     center: currentLocation,
-    zoom: 16,
+    zoom: 14,
+    maxZoom: 16,
+    minZoom: 12,
     pitch: 0,
     bearing: 0,
     antialias: false,
-    prefetchZoomDelta: 0,
     fadeDuration: 0,
+    prefetchZoomDelta: 0,
+    renderWorldCopies: false,
+    trackResize: false,
+    attributionControl: false,
   });
 
   // Resize map after initialization to ensure it fits the container
@@ -1042,14 +1050,14 @@ function formatTime(dateTimeString) {
   return `${hours}:${minutes}`;
 }
 
-//fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`)}`)
+//fetch(`${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`)}`)
 //  .then(response => response.json())
 //  .then(data => {
 //    if (data) {
 //      const routeCode = data[0].route_code
 //      currentRouteCode = routeCode
 //      console.log(routeCode)
-//      fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetRoutesDetailsAndStops&p1=${routeCode}&keyOrigin=evoxEpsilon`)}`)
+//      fetch(`${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webGetRoutesDetailsAndStops&p1=${routeCode}&keyOrigin=evoxEpsilon`)}`)
 //        .then(response => response.json())
 //        .then(bata => {
 //          currentLineInfo = bata
@@ -1204,7 +1212,7 @@ function loadSection(section, bus) {
       }
     }
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
         `https://telematics.oasa.gr/api/?act=getDailySchedule&line_code=${lineCode}&keyOrigin=evoxEpsilon`
       )}&vevox=${randomString()}`
     )
@@ -1423,7 +1431,7 @@ function handleFavoriteOverrides(
   const evoxId = generateRandomId(10);
 
   fetch(
-    `https://data.evoxs.xyz/proxy?key=21&targetUrl=${stationArrivals}&vevox=${randomString()}`
+    `${serverIP}proxy?key=21&targetUrl=${stationArrivals}&vevox=${randomString()}`
   )
     .then((r) => r.json())
     .then((data) => {
@@ -1643,7 +1651,7 @@ function registerPWA() {
       `https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`
     );
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`
+      `${serverIP}proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -1767,11 +1775,13 @@ function isLightMode() {
 
 let outsideOfZone = false;
 let blockGoingToLogin = false;
+
 document.addEventListener("DOMContentLoaded", () => {
   document.fonts.ready.then(() => {
-    document.getElementById("loaderFullscreen").classList.add("appLoaded");
+    //document.getElementById("loaderFullscreen").classList.add("appLoaded");
+
     setTimeout(function () {
-      document.getElementById("loaderFullscreen").style.display = "none";
+      //document.getElementById("loaderFullscreen").style.display = "none";
     }, 300);
     console.log("All fonts are fully loaded!");
     // Do your stuff that requires fonts here
@@ -2017,6 +2027,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Cannot load famous", error);
       });
 
+    fetch(`https://data.evoxs.xyz/cron`)
+      .then((response) => response.text())
+      .catch((er) => {
+        console.warn("centralized error", er);
+        serverIP = "https://evox-runtime.onrender.com/";
+      });
+
     const allLines = encodeURIComponent(
       `https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`
     );
@@ -2060,14 +2077,14 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       }
     }
-    fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLines}`)
+    fetch(`${serverIP}proxy?key=21&targetUrl=${allLines}`)
       .then((response) => response.json())
       .then((data) => {
         localStorage.setItem("allLines", JSON.stringify(data));
         runOASABridge(data);
         document.getElementById(
           "oasaPfp"
-        ).src = `https://data.evoxs.xyz/profiles?authorize=imagePfp&name=${localStorage.getItem(
+        ).src = `${serverIP}profiles?authorize=imagePfp&name=${localStorage.getItem(
           "t50-username"
         )}&v=${randomString()}`;
       })
@@ -2249,6 +2266,7 @@ let shownTimeTable = 0;
 let keepForVerticalStations;
 let latestHorizontalIntelligence;
 function processInfo(evoxId, type, addMore, comego) {
+  haptics.trigger();
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
   ) {
@@ -2357,7 +2375,7 @@ function processInfo(evoxId, type, addMore, comego) {
         });
       }
       fetch(
-        `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+        `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
           `https://telematics.oasa.gr/api/?act=getScheduleDaysMasterline&p1=${lineCode}&keyOrigin=evoxEpsilon`
         )}&vevox=${randomString()}`
       )
@@ -2608,7 +2626,7 @@ function processInfo(evoxId, type, addMore, comego) {
         document.getElementById("timetableSpawn").innerHTML = timetableContent;
       }
       fetch(
-        `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+        `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
           `https://telematics.oasa.gr/api/?act=getDailySchedule&line_code=${lineCode}&keyOrigin=evoxEpsilon`
         )}&vevox=${randomString()}`
       )
@@ -2867,7 +2885,7 @@ function processInfo(evoxId, type, addMore, comego) {
                   keepForVerticalStations = intelligenceInfo;
 
                   fetch(
-                    `https://data.evoxs.xyz/oasa?intelligence=${JSON.stringify(
+                    `${serverIP}oasa?intelligence=${JSON.stringify(
                       intelligenceInfo
                     )}&vevox=${randomString()}`,
                     { signal }
@@ -3013,6 +3031,7 @@ function processInfo(evoxId, type, addMore, comego) {
 }
 
 function returnFromBusTimetable() {
+  haptics.trigger();
   //triggerNotificationsReload() Performance issues
   document.getElementById("bottomSearchParent").style.display = null;
   keepForVerticalStations = null;
@@ -3411,7 +3430,7 @@ function findBusInfo2(
       `https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`
     );
     return fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${getStops}&vevox=${randomString()}`
+      `${serverIP}proxy?key=21&targetUrl=${getStops}&vevox=${randomString()}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -3470,7 +3489,7 @@ function findBusInfo2(
       `https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`
     );
     return fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`
+      `${serverIP}proxy?key=21&targetUrl=${allLinesUrl}&vevox=${randomString()}`
     )
       .then((response) => response.json())
       .then((fullLine) => {
@@ -3665,7 +3684,7 @@ function createRedDot() {
 }
 
 async function getRouteStops(routeCode) {
-  const url = `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+  const url = `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
     `https://telematics.oasa.gr/api/?act=webGetRoutesDetailsAndStops&p1=${routeCode}&keyOrigin=evoxEpsilon`
   )}&vevox=${randomString()}`;
 
@@ -3696,7 +3715,7 @@ async function getRouteStops(routeCode) {
 let activeMarker = [];
 
 async function getStopArrivalTime(stopCode, stopName, cords, maxRetries = 5) {
-  const url = `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+  const url = `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
     `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
   )}&vevox=${randomString()}`;
 
@@ -3782,7 +3801,7 @@ function spawnNearby() {
     ev2: myLoc[0],
   };
   fetch(
-    `https://data.evoxs.xyz/proxy?key=21&vevox=${randomString()}&targetUrl=${JSON.stringify(
+    `${serverIP}proxy?key=21&vevox=${randomString()}&targetUrl=${JSON.stringify(
       temp
     )}`
   )
@@ -3948,6 +3967,7 @@ function spawnNearby() {
 
 let liveBuses = [];
 function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
+  haptics.trigger();
   if (el) {
     const elements = document.querySelectorAll(".Block.barup");
     elements.forEach((els, i) => {
@@ -4121,7 +4141,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
                                           </div>`;
       }
       fetch(
-        `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+        `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
           `https://telematics.oasa.gr/api/?act=getDailySchedule&line_code=${lineCode}&keyOrigin=evoxEpsilon`
         )}&vevox=${randomString()}`
       )
@@ -4297,7 +4317,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
     function redoLive() {
       //Redoing live fetch
       fetch(
-        `https://data.evoxs.xyz/proxy?key=21&targetUrl=${returned}&type=currentLocation&vevox=${randomString()}`
+        `${serverIP}proxy?key=21&targetUrl=${returned}&type=currentLocation&vevox=${randomString()}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -4408,7 +4428,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
 
     // Fetch new bus data
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=https%3A%2F%2Ftelematics.oasa.gr%2Fapi%2F%3Fact%3DwebGetRoutesDetailsAndStops%26p1%3D${returned}%26keyOrigin%3DevoxEpsilon&vevox=${randomString()}`
+      `${serverIP}proxy?key=21&targetUrl=https%3A%2F%2Ftelematics.oasa.gr%2Fapi%2F%3Fact%3DwebGetRoutesDetailsAndStops%26p1%3D${returned}%26keyOrigin%3DevoxEpsilon&vevox=${randomString()}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -4597,6 +4617,7 @@ function showDetailedTime(time, type, text) {
 }
 
 function returnFromDetailedItemView() {
+  haptics.trigger();
   currentInfoForSchedo.time = null;
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
@@ -4749,6 +4770,7 @@ function showMoreBusStart() {
 }
 
 function showVerticalStations() {
+  haptics.trigger();
   document.getElementById("stationsBusName").innerHTML =
     document.getElementById("busInfoID").innerText;
   document.getElementById("busGOCOMEForStations").innerHTML =
@@ -4977,7 +4999,7 @@ function showVerticalStations() {
 
     let isFetching = true;
     fetch(
-      `https://data.evoxs.xyz/oasa?intelligence=${JSON.stringify(
+      `${serverIP}oasa?intelligence=${JSON.stringify(
         keepForVerticalStations
       )}&vevox=${randomString()}`
     )
@@ -5005,6 +5027,7 @@ function showVerticalStations() {
 }
 
 function returnFromStationsVertical() {
+  haptics.trigger();
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
   ) {
@@ -5127,6 +5150,7 @@ let favorite_stations = [];
 let active_station = null;
 
 function showStopDetails(stopCode, stopName) {
+  haptics.trigger();
   try {
     triggerSave(
       evoxIds[activeEvoxId].bus,
@@ -5202,7 +5226,7 @@ function showStopDetails(stopCode, stopName) {
     }, 200);
 
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
         `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
       )}&vevox=${randomString()}`
     )
@@ -5224,7 +5248,7 @@ function showStopDetails(stopCode, stopName) {
       `https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`
     );
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${stop_url_1}&vevox=${randomString()}`
+      `${serverIP}proxy?key=21&targetUrl=${stop_url_1}&vevox=${randomString()}`
     )
       .then((response) => response.json())
       .then((stop) => {
@@ -5236,7 +5260,7 @@ function showStopDetails(stopCode, stopName) {
           `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
         );
         fetch(
-          `https://data.evoxs.xyz/proxy?key=21&targetUrl=${stop_url}&vevox=${randomString()}`
+          `${serverIP}proxy?key=21&targetUrl=${stop_url}&vevox=${randomString()}`
         )
           .then((response) => response.json())
           .then((arrivals) => {
@@ -5367,11 +5391,16 @@ function showStopDetails(stopCode, stopName) {
 directBack = false;
 
 function returnFromStationInfo() {
+  haptics.trigger();
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
   ) {
     const element = document.getElementById("main-wrapper");
     element.scrollTop = 0;
+  }
+
+  if (document.getElementById("bottomSearchParent").style.display === "none") {
+    document.getElementById("bottomSearchParent").style.display = null;
   }
 
   document.getElementById("stationInfo").classList.add("fade-out-slide-down");
@@ -5608,7 +5637,7 @@ function addInfinity(busLineId, stationCode, type, el) {
     console.warn("Line found:", line);
     const lineCode = line.LineCode;
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
         `https://telematics.oasa.gr/api/?act=webGetRoutes&p1=${lineCode}&keyOrigin=evoxEpsilon`
       )}&vevox=${randomString()}`
     )
@@ -5733,6 +5762,7 @@ function switchRouteTo(el) {
 }
 
 function openStation(code, descr, busId, busDescr) {
+  haptics.trigger();
   console.log("Opening station:", code, descr);
   console.warn(busId, busDescr);
   const linesSearch = fullLine.filter((item) => item.LineID === busId);
@@ -5816,6 +5846,8 @@ function openStation(code, descr, busId, busDescr) {
     closeSearch();
     document.getElementById("searchIntelli").classList.add("notLoaded");
     showStopDetails(code, descr);
+
+    document.getElementById("bottomSearchParent").style.display = "none";
   }, 400);
   directBack = true;
 }
@@ -5896,7 +5928,7 @@ function handleActivity(startingJson, te) {
     }
 
     fetch(
-      `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
         `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${startingJson.station_id}&keyOrigin=evoxEpsilon`
       )}&vevox=${randomString()}`
     )
@@ -5962,6 +5994,7 @@ function changeActivity() {
 }
 
 function addActivity(stationName, stationId, currentMinEl) {
+  haptics.trigger();
   const current = currentMinEl.getAttribute("data-time");
   startingJson = {
     busName: evoxIds[activeEvoxId].bus,
@@ -5973,6 +6006,14 @@ function addActivity(stationName, stationId, currentMinEl) {
   };
   localStorage.setItem("currentActivity", JSON.stringify(startingJson));
   console.log("Set!", startingJson);
+  document.getElementById("notice-card").style.display = "block";
+  document.getElementById("notice-card").style.opacity = "1";
+  setTimeout(function () {
+    document.getElementById("notice-card").style.opacity = "0";
+    setTimeout(function () {
+      document.getElementById("notice-card").style.display = "none";
+    }, 300);
+  }, 5000);
   handleActivity(startingJson);
 }
 
@@ -6001,7 +6042,7 @@ function triggerSave(busId, busLineCode, RouteCode, type, stopCode) {
       route_code: RouteCode,
     });
     fetch(
-      `https://data.evoxs.xyz/oasa?epsilon=edit&email=${localStorage.getItem(
+      `${serverIP}oasa?epsilon=edit&email=${localStorage.getItem(
         "t50-email"
       )}&password=${atob(
         localStorage.getItem("t50pswd")
@@ -6028,7 +6069,7 @@ function triggerSave(busId, busLineCode, RouteCode, type, stopCode) {
       line_route_code: RouteCode, //matching active route code
     });
     fetch(
-      `https://data.evoxs.xyz/oasa?epsilon=edit&email=${localStorage.getItem(
+      `${serverIP}oasa?epsilon=edit&email=${localStorage.getItem(
         "t50-email"
       )}&password=${atob(
         localStorage.getItem("t50pswd")
@@ -6115,6 +6156,8 @@ function favFromMap(el) {
 }
 
 function showOnMap(evoxId) {
+  haptics.trigger();
+
   const working = evoxIds[evoxId];
   openSearch();
   document.getElementById("searchInSearch").value = working.bus;
@@ -6179,6 +6222,7 @@ function clearUserImage() {
 }
 
 function openNotificationsView() {
+  haptics.trigger();
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
   ) {
@@ -6414,6 +6458,7 @@ function openNotificationsView() {
 }
 
 function returnFromNotifications() {
+  haptics.trigger();
   document.getElementById("bottomSearchParent").style.display = null;
   if (
     document.getElementById("returnTopDefines").classList.contains("scrolled")
@@ -6585,7 +6630,7 @@ function getOSVersion() {
 const os = getOS();
 const osVersion = getOSVersion();
 
-function enableNotifications() {
+function enableNotifications(noui) {
   console.log("Enabling notifications for OS:", os, "Version:", osVersion);
 
   if (!("serviceWorker" in navigator && "PushManager" in window)) {
@@ -6595,7 +6640,7 @@ function enableNotifications() {
     return;
   }
 
-  $("#loginStep3").fadeOut(() => $("#loginStepLast").fadeIn());
+  if (!noui) $("#loginStep3").fadeOut(() => $("#loginStepLast").fadeIn());
   const bottomText = document.getElementById("bottomText");
   bottomText.innerHTML = `1/4 Προετοιμασία`;
   bottomText.style.display = "flex";
@@ -6605,10 +6650,10 @@ function enableNotifications() {
     .then(() => navigator.serviceWorker.ready)
     .then((swReady) => {
       console.log("Service Worker is active:", swReady);
-      bottomText.classList.add("fade-out-slide-down");
+      if (!noui) bottomText.classList.add("fade-out-slide-down");
       setTimeout(() => {
-        bottomText.innerHTML = `2/4 Τοπική Προετοιμασία`;
-        bottomText.classList.remove("fade-out-slide-down");
+        if (!noui) bottomText.innerHTML = `2/4 Τοπική Προετοιμασία`;
+        if (!noui) bottomText.classList.remove("fade-out-slide-down");
       }, 500);
 
       return Notification.requestPermission().then((permission) => {
@@ -6636,10 +6681,10 @@ function enableNotifications() {
       if (!subscription) throw new Error("Η εγγραφή είναι κενή.");
       console.log("User is subscribed:", subscription);
 
-      bottomText.classList.add("fade-out-slide-down");
+      if (!noui) bottomText.classList.add("fade-out-slide-down");
       setTimeout(() => {
-        bottomText.innerHTML = `3/4 Τοπική Εγγραφή`;
-        bottomText.classList.remove("fade-out-slide-down");
+        if (!noui) bottomText.innerHTML = `3/4 Τοπική Εγγραφή`;
+        if (!noui) bottomText.classList.remove("fade-out-slide-down");
       }, 500);
 
       const evoxJson = {
@@ -6665,15 +6710,19 @@ function enableNotifications() {
     .then((data) => {
       console.log("Florida Response:", data);
       if (data.message === "Complete") {
-        bottomText.classList.add("fade-out-slide-down");
-        setTimeout(() => {
-          bottomText.innerHTML = `4/4 Επικοινωνία με Evox`;
-          bottomText.classList.remove("fade-out-slide-down");
-          localStorage.setItem("extVOASA", data.id);
-          localStorage.setItem("extV", data.id);
-          sessionStorage.setItem("privileges", "florida");
-          setTimeout(() => skipFlorida(), 2000);
-        }, 500);
+        if (!noui) {
+          bottomText.classList.add("fade-out-slide-down");
+          setTimeout(() => {
+            bottomText.innerHTML = `4/4 Επικοινωνία με Evox`;
+            bottomText.classList.remove("fade-out-slide-down");
+            localStorage.setItem("extVOASA", data.id);
+            localStorage.setItem("extV", data.id);
+            sessionStorage.setItem("privileges", "florida");
+            setTimeout(() => skipFlorida(), 2000);
+          }, 500);
+        } else {
+          document.getElementById("notifications-toggle").checked = true;
+        }
       }
     })
     .catch((err) => {
@@ -6774,6 +6823,8 @@ function spawnOnTop(el) {
     return;
   }
 
+  haptics.trigger();
+
   const rect = el.getBoundingClientRect();
   const computedStyle = getComputedStyle(el);
   const X_OFFSET = -7.5; // left
@@ -6847,6 +6898,7 @@ function changeScreen(el) {
   const menuItems = document.querySelectorAll("#menuItems .menuItem");
   const arrow = document.querySelector(".arrowMenu");
 
+  haptics.trigger();
   menuItems.forEach((item, index) => {
     if (item === el) {
       const newPage = index;
@@ -6907,6 +6959,7 @@ function changeScreen(el) {
             .getElementById("settingsContainer")
             .classList.remove("fade-in-slide-up");
         }, 500);
+        setupSettings();
       }
 
       if (activePage === 4) {
@@ -6917,6 +6970,70 @@ function changeScreen(el) {
     }, 200);
     //Immediate action
   }
+}
+
+let hasSettingsEventListenersSet = false;
+function setupSettings() {
+  const extVOASA = localStorage.getItem("extVOASA");
+  if (extVOASA) {
+    document.getElementById("notifications-toggle").checked = true;
+  }
+
+  if (isLightMode()) {
+    document.getElementById("theme-light").checked = true;
+  }
+
+  const notificationsBox = document.getElementById("notifications-toggle");
+  if (hasSettingsEventListenersSet === true) return;
+  hasSettingsEventListenersSet = true;
+  notificationsBox.addEventListener("change", function () {
+    if (notificationsBox.checked) {
+      if (localStorage.getItem("extVOASA_TEMP")) {
+        localStorage.setItem("extVOASA", localStorage.getItem("extVOASA_TEMP"));
+        localStorage.removeItem("extVOASA_TEMP");
+      } else {
+        enableNotifications(true);
+      }
+    } else {
+      localStorage.setItem("extVOASA_TEMP", localStorage.getItem("extVOASA"));
+      localStorage.removeItem("extVOASA");
+    }
+    //This checks the new value not the old one
+  });
+
+  const lightMode = document.getElementById("theme-light");
+  lightMode.addEventListener("change", function () {
+    if (lightMode.checked) {
+    } else {
+    }
+    toggleLightModeStyles();
+  });
+}
+
+function toggleLightModeStyles() {
+  //helper
+  const phone = document.getElementById("phone");
+  const loaders = document.querySelectorAll(".fullScreenLoader");
+
+  // Toggle #phone --fade-color
+  if (phone) {
+    const currentFade = phone.style.getPropertyValue("--fade-color");
+    if (currentFade === "rgb(124, 124, 124)" || currentFade === "#7c7c7c") {
+      phone.style.setProperty("--fade-color", "inherit");
+    } else {
+      phone.style.setProperty("--fade-color", "#7c7c7c");
+    }
+  }
+
+  // Toggle .fullScreenLoader background-color
+  loaders.forEach((loader) => {
+    const currentBg = loader.style.backgroundColor;
+    if (currentBg === "rgb(124, 124, 124)" || currentBg === "#7c7c7c") {
+      loader.style.backgroundColor = "inherit";
+    } else {
+      loader.style.backgroundColor = "#7c7c7c";
+    }
+  });
 }
 
 function triggerNotificationsReload() {
@@ -7419,7 +7536,7 @@ function connectOASABridge() {
   const allLines = encodeURIComponent(
     `https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`
   );
-  fetch(`https://data.evoxs.xyz/proxy?key=21&targetUrl=${allLines}`)
+  fetch(`${serverIP}proxy?key=21&targetUrl=${allLines}`)
     .then((response) => response.json())
     .then((data) => {
       localStorage.setItem("allLines", JSON.stringify(data));
@@ -7691,4 +7808,28 @@ function acceptTerms(el) {
   $("#loginStepTerms").fadeOut("fast", function () {
     window.location.reload();
   });
+}
+
+function clearFavorites(el) {
+  if (el) {
+    const icon = el.querySelector(".loaderIn");
+    const old = icon.innerHTML;
+    icon.innerHTML = `<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                                </path>
+                            </svg>`;
+    localStorage.removeItem("oasa_favorites");
+    setTimeout(function () {
+      icon.innerHTML = old;
+    }, 350);
+  }
 }

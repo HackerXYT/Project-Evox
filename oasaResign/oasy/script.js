@@ -221,7 +221,7 @@ function setup() {
           Object.entries(liveSpawned).forEach(([routecode, routeData]) => {
             const { details, vehicles } = routeData;
             const activeVehicles = Object.keys(vehicles);
-
+            
             fetch(
               `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
                 `https://telematics.oasa.gr/api/?act=getBusLocation&p1=${routecode}&keyOrigin=evoxEpsilon`
