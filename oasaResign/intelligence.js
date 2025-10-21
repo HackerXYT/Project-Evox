@@ -1607,7 +1607,7 @@ const setLoadingState = (isLoading) => {
 };
 
 function registerPWA() {
-  return; //Remove me after debug
+  //return; //Remove me after debug
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
