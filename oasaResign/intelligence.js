@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.5";
+const currentVersion = "2.2.6";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -1607,7 +1607,7 @@ const setLoadingState = (isLoading) => {
 };
 
 function registerPWA() {
-  //return; //Remove me after debug
+  return; //Remove me after debug
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -6926,7 +6926,7 @@ function changeScreen(el) {
   function nowCheckForFunctions() {
     setTimeout(function () {
       //For complete arrow stop [90%]
-      if (activePage === 2) {
+      if (activePage === 2 || activePage === 4) {
         return;
       }
 
@@ -6962,7 +6962,7 @@ function changeScreen(el) {
         setupSettings();
       }
 
-      if (activePage === 4) {
+      if (activePage === 5) {
         window.location.reload();
       } else {
         closeMenu();
@@ -7608,8 +7608,10 @@ function getDeviceInfo() {
   };
 }
 
-function getWalkingRoute(start, end) {
-  document.getElementById("timeNeeded").innerText = "Εκτίμηση διαδρομής..";
+function getWalkingRoute(start, end, firstRequest) {
+  if(firstRequest) {
+    document.getElementById("timeNeeded").innerText = "Εκτίμηση διαδρομής..";
+  }
   fetch(
     `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`
   )
@@ -7619,12 +7621,6 @@ function getWalkingRoute(start, end) {
 
       const durationSeconds = data.routes[0].duration; // duration in seconds
       const durationMinutes = Math.round(durationSeconds / 60);
-
-      console.log(
-        `Estimated walking time: ${durationMinutes} min or ${convertTimeDays(
-          durationMinutes
-        )}`
-      );
       document.getElementById("timeNeeded").innerText =
         convertTimeDays(durationMinutes);
       // Remove existing route if present
@@ -7665,13 +7661,14 @@ function getWalkingRoute(start, end) {
 
 let watchId;
 let currentRouteEnd;
-
+let isDirectionsNew = false;
 let currentDirectionsInfo = {
   dest_lng: null,
   dest_lat: null,
   dest_name: null,
 };
 function walkMeTo(lng, lat, event, destinationName) {
+  isDirectionsNew = true;
   document.getElementById("destinationName").innerText = destinationName;
   document.getElementById("directionsContainer").style.display = null;
   currentDirectionsInfo = {
@@ -7694,15 +7691,19 @@ function walkMeTo(lng, lat, event, destinationName) {
         const userLoc = [position.coords.longitude, position.coords.latitude];
 
         // Zoom to user location
-        map.flyTo({
-          center: userLoc,
-          zoom: 16, // adjust zoom level as needed
-          speed: 1.2,
-          curve: 1,
-        });
+        getWalkingRoute(userLoc, currentRouteEnd, isDirectionsNew === true ? true : null);
 
-        // Update walking route
-        getWalkingRoute(userLoc, currentRouteEnd);
+        if (isDirectionsNew === true) {
+          map.flyTo({
+            center: userLoc,
+            zoom: 16,
+            speed: 1.2,
+            curve: 1,
+          });
+          isDirectionsNew = false;
+        }
+
+        
       },
       (err) => {
         console.error("geofatal", err);
@@ -7831,5 +7832,15 @@ function clearFavorites(el) {
     setTimeout(function () {
       icon.innerHTML = old;
     }, 350);
+  }
+}
+
+function moreBusOptions() {
+  if(document.getElementById("moreBusOptions").classList.contains("active")) {
+    document.getElementById("slidingPopup").classList.remove("active")
+    document.getElementById("moreBusOptions").classList.remove("active")
+  } else {
+    document.getElementById("slidingPopup").classList.add("active")
+    document.getElementById("moreBusOptions").classList.add("active")
   }
 }

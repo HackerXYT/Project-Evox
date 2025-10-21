@@ -3490,6 +3490,10 @@ select:focus {
   background-color: #2f49f3;
 }
 
+.menuItem.bugReport .menuIcon {
+  background-color: #f32f2f;
+}
+
 .menuItem.settings .menuIcon {
   background-color: #f365d3;
 }
@@ -3506,7 +3510,7 @@ select:focus {
   align-items: center;
   transform: translateY(50px);
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.3s ease;
 }
 
 .menuItem.alwaysShown {
@@ -3778,7 +3782,6 @@ vox.keepDefault {
   transition: opacity 0.3s ease;
 }
 
-
 .title {
   font-weight: 600;
   color: rgb(31 41 55);
@@ -3853,4 +3856,68 @@ vox.keepDefault {
 .accept:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+
+.slidingPopupBottom {
+  bottom: env(safe-area-inset-bottom);
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) translateY(100vh);
+  width: 100%;
+  padding: 1rem;
+  background-color: #ffffff17;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 20px 20px 0 0;
+  height: auto;
+  box-sizing: border-box;
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+
+  transition: opacity 0.3s ease, transform 0.5s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slidingPopupBottom.active {
+    transform: translateX(-50%) translateY(0vh);
+}
+
+.slidingPopupBottom .slidedown {
+  width: 50px;
+  background-color: #838383;
+  border-radius: 30px;
+  height: 5px;
+}
+
+.slidingPopupBottom .slideBtns {
+  /*The container of the buttons for each action*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.slidingPopupBottom .slideBtns .button {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  height: 50px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #ffffff12;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 20px;
+  justify-content: space-between;
+}
+
+.globalFlexRowAlignCenter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
 }
