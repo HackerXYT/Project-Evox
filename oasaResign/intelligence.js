@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.6";
+const currentVersion = "2.2.62";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -14,126 +14,17 @@ document.getElementById("showUpV").innerText = currentVersion;
 localStorage.setItem("currentVersion", currentVersion);
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw";
-const randomString = () => Math.random().toString(36).substring(2, 10);
 
 let fullLine = null;
-var menu_open = new Howl({
-  src: ["./OASAFX/menuSuccess.mp3"],
-  volume: 1,
-});
 
 let mapboxSourcesArray = [];
 let mapboxLayersArray = [];
 
-function removeGraphics() {
-  mapboxLayersArray.forEach((sourceid) => {
-    console.log(sourceid);
-    if (map.getLayer(`route-${sourceid}`)) {
-      map.removeLayer(`route-${sourceid}`);
-    } else {
-      console.warn("Saved layer doesnt exist", sourceid);
-    }
-  });
-
-  mapboxSourcesArray.forEach((sourceid) => {
-    console.log(sourceid);
-    if (map.getSource(`route-${sourceid}`)) {
-      map.removeSource(`route-${sourceid}`);
-    } else {
-      console.warn("Saved source doesnt exist", sourceid);
-    }
-  });
-}
-// Listen for the scroll event
-document.getElementById("main-wrapper").addEventListener("scroll", () => {
-  // Check if scroll position exceeds the threshold
-  if (
-    document.getElementById("main-wrapper").scrollTop > scrollThreshold ||
-    document.documentElement.scrollTop > scrollThreshold
-  ) {
-    // Add class to shrink and hide icons
-    document.getElementById("returnTopDefines").classList.add("scrolled");
-    if (searchIntelli.style.width === "256px") {
-      searchIntelli.style.width = null;
-    }
-    bottomSearchParent.classList.add("scrolled");
-  } else {
-    // Remove class to reset to original state
-    document.getElementById("returnTopDefines").classList.remove("scrolled");
-    bottomSearchParent.classList.remove("scrolled");
-  }
-});
-
-function capitalizeGreek(text) {
-  return text
-    .normalize("NFD") // Normalize diacritics (accents)
-    .toUpperCase() // Convert to uppercase
-    .normalize("NFC") // Recompose characters
-    .replace(/Σ(?=\s|$)/g, "Σ"); // Optional: Ensure final sigma becomes standard sigma
-}
-
-// Listen for any uncaught errors in the application
-window.addEventListener("error", (event) => {
-  // Alert the user with the error message
-  //alert(`[BETA] An error occurred: ${event.message}\nAt: ${event.filename}:${event.lineno}:${event.colno}`);
-
-  // Optionally, log the error to the console for debugging
-  console.error("Error details:", event);
-});
-
-window.addEventListener("unhandledrejection", (event) => {
-  //alert(`[BETA] An unhandled promise rejection occurred: ${event.reason}`);
-  console.error("Unhandled rejection:", event.reason);
-});
-
-function countUpWithParallax(element) {
-  const text = element.innerText;
-  const chars = text.split(""); // Split the text into individual characters
-  const container = document.createElement("vox");
-  container.style.display = "flex";
-  container.style.position = "relative";
-
-  chars.forEach((char, index) => {
-    const charSpan = document.createElement("vo");
-    charSpan.innerText = char;
-    charSpan.style.position = "relative";
-    charSpan.style.transform = "translateY(0)";
-    charSpan.style.transition = "transform 0.1s ease-in-out";
-    container.appendChild(charSpan);
-  });
-
-  element.innerText = "";
-  element.appendChild(container);
-
-  let startTime;
-
-  function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-
-    const scrollY = window.scrollY || window.pageYOffset; // Current scroll position
-
-    chars.forEach((char, index) => {
-      const speed = (index + 1) * 0.5; // Modify speed based on index
-      const position = Math.sin(elapsed * 0.002 + index) * 5; // Simple oscillation effect
-      container.children[index].style.transform = `translateY(${
-        scrollY * 0.05 + position
-      }px)`;
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  requestAnimationFrame(animate);
-}
-
 function openSearch() {
-  // Change the background color of searchIntelli
   searchIntelli.style.backgroundColor = "#141416";
 
-  // Expand bottomSearchParent to take the full screen
-  bottomSearchParent.style.width = "100vw"; // Full viewport width
-  bottomSearchParent.style.height = "100vh"; // Full viewport height
+  bottomSearchParent.style.width = "100vw";
+  bottomSearchParent.style.height = "100vh";
 
   setTimeout(() => {
     bottomSearchParent.style.bottom = "0";
@@ -162,8 +53,6 @@ function openSearch() {
   });
 
   spawnOnBarBuses();
-
-  //andMore
 }
 
 function spawnOnBarBuses() {
@@ -198,16 +87,7 @@ function spawnOnBarBuses() {
   frequentBuses.forEach((bus) => {
     document.getElementById(
       "recommendSpawn"
-    ).innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#FFF"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#FFF"/>
-<path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"/>
-</svg>${bus}
+    ).innerHTML += `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block barup">${busIcon()}${bus}
                     </div>`;
   });
 
@@ -217,16 +97,7 @@ function spawnOnBarBuses() {
 
   filteredRecents.forEach((bus) => {
     document.getElementById("recommendSpawn").innerHTML =
-      `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block recent barup"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
-<path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
-<path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
-<path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#FFF"/>
-<path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#FFF"/>
-<path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"/>
-<path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"/>
-<path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"/>
-</svg>${bus}
+      `<div onclick="spawnAndShowInfo('${bus}', null, null, 'go', this)" class="Block recent barup">${busIcon()}${bus}
                     </div>` +
       document.getElementById("recommendSpawn").innerHTML;
   });
@@ -556,119 +427,11 @@ function spawnBlocks(currentLocation) {
     attributionControl: false,
   });
 
-  // Resize map after initialization to ensure it fits the container
-
   //markers(currentLocation, 'me');
 }
 
 let markers_global = [];
 let locationMarker = [];
-function markers(b, what) {
-  const markerElement = document.createElement("div");
-  markerElement.style.width = "10px"; // smaller size
-  markerElement.style.height = "10px";
-
-  if (what === "me") {
-    markerElement.style.backgroundColor = "#2e77ff";
-    markerElement.style.borderRadius = "50%"; // circle shape
-    markerElement.style.border = "1px solid #fff"; // minimal border for better contrast
-
-    // Add the custom marker to the map
-    const marker = new mapboxgl.Marker({ element: markerElement })
-      .setLngLat(b) // coordinates for the marker
-      .addTo(map);
-    markers_global.push(marker);
-    locationMarker.push(marker);
-    return;
-  } else if (what.includes("#")) {
-    markerElement.style.backgroundColor = what;
-  } else if (what === "red") {
-    markerElement.style.backgroundColor = "#ff4a4a";
-  } else if (what === "green") {
-    markerElement.style.backgroundColor = "#5ac876";
-  } else if (what === "yellow") {
-    markerElement.style.backgroundColor = "#965d00";
-  } else {
-    markerElement.style.backgroundColor = "#333"; // dark color
-  }
-
-  markerElement.style.borderRadius = "50%"; // circle shape
-  markerElement.style.border = "1px solid #fff"; // minimal border for better contrast
-
-  // Add the custom marker to the map
-  const marker = new mapboxgl.Marker({ element: markerElement })
-    .setLngLat(b) // coordinates for the marker
-    .addTo(map);
-  markers_global.push(marker);
-}
-
-function oldgetPrefix(locationName) {
-  // Normalize the name (lowercase and remove accents)
-  const accentsMap = {
-    Ά: "Α",
-    Έ: "Ε",
-    Ή: "Η",
-    Ί: "Ι",
-    Ό: "Ο",
-    Ύ: "Υ",
-    Ώ: "Ω",
-    ά: "α",
-    έ: "ε",
-    ή: "η",
-    ί: "ι",
-    ό: "ο",
-    ύ: "υ",
-    ώ: "ω",
-  };
-
-  const normalize = (str) =>
-    str
-      .replace(/[ΆΈΉΊΌΎΏάέήίόύώ]/g, (match) => accentsMap[match] || match)
-      .toLowerCase();
-
-  const name = normalize(locationName);
-
-  // Define rules for feminine and masculine
-  const feminineEndings = ["α", "η", "ια"];
-  const masculineEndings = ["ος", "ας", "ης"];
-
-  // Check for specific endings (e.g., -ος, -α, etc.)
-  if (feminineEndings.some((ending) => name.endsWith(ending))) {
-    return "στην";
-  } else if (masculineEndings.some((ending) => name.endsWith(ending))) {
-    return "στον";
-  } else {
-    // Default fallback (neutral)
-    return "στη";
-  }
-}
-
-const removeAccents = (value) => {
-  if (typeof value !== "string") return value;
-
-  const accentsMap = {
-    ά: "α",
-    έ: "ε",
-    ή: "η",
-    ί: "ι",
-    ό: "ο",
-    ύ: "υ",
-    ώ: "ω",
-    Ά: "Α",
-    Έ: "Ε",
-    Ή: "Η",
-    Ί: "Ι",
-    Ό: "Ο",
-    Ύ: "Υ",
-    Ώ: "Ω",
-    ΐ: "ϊ",
-    ΰ: "ϋ",
-    ϊ: "ι",
-    ϋ: "υ",
-  };
-
-  return value.replace(/[άέήίόύώΆΈΉΊΌΎΏΐΰϊϋ]/g, (match) => accentsMap[match]);
-};
 
 function spawnFallback(bus, descr, section) {
   if (localStorage.getItem(`${bus}_Timetable_go`)) {
@@ -711,277 +474,7 @@ function spawnFallback(bus, descr, section) {
   }
 }
 
-function getPrefix(preloc) {
-  const location = removeAccents(preloc);
-  console.log("Getting prefix for location:", preloc, location);
-  // Analyze the ending of the location to decide the preposition
-  const endings = [
-    { regex: /ος$/, result: "στον" }, // Masculine singular (e.g., Πειραιάς)
-    { regex: /ας$/, result: "στον" }, // Masculine singular (e.g., Νίκος)
-    { regex: /ης$/, result: "στον" }, // Masculine singular (e.g., Σωκράτης)
-    { regex: /ατα$/, result: "στα" }, // Neuter plural (e.g., Χωριάτικα)
-    { regex: /η$/, result: "στην" }, // Feminine singular (e.g., Κρήτη)
-    { regex: /οι$/, result: "στους" }, // Masculine plural (e.g., Άγιοι Ανάργυροι)
-    { regex: /α$/, result: "στην" }, // Feminine singular (e.g., Γλυφάδα)
-    { regex: /ο$/, result: "στο" }, // Neuter singular (e.g., Μοσχάτο)
-    { regex: /ι$/, result: "στο" }, // Neuter singular (e.g., Χαϊδάρι)
-    { regex: /υ$/, result: "στο" }, // Neuter singular (e.g., Ζεφύρι)
-    { regex: /ω$/, result: "στο" }, // Neuter singular (rare case, e.g., Μητροπολιτικό)
-    { regex: /α$/, result: "στα" }, // Neuter plural (e.g., Σπάτα)
-    { regex: /ες$/, result: "στις" }, // Feminine plural (e.g., Θήβες)
-  ];
-
-  // Loop through the rules to find a match
-  for (const rule of endings) {
-    if (rule.regex.test(location)) {
-      return rule.result;
-    }
-  }
-
-  // Default fallback if no rule matches
-  return "στο";
-}
-
-function toAccusative_noWork(locationName) {
-  // Normalize text (lowercase only for easier matching, keep accents intact)
-  const normalize = (str) => str.toLowerCase();
-
-  const name = normalize(locationName);
-
-  // Handle masculine place names ending in -ς
-  if (name.endsWith("ας") || name.endsWith("άς")) {
-    return locationName.slice(0, -2) + "α";
-  }
-  if (name.endsWith("ης") || name.endsWith("ής")) {
-    return locationName.slice(0, -2) + "η";
-  }
-  if (name.endsWith("ος") || name.endsWith("ός")) {
-    return locationName.slice(0, -1);
-  }
-
-  // Handle feminine place names (no changes typically needed)
-  if (
-    name.endsWith("α") ||
-    name.endsWith("η") ||
-    name.endsWith("ά") ||
-    name.endsWith("ή")
-  ) {
-    return locationName;
-  }
-
-  // Handle neutral place names
-  if (
-    name.endsWith("ο") ||
-    name.endsWith("ό") ||
-    name.endsWith("ι") ||
-    name.endsWith("ί") ||
-    name.endsWith("μα") ||
-    name.endsWith("μά")
-  ) {
-    return locationName;
-  }
-
-  // Default fallback: return unchanged
-  return locationName;
-}
-
-function toAccusative(locationNameVanilla) {
-  const accentsMap = {
-    Ά: "Α",
-    Έ: "Ε",
-    Ή: "Η",
-    Ί: "Ι",
-    Ό: "Ο",
-    Ύ: "Υ",
-    Ώ: "Ω",
-    ά: "α",
-    έ: "ε",
-    ή: "η",
-    ί: "ι",
-    ό: "ο",
-    ύ: "υ",
-    ώ: "ω",
-  };
-
-  const normalize = (str) =>
-    str
-      .replace(/[ΆΈΉΊΌΎΏάέήίόύώ]/g, (match) => accentsMap[match] || match)
-      .toLowerCase();
-
-  const words = locationNameVanilla.trim().split(/\s+/).slice(0, 2);
-
-  const transformed = words.map((word) => {
-    const name = normalize(word);
-
-    if (name.endsWith("ας")) return word.slice(0, -2) + "α";
-    if (name.endsWith("ης")) return word.slice(0, -2) + "η";
-    if (name.endsWith("ος")) return word.slice(0, -1);
-    return word;
-  });
-
-  return transformed.join(" ");
-}
-
-// Function to update the UI with the correct location
-function updateLocation(locationName) {
-  const prefix = getPrefix(locationName);
-  document.getElementById("vocals").textContent = prefix;
-  if (
-    !document.getElementById("busTimetable").classList.contains("shown") &&
-    !document.getElementById("stationsVertical").classList.contains("shown") &&
-    !document.getElementById("stationInfo").classList.contains("shown")
-  ) {
-    document.getElementById("searchIntelli").classList.remove("notLoaded");
-  }
-  document.getElementById(
-    "searchInSearch"
-  ).placeholder = `Αναζητήστε ${prefix} ${toAccusative(locationName)}`;
-}
-
 let mylocationMarker = null;
-
-function spawnMyLocation() {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const newLoc = [longitude, latitude];
-
-    if (mylocationMarker) {
-      // Smooth transition from old to new location
-      const duration = 500; // animation duration in ms
-      const start = performance.now();
-
-      const startLoc = mylocationMarker.getLngLat();
-      const lngDiff = newLoc[0] - startLoc.lng;
-      const latDiff = newLoc[1] - startLoc.lat;
-
-      function animateMarker(timestamp) {
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const currentLng = startLoc.lng + lngDiff * progress;
-        const currentLat = startLoc.lat + latDiff * progress;
-        mylocationMarker.setLngLat([currentLng, currentLat]);
-
-        if (progress < 1) {
-          requestAnimationFrame(animateMarker);
-        }
-      }
-
-      requestAnimationFrame(animateMarker);
-    } else {
-      // First-time marker creation
-      const markerElement = document.createElement("div");
-      markerElement.style.width = "10px";
-      markerElement.style.height = "10px";
-      markerElement.style.backgroundColor = "#2e77ff";
-      markerElement.style.borderRadius = "50%";
-      markerElement.style.border = "1px solid #fff";
-
-      mylocationMarker = new mapboxgl.Marker({ element: markerElement })
-        .setLngLat(newLoc)
-        .addTo(map);
-
-      markers_global.push(mylocationMarker);
-    }
-
-    // Always update the current location variable
-    myLoc = newLoc;
-    locationReady = true;
-  });
-}
-
-function zoomOnMe() {
-  map.resize();
-  map.flyTo({
-    center: [parseFloat(myLoc[0]), parseFloat(myLoc[1])],
-    zoom: 16,
-    curve: 1,
-    easing(t) {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    },
-  });
-}
-
-function greeting() {
-  const now = new Date();
-  const hours = now.getHours();
-
-  if (hours >= 4 && hours < 12) {
-    return "Καλημέρα";
-  } else {
-    return "Καλησπέρα";
-  }
-}
-
-function getName() {
-  if (
-    localStorage.getItem("t50-username") &&
-    !localStorage.getItem("hasDismissedSetup")
-  ) {
-    return localStorage.getItem("t50-username");
-  } else {
-    return "Επισκέπτη";
-  }
-
-  //check for first and second name
-}
-
-function convertTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-
-  const hoursText = hours === 1 ? "1 ώρα" : `${hours} ώρες`;
-  const minutesText =
-    remainingMinutes === 1 ? "1 λεπτό" : `${remainingMinutes} λεπτά`;
-
-  if (hours === 0) {
-    return minutesText;
-  } else if (remainingMinutes === 0) {
-    return hoursText;
-  } else {
-    return `${hoursText} και ${minutesText}`;
-  }
-}
-
-function convertTimeDays(minutes) {
-  const days = Math.floor(minutes / (60 * 24));
-  const hours = Math.floor((minutes % (60 * 24)) / 60);
-  const remainingMinutes = minutes % 60;
-
-  const daysText = days === 1 ? "1 μέρα" : `${days} μέρες`;
-  const hoursText = hours === 1 ? "1 ώρα" : `${hours} ώρες`;
-  const minutesText =
-    remainingMinutes === 1 ? "1 λεπτό" : `${remainingMinutes} λεπτά`;
-
-  let parts = [];
-  if (days > 0) parts.push(daysText);
-  if (hours > 0) parts.push(hoursText);
-  if (remainingMinutes > 0) parts.push(minutesText);
-
-  if (parts.length === 0) {
-    return "0 λεπτά";
-  } else if (parts.length === 1) {
-    return parts[0];
-  } else {
-    return parts.slice(0, -1).join(", ") + " και " + parts.slice(-1);
-  }
-}
-
-function convertTimeApprox(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-
-  const hoursText = hours === 1 ? "1 ώρα" : `${Math.floor(hours + 0.5)} ώρες`;
-  const minutesText =
-    remainingMinutes === 1 ? "1 λεπτό" : `${remainingMinutes} λεπτά`;
-
-  if (hours === 0) {
-    return minutesText;
-  } else if (remainingMinutes === 0) {
-    return hoursText;
-  } else {
-    return `${hoursText}`;
-  }
-}
 
 function displayRemainingTimeLIVE(nextBusTime, elid) {
   //console.log("Running", JSON.stringify(nextBusTime), "for", elid);
@@ -1001,53 +494,6 @@ function displayRemainingTimeLIVE(nextBusTime, elid) {
 
   //console.log("Result", JSON.stringify(nextBusTime), "for", `${remainingMinutes} minutes`);
   return remainingMinutes;
-}
-
-function getNextBusTimeLIVE(times) {
-  ////console.log("getting times", times);
-  const currentTime = new Date();
-  const currentHour = currentTime.getHours();
-  const currentMinutes = currentTime.getMinutes();
-
-  for (let time of times) {
-    const [hour, minutes] = time.split(":").map(Number);
-    if (
-      hour > currentHour ||
-      (hour === currentHour && minutes > currentMinutes)
-    ) {
-      return { hour, minutes };
-    }
-  }
-  return null;
-}
-function formatTime(dateTimeString) {
-  if (!dateTimeString) {
-    console.error("Invalid dateTimeString:", dateTimeString);
-    return "Invalid";
-  }
-
-  const parts = dateTimeString.split(" ");
-  if (parts.length !== 2) {
-    console.error("Invalid dateTimeString format:", dateTimeString);
-    return "Invalid";
-  }
-
-  const timePart = parts[1]; // "HH:MM:SS"
-  const timeParts = timePart.split(":");
-  if (timeParts.length !== 3) {
-    console.error("Invalid time format:", timePart);
-    return "Invalid";
-  }
-
-  const hours = timeParts[0];
-  const minutes = timeParts[1];
-
-  if (hours.length !== 2 || minutes.length !== 2) {
-    console.error("Invalid time components:", hours, minutes);
-    return "Invalid";
-  }
-
-  return `${hours}:${minutes}`;
 }
 
 //fetch(`${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=getRoutesForLine&p1=${lineCode}&keyOrigin=evoxEpsilon`)}`)
@@ -1100,17 +546,6 @@ function formatTime(dateTimeString) {
 //      findStops(lineCode, sentElementByfindBus)
 //    }
 //  })
-
-let frequentBuses = ["16", "831", "828", "049"];
-let favoriteBuses = [];
-let famousBuses = [];
-
-if (localStorage.getItem("oasa_favorites")) {
-  console.log("Found favorites");
-  console.log(localStorage.getItem("oasa_favorites"));
-  favoriteBuses = JSON.parse(localStorage.getItem("oasa_favorites")); //.reverse();
-  console.log(favoriteBuses);
-}
 
 function loadSection(section, bus) {
   console.warn("Loading section", section, "for bus", bus);
@@ -1238,60 +673,6 @@ function loadSection(section, bus) {
   }
 }
 
-function loadOasa() {
-  //let spawnInFreq = {}; // This is unused but retained for future reference
-
-  frequentBuses.forEach((bus) => {
-    loadSection("frequent", bus);
-  });
-  console.log(favoriteBuses);
-  favoriteBuses.forEach((bus) => {
-    loadSection("favorite", bus);
-  });
-
-  if (favoriteBuses.length === 0) {
-    document.getElementById("favoritesFeedItem").style.display = "none";
-    document.getElementById("favorite").innerHTML = `<div class="failed">
-                                    <img style="width: 40px;" src="discover.svg" class="failed-icon">
-                                    <vox class="failed-message nonImportant">Κανένα αγαπημένο λεωφορείο.</vox>
-                                    <span class="failed-subtext">Προσθέστε τα αγαπημένα σας λεωφορεία από την Εξερεύνηση.</span>
-                                </div>`;
-  }
-}
-
-function hasInternetConnection() {
-  return navigator.onLine; // Returns true if online, false if offline
-}
-
-function formatTimeToMin(input) {
-  if (input === "Άγνωστη") {
-    return "Άγνωστη";
-  }
-
-  if (typeof input === "number") {
-    if (input === 0) {
-      return "τώρα";
-    } else if (input === 1) {
-      return "1 λεπτό";
-    } else {
-      return `${input} λεπτά`;
-    }
-  }
-
-  return input; // Fallback for unexpected input
-}
-
-function generateRandomId(length) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 let evoxIds = {};
 
 let personalizedAutoBus = {
@@ -1311,19 +692,6 @@ const busesMap = {
   favorite: favoriteBuses_Sort,
   famous: famousBuses_Sort,
 };
-
-function findBusBlocksByLineId(lineId) {
-  // Filter the data to include only blocks with the specified LineID
-  const filteredBlocks = fullLine.filter((block) => block.LineID === lineId);
-
-  // If multiple blocks are found, return them as an array
-  if (filteredBlocks.length > 1) {
-    return filteredBlocks;
-  }
-
-  // Return null if no duplicates are found
-  return null;
-}
 
 let lastFavStationsParsed = null;
 
@@ -1524,88 +892,6 @@ function handleFavoriteOverrides(
     });
 }
 
-const helloText = "oasa";
-const helloElement = document.getElementById("hello-text");
-
-// Function to display each character of "Hello" with a drawing effect
-function displayHello() {
-  //helloText.split('').forEach((char, index) => {
-  //  helloElement.append(char)
-  //const span = document.createElement('span');
-  //span.textContent = char;
-  //span.style.animationDelay = `${index * 0.4}s`;  // Add delay based on index
-  //helloElement.appendChild(span);
-  //});
-}
-
-function hasInternetConnection() {
-  return navigator.onLine; // Returns true if online, false if offline
-}
-
-function goBackToSplash() {
-  outsideOfZone = false;
-  $("#runalpha1").fadeOut("fast");
-  $("#runalpha2").fadeOut("fast");
-  $("#runalpha3").fadeOut("fast");
-  $("#runalpha4").fadeOut("fast");
-  setTimeout(function () {
-    document
-      .getElementById("loginForming")
-      .querySelector(".infoWelcome").style.display = null;
-  }, 1000);
-
-  document.getElementById("loginContentFlex").classList.remove("noSplash");
-  document.getElementById("hello-text").classList.remove("noSplash");
-
-  $("#phone").fadeOut("fast", function () {
-    $("#loginStep1").fadeOut("fast");
-    document.getElementById("phone").classList.add("login");
-    $("#phone").fadeIn("fast", function () {
-      $("#loginForming").fadeIn("fast", function () {});
-    });
-  });
-  $("#hello-text").fadeIn("slow", function () {
-    //displayHello()
-  });
-}
-
-function isNearEvery3Hours(proximityInMinutes = 5) {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinutes = now.getMinutes();
-
-  // Find the closest multiple of 3 to the current hour
-  const closest3HourMark = Math.round(currentHour / 3) * 3;
-
-  // Create a Date object for that time (using today's date)
-  const closest3HourTime = new Date(now);
-  closest3HourTime.setHours(closest3HourMark, 0, 0, 0); // Set to nearest 3-hour mark, with minutes and seconds as 0
-
-  // Calculate the difference in minutes
-  const diffInMilliseconds = Math.abs(now - closest3HourTime);
-  const diffInMinutes = Math.floor(diffInMilliseconds / 60000); // 60000 ms = 1 minute
-
-  // Return true if the time is within the proximity
-  return diffInMinutes <= proximityInMinutes;
-}
-
-function runTest() {
-  document.getElementById("searchIntelli").classList.add("notLoaded");
-  document.getElementById("update-center").classList.add("active");
-}
-// Utility functions for UI updates
-const setLoadingState = (isLoading) => {
-  const searchIntelli = document.getElementById("searchIntelli");
-  const updateCenter = document.getElementById("update-center");
-  if (isLoading) {
-    searchIntelli?.classList.add("notLoaded");
-    updateCenter?.classList.add("active");
-  } else {
-    searchIntelli?.classList.remove("notLoaded");
-    updateCenter?.classList.remove("active");
-  }
-};
-
 function registerPWA() {
   //return; //Remove me after debug
   if (!hasInternetConnection()) {
@@ -1707,478 +993,6 @@ function registerPWA() {
   });
 }
 
-function clearAllCaches() {
-  if ("caches" in self) {
-    caches
-      .keys()
-      .then((cacheNames) => {
-        return Promise.all(cacheNames.map((cache) => caches.delete(cache)));
-      })
-      .then(() => {
-        alert("All caches cleared successfully!");
-      })
-      .catch((error) => {
-        console.error("Failed to clear caches:", error);
-        alert("Failed to clear caches. Check the console for details.");
-      });
-  } else {
-    alert("Caching is not supported in this browser.");
-  }
-}
-
-// Show update notification to the user
-function showUpdateNotification() {
-  // Customize this to fit your app's UI
-  alert("A new update is available! Refresh the page to apply the update.");
-}
-
-function updateServiceWorkerCache() {
-  if (navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      action: "UPDATE_CACHE",
-    });
-  } else {
-    console.log("No active service worker found.");
-  }
-}
-
-// Set up messaging between the page and the service worker
-function setupServiceWorkerMessaging() {
-  navigator.serviceWorker.ready
-    .then((registration) => {
-      navigator.serviceWorker.addEventListener("message", (event) => {
-        if (event.data) {
-          switch (event.data.action) {
-            case "CACHE_UPDATE_STARTED":
-              console.log("Cache update started.");
-              setLoadingState(true);
-              break;
-            case "CACHE_UPDATE_COMPLETED":
-              console.log("Cache update completed.");
-              setLoadingState(false);
-              break;
-          }
-        }
-      });
-    })
-    .catch((error) => {
-      console.error("Failed to set up service worker messaging:", error);
-    });
-}
-
-function isLightMode() {
-  return (
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: light)").matches
-  );
-}
-
-let outsideOfZone = false;
-let blockGoingToLogin = false;
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.fonts.ready.then(() => {
-    //document.getElementById("loaderFullscreen").classList.add("appLoaded");
-
-    setTimeout(function () {
-      //document.getElementById("loaderFullscreen").style.display = "none";
-    }, 300);
-    console.log("All fonts are fully loaded!");
-    // Do your stuff that requires fonts here
-
-    function loop() {
-      console.log("Calling handleActivity");
-      handleActivity(startingJson);
-      setTimeout(loop, 10000);
-    }
-
-    loop();
-    function getCookie(name) {
-      // Find the cookie in document.cookie string
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-
-      if (parts.length === 2) {
-        // Return the decoded cookie value
-        return decodeURIComponent(parts.pop().split(";").shift());
-      }
-      return null; // If the cookie doesn't exist
-    }
-    const cookieValue = getCookie("userData");
-
-    let blockMoves = false;
-    if (
-      cookieValue &&
-      !localStorage.getItem("hasRetrievedCookie") &&
-      !localStorage.getItem("t50pswd") &&
-      !localStorage.getItem("hasRetrievedCookie")
-    ) {
-      // Parse the JSON string back into a JavaScript object
-      const userData = JSON.parse(cookieValue);
-      console.log(userData); // Access the JSON data
-      //alert(userData)
-      if (userData) {
-        blockMoves = true;
-        let userConfirmed = window.confirm(
-          `Βρέθηκε ο χρήστης ${userData.username} στην συσκευή.\nΘέλετε να συνδεθείτε αυτόματα;`
-        );
-        if (userConfirmed) {
-          localStorage.setItem("t50-username", userData.username);
-          localStorage.setItem("t50-email", userData.email);
-          localStorage.setItem("t50pswd", userData.password);
-          localStorage.setItem("hasRetrievedCookie", "true");
-          setTimeout(() => {
-            window.location.reload();
-          }, 300);
-        } else {
-          // User clicked "Cancel"
-          localStorage.setItem("hasBlockedCookie", "true");
-          console.log("User canceled.");
-        }
-      }
-      //console.log(`Username: ${userData.username}`);
-      //console.log(`Email: ${userData.email}`);
-    }
-
-    checkForLoginCompatibility();
-    const loggedInLocally =
-      localStorage.getItem("isOasaLoggedIn") &&
-      localStorage.getItem("isOasaLoggedIn") === "true";
-    const check1 =
-      localStorage.getItem("t50-username") &&
-      localStorage.getItem("t50-email") &&
-      localStorage.getItem("t50pswd");
-    const check2 =
-      localStorage.getItem("t50-username") &&
-      localStorage.getItem("t50-email") &&
-      localStorage.getItem("t50-pswd");
-
-    const loggedInGlobally = check1 || check2;
-
-    const completeCheck =
-      (check1 && loggedInLocally) || (check2 && loggedInLocally);
-    if (completeCheck) {
-      if (localStorage.getItem("acceptedTerms") === "true") {
-        getReady();
-        registerPWA();
-
-        if (!localStorage.getItem("extVOASA")) {
-          document.getElementById("notificationsOff").style.display = null;
-          document.getElementById("noticecircle").style.display = null;
-        }
-        //document.getElementById("profilePic").src = "https://www.gravatar.com/avatar/" + md5(localStorage.getItem("t50-email")) + "?d=identicon";
-      } else {
-        document.getElementById("phone").classList.add("login");
-        document.getElementById("main").classList.add("setupNeeded");
-        document.getElementById("content").style.display = "none";
-        document.getElementById("loginForming").style.display = "none";
-        document.getElementById("loginContentFlex").style.height = "auto";
-        document.getElementById("loginStepTerms").style.display = null;
-        document.getElementById("bottomSearchParent").style.zIndex = "-1";
-        document.getElementById("nameterms").innerText =
-          localStorage.getItem("t50-username");
-        document.getElementById("loginContent").style.display = "block";
-        blockGoingToLogin = true;
-      }
-    } else {
-      if (loggedInGlobally) {
-        document.getElementById("evoxLogin").classList.add("blinkLogin");
-      }
-      document.getElementById("oasaPfp").src = "cbimage.png";
-      if (localStorage.getItem("hasDismissedSetup") !== "true") {
-        document.getElementById("main").classList.add("setupNeeded");
-        $("#phone").fadeOut("fast", function () {
-          document.getElementById("phone").classList.add("login");
-          $("#content").fadeOut("fast", function () {
-            $("#phone").fadeIn("fast");
-            document
-              .getElementById("loginForming")
-              .querySelector(".infoWelcome").style.display = "none";
-            $("#loginContent").fadeIn("fast");
-            setTimeout(function () {
-              document
-                .getElementById("loginForming")
-                .querySelector(".infoWelcome").style.display = null;
-            }, 1000);
-            document
-              .getElementById("loginForming")
-              .querySelectorAll("p")[0]
-              .classList.add("show");
-            displayHello();
-            let isTouching = false;
-            document.addEventListener("touchstart", (e) => {
-              isTouching = true;
-            });
-
-            document.addEventListener("touchmove", (e) => {
-              if (!isTouching) return;
-
-              const touch = e.touches[0];
-              createTrail(touch.clientX, touch.clientY);
-            });
-
-            document.addEventListener("touchend", () => {
-              isTouching = false;
-            });
-
-            function createTrail(x, y) {
-              const trail = document.createElement("div");
-              trail.className = "trail";
-              trail.style.left = `${x - 7.5}px`;
-              trail.style.top = `${y - 7.5}px`;
-
-              document.body.appendChild(trail);
-
-              // Remove the trail after the animation ends
-              trail.addEventListener("animationend", () => {
-                trail.remove();
-              });
-            }
-
-            let startY;
-
-            document.addEventListener("touchstart", (e) => {
-              // Get the starting Y position of the touch
-              startY = e.touches[0].clientY;
-            });
-
-            document.addEventListener("touchend", (e) => {
-              // Get the ending Y position of the touch
-              const endY = e.changedTouches[0].clientY;
-
-              // Detect swipe direction and distance
-              if (startY - endY > 50 && outsideOfZone === false) {
-                // 50px threshold for swipe up
-                runFunction(); // Your function to run on swipe up
-              }
-            });
-
-            function runFunction() {
-              document
-                .getElementById("loginContentFlex")
-                .classList.add("noSplash");
-              document.getElementById("hello-text").classList.add("noSplash");
-              document
-                .getElementById("loginForming")
-                .querySelector(".infoWelcome").style.display = "none";
-              setTimeout(function () {
-                $("#loginForming").fadeOut("fast", function () {
-                  $("#phone").fadeOut("fast", function () {
-                    //document.getElementById("phone").classList.remove("login")
-                    $("#phone").fadeIn("fast", function () {
-                      $("#loginStep1").fadeIn("fast");
-                      outsideOfZone = true;
-                    });
-                  });
-                });
-                //$("#runalpha1").fadeIn("fast")
-                //$("#runalpha2").fadeIn("fast")
-                //$("#runalpha3").fadeIn("fast")
-                //$("#runalpha4").fadeIn("fast")
-              }, 800);
-              console.log("Swipe up detected! Running the function...");
-              // Add your custom function logic here
-            }
-            //setTimeout(function() {
-            //  //document.getElementById("loginForming").classList.add("start")
-            //  setTimeout(function() {
-            //    document.getElementById("loginForming").querySelectorAll("p")[0].classList.add("show")
-            //    setTimeout(function() {
-            //      document.getElementById("loginForming").querySelectorAll("p")[1].classList.add("show")
-            //    }, 1000)
-            //  }, 400)
-            //}, 500)
-          });
-        });
-      } else {
-        getReady();
-      }
-    }
-
-    fetch(`famousBuses.json?vevox=${randomString()}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("famous");
-        let uniqueBuses = data.list.filter(
-          (bus) => !frequentBuses.includes(bus) && !favoriteBuses.includes(bus)
-        );
-        console.log("Unique famous:", uniqueBuses);
-        famousBuses = uniqueBuses;
-        console.log("famous buses");
-
-        const pre = setInterval(function () {
-          if (fullLine) {
-            clearInterval(pre);
-            famousBuses.forEach((bus) => {
-              try {
-                loadSection("famous", bus);
-              } catch (err) {
-                console.error(err);
-              }
-            });
-          } else {
-            console.warn("fullLine not found! CRITICAL");
-            connectOASABridge();
-          }
-        }, 100);
-      })
-      .catch((error) => {
-        $("#famousFeed").fadeOut("fast");
-        console.warn("Cannot load famous", error);
-      });
-
-    fetch(`https://data.evoxs.xyz/cron`)
-      .then((response) => response.text())
-      .catch((er) => {
-        console.warn("centralized error", er);
-        serverIP = "https://evox-runtime.onrender.com/";
-      });
-
-    const allLines = encodeURIComponent(
-      `https://telematics.oasa.gr/api/?act=webGetLines&keyOrigin=evoxEpsilon`
-    );
-
-    function runOASABridge(data) {
-      fullLine = data;
-      loadOasa(); //BETA
-      if (data) {
-        let lc = localStorage.getItem("oasa_favorites");
-        if (lc) {
-          lc = JSON.parse(lc);
-        }
-        // Map each line to a promise for asynchronous handling
-        let linesPromises = data.map((eachLine) => {
-          return new Promise((resolve, reject) => {
-            document
-              .getElementById("spawnHere")
-              .querySelectorAll("button")
-              .forEach((editBus) => {
-                if (lc && lc.includes(editBus.getAttribute("data-bus"))) {
-                  editBus.classList.add("favoriteBus");
-                }
-              });
-            resolve(); // Mark the promise as resolved after DOM update
-          });
-        });
-
-        // Wait for all promises to resolve (i.e., all buttons are added to the DOM)
-        Promise.all(linesPromises)
-          .then(() => {
-            console.log("All lines have been spawned!");
-            const element_b = document.getElementById("indexLoading");
-            if (element_b) {
-              element_b.remove(); // Remove the loading element
-            }
-
-            // Add additional functionality here
-          })
-          .catch((err) => {
-            console.error("An error occurred while spawning stops:", err);
-          });
-      }
-    }
-    fetch(`${serverIP}proxy?key=21&targetUrl=${allLines}`)
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem("allLines", JSON.stringify(data));
-        runOASABridge(data);
-        document.getElementById(
-          "oasaPfp"
-        ).src = `${serverIP}profiles?authorize=imagePfp&name=${localStorage.getItem(
-          "t50-username"
-        )}&v=${randomString()}`;
-      })
-      .catch((error) => {
-        document.getElementById("oasaPfp").src = "apple.png";
-        console.log("All Lines Get Error:", error);
-        if (localStorage.getItem("allLines")) {
-          const tmp = localStorage.getItem("allLines");
-          runOASABridge(JSON.parse(tmp));
-        }
-        return;
-        if (isNearEvery3Hours()) {
-          //alert(`Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`)
-          document.getElementById("performance").style.display = "flex";
-          document.getElementById("messagePerformance").innerHTML =
-            "Μερική Διακοπή";
-          document.getElementById(
-            "italicBuild"
-          ).innerHTML = `Evox© OASAP V${currentVersion}`;
-
-          document.getElementById("spawnHere").innerHTML =
-            "Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.";
-          document.getElementById(
-            "logErrors"
-          ).innerHTML = `Ο διακομιστής επανεκκινείται, δοκιμάστε ξανά σε 2-3 λεπτά.`;
-        } else {
-          //alert(`Δεν ηταν δυνατη η συνδεση στον διακομιστη.\nΑγνωστο σφαλμα`)
-          document.getElementById("performance").style.display = "flex";
-          document.getElementById("messagePerformance").innerHTML =
-            "Σοβαρό περιστατικό";
-          document.getElementById(
-            "italicBuild"
-          ).innerHTML = `Evox© OASAP V${currentVersion}`;
-
-          document.getElementById("spawnHere").innerHTML =
-            "Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα";
-          document.getElementById(
-            "logErrors"
-          ).innerHTML = `Δεν ηταν δυνατη η συνδεση στον διακομιστη.<br>Αγνωστο σφαλμα<br>${error}`;
-        }
-        if (error.toString().includes("Unexpected token")) {
-          //alert("OASA SQL error. Δοκιμάστε ξανά.")
-          document.getElementById("performance").style.display = "flex";
-          document.getElementById(
-            "italicBuild"
-          ).innerHTML = `Evox© OASAP V${currentVersion}`;
-          document.getElementById("messagePerformance").innerHTML =
-            "Σφάλμα OASA";
-          document.getElementById("spawnHere").innerHTML =
-            "OASA SQL error. Δοκιμάστε ξανά.";
-          document.getElementById(
-            "logErrors"
-          ).innerHTML = `Σφάλμα από την πλευρά του OASA [SQL].<br>Επανεκκινήστε την εφαρμογή.<br>${error}`;
-        }
-        const pers = localStorage.getItem("personalization");
-        if (pers) {
-          const personalize = JSON.parse(pers);
-          const savedDate = new Date(personalize.date); // Convert to Date object
-          const currentDate = new Date();
-
-          // Calculate the difference in days
-          const differenceInDays =
-            (currentDate - savedDate) / (1000 * 60 * 60 * 24);
-
-          if (differenceInDays <= 3 && type === "muteOfflineAlerts") {
-            return;
-            console.log("Date is within 2 days. Do something.");
-          }
-          // else {
-          //    console.log("Date is older than 2 days. Do something else.");
-          //}
-        } else if (!hasInternetConnection()) {
-          return;
-        }
-        //showErrors()
-        //updateCountdown();
-      });
-  });
-});
-
-function haversineDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Radius of the Earth in kilometers
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in kilometers
-}
-
 // Filter function to find locations within a certain radius
 function filterNearbyLocations(myloc, locations, radius) {
   if (!locations || !Array.isArray(locations) || locations.length < 2) {
@@ -2199,61 +1013,6 @@ function filterNearbyLocations(myloc, locations, radius) {
     console.warn(error);
     return true;
   }
-}
-function isPreviousNearby(currentLocation) {
-  const previousLocation = localStorage.getItem("previousLocation");
-  if (previousLocation) {
-    const handle = JSON.parse(previousLocation); // Assuming handle is an array of locations
-
-    const isNear = filterNearbyLocations(currentLocation, handle.query, 0.5);
-    console.log("IsNear", isNear); // This will print an array of locations that are nearby
-    if (isNear === true) {
-      return true;
-    }
-  } else {
-    return false; // No previous location stored
-  }
-}
-
-function capitalizeWords(str) {
-  if (typeof str !== "string") {
-    return ""; // Return an empty string if the input is not a valid string
-  }
-
-  return str
-    .toLowerCase() // Ensure the rest of the letters are lowercase
-    .replace(/h/g, "η") // Replace all lowercase "h" with "η"
-    .split(" ") // Split the string into an array of words
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
-    .join(" "); // Join the words back into a single string
-}
-
-function splitValue(value) {
-  return {
-    // Method to get the first part (before the first '-')
-    getFirstPart: function () {
-      const match = value.match(/^([^\-]*)/);
-      return match ? match[1].trim() : "";
-    },
-
-    // Method to get the second part (after the last '-')
-    getSecondPart: function () {
-      const match = value.match(/[^-]+$/); // Match after the last '-'
-      return match
-        ? match[0]
-            .trim()
-            .replace(/\(.*\)$/, "")
-            .trim()
-        : "";
-    },
-  };
-}
-
-function handleClick(stopCode, name) {
-  showVerticalStations();
-  setTimeout(function () {
-    showStopDetails(stopCode, name);
-  }, 200);
 }
 
 let activeBusInfo = {
@@ -3055,169 +1814,7 @@ function returnFromBusTimetable() {
 
   document.getElementById("searchIntelli").classList.remove("notLoaded");
 }
-
-function getPreviousBuses(times, more) {
-  const countToLoad = more || 7; // Default to 7 if `more` is not provided
-
-  const now = new Date();
-  const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes since midnight
-
-  const busTimes = times.map((time) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    const busTime = hours * 60 + minutes; // Bus time in minutes since midnight
-    const diff = currentTime - busTime; // Difference in minutes (negative for future buses, positive for past buses)
-
-    return {
-      time,
-      isPast: busTime < currentTime, // Mark as past if bus time is earlier than current time
-      remainingTime: diff, // Positive for past buses
-    };
-  });
-
-  // Filter only past buses
-  const pastBuses = busTimes.filter((bus) => bus.isPast);
-
-  // Sort past buses in descending order (most recent past buses first)
-  pastBuses.sort((a, b) => a.remainingTime - b.remainingTime);
-
-  // Take the last `countToLoad` past buses
-  const previousBuses = pastBuses.slice(0, countToLoad).map((bus) => {
-    const diff = bus.remainingTime; // Use positive remaining time for formatting
-    let formattedRemainingTime;
-
-    if (diff >= 60) {
-      let hours = Math.floor(diff / 60);
-      let remainingMinutes = diff % 60;
-
-      if (remainingMinutes === 0) {
-        formattedRemainingTime =
-          hours === 1 ? `πριν ${hours} ώρα` : `πριν ${hours} ώρες`;
-      } else {
-        formattedRemainingTime =
-          hours === 1
-            ? `πριν ${hours} ώρα ${remainingMinutes} λεπτά`
-            : `πριν ${hours} ώρες ${remainingMinutes} λεπτά`;
-      }
-    } else {
-      formattedRemainingTime = `πριν ${diff} λεπτά`;
-    }
-
-    return { time: bus.time, formatted: formattedRemainingTime };
-    //`${bus.time}`;// - ${formattedRemainingTime}
-  });
-
-  return previousBuses;
-}
-
-function getNextBuses(times, more) {
-  let countToLoad = null;
-  if (more) {
-    countToLoad = more;
-  } else {
-    countToLoad = 21;
-  }
-  const now = new Date();
-  const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes since midnight
-
-  if (!times) {
-    console.warn("Prevented Crash");
-    return null;
-  }
-  const busTimes = times.map((time) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    const busTime = hours * 60 + minutes; // Bus time in minutes since midnight
-    const diff = busTime - currentTime;
-    return {
-      time,
-      remainingTime: diff >= 0 ? diff : diff + 24 * 60,
-    };
-  });
-
-  // Separate future and past bus times
-  const futureBuses = busTimes.filter((bus) => bus.remainingTime >= 0);
-  const pastBuses = busTimes.filter((bus) => bus.remainingTime < 0);
-
-  // Sort future buses by remaining time
-  futureBuses.sort((a, b) => a.remainingTime - b.remainingTime);
-
-  // Find the nearest previous bus time
-  let nearestPreviousBus = null;
-  if (pastBuses.length > 0) {
-    pastBuses.sort((a, b) => b.remainingTime - a.remainingTime); // Sort past buses in descending order
-    nearestPreviousBus = pastBuses[0]; // Nearest previous bus (largest negative remaining time)
-  }
-
-  // Convert remaining times to the desired format for future buses
-
-  const nextBuses = futureBuses.slice(0, countToLoad).map((bus) => {
-    const diff = bus.remainingTime;
-    let formattedRemainingTime;
-
-    if (diff > 60) {
-      let hours = Math.floor(diff / 60);
-      let remainingMinutes = diff % 60;
-      if (hours >= 1) {
-        formattedRemainingTime = hours === 1 ? `${hours} ώρα` : `${hours} ώρες`;
-        return `<vox>${bus.time}</vox> <span style="font-size: 15px;margin-left: 2px;">${formattedRemainingTime}</span>`;
-      } else {
-        formattedRemainingTime =
-          hours === 1
-            ? `${hours} ώρα, ${remainingMinutes} λεπτά`
-            : `${hours} ώρες, ${remainingMinutes} λεπτά`;
-        return `<vox>${bus.time}</vox> <span style="font-size: 15px;margin-left: 2px;">${formattedRemainingTime}</span>`;
-      }
-    } else {
-      formattedRemainingTime = `${diff} λεπτά`;
-      return `<vox>${bus.time}</vox> <span style="font-size: 15px;margin-left: 2px;">${formattedRemainingTime}</span>`;
-    }
-  });
-
-  // If there's a nearest previous bus, format it and prepend to nextBuses
-  if (nearestPreviousBus) {
-    const previousDiff = Math.abs(nearestPreviousBus.remainingTime); // Use absolute value for formatting
-    const previousFormattedTime = `${nearestPreviousBus.time} - πρίν ${previousDiff} λεπτά`;
-    nextBuses.unshift(previousFormattedTime);
-  }
-
-  // Log the original bus times
-  busTimes.slice(0, 5).forEach((bus) => {
-    console.log(`Scheduled time: ${bus.time}`);
-  });
-
-  return nextBuses; // Return the next buses including the previous one
-}
-
-function manualLogout() {
-  if (localStorage.getItem("t50-username")) {
-    let userConfirmed = window.confirm(
-      `Θέλετε να αποσυνδεθείτε από τον λογαριασμό σας [${localStorage.getItem(
-        "t50-username"
-      )}];`
-    );
-    if (userConfirmed) {
-      localStorage.clear();
-      sessionStorage.clear();
-      setInterval(() => {
-        window.location.reload();
-      }, 500);
-    }
-  } else {
-    let userConfirmed = window.confirm(
-      `Δεν είστε συνδεδεμένοι. Θέλετε ακόμα να διαγράψετε τα δεδομένα σας;`
-    );
-    if (userConfirmed) {
-      localStorage.clear();
-      sessionStorage.clear();
-      setInterval(() => {
-        window.location.reload();
-      }, 500);
-    }
-  }
-}
-
 let option = "main";
-
-//Connection With Shtepi Project
 
 async function spawnBusOnMap(lineId) {
   try {
@@ -3638,49 +2235,6 @@ async function showBusRouteWithStops(stops, map) {
   });
 
   console.log("Bus route displayed on the map");
-}
-
-function createBlueDot() {
-  const dot = document.createElement("div");
-  dot.style.width = "10px";
-  dot.style.height = "10px";
-  dot.style.backgroundColor = "#fff";
-  dot.style.borderRadius = "50%";
-  dot.style.transform = "translate(-50%, -50%)"; // Center the dot on the marker position
-  return dot;
-}
-
-function createBlinkingDot() {
-  const dot = document.createElement("div");
-  dot.style.width = "10px";
-  dot.style.height = "10px";
-  dot.style.backgroundColor = "#fff"; // Set the color to white
-  dot.style.borderRadius = "50%";
-  dot.style.transform = "translate(-50%, -50%)"; // Center the dot on the marker position
-  dot.style.animation = "blink 1s infinite"; // Add blinking animation
-
-  // Define the keyframes for the blinking animation
-  const style = document.createElement("style");
-  style.innerHTML = `
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-`;
-  document.head.appendChild(style);
-
-  return dot;
-}
-
-function createRedDot() {
-  const dot = document.createElement("div");
-  dot.style.width = "15px";
-  dot.style.height = "15px";
-  dot.style.backgroundColor = "#ff0000";
-  dot.style.borderRadius = "50%";
-  dot.style.transform = "translate(-50%, -50%)"; // Center the dot on the marker position
-  return dot;
 }
 
 async function getRouteStops(routeCode) {
@@ -4500,29 +3054,6 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
   });
 }
 
-function timeUntil(targetTime) {
-  // Split the target time into hours and minutes
-  const [targetHours, targetMinutes] = targetTime.split(":").map(Number);
-
-  // Get the current date and time
-  const now = new Date();
-
-  // Create a new Date object for the target time on the current day
-  const target = new Date(now);
-  target.setHours(targetHours, targetMinutes, 0, 0);
-
-  // If the target time has already passed today, set it to the next day
-  if (target < now) {
-    target.setDate(target.getDate() + 1);
-  }
-
-  // Calculate the difference in minutes
-  const remainingMinutes = Math.round((target - now) / 60000);
-
-  // Convert and return the remaining minutes
-  return convertTime(remainingMinutes);
-}
-
 let currentInfoForSchedo = {};
 
 function showDetailedTime(time, type, text) {
@@ -4648,125 +3179,6 @@ function returnFromDetailedItemView() {
       .getElementById("busTimetable")
       .classList.remove("fade-in-slide-up");
   }, 500);
-}
-
-const checkboxa = document.getElementById("at-start");
-
-checkboxa.addEventListener("change", function () {
-  if (checkboxa.checked) {
-    //The checkbox is now checked meaning a schedo should be created now
-    if (localStorage.getItem("extVOASA")) {
-      if (currentInfoForSchedo.bus && currentInfoForSchedo.time) {
-        console.log("Evox json passed");
-
-        const evoxJson = {
-          username: localStorage.getItem("t50-username"),
-          extv: localStorage.getItem("extVOASA"),
-          type: "transition",
-          bus: currentInfoForSchedo.bus,
-          transition: currentInfoForSchedo.time,
-        };
-
-        console.log(evoxJson);
-        fetch("https://florida.evoxs.xyz/oasaSchedo", {
-          method: "POST",
-          body: JSON.stringify(evoxJson),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then((data) => {
-            console.log("Florida Response", data);
-          })
-          .catch((error) => {
-            console.error("Fetch error:", error);
-          });
-        console.log("The checkbox is checked");
-      } else {
-        alert("Σφάλμα!");
-        checkboxa.checked = false;
-      }
-    } else {
-      alert("Florida not enabled!");
-      checkboxa.checked = false;
-    }
-  } else {
-    console.log("The checkbox is unchecked");
-
-    //will proceed to remove the schedo
-
-    fetch(
-      `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
-        "t50-username"
-      )}&vevox=${randomString()}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.schedo.length !== 0 && data.infinite.length !== 0) {
-          const filteredData = data.schedo.filter(
-            (item) => item.id === localStorage.getItem("extVOASA")
-          );
-          filteredData.forEach((schedoNotification) => {
-            if (
-              schedoNotification.bus === currentInfoForSchedo.bus &&
-              schedoNotification.time === currentInfoForSchedo.time
-            ) {
-              const valueToDelete = schedoNotification;
-              console.log("Will delete", valueToDelete);
-              const timeNode = `${valueToDelete.date}/${valueToDelete.time}`;
-              const bus = valueToDelete.bus;
-              const id = valueToDelete.id;
-              const evoxJson2 = {
-                username: localStorage.getItem("t50-username"),
-                timenode: timeNode,
-                bus: bus,
-                deviceId: id,
-              };
-              console.log("now pinging");
-              fetch("https://florida.evoxs.xyz/deleteByNode", {
-                method: "POST",
-                body: JSON.stringify(evoxJson2),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                  }
-                  return response.text();
-                })
-                .then((data) => {
-                  console.log(data);
-                })
-                .catch((error) => {
-                  checkboxa.checked = true;
-                  console.error("Fetch error:", error);
-                });
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        checkboxa.checked = true;
-        console.error("Failed to check for updates");
-      });
-  }
-});
-function switchTo(what, el) {
-  if (!el.classList.contains("active")) {
-    processInfo(activeEvoxId, "getTimes", null, what);
-  }
-}
-
-function showMoreBusStart() {
-  processInfo(activeEvoxId, "getTimes", shownTimeTable + 5);
 }
 
 function showVerticalStations() {
@@ -5057,92 +3469,6 @@ function returnFromStationsVertical() {
       .getElementById("busTimetable")
       .classList.remove("fade-in-slide-up");
   }, 500);
-}
-
-function displayLocalStorage() {
-  const itemsContainer = document.getElementById("localStorageItems");
-  itemsContainer.innerHTML = ""; // Clear existing items
-
-  const keys = Object.keys(localStorage);
-  if (keys.length === 0) {
-    itemsContainer.textContent = "No items in localStorage.";
-    return;
-  }
-
-  keys.forEach((key) => {
-    const value = localStorage.getItem(key);
-    // Create item div
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "item";
-
-    // Key display
-    const keyDisplay = document.createElement("span");
-    keyDisplay.textContent = `${key}: `;
-    itemDiv.appendChild(keyDisplay);
-
-    // Editable value input
-    const valueInput = document.createElement("input");
-    valueInput.type = "text";
-    valueInput.value = value;
-    itemDiv.appendChild(valueInput);
-
-    // Edit button
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.addEventListener("click", () => {
-      localStorage.setItem(key, valueInput.value);
-      displayLocalStorage(); // Refresh display
-      alert("Item edited successfully!");
-    });
-    itemDiv.appendChild(editBtn);
-
-    // Append item to container
-    itemsContainer.appendChild(itemDiv);
-  });
-}
-
-// Call display function on page load
-displayLocalStorage();
-
-// Add new item to localStorage
-document.getElementById("addItem").addEventListener("click", function () {
-  const newKey = document.getElementById("newKey").value.trim();
-  const newValue = document.getElementById("newValue").value.trim();
-
-  if (newKey && newValue) {
-    localStorage.setItem(newKey, newValue);
-    document.getElementById("newKey").value = "";
-    document.getElementById("newValue").value = "";
-    displayLocalStorage();
-    alert("Item added successfully!");
-  } else {
-    alert("Please enter both key and value.");
-  }
-});
-
-function convert2Txt() {
-  const value = document.getElementById("gotobaseNone").value;
-
-  try {
-    if (!value) {
-      throw new Error("Input is empty. Please enter a Base64 encoded string.");
-    }
-
-    const new1 = atob(value);
-    alert(`Decoded: ${new1}`);
-  } catch (error) {
-    alert(`Error: ${error.message}`);
-  }
-}
-
-function convert2Base() {
-  const value = document.getElementById("gotobase64").value;
-  try {
-    const new1 = btoa(value);
-    alert(`Encoded: ${new1}`);
-  } catch (error) {
-    alert(error);
-  }
 }
 
 let favorite_stations = [];
@@ -5453,26 +3779,6 @@ function returnFromStationInfo() {
   }
 }
 
-document
-  .getElementById("searchInSearch")
-  .addEventListener("focus", function () {
-    $("#recommendSpawn").fadeOut("fast");
-    document.getElementById("searchContainer").classList.add("active");
-    searchInInput();
-  });
-
-document.getElementById("searchInSearch").addEventListener("blur", function () {
-  //$("#recommendSpawn").fadeIn("fast")
-  //document.getElementById("searchContainer").classList.remove("active")
-  //document.getElementById('toSpawnFinds').classList.add('hidden');
-});
-
-document
-  .getElementById("searchInSearch")
-  .addEventListener("input", function () {
-    searchInInput();
-  });
-
 function searchInInput() {
   const lineIdToFind = document.getElementById("searchInSearch").value;
   if (lineIdToFind === "") {
@@ -5581,50 +3887,6 @@ function searchInInput() {
   document.getElementById("toSpawnFinds").classList.remove("hidden");
 }
 
-function getNearestMatch(descr, routeDescrs) {
-  let closestMatch = null;
-  let closestDistance = Infinity;
-
-  routeDescrs.forEach((description) => {
-    const distance = levenshteinDistance(descr, description);
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestMatch = description;
-    }
-  });
-
-  return closestMatch;
-}
-
-// Simple Levenshtein Distance function
-function levenshteinDistance(a, b) {
-  const matrix = [];
-
-  for (let i = 0; i <= a.length; i++) {
-    matrix[i] = [i];
-  }
-
-  for (let j = 0; j <= b.length; j++) {
-    matrix[0][j] = j;
-  }
-
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      if (a[i - 1] === b[j - 1]) {
-        matrix[i][j] = matrix[i - 1][j - 1];
-      } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1, // deletion
-          matrix[i][j - 1] + 1, // insertion
-          matrix[i - 1][j - 1] + 1 // substitution
-        );
-      }
-    }
-  }
-
-  return matrix[a.length][b.length];
-}
-
 function addInfinity(busLineId, stationCode, type, el) {
   el.classList.add("loading");
   const toFindRouteCode = evoxIds[activeEvoxId];
@@ -5708,27 +3970,6 @@ function addInfinity(busLineId, stationCode, type, el) {
         console.error("Failed to check for updates");
       });
   });
-}
-
-function findNearestStop(stops, userLat, userLng) {
-  function haversine(lat1, lon1, lat2, lon2) {
-    const toRad = (x) => (x * Math.PI) / 180;
-    const R = 6371; // Earth's radius in km
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
-
-  return stops.reduce(
-    (nearest, stop) => {
-      const distance = haversine(userLat, userLng, stop.lat, stop.lng);
-      return distance < nearest.distance ? { stop, distance } : nearest;
-    },
-    { stop: null, distance: Infinity }
-  ).stop;
 }
 
 function switchRouteTo(el) {
@@ -6174,53 +4415,6 @@ function changeToOpposite(whereto, bus, verify, element) {
   element.classList.add("active");
 }
 
-document
-  .getElementById("imageInput")
-  .addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const base64Image = e.target.result;
-
-      // Save to localStorage
-      localStorage.setItem("userImage", base64Image);
-
-      // Add class to trigger pseudo-element
-      const phone = document.getElementById("phone");
-      phone.classList.add("image");
-
-      // Inject dynamic CSS to override background-image in ::before
-      let styleTag = document.getElementById("dynamic-style");
-      if (!styleTag) {
-        styleTag = document.createElement("style");
-        styleTag.id = "dynamic-style";
-        document.head.appendChild(styleTag);
-      }
-
-      styleTag.textContent = `
-      #phone.image::before {
-        background-image: url('${base64Image}');
-      }
-    `;
-    };
-
-    reader.readAsDataURL(file);
-  });
-
-function clearUserImage() {
-  localStorage.removeItem("userImage");
-  const phone = document.getElementById("phone");
-  phone.classList.remove("image");
-
-  // Remove dynamic CSS
-  const styleTag = document.getElementById("dynamic-style");
-  if (styleTag) {
-    styleTag.remove();
-  }
-}
-
 function openNotificationsView() {
   haptics.trigger();
   if (
@@ -6478,21 +4672,6 @@ function returnFromNotifications() {
   document.getElementById("searchIntelli").classList.remove("notLoaded");
 }
 
-function loginNew() {
-  $("#loginStep1").fadeOut("fast", function () {
-    document.querySelector(".loginContentFlex.noSplash").style.height = "auto";
-    $("#loginStep2").fadeIn("fast", function () {});
-  });
-}
-
-function loginAsGuest() {
-  document.getElementById("bottomSearchParent").style.zIndex = "-1";
-  $("#loginStep1").fadeOut("fast", function () {
-    document.querySelector(".loginContentFlex.noSplash").style.height = "auto";
-    $("#loginStepGuest").fadeIn("fast", function () {});
-  });
-}
-
 function loginFlorida(el) {
   if (el) {
     el.innerHTML += `<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
@@ -6582,53 +4761,6 @@ function loginAsGuestFinal() {
     });
   });
 }
-
-function getOS() {
-  const userAgent = navigator.userAgent;
-  let operatingSystem = "Unknown";
-
-  if (userAgent.includes("Windows NT")) {
-    operatingSystem = "Windows";
-  } else if (userAgent.includes("Mac OS")) {
-    operatingSystem = "macOS";
-  } else if (userAgent.includes("Linux")) {
-    operatingSystem = "Linux";
-  } else if (userAgent.includes("Android")) {
-    operatingSystem = "Android";
-  } else if (userAgent.includes("iOS")) {
-    operatingSystem = "iOS";
-  }
-
-  return operatingSystem;
-}
-
-function getOSVersion() {
-  const userAgent = navigator.userAgent;
-  let osVersion = "Unknown";
-
-  if (userAgent.includes("Windows NT")) {
-    osVersion = userAgent.split("Windows NT ")[1].split(";")[0];
-  } else if (userAgent.includes("Mac OS")) {
-    osVersion = userAgent.split("Mac OS ")[1].split(")")[0];
-  } else if (userAgent.includes("Linux")) {
-    osVersion = "Linux"; // Linux doesn't typically have a version string in userAgent
-  } else if (userAgent.includes("Android")) {
-    osVersion = userAgent.split("Android ")[1].split(";")[0];
-  } else if (userAgent.includes("iPhone OS")) {
-    osVersion = userAgent
-      .split("iPhone OS ")[1]
-      .split(" ")[0]
-      .replace(/_/g, ".");
-  } else if (userAgent.includes("iPad OS")) {
-    osVersion = userAgent.split("iPad OS ")[1].split(" ")[0].replace(/_/g, ".");
-  }
-
-  return osVersion;
-}
-
-// Example usage:
-const os = getOS();
-const osVersion = getOSVersion();
 
 function enableNotifications(noui) {
   console.log("Enabling notifications for OS:", os, "Version:", osVersion);
@@ -6739,82 +4871,6 @@ function enableNotifications(noui) {
         bottomText.style.display = "flex";
       }
     });
-}
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
-  const rawData = atob(base64);
-  return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
-}
-
-// Helper function to convert base64 URL to Uint8Array
-function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
-  const rawData = atob(base64);
-  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
-}
-
-function goBackToLogin() {
-  $("#loginStep2").fadeOut("fast", function () {
-    $("#loginStep1").fadeIn("fast");
-  });
-}
-
-function goBackToLoginGuest() {
-  $("#loginStepGuest").fadeOut("fast", function () {
-    $("#loginStep1").fadeIn("fast");
-  });
-}
-
-function goBackToLoginNew() {
-  $("#loginStep3").fadeOut("fast", function () {
-    $("#loginStep2").fadeIn("fast");
-  });
-}
-
-function skipFlorida() {
-  $("#loginStep3").fadeOut("fast", function () {
-    $("#loginStepLast").fadeOut("fast", function () {
-      //document.getElementById("main").classList.remove("setupNeeded")
-      document.getElementById("nameterms").innerText =
-        localStorage.getItem("t50-username");
-      $("#loginStepTerms").fadeIn("fast");
-    });
-  });
-  //window.location.reload();
-}
-
-function disagreeTerms() {
-  if (blockGoingToLogin === true) {
-    localStorage.removeItem("isOasaLoggedIn");
-    window.location.reload();
-    return;
-  }
-  $("#loginStepTerms").fadeOut("fast", function () {
-    $("#loginStep3").fadeIn("fast");
-  });
-}
-const select = document.getElementById("mySelect");
-
-select.addEventListener("change", () => {
-  const value = select.value;
-  localStorage.setItem("map_style", value);
-});
-
-async function clearStorageAndReload() {
-  // Clear localStorage
-  localStorage.clear();
-
-  // Unregister all service workers
-  if ("serviceWorker" in navigator) {
-    const registrations = await navigator.serviceWorker.getRegistrations();
-    await Promise.all(registrations.map((reg) => reg.unregister()));
-  }
-
-  // Reload the page
-  location.reload();
 }
 
 let isScreenBusy = false;
@@ -7167,24 +5223,6 @@ function favoriteStation(e) {
       console.warn("Successfully stopped action.");
     }
   }
-}
-
-function getDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371e3; // Earth radius in meters
-  const toRad = (angle) => (angle * Math.PI) / 180;
-
-  const φ1 = toRad(lat1);
-  const φ2 = toRad(lat2);
-  const Δφ = toRad(lat2 - lat1);
-  const Δλ = toRad(lng2 - lng1);
-
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c; // Distance in meters
 }
 
 async function searchAndMarkPlaces(query) {
@@ -7557,59 +5595,8 @@ function connectOASABridge() {
     });
 }
 
-function getDeviceInfo() {
-  const userAgent = navigator.userAgent;
-
-  let deviceType = "Unknown";
-  let model = "Unknown";
-  let osVersion = "Unknown";
-
-  // Detect device type
-  if (/Mobile|iPhone|Android/.test(userAgent)) {
-    deviceType = "Κινητή";
-  } else if (/Tablet|iPad/.test(userAgent)) {
-    deviceType = "Τάμπλετ";
-  } else if (/Mac|Windows|Linux|X11/.test(userAgent)) {
-    deviceType = "Υπολογιστής";
-  }
-
-  // Detect model (basic parsing)
-  if (/iPhone/.test(userAgent)) {
-    model = "iPhone";
-  } else if (/iPad/.test(userAgent)) {
-    model = "iPad";
-  } else if (/Android/.test(userAgent)) {
-    const androidMatch = userAgent.match(/Android\s([\d.]+)/);
-    model = "Android Device";
-    osVersion = androidMatch ? androidMatch[1] : osVersion;
-  } else if (/Mac/.test(userAgent)) {
-    model = "Mac";
-  } else if (/Windows/.test(userAgent)) {
-    model = "Windows PC";
-  }
-
-  // Detect OS version (basic parsing)
-  if (/iPhone|iPad/.test(userAgent)) {
-    const iosMatch = userAgent.match(/OS (\d+_\d+)/);
-    osVersion = iosMatch ? iosMatch[1].replace("_", ".") : osVersion;
-  } else if (/Windows/.test(userAgent)) {
-    const windowsMatch = userAgent.match(/Windows NT (\d+\.\d+)/);
-    osVersion = windowsMatch ? windowsMatch[1] : osVersion;
-  } else if (/Mac/.test(userAgent)) {
-    const macMatch = userAgent.match(/Mac OS X (\d+_\d+)/);
-    osVersion = macMatch ? macMatch[1].replace("_", ".") : osVersion;
-  }
-
-  // Return as JSON object
-  return {
-    deviceType,
-    model,
-    osVersion,
-  };
-}
-
 function getWalkingRoute(start, end, firstRequest) {
-  if(firstRequest) {
+  if (firstRequest) {
     document.getElementById("timeNeeded").innerText = "Εκτίμηση διαδρομής..";
   }
   fetch(
@@ -7691,7 +5678,11 @@ function walkMeTo(lng, lat, event, destinationName) {
         const userLoc = [position.coords.longitude, position.coords.latitude];
 
         // Zoom to user location
-        getWalkingRoute(userLoc, currentRouteEnd, isDirectionsNew === true ? true : null);
+        getWalkingRoute(
+          userLoc,
+          currentRouteEnd,
+          isDirectionsNew === true ? true : null
+        );
 
         if (isDirectionsNew === true) {
           map.flyTo({
@@ -7702,8 +5693,6 @@ function walkMeTo(lng, lat, event, destinationName) {
           });
           isDirectionsNew = false;
         }
-
-        
       },
       (err) => {
         console.error("geofatal", err);
@@ -7836,11 +5825,11 @@ function clearFavorites(el) {
 }
 
 function moreBusOptions() {
-  if(document.getElementById("moreBusOptions").classList.contains("active")) {
-    document.getElementById("slidingPopup").classList.remove("active")
-    document.getElementById("moreBusOptions").classList.remove("active")
+  if (document.getElementById("moreBusOptions").classList.contains("active")) {
+    document.getElementById("slidingPopup").classList.remove("active");
+    document.getElementById("moreBusOptions").classList.remove("active");
   } else {
-    document.getElementById("slidingPopup").classList.add("active")
-    document.getElementById("moreBusOptions").classList.add("active")
+    document.getElementById("slidingPopup").classList.add("active");
+    document.getElementById("moreBusOptions").classList.add("active");
   }
 }

@@ -3860,7 +3860,7 @@ vox.keepDefault {
 
 
 .slidingPopupBottom {
-  bottom: env(safe-area-inset-bottom);
+  bottom: 0;
   position: fixed;
   left: 50%;
   transform: translateX(-50%) translateY(100vh);
@@ -3872,6 +3872,7 @@ vox.keepDefault {
   border-radius: 20px 20px 0 0;
   height: auto;
   box-sizing: border-box;
+  padding-bottom: env(safe-area-inset-bottom);
   box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
   z-index: 9999;
 
