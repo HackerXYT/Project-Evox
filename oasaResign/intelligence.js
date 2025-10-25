@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.62";
+const currentVersion = "2.2.7";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -415,7 +415,7 @@ function spawnBlocks(currentLocation) {
       localStorage.getItem("map_style") || "mapbox://styles/mapbox/dark-v11",
     center: currentLocation,
     zoom: 14,
-    maxZoom: 16,
+    maxZoom: 20,
     minZoom: 12,
     pitch: 0,
     bearing: 0,
@@ -893,7 +893,7 @@ function handleFavoriteOverrides(
 }
 
 function registerPWA() {
-  //return; //Remove me after debug
+  return; //Remove me after debug
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -2731,7 +2731,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
 
     const existingStopCodes = new Set();
 
-    function addIt(coordinates, near) {
+    function addIt(coordinates, near, coordsForMap) {
       console.log("addIt", coordinates);
 
       // Fly to the first coordinate
@@ -2753,6 +2753,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
       previouslines = id; // Track current line ID
 
       // Add markers
+      console.log("%a", coordinates);
       coordinates.forEach((coord, index) => {
         if (existingStopCodes.has(coord.StopCode)) {
           // This station already has a marker — skip adding
@@ -2839,14 +2840,14 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
           .addTo(map);
         markers_intel.push(marker);
       });
-
+      const smoothed = smoothLine(coordsForMap);
       map.addSource(`route-${id}`, {
         type: "geojson",
         data: {
           type: "Feature",
           geometry: {
             type: "LineString",
-            coordinates: coordinates.map((coord) => [coord.lng, coord.lat]),
+            coordinates: smoothed.map((coord) => [coord.lng, coord.lat]),
           },
         },
       });
@@ -2987,6 +2988,13 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
       .then((response) => response.json())
       .then((data) => {
         console.warn("webgetroutesandstops:", data);
+        const coordinates_for_map = data.details
+          .map((stop) => ({
+            lat: parseFloat(stop.routed_y),
+            lng: parseFloat(stop.routed_x),
+          }))
+          .sort((a, b) => a.routed_order - b.routed_order);
+        console.log("%ss", coordinates_for_map);
         const coordinates = data.stops
           .map((stop) => ({
             lat: parseFloat(stop.StopLat),
@@ -3011,7 +3019,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
             const userLng = position.coords.longitude;
             const nearestStop = findNearestStop(coordinates, userLat, userLng);
             //addIt(workOn[bus]);
-            addIt(coordinates, nearestStop);
+            addIt(coordinates, nearestStop, coordinates_for_map);
             console.log("Nearest Stop:", nearestStop);
           },
           (error) => console.error("Error getting location:", error),
@@ -4393,6 +4401,15 @@ function favFromMap(el) {
     favoriteBuses = favoriteBusesTemp;
   } else {
     localStorage.setItem("oasa_favorites", JSON.stringify([busId]));
+    document.getElementById(
+      "favoriteMap"
+    ).innerHTML = `<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path style="transform-origin:center;animation: pulse 5s infinite alternate;transition:transform 5s ease-in-out;"
+                                    d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                                    fill="#fff"></path>
+                            </svg>
+                            Αφαίρεση`;
   }
 }
 
@@ -4638,7 +4655,13 @@ function openNotificationsView() {
       });
 
       if (notifications.innerHTML === "") {
-        notifications.innerHTML += `<span>Καμία προσεχής ειδοποίηση.</span>`;
+        notifications.innerHTML += `
+        <div style="display:flex;flex-direction:column;width:100%;justify-content:center;align-items:center;text-align:center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.9498 8.46447C17.3404 8.07394 17.3404 7.44078 16.9498 7.05025C16.5593 6.65973 15.9261 6.65973 15.5356 7.05025L12.0001 10.5858L8.46455 7.05025C8.07402 6.65973 7.44086 6.65973 7.05033 7.05025C6.65981 7.44078 6.65981 8.07394 7.05033 8.46447L10.5859 12L7.05033 15.5355C6.65981 15.9261 6.65981 16.5592 7.05033 16.9497C7.44086 17.3403 8.07402 17.3403 8.46455 16.9497L12.0001 13.4142L15.5356 16.9497C15.9261 17.3403 16.5593 17.3403 16.9498 16.9497C17.3404 16.5592 17.3404 15.9261 16.9498 15.5355L13.4143 12L16.9498 8.46447Z" fill="#fff"/>
+</svg>
+        <span>Καμία προσεχής ειδοποίηση.</span>
+        </div>`;
       }
     })
     .catch((error) => {
@@ -5824,6 +5847,35 @@ function clearFavorites(el) {
   }
 }
 
+function updateFavoriteBusFocus() {
+  function heartIcon(active) {
+    if (!active) {
+      return `<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#fff"></path>
+                            </svg>`;
+    } else {
+      return `<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path style="transform-origin:center;animation: pulse 5s infinite alternate;transition:transform 5s ease-in-out;" d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#fff"></path>
+                            </svg>`;
+    }
+  }
+  const favorites = localStorage.getItem("oasa_favorites")
+    ? JSON.parse(localStorage.getItem("oasa_favorites"))
+    : null;
+  if (
+    favorites &&
+    favorites.includes(document.getElementById("busInfoID").innerText)
+  ) {
+    document.getElementById("favs_action_bus").innerHTML = `${heartIcon(
+      true
+    )}<p>Αφαίρεση από τα αγαπημένα</p>`;
+  } else {
+    document.getElementById(
+      "favs_action_bus"
+    ).innerHTML = `${heartIcon()}<p>Προσθήκη στα αγαπημένα</p>`;
+  }
+}
+
 function moreBusOptions() {
   if (document.getElementById("moreBusOptions").classList.contains("active")) {
     document.getElementById("slidingPopup").classList.remove("active");
@@ -5831,5 +5883,26 @@ function moreBusOptions() {
   } else {
     document.getElementById("slidingPopup").classList.add("active");
     document.getElementById("moreBusOptions").classList.add("active");
+    updateFavoriteBusFocus();
   }
+}
+
+function toggleFavorite() {
+  const busId = document.getElementById("busInfoID").innerText;
+  if (busId === null) {
+    return;
+  }
+  let favorites = localStorage.getItem("oasa_favorites")
+    ? JSON.parse(localStorage.getItem("oasa_favorites"))
+    : null;
+  if (favorites && favorites.includes(busId)) {
+    favorites = favorites.filter((item) => item !== busId);
+    localStorage.setItem("oasa_favorites", JSON.stringify(favorites));
+  } else if (!favorites) {
+    localStorage.setItem("oasa_favorites", JSON.stringify([busId]));
+  } else {
+    favorites.push(busId);
+    localStorage.setItem("oasa_favorites", JSON.stringify([busId]));
+  }
+  updateFavoriteBusFocus();
 }

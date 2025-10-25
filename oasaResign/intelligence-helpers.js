@@ -67,7 +67,6 @@ function grabberEvents(id) {
 }
 grabberEvents("slidingPopup");
 
-
 function removeGraphics() {
   mapboxLayersArray.forEach((sourceid) => {
     console.log(sourceid);
@@ -144,7 +143,7 @@ function countUpWithParallax(element) {
 }
 
 function busIcon() {
-    return `<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"/>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"/>
 <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"/>
@@ -153,7 +152,7 @@ function busIcon() {
 <path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"/>
 <path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"/>
 <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"/>
-</svg>`
+</svg>`;
 }
 
 function markers(b, what) {
@@ -419,6 +418,7 @@ function spawnMyLocation() {
       requestAnimationFrame(animateMarker);
     } else {
       // First-time marker creation
+
       const markerElement = document.createElement("div");
       markerElement.style.width = "10px";
       markerElement.style.height = "10px";
@@ -429,6 +429,7 @@ function spawnMyLocation() {
       mylocationMarker = new mapboxgl.Marker({ element: markerElement })
         .setLngLat(newLoc)
         .addTo(map);
+
 
       markers_global.push(mylocationMarker);
     }
@@ -663,7 +664,6 @@ function displayHello() {
 function hasInternetConnection() {
   return navigator.onLine; // Returns true if online, false if offline
 }
-
 
 function goBackToSplash() {
   outsideOfZone = false;
@@ -1024,7 +1024,6 @@ function manualLogout() {
   }
 }
 
-
 function createBlueDot() {
   const dot = document.createElement("div");
   dot.style.width = "10px";
@@ -1212,7 +1211,6 @@ function levenshteinDistance(a, b) {
 
   return matrix[a.length][b.length];
 }
-
 
 function findNearestStop(stops, userLat, userLng) {
   function haversine(lat1, lon1, lat2, lon2) {
@@ -1436,4 +1434,41 @@ function getDeviceInfo() {
     model,
     osVersion,
   };
+}
+
+function smoothLine(coords, smoothing = 0.2, steps = 20) {
+  if (coords.length < 3) return coords;
+
+  const smoothCoords = [];
+  for (let i = 0; i < coords.length - 1; i++) {
+    const p0 = coords[i - 1] || coords[i];
+    const p1 = coords[i];
+    const p2 = coords[i + 1];
+    const p3 = coords[i + 2] || p2;
+
+    for (let t = 0; t <= 1; t += 1 / steps) {
+      const t2 = t * t;
+      const t3 = t2 * t;
+
+      // smaller 'smoothing' = tighter curve (less bending)
+      const s = smoothing;
+
+      const x =
+        0.5 *
+        (2 * p1.lng +
+          (-p0.lng + p2.lng) * t * s +
+          (2 * p0.lng - 5 * p1.lng + 4 * p2.lng - p3.lng) * t2 * s +
+          (-p0.lng + 3 * p1.lng - 3 * p2.lng + p3.lng) * t3 * s);
+      const y =
+        0.5 *
+        (2 * p1.lat +
+          (-p0.lat + p2.lat) * t * s +
+          (2 * p0.lat - 5 * p1.lat + 4 * p2.lat - p3.lat) * t2 * s +
+          (-p0.lat + 3 * p1.lat - 3 * p2.lat + p3.lat) * t3 * s);
+
+      smoothCoords.push({ lng: x, lat: y });
+    }
+  }
+
+  return smoothCoords;
 }
