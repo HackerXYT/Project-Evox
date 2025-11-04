@@ -1,0 +1,341 @@
+html,
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #eaeaea;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  margin-top: env(safe-area-inset-top);
+}
+
+.ontop {
+  margin-top: env(safe-area-inset-top);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+
+  display: none;
+
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bolder;
+  font-size: 23px;
+}
+
+.branding img {
+  width: 33px;
+  height: 33px;
+}
+
+.showcase {
+  margin-top: auto;
+  position: relative;
+}
+
+.showcase img#showcase {
+  width: 100%;
+  object-fit: cover;
+  height: 700px;
+  opacity: 0;
+  transform: translateY(50vh);
+  transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
+}
+.showcase .bottomFade {
+  position: absolute;
+  bottom: calc(30% + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  height: 150px; /* fade height */
+  background: linear-gradient(
+    to top,
+    #eaeaea,
+    rgba(255, 255, 255, 0)
+  );
+  pointer-events: none;
+}
+
+.showcase .bottomDiv {
+  position: absolute;
+  bottom: env(safe-area-inset-bottom);
+  height: calc(30%); /* still 40% of container height */
+  width: 100%;
+  background-color: #eaeaea;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+
+.showcase .bottomDiv h2 {
+  font-size: 24px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.showcase .bottomDiv span {
+  font-size: 15px;
+  color:#625c5f;
+}
+
+.continueWithBtn {
+  margin-top: auto;
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.continueWithBtn img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
+
+.screen.home {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.screen .WelcomeAndMainInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  background-color: #191116;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  color: #fff;
+  padding: 18px 0;
+  box-sizing: border-box;
+}
+
+.screen .WelcomeAndMainInfo .infoSection {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.screen .WelcomeAndMainInfo .infoSection.normal {
+  justify-content: flex-start;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+}
+
+img.profilePicture {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.generalColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  justify-content: flex-start;
+}
+
+.alignCenter {
+  align-items: center;
+  justify-content: center;
+}
+
+span.greeting {
+  font-size: 13px;
+  color: #625c5f;
+}
+p.greeting_username {
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+}
+.divider {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.roundedButton {
+  width: 45px;
+  height: 45px;
+  background-color: #201f1f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.roundedButton.actionButton {
+  background: linear-gradient(to right, #ffffff 0%, #eaeaea 100%);
+}
+
+.balance_label {
+  font-size: 13px;
+  color: #625c5f;
+}
+
+.balance {
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: baseline;
+}
+
+.balance .cents {
+  font-size: 15px;
+}
+
+.gap5 {
+  gap: 5px;
+}
+
+.actionButtonLabel {
+  font-size: 11px;
+}
+
+.gap15 {
+  gap: 15px;
+}
+
+.bottomPart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.textRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.textRow p {
+  font-weight: bold;
+}
+
+.textRow .showall {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+}
+
+.feedSpawner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.feedAction {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  gap: 10px;
+  padding: 11px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.feedActionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #eceffe;
+  font-size: 25px;
+}
+
+.feedActionIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.debt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+}
+
+.debt .col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+}
+
+.debt .col p:nth-child(1) {
+  font-weight: bold;
+}
+
+.debt .col p:nth-child(2) {
+  font-size: 14px;
+}
+
+.mgtop20 {
+  margin-top: 20px;
+}

@@ -2840,19 +2840,33 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
           .addTo(map);
         markers_intel.push(marker);
       });
+      // Smooth your coordinates first
       const smoothed = smoothLine(coordsForMap);
+
+      // Pick a random color for this route
+      const lineColor = colors[Math.floor(Math.random() * colors.length)];
+
+      // Add the route source as a proper FeatureCollection
       map.addSource(`route-${id}`, {
         type: "geojson",
         data: {
-          type: "Feature",
-          geometry: {
-            type: "LineString",
-            coordinates: smoothed.map((coord) => [coord.lng, coord.lat]),
-          },
+          type: "FeatureCollection", // ✅ must be FeatureCollection
+          features: [
+            {
+              type: "Feature",
+              properties: {}, // ✅ must have properties
+              geometry: {
+                type: "LineString",
+                coordinates: smoothed.map((coord) => [coord.lng, coord.lat]),
+              },
+            },
+          ],
         },
       });
-      mapboxSourcesArray.push(id);
 
+      mapboxSourcesArray.push(id); // keep track if you need it
+
+      // 1️⃣ Add the line layer
       map.addLayer({
         id: `route-${id}`,
         type: "line",
@@ -2862,10 +2876,43 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
           "line-cap": "round",
         },
         paint: {
-          "line-color": colors[Math.floor(Math.random() * colors.length)],
+          "line-color": lineColor, // random color
           "line-width": 4,
+          "line-opacity": 1, // ensure visible
         },
       });
+
+      // 2️⃣ Load arrow image and add arrows as a symbol layer
+      map.loadImage(
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Arrow_right.svg",
+        (error, image) => {
+          if (error) throw error;
+
+          // Add the image if it doesn't already exist
+          if (!map.hasImage("arrow-icon")) {
+            map.addImage("arrow-icon", image);
+          }
+
+          // Add the arrows layer
+          map.addLayer({
+            id: `route-arrows-${id}`,
+            type: "symbol",
+            source: `route-${id}`,
+            layout: {
+              "symbol-placement": "line", // place along line
+              "symbol-spacing": 50, // distance between arrows
+              "icon-image": "arrow-icon",
+              "icon-size": 0.5,
+              "icon-allow-overlap": true,
+              "icon-ignore-placement": true,
+            },
+            paint: {
+              "icon-color": lineColor, // match arrows to line
+            },
+          });
+        }
+      );
+
       mapboxLayersArray.push(id);
     }
     let liveBusDivs = {};
