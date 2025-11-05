@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   const evox_pswd = localStorage.getItem("t50pswd");
   const evox_email = localStorage.getItem("t50-email");
 
-  if (evox_email && evox_pswd && evox_username) {
+  if (true || evox_email && evox_pswd && evox_username) {
     console.log("Logged in");
   } else {
     document.getElementById("login").style.display = "flex";
