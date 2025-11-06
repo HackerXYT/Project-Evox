@@ -36,9 +36,10 @@ body {
   flex-direction: column;
   align-items: center;
   z-index: 999;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 
   display: none;
-
 }
 
 .branding {
@@ -67,24 +68,25 @@ body {
   transform: translateY(50vh);
   transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
 }
+
 .showcase .bottomFade {
   position: absolute;
   bottom: calc(30% + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
-  height: 150px; /* fade height */
-  background: linear-gradient(
-    to top,
-    #eaeaea,
-    rgba(255, 255, 255, 0)
-  );
+  height: 150px;
+  /* fade height */
+  background: linear-gradient(to top,
+      #eaeaea,
+      rgba(255, 255, 255, 0));
   pointer-events: none;
 }
 
 .showcase .bottomDiv {
   position: absolute;
   bottom: env(safe-area-inset-bottom);
-  height: calc(30%); /* still 40% of container height */
+  height: calc(30%);
+  /* still 40% of container height */
   width: 100%;
   background-color: #eaeaea;
   box-sizing: border-box;
@@ -103,7 +105,7 @@ body {
 
 .showcase .bottomDiv span {
   font-size: 15px;
-  color:#625c5f;
+  color: #625c5f;
 }
 
 .continueWithBtn {
@@ -120,8 +122,8 @@ body {
 }
 
 .continueWithBtn img {
-  width: 35px;
-  height: 35px;
+  width: 18px;
+  height: 18px;
   object-fit: cover;
 }
 
@@ -195,13 +197,15 @@ img.profilePicture {
 
 span.greeting {
   font-size: 13px;
-  color: #625c5f;
+  color: #989396;
 }
+
 p.greeting_username {
   font-size: 16px;
   color: #fff;
   font-weight: bold;
 }
+
 .divider {
   display: flex;
   flex-direction: row;
@@ -225,7 +229,7 @@ p.greeting_username {
 
 .balance_label {
   font-size: 13px;
-  color: #625c5f;
+  color: #989396;
 }
 
 .balance {
@@ -256,6 +260,7 @@ p.greeting_username {
   display: flex;
   flex-direction: column;
 }
+
 .textRow {
   display: flex;
   align-items: center;
@@ -338,4 +343,290 @@ p.greeting_username {
 
 .mgtop20 {
   margin-top: 20px;
+}
+
+.absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.popup {
+  background-color: #eaeaea;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  border-radius: 20px 20px 0 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  transform: translateY(100vh);
+  transition: transform 0.5s ease;
+  color: #191116;
+  gap: 20px;
+}
+
+.popup.active {
+  transform: translateY(0);
+}
+
+.notch {
+  width: 80px;
+  height: 5px;
+  background-color: #191116;
+  border-radius: 10px;
+}
+
+.stepsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.stepsContainer .steps {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.stepsContainer .steps .step {
+  height: 6.5px;
+  width: 100%;
+  background-color: #625c5f;
+  border-radius: 10px;
+  transition: background-color 0.5s ease;
+}
+
+.stepsContainer .steps .step.active {
+  background-color: #191116;
+}
+
+.stepsContainer .stepIndicator {
+  color: #191116;
+  font-size: 14px;
+}
+
+.stepInfo {
+
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 100%;
+  gap: 5px;
+}
+
+.stepInfo h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stepInfo span {
+  font-size: 14px;
+  color: #625c5f;
+}
+
+.moneyCount {
+  margin-top: 40px;
+  font-size: 40px;
+  font-weight: bold;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moneyCount.nomarg {
+  margin-top: 0;
+}
+
+.counter {
+  display: flex;
+}
+
+.digit {
+  position: relative;
+  width: 1ch;
+  height: 1em;
+  overflow: hidden;
+}
+
+.digit span {
+  display: block;
+  line-height: 1em;
+  transition: transform 0.5s ease-in-out;
+}
+
+.digit.new {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1em);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.padContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 30px;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.padContainer .line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.padContainer .line .pad.fullWidth {
+  width: 260px;
+  font-size: 17px;
+  height: 50px;
+}
+
+.padContainer .line .pad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 70px;
+  background-color: #eceffe;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-radius: 12.5px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.container-requirements {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+
+.requirement {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #eceffe;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-radius: 12.5px;
+  font-size: 18px;
+  font-weight: normal;
+  padding: 12px 17px;
+  gap: 10px;
+}
+.requirement.center {
+  justify-content: center;
+}
+
+.requirement .reqName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.requirement .cost {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.requirement .recommend {
+  font-size: 14px;
+  background-color: rgb(0 255 0 / 50%);
+  border-radius: 10px;
+  display: flex;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+.container-getMoney {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.bottomContinue {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: env(safe-area-inset-bottom);
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 10px;
+}
+
+.bottomContinue .btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #eceffe;
+  border: 1px solid #fff;
+  border-radius: 12.5px;
+  box-sizing: border-box;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.setupSection {
+  display: none;
+}
+
+
+.setupSection.active {
+  display: block;
+}
+
+.moneyEstimate {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.moneyEstimate p.head {
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
 }

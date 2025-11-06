@@ -1,0 +1,103 @@
+.loader {
+  --fill-color: #5c3d99;
+  --shine-color: #5c3d9933;
+  transform: scale(0.5); /* You can change the size */
+  width: 100px;
+  height: 100px;
+  position: relative;
+  filter: drop-shadow(0 0 10px var(--shine-color));
+}
+
+.loader #pegtopone {
+  position: absolute;
+  animation: flowe-one 1s linear infinite;
+}
+
+.loader #pegtoptwo {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0) translateY(-200px) translateX(-100px);
+  animation: flowe-two 1s linear infinite;
+  animation-delay: 0.3s;
+}
+
+.loader #pegtopthree {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0) translateY(-200px) translateX(100px);
+  animation: flowe-three 1s linear infinite;
+  animation-delay: 0.6s;
+}
+
+.loader svg g path:first-child {
+  fill: var(--fill-color);
+}
+
+@keyframes flowe-one {
+  0% {
+    transform: scale(0.5) translateY(-200px);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(0.75) translateY(-100px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(0.5) translateY(50px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) translateY(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes flowe-two {
+  0% {
+    transform: scale(0.5) rotateZ(-10deg) translateY(-200px) translateX(-100px);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1) rotateZ(-5deg) translateY(-100px) translateX(-50px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotateZ(0deg) translateY(0px) translateX(-25px);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(0.5) rotateZ(5deg) translateY(50px) translateX(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotateZ(10deg) translateY(100px) translateX(25px);
+    opacity: 0;
+  }
+}
+
+@keyframes flowe-three {
+  0% {
+    transform: scale(0.5) rotateZ(10deg) translateY(-200px) translateX(100px);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1) rotateZ(5deg) translateY(-100px) translateX(50px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotateZ(0deg) translateY(0px) translateX(25px);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(0.5) rotateZ(-5deg) translateY(50px) translateX(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotateZ(-10deg) translateY(100px) translateX(-25px);
+    opacity: 0;
+  }
+}

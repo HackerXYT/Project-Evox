@@ -180,6 +180,7 @@ function clientVerified() {
             }
 
             checkForOasaCompatibility()
+            checkForTazroCompatibility()
 
 
             //$("#bggradient").fadeIn("slow")
@@ -945,6 +946,7 @@ function startLogin() {
                     }
 
                     checkForOasaCompatibility()
+                    checkForTazroCompatibility()
                 } else if (data === "Credentials Incorrect") {
                     shake_me("voxPassword")
                     //fadeError("2")
@@ -1119,6 +1121,7 @@ function on2FAComplete() {
                     }
                 }
                 checkForOasaCompatibility()
+                checkForTazroCompatibility()
             } else if (data === "Exists") {
                 successLogin.play()
                 document.getElementById("form2FA").classList.remove('active')
@@ -1161,6 +1164,7 @@ function on2FAComplete() {
                     }
                 }
                 checkForOasaCompatibility()
+                checkForTazroCompatibility()
             } else if (data === "Wrong Code") {
                 //shake_me("ver_code")
                 document.getElementById("form2FA").style.paddingBottom = '50px'
@@ -3938,6 +3942,17 @@ function checkForOasaCompatibility() {
         const value = params.get('redirectLogin');
         if (value === 'oasa') {
             window.location.href = `../oasaResign/?loginAs=localStorage`
+            return;
+        }
+    }
+}
+
+function checkForTazroCompatibility() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('redirectLogin')) {
+        const value = params.get('redirectLogin');
+        if (value === 'tazro') {
+            window.location.href = `../Tazro/?loginAs=localStorage`
             return;
         }
     }

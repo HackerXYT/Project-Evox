@@ -74,6 +74,33 @@
     font-size: var(--font-size-body);
     line-height: var(--line-height-body);
     min-block-size: 100dvb;
+
+
+    /* Dark mode colors and gradient */
+    background: #121212;
+    /* Fallback for browsers that don't support gradients */
+    background: linear-gradient(135deg,
+        #121212 25%,
+        #1a1a1a 25%,
+        #1a1a1a 50%,
+        #121212 50%,
+        #121212 75%,
+        #1a1a1a 75%,
+        #1a1a1a);
+    background-size: 40px 40px;
+
+    /* Animation */
+    animation: move 4s linear infinite;
+  }
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 40px 40px;
   }
 }
 
@@ -82,7 +109,7 @@
     display: grid;
     place-items: center;
     padding-block: var(--space-fluid-md);
-    background-color: var(--surface-4);
+    /*background-color: var(--surface-4);*/
     color: var(--text-1);
     inline-size: 100%;
     padding: 0;
@@ -142,7 +169,10 @@
   }
 
   .card {
-    background-color: var(--surface-2);
+    /*background-color: var(--surface-2);*/
+    background-color: #38383838;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     block-size: 100%;
     border-radius: var(--radius-lg);
     display: grid;
@@ -181,6 +211,8 @@
   .visual {
     block-size: 180px;
     background-color: var(--surface-3);
+    border-radius: var(--radius-lg);
+    
   }
 
   .card-image {
@@ -188,6 +220,7 @@
     inline-size: 100%;
     object-fit: cover;
     object-position: center;
+    border-radius: var(--radius-lg);
   }
 }
 

@@ -1,237 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name='viewport'
-            content='width=device-width, initial-scale=1, viewport-fit=cover , user-scalable=no'>
-        <title>Tazro</title>
-        <link rel="stylesheet" href="style.css">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style"
-            content="black-translucent">
-        <meta name="application-name" content="Tazro">
 
-        <link rel="icon" type="image/png" href="appicon.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="appicon.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="appicon.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="appicon.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="appicon.png">
-        <link rel="apple-touch-icon-precomposed" href="appicon.png">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover , user-scalable=no'>
+    <title>Tazro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="outer.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="Tazro">
 
-    </head>
-    <body>
-        <div class="ontop login" id="login">
-            <div onclick="window.location.reload()" class="branding">
-                <img src="logo.png">
-                <p>Tazro</p>
-            </div>
+    <link rel="icon" type="image/png" href="appicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="appicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="appicon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="appicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="appicon.png">
+    <link rel="apple-touch-icon-precomposed" href="appicon.png">
 
-            <div class="showcase">
-                <img id="showcase" src="tazroShowcase_Mobile.png">
-                <div class="bottomFade"></div>
-                <div class="bottomDiv">
-                    <h2>Οργανώστε τα χρήματά σας και κερδίστε περισσότερο</h2>
-                    <span>Αποκτήστε έλεγχο στα έξοδά σας και πάρτε πιο έξυπνες οικονομικές αποφάσεις, με τη βοήθεια της τεχνητής νοημοσύνης.</span>
-                    <div class="continueWithBtn">
-                        <img src="evox-logo-dark.png"> Συνέχεια με Evox
-                    </div>
+</head>
+
+<body>
+    <div class="ontop login" id="login">
+        <div onclick="window.location.reload()" class="branding">
+            <img src="logo.png">
+            <p>Tazro</p>
+        </div>
+
+        <div class="showcase">
+            <img id="showcase" src="tazroShowcase_Mobile.png">
+            <div class="bottomFade"></div>
+            <div class="bottomDiv">
+                <h2>Οργανώστε τα χρήματά σας και κερδίστε περισσότερο</h2>
+                <span>Αποκτήστε έλεγχο στα έξοδά σας και πάρτε πιο έξυπνες οικονομικές αποφάσεις, με τη βοήθεια της
+                    τεχνητής νοημοσύνης.</span>
+                <div onclick="evoxLogin()" class="continueWithBtn">
+                    <img src="evox-logo-black.png"> Συνέχεια με Evox
                 </div>
             </div>
         </div>
-        <div class="screen home">
-            <div class="WelcomeAndMainInfo">
-                <div class="infoSection">
-                    <div class="divider">
-                        <img class="profilePicture"
-                            src="../evox-logo-apple.png">
-                        <div class="generalColumn">
-                            <span class="greeting">Καλημέρα,</span>
-                            <p class="greeting_username">papostol</p>
-                        </div>
+    </div>
+    <div class="ontop login" id="loginInProgress">
+        <div onclick="window.location.reload()" class="branding">
+            <img src="logo.png">
+            <p>Tazro</p>
+        </div>
+
+        <div id="loaderIn" class="absoluteCenter">
+            <h4>Γίνεται σύνδεση..</h4>
+        </div>
+    </div>
+    <div class="popup" id="setupAccount">
+        <div class="notch"></div>
+        <div class="stepsContainer">
+            <div class="steps" id="steps">
+                <div class="step active"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+            </div>
+            <div class="stepIndicator">
+                x/4
+            </div>
+        </div>
+
+        <div class="setupSection" id="monthly-icome-setup">
+            <!--Monthly Income-->
+            <div class="stepInfo">
+                <h3>Ποιο είναι το μηνιαίο εισόδημα σας;</h3>
+                <span>Το μηνιαίο σας εισόδημα θα μας βοηθήσει να εκτιμήσουμε τα καθημερινά σας έξοδα.</span>
+            </div>
+            <div class="bottomContinue">
+                <div onclick="when_icome()" class="btn">
+                    Συνέχεια <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                        fill="none">
+                        <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#191116" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </div>
+            <div class="container-getMoney">
+                <div class="moneyCount">
+                    €<span class="counter" id="moneyPerMonth">0</span>
+                </div>
+                <div class="padContainer" onclick="handlePadClick(event)">
+                    <div class="line">
+                        <div class="pad">1</div>
+                        <div class="pad">2</div>
+                        <div class="pad">3</div>
                     </div>
-                    <div class="divider">
-                        <div class="roundedButton">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px"
-                                height="25px" viewBox="0 0 24 24" fill="none">
+                    <div class="line">
+                        <div class="pad">4</div>
+                        <div class="pad">5</div>
+                        <div class="pad">6</div>
+                    </div>
+                    <div class="line">
+                        <div class="pad">7</div>
+                        <div class="pad">8</div>
+                        <div class="pad">9</div>
+                    </div>
+                    <div class="line">
+                        <div class="pad" style="width: 170px;">0</div>
+                        <div class="pad"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                viewBox="0 0 24 24" fill="none">
+                                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                    stroke="#191116" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                                 <path
-                                    d="M20.1 9.2214C18.29 9.2214 17.55 7.9414 18.45 6.3714C18.97 5.4614 18.66 4.3014 17.75 3.7814L16.02 2.7914C15.23 2.3214 14.21 2.6014 13.74 3.3914L13.63 3.5814C12.73 5.1514 11.25 5.1514 10.34 3.5814L10.23 3.3914C9.78 2.6014 8.76 2.3214 7.97 2.7914L6.24 3.7814C5.33 4.3014 5.02 5.4714 5.54 6.3814C6.45 7.9414 5.71 9.2214 3.9 9.2214C2.86 9.2214 2 10.0714 2 11.1214V12.8814C2 13.9214 2.85 14.7814 3.9 14.7814C5.71 14.7814 6.45 16.0614 5.54 17.6314C5.02 18.5414 5.33 19.7014 6.24 20.2214L7.97 21.2114C8.76 21.6814 9.78 21.4014 10.25 20.6114L10.36 20.4214C11.26 18.8514 12.74 18.8514 13.65 20.4214L13.76 20.6114C14.23 21.4014 15.25 21.6814 16.04 21.2114L17.77 20.2214C18.68 19.7014 18.99 18.5314 18.47 17.6314C17.56 16.0614 18.3 14.7814 20.11 14.7814C21.15 14.7814 22.01 13.9314 22.01 12.8814V11.1214C22 10.0814 21.15 9.2214 20.1 9.2214ZM12 15.2514C10.21 15.2514 8.75 13.7914 8.75 12.0014C8.75 10.2114 10.21 8.7514 12 8.7514C13.79 8.7514 15.25 10.2114 15.25 12.0014C15.25 13.7914 13.79 15.2514 12 15.2514Z"
-                                    fill="#fff" />
+                                    d="M9.00002 15.3802H13.92C15.62 15.3802 17 14.0002 17 12.3002C17 10.6002 15.62 9.22021 13.92 9.22021H7.15002"
+                                    stroke="#191116" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8.57 10.7701L7 9.19012L8.57 7.62012" stroke="#191116" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="setupSection" id="when-icome-setup">
+            <!--When is income given (Buttons)-->
+            <div class="stepInfo">
+                <h3>Κάθε πότε λαμβάνετε το εισόδημα σας;</h3>
+                <span>Η συχνότητα με την οποία λαμβάνετε εισόδημα επηρεάζει την πρόκληση στη διαχείριση των διαθέσιμων
+                    χρημάτων.</span>
+            </div>
+
+            <div class="container-getMoney">
+
+                <div class="moneyEstimate" id="moneyEstimate" style="display: none;opacity: 0;">
+                    <p class="head">Μέγιστα καθημερινά έξοδα</p>
+                    <div class="moneyCount nomarg">€<span class="counter" id="moneyPerDay">0</span></div>
+                </div>
+                <div onclick="handlePadClickDaily(event)" class="padContainer" id="padDays">
+                    <div class="line">
+                        <div data-c="15" class="pad fullWidth">15 ημέρες</div>
+                    </div>
+                    <div class="line">
+                        <div data-c="30" class="pad fullWidth">30 ημέρες</div>
+                    </div>
+                    <div class="line">
+                        <div data-c="1" class="pad fullWidth">Κάθε ημέρα</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bottomContinue">
+                <div onclick="monthlyExpenses()" class="btn">
+                    Συνέχεια <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                        fill="none">
+                        <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#191116" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="setupSection" id="user-requirements-setup">
+            <!--Υποχρεώσεις χρήστη-->
+            <div class="stepInfo">
+                <h3>Ποιες είναι οι απαραίτητες μηνιαίες δαπάνες σας;</h3>
+                <span>Με αυτές τις πληροφορίες θα δημιουργήσουμε ένα πρόγραμμα που καλύπτει τις ανάγκες σας χωρίς να
+                    ζορίζεστε οικονομικά.</span>
+            </div>
+
+            <div class="container-requirements">
+                <div class="requirement">
+                    <div class="emoji">💇‍♂️</div>
+                    <div class="reqName">Κούρεμα</div>
+                    <div class="cost">€10</div>
+                    <div class="recommend">Προσθήκη</div>
+                </div>
+                <div class="requirement center">
+                    <div class="reqName"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                            viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19" stroke="#191116" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 5L12 19" stroke="#191116" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg> Προσθέστε</div>
+                </div>
+            </div>
+
+            <div class="bottomContinue">
+                <div onclick="" class="btn">
+                    Συνέχεια <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                        fill="none">
+                        <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#191116" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="screen home">
+        <div class="WelcomeAndMainInfo">
+            <div class="infoSection">
+                <div class="divider">
+                    <img class="profilePicture" src="../evox-logo-apple.png">
+                    <div class="generalColumn">
+                        <span class="greeting">Καλημέρα,</span>
+                        <p class="greeting_username">papostol</p>
+                    </div>
+                </div>
+                <div class="divider">
+                    <div onclick="clearLc()" class="roundedButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6"
+                                stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div onclick="setup()" class="roundedButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M20.1 9.2214C18.29 9.2214 17.55 7.9414 18.45 6.3714C18.97 5.4614 18.66 4.3014 17.75 3.7814L16.02 2.7914C15.23 2.3214 14.21 2.6014 13.74 3.3914L13.63 3.5814C12.73 5.1514 11.25 5.1514 10.34 3.5814L10.23 3.3914C9.78 2.6014 8.76 2.3214 7.97 2.7914L6.24 3.7814C5.33 4.3014 5.02 5.4714 5.54 6.3814C6.45 7.9414 5.71 9.2214 3.9 9.2214C2.86 9.2214 2 10.0714 2 11.1214V12.8814C2 13.9214 2.85 14.7814 3.9 14.7814C5.71 14.7814 6.45 16.0614 5.54 17.6314C5.02 18.5414 5.33 19.7014 6.24 20.2214L7.97 21.2114C8.76 21.6814 9.78 21.4014 10.25 20.6114L10.36 20.4214C11.26 18.8514 12.74 18.8514 13.65 20.4214L13.76 20.6114C14.23 21.4014 15.25 21.6814 16.04 21.2114L17.77 20.2214C18.68 19.7014 18.99 18.5314 18.47 17.6314C17.56 16.0614 18.3 14.7814 20.11 14.7814C21.15 14.7814 22.01 13.9314 22.01 12.8814V11.1214C22 10.0814 21.15 9.2214 20.1 9.2214ZM12 15.2514C10.21 15.2514 8.75 13.7914 8.75 12.0014C8.75 10.2114 10.21 8.7514 12 8.7514C13.79 8.7514 15.25 10.2114 15.25 12.0014C15.25 13.7914 13.79 15.2514 12 15.2514Z"
+                                fill="#fff" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="infoSection">
+                <div class="divider">
+                    <div class="generalColumn gap5">
+                        <span class="balance_label">Διαθέσιμο
+                            υπόλοιπο</span>
+                        <p class="balance">
+                            <span>€200</span><span class="cents">.50</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="divider gap15">
+                    <div class="generalColumn alignCenter gap5">
+                        <div class="roundedButton actionButton">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24">
+
+                                <line fill="none" stroke="#201f1f" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" x1="12" x2="12" y1="19" y2="5" />
+
+                                <line fill="none" stroke="#201f1f" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" x1="5" x2="19" y1="12" y2="12" />
+
                             </svg>
                         </div>
+                        <p class="actionButtonLabel">ΠΡΟΣΘΗΚΗ</p>
+                    </div>
+
+                    <div class="generalColumn alignCenter gap5">
+                        <div class="roundedButton actionButton">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M17 13L21 9M21 9L17 5M21 9H8C5.23858 9 3 11.2386 3 14C3 16.7614 5.23858 19 8 19H13"
+                                    stroke="#201f1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <p class="actionButtonLabel">ΠΛΗΡΩΜΗ</p>
                     </div>
                 </div>
-
-                <div class="infoSection">
-                    <div class="divider">
-                        <div class="generalColumn gap5">
-                            <span class="balance_label">Διαθέσιμο
-                                υπόλοιπο</span>
-                            <p class="balance">
-                                <span>€200</span><span
-                                    class="cents">.50</span></p>
-                        </div>
-                    </div>
-                    <div class="divider gap15">
-                        <div class="generalColumn alignCenter gap5">
-                            <div class="roundedButton actionButton">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="25px" height="25px"
-                                    viewBox="0 0 24 24">
-
-                                    <line fill="none" stroke="#201f1f"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2" x1="12" x2="12"
-                                        y1="19" y2="5" />
-
-                                    <line fill="none" stroke="#201f1f"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2" x1="5" x2="19"
-                                        y1="12" y2="12" />
-
-                                </svg>
-                            </div>
-                            <p class="actionButtonLabel">ΠΡΟΣΘΗΚΗ</p>
-                        </div>
-
-                        <div class="generalColumn alignCenter gap5">
-                            <div class="roundedButton actionButton">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="25px" height="25px"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M17 13L21 9M21 9L17 5M21 9H8C5.23858 9 3 11.2386 3 14C3 16.7614 5.23858 19 8 19H13"
-                                        stroke="#201f1f" stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <p class="actionButtonLabel">ΠΛΗΡΩΜΗ</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="infoSection normal"> <!--debts-->
-                    <div class="debt">
-                         <img class="profilePicture"
-                            src="../evox-logo-apple.png">
-                         <div class="col">
-                            <p>€200.30</p>
-                            <p>Χρήστος</p>
-                         </div>   
-                    </div>
-                    <div class="debt">
-                         <img class="profilePicture"
-                            src="../evox-logo-apple.png">
-                         <div class="col">
-                            <p>€50</p>
-                            <p>Γιάννης</p>
-                         </div>   
-                    </div>
-                </div>
-
             </div>
-            <div class="bottomPart">
-                <div class="textRow">
-                    <p>Δραστηριότητα</p>
-                    <div class="showall">
-                        Εμφάνιση όλων
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            width="11px" height="11px" viewBox="-4.5 0 20 20"
-                            version="1.1">
 
-                            <g stroke="none" stroke-width="3"
-                                fill="none" fill-rule="evenodd">
-                                <g
-                                    transform="translate(-305.000000, -6679.000000)"
-                                    fill="#000000">
-                                    <g
-                                        transform="translate(56.000000, 160.000000)">
-                                        <path
-                                            d="M249.365851,6538.70769 L249.365851,6538.70769 C249.770764,6539.09744 250.426289,6539.09744 250.830166,6538.70769 L259.393407,6530.44413 C260.202198,6529.66364 260.202198,6528.39747 259.393407,6527.61699 L250.768031,6519.29246 C250.367261,6518.90671 249.720021,6518.90172 249.314072,6519.28247 L249.314072,6519.28247 C248.899839,6519.67121 248.894661,6520.31179 249.302681,6520.70653 L257.196934,6528.32352 C257.601847,6528.71426 257.601847,6529.34685 257.196934,6529.73759 L249.365851,6537.29462 C248.960938,6537.68437 248.960938,6538.31795 249.365851,6538.70769">
+            <div class="infoSection normal"> <!--debts-->
+                <div class="debt">
+                    <img class="profilePicture" src="../evox-logo-apple.png">
+                    <div class="col">
+                        <p>€200.30</p>
+                        <p>Χρήστος</p>
+                    </div>
+                </div>
+                <div class="debt">
+                    <img class="profilePicture" src="../evox-logo-apple.png">
+                    <div class="col">
+                        <p>€50</p>
+                        <p>Γιάννης</p>
+                    </div>
+                </div>
+            </div>
 
-                                        </path>
-                                    </g>
+        </div>
+        <div class="bottomPart">
+            <div class="textRow">
+                <p>Δραστηριότητα</p>
+                <div class="showall">
+                    Εμφάνιση όλων
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11px"
+                        height="11px" viewBox="-4.5 0 20 20" version="1.1">
+
+                        <g stroke="none" stroke-width="3" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-305.000000, -6679.000000)" fill="#000000">
+                                <g transform="translate(56.000000, 160.000000)">
+                                    <path
+                                        d="M249.365851,6538.70769 L249.365851,6538.70769 C249.770764,6539.09744 250.426289,6539.09744 250.830166,6538.70769 L259.393407,6530.44413 C260.202198,6529.66364 260.202198,6528.39747 259.393407,6527.61699 L250.768031,6519.29246 C250.367261,6518.90671 249.720021,6518.90172 249.314072,6519.28247 L249.314072,6519.28247 C248.899839,6519.67121 248.894661,6520.31179 249.302681,6520.70653 L257.196934,6528.32352 C257.601847,6528.71426 257.601847,6529.34685 257.196934,6529.73759 L249.365851,6537.29462 C248.960938,6537.68437 248.960938,6538.31795 249.365851,6538.70769">
+
+                                    </path>
                                 </g>
                             </g>
-                        </svg>
-                    </div>
+                        </g>
+                    </svg>
                 </div>
-                <div class="feedSpawner">
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            🎁
-                        </div>
-                        <p>Ξοδέψατε <b>20€</b> σε <b>δώρα</b>.</p>
+            </div>
+            <div class="feedSpawner">
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        🎁
                     </div>
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            💵
-                        </div>
-                        <p>Επαναφόρτωση ποσού σε <b>2 ημέρες</b>.</p>
-                    </div>
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            🏆
-                        </div>
-                        <p>Εξοικονομήσατε <b>30€</b> τις τελευταίες <b>5 ημέρες</b>!</p>
-                    </div>
+                    <p>Ξοδέψατε <b>20€</b> σε <b>δώρα</b>.</p>
                 </div>
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        💵
+                    </div>
+                    <p>Επαναφόρτωση ποσού σε <b>2 ημέρες</b>.</p>
+                </div>
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        🏆
+                    </div>
+                    <p>Εξοικονομήσατε <b>30€</b> τις τελευταίες <b>5 ημέρες</b>!</p>
+                </div>
+            </div>
 
 
-                 <div class="textRow mgtop20">
-                    <p>Προτάσεις</p>
-                    <div class="showall">
-                        Εξερεύνηση
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            width="11px" height="11px" viewBox="-4.5 0 20 20"
-                            version="1.1">
+            <div class="textRow mgtop20">
+                <p>Προτάσεις</p>
+                <div class="showall">
+                    Εξερεύνηση
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11px"
+                        height="11px" viewBox="-4.5 0 20 20" version="1.1">
 
-                            <g stroke="none" stroke-width="3"
-                                fill="none" fill-rule="evenodd">
-                                <g
-                                    transform="translate(-305.000000, -6679.000000)"
-                                    fill="#000000">
-                                    <g
-                                        transform="translate(56.000000, 160.000000)">
-                                        <path
-                                            d="M249.365851,6538.70769 L249.365851,6538.70769 C249.770764,6539.09744 250.426289,6539.09744 250.830166,6538.70769 L259.393407,6530.44413 C260.202198,6529.66364 260.202198,6528.39747 259.393407,6527.61699 L250.768031,6519.29246 C250.367261,6518.90671 249.720021,6518.90172 249.314072,6519.28247 L249.314072,6519.28247 C248.899839,6519.67121 248.894661,6520.31179 249.302681,6520.70653 L257.196934,6528.32352 C257.601847,6528.71426 257.601847,6529.34685 257.196934,6529.73759 L249.365851,6537.29462 C248.960938,6537.68437 248.960938,6538.31795 249.365851,6538.70769">
+                        <g stroke="none" stroke-width="3" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-305.000000, -6679.000000)" fill="#000000">
+                                <g transform="translate(56.000000, 160.000000)">
+                                    <path
+                                        d="M249.365851,6538.70769 L249.365851,6538.70769 C249.770764,6539.09744 250.426289,6539.09744 250.830166,6538.70769 L259.393407,6530.44413 C260.202198,6529.66364 260.202198,6528.39747 259.393407,6527.61699 L250.768031,6519.29246 C250.367261,6518.90671 249.720021,6518.90172 249.314072,6519.28247 L249.314072,6519.28247 C248.899839,6519.67121 248.894661,6520.31179 249.302681,6520.70653 L257.196934,6528.32352 C257.601847,6528.71426 257.601847,6529.34685 257.196934,6529.73759 L249.365851,6537.29462 C248.960938,6537.68437 248.960938,6538.31795 249.365851,6538.70769">
 
-                                        </path>
-                                    </g>
+                                    </path>
                                 </g>
                             </g>
-                        </svg>
-                    </div>
+                        </g>
+                    </svg>
                 </div>
-                <div class="feedSpawner">
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            🥤
-                        </div>
-                        <p>Εξοικονομήστε <b>7€</b> σε <b>2 μέρες</b> μειώνοντας τα <b>ενεργειακά ποτά</b>.</p>
+            </div>
+            <div class="feedSpawner">
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        🥤
                     </div>
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            🛴
-                        </div>
-                        <p>Μην κάνετε <b>πατίνια</b> για άλλες <b>7 μέρες</b>. (150% εξοικονόμηση)</p>
+                    <p>Εξοικονομήστε <b>7€</b> σε <b>2 μέρες</b> μειώνοντας τα <b>ενεργειακά ποτά</b>.</p>
+                </div>
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        🛴
                     </div>
-                    <div class="feedAction">
-                        <div class="feedActionIcon">
-                            🤑
-                        </div>
-                        <p>Αναμένεται υπόλοιπο <b>25€</b> σε <b>15 ημέρες</b>.</p>
+                    <p>Μην κάνετε <b>πατίνια</b> για άλλες <b>7 μέρες</b>. (150% εξοικονόμηση)</p>
+                </div>
+                <div class="feedAction">
+                    <div class="feedActionIcon">
+                        🤑
                     </div>
+                    <p>Αναμένεται υπόλοιπο <b>25€</b> σε <b>15 ημέρες</b>.</p>
                 </div>
             </div>
         </div>
+    </div>
 
-    </body>
-    <script src="script.js"></script>
+</body>
+<script src="long.js"></script>
+<script src="script.js"></script>
+
 </html>
