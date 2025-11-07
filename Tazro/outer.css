@@ -1,7 +1,8 @@
 .loader {
   --fill-color: #5c3d99;
   --shine-color: #5c3d9933;
-  transform: scale(0.5); /* You can change the size */
+  transform: scale(0.5);
+  /* You can change the size */
   width: 100px;
   height: 100px;
   position: relative;
@@ -38,18 +39,22 @@
     transform: scale(0.5) translateY(-200px);
     opacity: 0;
   }
+
   25% {
     transform: scale(0.75) translateY(-100px);
     opacity: 1;
   }
+
   50% {
     transform: scale(1) translateY(0px);
     opacity: 1;
   }
+
   75% {
     transform: scale(0.5) translateY(50px);
     opacity: 1;
   }
+
   100% {
     transform: scale(0) translateY(100px);
     opacity: 0;
@@ -61,18 +66,22 @@
     transform: scale(0.5) rotateZ(-10deg) translateY(-200px) translateX(-100px);
     opacity: 0;
   }
+
   25% {
     transform: scale(1) rotateZ(-5deg) translateY(-100px) translateX(-50px);
     opacity: 1;
   }
+
   50% {
     transform: scale(1) rotateZ(0deg) translateY(0px) translateX(-25px);
     opacity: 1;
   }
+
   75% {
     transform: scale(0.5) rotateZ(5deg) translateY(50px) translateX(0px);
     opacity: 1;
   }
+
   100% {
     transform: scale(0) rotateZ(10deg) translateY(100px) translateX(25px);
     opacity: 0;
@@ -84,20 +93,47 @@
     transform: scale(0.5) rotateZ(10deg) translateY(-200px) translateX(100px);
     opacity: 0;
   }
+
   25% {
     transform: scale(1) rotateZ(5deg) translateY(-100px) translateX(50px);
     opacity: 1;
   }
+
   50% {
     transform: scale(1) rotateZ(0deg) translateY(0px) translateX(25px);
     opacity: 1;
   }
+
   75% {
     transform: scale(0.5) rotateZ(-5deg) translateY(50px) translateX(0px);
     opacity: 1;
   }
+
   100% {
     transform: scale(0) rotateZ(-10deg) translateY(100px) translateX(-25px);
     opacity: 0;
+  }
+}
+
+.normalLoader {
+  border-left-color: transparent;
+  border-radius: 50%;
+}
+
+.normalLoader {
+  border: 1px solid rgb(0 0 0 / 55%);
+  border-left-color: transparent;
+  width: 15px;
+  height: 15px;
+  animation: spin89345 1s linear infinite;
+}
+
+@keyframes spin89345 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }

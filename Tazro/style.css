@@ -353,7 +353,22 @@ p.greeting_username {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
 
+.absoluteCenter.loading {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.absoluteCenter.loading h2 {
+  font-size: 18px;
+}
+
+.absoluteCenter.loading .normalLoader {
+  border: 1px solid #191116;
+  border-left-color: transparent;
 }
 
 .popup {
@@ -402,6 +417,7 @@ p.greeting_username {
   width: 100%;
   justify-content: space-evenly;
   gap: 10px;
+  transition: opacity 0.3s ease;
 }
 
 .stepsContainer .steps .step {
@@ -419,6 +435,8 @@ p.greeting_username {
 .stepsContainer .stepIndicator {
   color: #191116;
   font-size: 14px;
+  transition: opacity 0.3s ease;
+
 }
 
 .stepInfo {
@@ -547,6 +565,7 @@ p.greeting_username {
   padding: 12px 17px;
   gap: 10px;
 }
+
 .requirement.center {
   justify-content: center;
 }
@@ -556,6 +575,7 @@ p.greeting_username {
   align-items: center;
   gap: 10px;
 }
+
 .requirement .cost {
   margin-left: auto;
   flex-shrink: 0;
@@ -629,4 +649,25 @@ p.greeting_username {
   font-size: 20px;
   font-weight: bold;
   white-space: nowrap;
+}
+
+.reqInput {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  padding: 0;
+  font-size: 18px;
+  color: #191116;
+  font-weight: normal;
+}
+
+.reqInput.bold {
+  font-weight: bold;
+}
+
+.emoji {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }

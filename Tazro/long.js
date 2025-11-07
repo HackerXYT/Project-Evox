@@ -330,76 +330,72 @@ document.getElementById("loaderIn").innerHTML = `<div class="loader">
 ` + document.getElementById("loaderIn").innerHTML
 
 let activeRollingDigitsbyId = [];
-function rollingDigits(id, run, number) {
-    if (!run || !id || !number) return console.error("Check parameters.");
 
-    if (run === "start" && activeRollingDigitsbyId.includes(id)) {
-        return;
-    }
-    if (!activeRollingDigitsbyId.includes(id)) {
-        activeRollingDigitsbyId.push(id);
-    }
-    var counter = document.getElementById(id);
-    var value = 0;
+function rollingDigits(id, run, number) {
+    if (!run || !id || !number && number !== 0) return console.error("Check parameters.");
+
+    if (run === "start" && activeRollingDigitsbyId.includes(id)) return;
+    if (!activeRollingDigitsbyId.includes(id)) activeRollingDigitsbyId.push(id);
+
+    const counter = document.getElementById(id);
+    let value = 0;
 
     function createDigit(d) {
-        var digit = document.createElement("div");
+        const digit = document.createElement("div");
         digit.className = "digit";
 
-        var span = document.createElement("span");
-        var numbers = "";
-        for (var i = 0; i <= 9; i++) {
-            numbers += i + "<br>";
+        const span = document.createElement("span");
+
+        // Only animate numbers 0–9
+        if (!isNaN(d)) {
+            let numbers = "";
+            for (let i = 0; i <= 9; i++) numbers += i + "<br>";
+            span.innerHTML = numbers;
+            span.style.transform = `translateY(-${d}em)`;
+        } else {
+            // For symbols like "." or "-"
+            span.textContent = d;
         }
-        span.innerHTML = numbers;
+
         span.classList.add("counterCont");
-
-        span.style.transform = "translateY(-" + d + "em)";
-
         digit.appendChild(span);
         return digit;
     }
 
     function renderNumber(num) {
         counter.innerHTML = "";
-        var digits = String(num).split("");
-        for (var i = 0; i < digits.length; i++) {
-            counter.appendChild(createDigit(isNaN(digits[i]) ? 0 : digits[i]));
-        }
+        const digits = String(num).split("");
+        digits.forEach(d => counter.appendChild(createDigit(d)));
     }
 
     function updateNumber(newVal) {
-        var oldDigits = counter.children;
-        var newDigits = String(newVal).split("");
+        const oldDigits = counter.children;
+        const newDigits = String(newVal).split("");
 
-        // Προσθήκη/αφαίρεση digits για dynamic width
+        // Add or remove digits dynamically
         while (oldDigits.length < newDigits.length) {
-            var newDigit = createDigit(0);
-            newDigit.className += " new";
-            counter.insertBefore(newDigit, counter.firstChild);
-            oldDigits = counter.children;
+            counter.insertBefore(createDigit(0), counter.firstChild);
         }
-
         while (oldDigits.length > newDigits.length) {
             counter.removeChild(oldDigits[0]);
-            oldDigits = counter.children;
         }
 
-        for (var i = 0; i < oldDigits.length; i++) {
-            var span = oldDigits[i].querySelector("span");
-            span.classList.add("counterCont");
-            var target = newDigits[i];
+        // Update each digit
+        for (let i = 0; i < counter.children.length; i++) {
+            const span = counter.children[i].querySelector("span");
+            const target = newDigits[i];
+
             if (!isNaN(target)) {
-                span.style.transform = "translateY(-" + target + "em)";
+                span.innerHTML = "";
+                for (let n = 0; n <= 9; n++) span.innerHTML += n + "<br>";
+                span.style.transform = `translateY(-${target}em)`;
             } else {
-                span.innerHTML = target; // symbols like "-" or "."
+                span.innerHTML = target; // static symbol
+                span.style.transform = "none";
             }
         }
     }
 
-    if (run === "start") {
-        renderNumber(value);
-    } else if (run === "update") {
-        updateNumber(number);
-    }
+    if (run === "start") renderNumber(value);
+    else if (run === "update") updateNumber(number);
 }
