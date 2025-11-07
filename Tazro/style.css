@@ -389,6 +389,7 @@ p.greeting_username {
   transition: transform 0.5s ease;
   color: #191116;
   gap: 20px;
+  z-index:999;
 }
 
 .popup.active {
