@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.7";
+const currentVersion = "2.2.8";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -21,6 +21,7 @@ let mapboxSourcesArray = [];
 let mapboxLayersArray = [];
 
 function openSearch() {
+  triggerNearbyStationsSpawn();
   searchIntelli.style.backgroundColor = "#141416";
 
   bottomSearchParent.style.width = "100vw";
@@ -5952,4 +5953,28 @@ function toggleFavorite() {
     localStorage.setItem("oasa_favorites", JSON.stringify([busId]));
   }
   updateFavoriteBusFocus();
+}
+
+function toggleNearbyInfo() {
+  const elem = document.getElementById("nearbyInfo");
+  if (elem.classList.contains("active")) {
+    //toggle off
+    elem.classList.remove("active")
+    markers_intel.forEach((marker) => marker.remove());
+    markers_intel = [];
+    for (const key in liveSpawned) {
+      for (const marker in liveSpawned[key].vehicles) {
+        liveSpawned[key].vehicles[marker].remove();
+      }
+    }
+    liveSpawned = {};
+    if (liveBusesNearInterval) {
+      clearInterval(liveBusesNearInterval);
+      liveBusesNearInterval = null
+    }
+  } else {
+    triggerNearbyStationsSpawn();
+    elem.classList.add("active")
+    //toggle on
+  }
 }
