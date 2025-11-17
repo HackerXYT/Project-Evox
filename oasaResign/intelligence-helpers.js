@@ -425,11 +425,11 @@ function spawnMyLocation() {
       markerElement.style.backgroundColor = "#2e77ff";
       markerElement.style.borderRadius = "50%";
       markerElement.style.border = "1px solid #fff";
+      markerElement.style.zIndex = '100000'
 
       mylocationMarker = new mapboxgl.Marker({ element: markerElement })
         .setLngLat(newLoc)
         .addTo(map);
-
 
       markers_global.push(mylocationMarker);
     }
@@ -1471,4 +1471,253 @@ function smoothLine(coords, smoothing = 0.2, steps = 20) {
   }
 
   return smoothCoords;
+}
+
+let liveBusesNearInterval = null
+function triggerNearbyStationsSpawn() {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    spawnNearby(latitude, longitude);
+  });
+  function spawnNearby(lat, lng) {
+    fetch(
+      `https://data.evoxs.xyz/oasa?epsilon=stopsNearby&lat=${lat}&lng=${lng}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json(); // parse JSON from the response
+      })
+      .then((data) => {
+        document.getElementById("nearbyInfo").classList.add("active")
+        data.forEach((stop) => {
+          const dot = document.createElement("div");
+          let offset = [0, 0];
+
+          dot.className = "station";
+          dot.onclick = function () {
+            if (dot.getAttribute("data-status") === "hidden") {
+              this.style.zIndex = "9999";
+              this.innerHTML = `<p>${capitalizeWords(
+                stop.StopDescr
+              )}</p><svg onclick="openStation('${
+                stop.StopCode
+              }', '${capitalizeWords(
+                stop.StopDescr
+              )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+              dot.setAttribute("data-status", "visible");
+            } else {
+              this.style.zIndex = null;
+              this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
+</svg>`;
+              dot.setAttribute("data-status", "hidden");
+            }
+          };
+          dot.setAttribute("data-status", "hidden");
+          dot.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-720.000000, -48.000000)" fill-rule="nonzero">
+            <g transform="translate(720.000000, 48.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+
+</path>
+                <path d="M13,3 C13,2.44772 12.5523,2 12,2 C11.4477,2 11,2.44772 11,3 L11,4 L10,4 C8.89543,4 8,4.89543 8,6 L8,8 C8,9.10457 8.89543,10 10,10 L11,10 L11,11 L7.41421,11 C6.88378,11 6.37507,11.2107 6,11.5858 L4.29289,13.2929 C4.10536,13.4804 4,13.7348 4,14 C4,14.2652 4.10536,14.5196 4.29289,14.7071 L6,16.4142 C6.37507,16.7893 6.88378,17 7.41421,17 L11,17 L11,20 L9,20 C8.44772,20 8,20.4477 8,21 C8,21.5523 8.44772,22 9,22 L15,22 C15.5523,22 16,21.5523 16,21 C16,20.4477 15.5523,20 15,20 L13,20 L13,17 L14,17 C15.1046,17 16,16.1046 16,15 L16,13 C16,11.8954 15.1046,11 14,11 L13,11 L13,10 L16.5858,10 C17.1162,10 17.6249,9.78929 18,9.41421 L19.7071,7.70711 C19.8946,7.51957 20,7.26522 20,7 C20,6.73478 19.8946,6.48043 19.7071,6.29289 L18,4.58579 C17.6249,4.21071 17.1162,4 16.5858,4 L13,4 L13,3 Z" fill="#fff">
+
+</path>
+            </g>
+        </g>
+    </g>
+</svg>`;
+
+          const marker = new mapboxgl.Marker({ element: dot, offset: offset })
+            .setLngLat([stop.StopLng, stop.StopLat])
+            .addTo(map);
+          markers_intel.push(marker);
+
+          spawnLiveBusesOfStop(stop.StopCode);
+        });
+
+        liveBusesNearInterval = setInterval(() => {
+          // CHANGED: Iterate over liveSpawned by routecode
+          Object.entries(liveSpawned).forEach(([routecode, routeData]) => {
+            const { details, vehicles } = routeData;
+            const activeVehicles = Object.keys(vehicles);
+            
+            fetch(
+              `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+                `https://telematics.oasa.gr/api/?act=getBusLocation&p1=${routecode}&keyOrigin=evoxEpsilon`
+              )}&vevox=${randomString()}`
+            )
+              .then((res) => res.json())
+              .then((busLocations) => {
+                if (!Array.isArray(busLocations)) return;
+
+                busLocations.forEach((location) => {
+                  // CHANGED: Use routeData.vehicles for existence check
+                  const vehNo = location.VEH_NO;
+                  const existingMarker = routeData.vehicles[vehNo];
+                  const newLngLat = [
+                    parseFloat(location.CS_LNG),
+                    parseFloat(location.CS_LAT),
+                  ];
+
+                  if (existingMarker) {
+                    const currentLngLat = existingMarker.getLngLat();
+                    smoothMove(existingMarker, currentLngLat, newLngLat, 1200); // 1.2s smooth move
+                  } else {
+                    // CHANGED: Create and assign directly (no busData arg)
+                    const marker = SpawnNewBusMarker(details.busId, location);
+                    routeData.vehicles[vehNo] = marker;
+                  }
+                });
+              })
+              .catch((err) => console.error("Bus update failed", err));
+          });
+        }, 5000);
+
+        // Smooth movement helper
+        function smoothMove(marker, from, to, duration) {
+          const start = performance.now();
+          function animate(time) {
+            const t = Math.min((time - start) / duration, 1); // progress [0..1]
+            const lng = from.lng + (to[0] - from.lng) * t;
+            const lat = from.lat + (to[1] - from.lat) * t;
+            marker.setLngLat([lng, lat]);
+            if (t < 1) requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+        }
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
+}
+let liveSpawned = {};
+function spawnLiveBusesOfStop(stopcode) {
+  //this function will find all the buses of a stop and spawn the available live locations of each bus.
+  fetch(
+    `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+      `https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopcode}&keyOrigin=evoxEpsilon`
+    )}&vevox=${randomString()}`
+  )
+    .then((response) => response.json())
+    .then((stopBuses) => {
+      if (!stopBuses) return;
+      stopBuses.forEach((bus) => {
+        const busId = bus.LineID;
+        const routecode = bus.RouteCode;
+
+        // NEW: Skip if already tracking this routecode (prevents duplicate spawns from shared routes)
+        if (liveSpawned[routecode]) return;
+
+        // CHANGED: Key by routecode, add vehicles sub-object
+        liveSpawned[routecode] = {
+          details: { busId, routecode },
+          vehicles: {},
+        };
+
+        function spawnTheBus() {
+          fetch(
+            `https://data.evoxs.xyz/proxy?key=21&targetUrl=${encodeURIComponent(
+              `https://telematics.oasa.gr/api/?act=getBusLocation&p1=${routecode}&keyOrigin=evoxEpsilon`
+            )}&vevox=${randomString()}`
+          )
+            .then((response) => response.json())
+            .then((busLocations) => {
+              if (busLocations === "") {
+                return;
+              }
+              busLocations.forEach((location) => {
+                // CHANGED: Use vehicles sub-object for existence check
+                const vehNo = location.VEH_NO;
+                const existingMarker = liveSpawned[routecode].vehicles[vehNo];
+
+                if (existingMarker) {
+                  console.log("Found a bus that is already spawned.");
+                  existingMarker.setLngLat([location.CS_LNG, location.CS_LAT]);
+                  return;
+                }
+                // CHANGED: Create and assign directly (no busData arg)
+                const marker = SpawnNewBusMarker(busId, location);
+                liveSpawned[routecode].vehicles[vehNo] = marker;
+              });
+            })
+            .catch((error) => {
+              console.error("Stop load failed", stopcode, error);
+            });
+        }
+        spawnTheBus();
+      });
+    })
+    .catch((error) => {
+      console.error("Stop load failed", stopcode, error);
+    });
+}
+let busMarkersLive = [];
+function SpawnNewBusMarker(busId, location) {
+  // REMOVED: veh_codes_spawned check (unnecessary)
+  const dot = document.createElement("div");
+  dot.className = "busLocation";
+  dot.style.opacity = "0";
+  dot.style.fontWeight = "bold"
+  dot.style.fontSize = "16px"
+  dot.setAttribute("data-status", "hidden");
+
+  dot.onclick = function () {
+    if (dot.getAttribute("data-status") !== "hidden") {
+      dot.setAttribute("data-status", "visible");
+      this.innerHTML = `<p>${busId}</p><svg onclick="alert('δεν είναι ακόμα έτοιμο αυτό...');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+    <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+    } else {
+      this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+    <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#000"></path>
+    <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#000"></path>
+    <path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M5.17157 3.17157C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.17157C19.8915 4.23467 19.99 5.8857 19.9991 9L20 13C19.9909 16.1143 19.8915 17.7653 18.8284 18.8284C18.5862 19.0706 18.3136 19.2627 18 19.4151C17.1771 19.8151 16.0728 19.9415 14.5 19.9815C13.7729 19.9999 12.9458 20 12 20C11.0542 20 10.2271 20 9.5 19.9815C7.9272 19.9415 6.82289 19.815 6 19.415C5.68645 19.2626 5.41375 19.0706 5.17157 18.8284C4.10848 17.7653 4.00911 16.1143 4 13L4.00093 9C4.01004 5.8857 4.10848 4.23467 5.17157 3.17157Z" fill="#FFF"></path>
+    <path d="M17.75 16C17.75 15.5858 17.4142 15.25 17 15.25H15.5C15.0858 15.25 14.75 15.5858 14.75 16C14.75 16.4142 15.0858 16.75 15.5 16.75H17C17.4142 16.75 17.75 16.4142 17.75 16Z" fill="#000"></path>
+    <path d="M6.25 16C6.25 15.5858 6.58579 15.25 7 15.25H8.5C8.91421 15.25 9.25 15.5858 9.25 16C9.25 16.4142 8.91421 16.75 8.5 16.75H7C6.58579 16.75 6.25 16.4142 6.25 16Z" fill="#000"></path>
+    <path d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#000"></path>
+    <path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#000"></path>
+    <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#000"></path>
+    </svg>`;
+      dot.setAttribute("data-status", "hidden");
+    }
+  };
+
+  dot.innerHTML = busId;
+
+  const newLngLat = [parseFloat(location.CS_LNG), parseFloat(location.CS_LAT)];
+  const marker = new mapboxgl.Marker({
+    element: dot,
+    offset: [0, 0],
+  })
+    .setLngLat(newLngLat)
+    .addTo(map);
+
+  setTimeout(function () {
+    dot.style.opacity = "1";
+  }, 1500);
+  busMarkersLive.push(marker);
+  // REMOVED: busData assignment (handled by caller)
+  // REMOVED: veh_codes_spawned.push (unnecessary)
+
+  // NEW: Return the marker for assignment
+  return marker;
 }
