@@ -73,6 +73,7 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   pointer-events: none;
+  z-index: 9999;
 }
 
 .gradient-bg svg {

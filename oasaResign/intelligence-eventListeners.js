@@ -620,3 +620,18 @@ select.addEventListener("change", () => {
   const value = select.value;
   localStorage.setItem("map_style", value);
 });
+
+const textarea = document.getElementById('bugTextarea');
+
+if (!CSS.supports('field-sizing', 'content')) {
+  const resizeTextarea = () => {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  };
+
+  resizeTextarea();
+
+  textarea.addEventListener('input', resizeTextarea);
+
+  textarea.addEventListener('paste', () => setTimeout(resizeTextarea, 0));
+}

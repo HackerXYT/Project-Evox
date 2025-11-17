@@ -594,20 +594,21 @@
   --fade-color: #090f1bfc;
   /*121216*/
   /* Slightly lighter shade, still close to OLED black */
-  background: linear-gradient(
-      to bottom left,
+  background: linear-gradient(to bottom left,
       rgba(63, 66, 77, 0) 50%,
-      /* Keep dark to transparent */ rgba(63, 66, 77, 0.05) 75%,
-      /* Very subtle brightness */ rgba(63, 66, 77, 0.1) 100%
-    ),
+      /* Keep dark to transparent */
+      rgba(63, 66, 77, 0.05) 75%,
+      /* Very subtle brightness */
+      rgba(63, 66, 77, 0.1) 100%),
     /* Slightly more visible */
-      linear-gradient(
-        to top,
-        rgba(10, 25, 50, 0) 50%,
-        /* Keep dark blue hint */ rgba(0, 20, 80, 0.03) 75%,
-        /* Very subtle brighter blue */ rgba(0, 0, 50, 0.05) 100%
-      ),
-    /* Slightly brighter blue */ var(--fade-color);
+    linear-gradient(to top,
+      rgba(10, 25, 50, 0) 50%,
+      /* Keep dark blue hint */
+      rgba(0, 20, 80, 0.03) 75%,
+      /* Very subtle brighter blue */
+      rgba(0, 0, 50, 0.05) 100%),
+    /* Slightly brighter blue */
+    var(--fade-color);
   background-repeat: no-repeat;
   background-size: 300% 300%;
 }
@@ -653,12 +654,10 @@
   width: 100%;
   height: 100%;
 
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 100%);
 
   background-size: 200% 100%;
   background-repeat: no-repeat;
@@ -709,20 +708,21 @@
   /* Full height */
   z-index: 1;
   /* Keeps the content in front of the pseudo-element */
-  background: linear-gradient(
-      to bottom left,
+  background: linear-gradient(to bottom left,
       rgba(0, 0, 0, 0) 50%,
-      /* Darker to transparent */ rgba(0, 0, 0, 0.1) 75%,
-      /* Darker to slightly visible */ rgba(0, 0, 0, 0.2) 100%
-    ),
+      /* Darker to transparent */
+      rgba(0, 0, 0, 0.1) 75%,
+      /* Darker to slightly visible */
+      rgba(0, 0, 0, 0.2) 100%),
     /* Darker still */
-      linear-gradient(
-        to top,
-        rgba(10, 25, 50, 0) 50%,
-        /* Darker gradient with a hint of blue */ rgba(0, 20, 80, 0.05) 75%,
-        /* Darker blue */ rgba(0, 0, 50, 0.08) 100%
-      ),
-    /* Darker blue */ var(--fade-color);
+    linear-gradient(to top,
+      rgba(10, 25, 50, 0) 50%,
+      /* Darker gradient with a hint of blue */
+      rgba(0, 20, 80, 0.05) 75%,
+      /* Darker blue */
+      rgba(0, 0, 50, 0.08) 100%),
+    /* Darker blue */
+    var(--fade-color);
 }
 
 /* Create a pseudo-element to hold the background image */
@@ -748,28 +748,20 @@
 #phone.login {
   --fade-color: #000000;
 
-  background: radial-gradient(
-      circle at 30% 30%,
+  background: radial-gradient(circle at 30% 30%,
       rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 80%
-    ),
-    radial-gradient(
-      circle at 70% 70%,
+      rgba(255, 255, 255, 0) 80%),
+    radial-gradient(circle at 70% 70%,
       rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 90%
-    ),
-    linear-gradient(
-      to top right,
+      rgba(255, 255, 255, 0) 90%),
+    linear-gradient(to top right,
       rgba(244, 31, 31, 0) 50%,
       rgba(244, 31, 31, 0.1) 75%,
-      rgba(244, 31, 31, 0.2) 100%
-    ),
-    linear-gradient(
-      to bottom left,
+      rgba(244, 31, 31, 0.2) 100%),
+    linear-gradient(to bottom left,
       rgba(255, 121, 121, 0) 50%,
       rgba(255, 121, 121, 0.1) 75%,
-      rgba(255, 121, 121, 0.2) 100%
-    ),
+      rgba(255, 121, 121, 0.2) 100%),
     var(--fade-color);
 
   background-repeat: no-repeat;
@@ -997,11 +989,9 @@
   left: 0;
   width: 100%;
   height: 280px;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 22, 0) 0%,
-    var(--fade-color) 98%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 20, 22, 0) 0%,
+      var(--fade-color) 98%);
   pointer-events: none;
 }
 
@@ -1012,11 +1002,9 @@
   left: 0;
   width: 100%;
   height: 280px;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 22, 0) 0%,
-    var(--fade-color) 98%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 20, 22, 0) 0%,
+      var(--fade-color) 98%);
   pointer-events: none;
 }
 
@@ -1165,16 +1153,14 @@
   /* Dark mode colors and gradient */
   background: #1f42f425;
   /* Fallback for browsers that don't support gradients */
-  background: linear-gradient(
-    135deg,
-    #293fac2d 25%,
-    #00000042 25%,
-    #00000042 50%,
-    #293fac2d 50%,
-    #293fac2d 75%,
-    #00000042 75%,
-    #00000042
-  );
+  background: linear-gradient(135deg,
+      #293fac2d 25%,
+      #00000042 25%,
+      #00000042 50%,
+      #293fac2d 50%,
+      #293fac2d 75%,
+      #00000042 75%,
+      #00000042);
   background-size: 40px 40px;
 
   /* Animation */
@@ -1365,12 +1351,10 @@
 }
 
 .skeleton-button2 {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
@@ -1386,22 +1370,18 @@
 }
 
 .skeleton-text {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
 .skeleton-button {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
@@ -2041,7 +2021,6 @@ body {
 }
 
 .infoBelow.terms {
-  background-color: #161616;
   height: 100vh;
   align-items: flex-start;
   padding: 0px 25px;
@@ -2659,11 +2638,11 @@ body {
 }
 
 /* Anahtarın etkin hale gelmesindeki stil değişiklikleri */
-.toggle-switch .toggle-input:checked + .toggle-label {
+.toggle-switch .toggle-input:checked+.toggle-label {
   background-color: #4caf50;
 }
 
-.toggle-switch .toggle-input:checked + .toggle-label::before {
+.toggle-switch .toggle-input:checked+.toggle-label::before {
   transform: translateX(16px);
 }
 
@@ -2672,11 +2651,11 @@ body {
   background-color: #bebebe;
 }
 
-.toggle-switch.light .toggle-input:checked + .toggle-label {
+.toggle-switch.light .toggle-input:checked+.toggle-label {
   background-color: #9b9b9b;
 }
 
-.toggle-switch.light .toggle-input:checked + .toggle-label::before {
+.toggle-switch.light .toggle-input:checked+.toggle-label::before {
   transform: translateX(6px);
 }
 
@@ -2685,11 +2664,11 @@ body {
   background-color: #4b4b4b;
 }
 
-.toggle-switch.dark .toggle-input:checked + .toggle-label {
+.toggle-switch.dark .toggle-input:checked+.toggle-label {
   background-color: #717171;
 }
 
-.toggle-switch.dark .toggle-input:checked + .toggle-label::before {
+.toggle-switch.dark .toggle-input:checked+.toggle-label::before {
   transform: translateX(16px);
 }
 
@@ -3269,8 +3248,8 @@ body {
   width: 100%;
 }
 
-.search-input-container > input,
-#search-container > button {
+.search-input-container>input,
+#search-container>button {
   background-color: rgb(var(--theme-medium));
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -3288,8 +3267,8 @@ body {
     width 0.4s ease-in-out;
 }
 
-.search-input-container > input,
-#search-container > button {
+.search-input-container>input,
+#search-container>button {
   background-color: rgb(255 255 255 / 10%);
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -3299,7 +3278,7 @@ body {
 }
 
 .search-input-container:has(input:focus),
-#search-container > button:focus {
+#search-container>button:focus {
   background-color: rgba(255, 255, 255, 0.088);
 }
 
@@ -3314,12 +3293,12 @@ body {
   /*padding-right: 90px;*/
 }
 
-.search-input-container > img {
+.search-input-container>img {
   height: 1.5rem;
   margin: var(--isOldDevice);
 }
 
-.search-input-container > input {
+.search-input-container>input {
   width: 100%;
   height: 3.25rem;
   background-color: transparent;
@@ -3592,28 +3571,20 @@ select:focus {
   padding: 25px;
   box-sizing: border-box;
   color: #fff;
-  background: radial-gradient(
-      circle at 30% 30%,
+  background: radial-gradient(circle at 30% 30%,
       rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 80%
-    ),
-    radial-gradient(
-      circle at 70% 70%,
+      rgba(255, 255, 255, 0) 80%),
+    radial-gradient(circle at 70% 70%,
       rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 90%
-    ),
-    linear-gradient(
-      to top right,
+      rgba(255, 255, 255, 0) 90%),
+    linear-gradient(to top right,
       rgba(244, 31, 31, 0) 50%,
       rgba(244, 31, 31, 0.1) 75%,
-      rgba(244, 31, 31, 0.2) 100%
-    ),
-    linear-gradient(
-      to bottom left,
+      rgba(244, 31, 31, 0.2) 100%),
+    linear-gradient(to bottom left,
       rgba(255, 121, 121, 0) 50%,
       rgba(255, 121, 121, 0.1) 75%,
-      rgba(255, 121, 121, 0.2) 100%
-    ),
+      rgba(255, 121, 121, 0.2) 100%),
     var(--fade-color);
   background-repeat: no-repeat;
   background-size: 300% 300%;
@@ -3881,8 +3852,9 @@ vox.keepDefault {
   flex-direction: column;
   align-items: center;
 }
+
 .slidingPopupBottom.active {
-    transform: translateX(-50%) translateY(0vh);
+  transform: translateX(-50%) translateY(0vh);
 }
 
 .slidingPopupBottom .slidedown {
@@ -3917,8 +3889,173 @@ vox.keepDefault {
 }
 
 .globalFlexRowAlignCenter {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.bugTextarea {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  resize: none;
+  color: #fff;
+  font-family: inherit;
+  field-sizing: content;
+  overflow: hidden;
+  font-size: 1rem;
+  padding: 1rem;
+  padding-left: 0;
+  padding-right: 0;
+  outline: none;
+  min-height: 165px;
+  /* padding: 10px 0px 10px 1px; */
+}
+
+.bug_description {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #838383;
+}
+
+.radioInput {
+  display: flex;
+  width: 100%;
+  margin-top: 0.3rem;
+  justify-content: space-evenly;
+}
+
+.radioInput input[type="radio"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.radioInput input[type="radio"]:checked+span {
+  box-shadow: 0 0 0 0.0625em #3b3b3b;
+  background-color: rgb(255 255 255);
+  z-index: 1;
+  color: #000000;
+}
+
+.radioInput label:nth-child(1) input[type="radio"]:checked+span {
+  background-color: rgb(182, 182, 182);
+}
+
+.radioInput label:nth-child(2) input[type="radio"]:checked+span {
+  background-color: rgb(210 149 54);
+}
+
+.radioInput label:nth-child(3) input[type="radio"]:checked+span {
+  background-color: rgb(210, 54, 54);
+}
+
+
+.radioInput label span {
+  display: block;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: rgb(255 255 255 / 9%);
+  padding: 0.375em .75em;
+  position: relative;
+  margin-left: .0625em;
+  box-shadow: 0 0 0 0.0625em #3b3b3b;
+  letter-spacing: .05em;
+  color: #fff;
+  text-align: center;
+  transition: background-color .5s ease;
+}
+
+.radioInput label:first-child span {
+  border-radius: .575em 0 0 .575em;
+}
+
+.radioInput label:last-child span {
+  border-radius: 0 .575em .575em 0;
+}
+
+.radioInput label {
+  width: 100%;
+}
+
+button.uploadBugMedia {
+  margin-top: 0.2rem;
+  border: none;
+  display: flex;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: rgb(255 255 255 / 9%);
+  color: #ffffff;
+  line-height: 1rem;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 13px;
+  user-select: none;
+  gap: 0.75rem;
+  transition: all 0.6s ease;
+  margin-bottom: 10px;
+}
+
+button.uploadBugMedia:focus,
+button.uploadBugMedia:active {
+  opacity: 0.85;
+  box-shadow: none;
+}
+
+button.uploadBugMedia svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.uploadedFiles {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fileUploaded {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: rgb(255 255 255 / 9%);
+  border-radius: 13px;
+}
+
+.fileUploaded .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fileUploaded .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.fileUploaded .left .img {
+  padding: 5px;
+  box-sizing: border-box;
+  width: 35px;
+  height: 35px;
+  border-radius: 12px;
+  background-color: #007cbf;
+}
+
+.fileUploaded .left .leftCol {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+
 }
