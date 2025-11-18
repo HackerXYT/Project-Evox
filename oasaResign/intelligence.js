@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.83";
+const currentVersion = "2.2.85";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -1079,7 +1079,7 @@ function processInfo(evoxId, type, addMore, comego) {
             document.getElementById(
               "multiple-routes"
             ).innerHTML += `<div onclick="switchRouteTo(this)" class="Block${descr === aroute.LineDescr ? " active" : ""
-              }">
+            }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
     <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.2843 2 8.90356 3.38071 6.14214 6.14214C3.38071 8.90356 2 10.2843 2 12C2 13.7157 3.38071 15.0964 6.14214 17.8579C8.90356 20.6193 10.2843 22 12 22C13.7157 22 15.0964 20.6193 17.8579 17.8579C20.6193 15.0964 22 13.7157 22 12C22 10.2843 20.6193 8.90356 17.8579 6.14214C15.0964 3.38071 13.7157 2 12 2Z" fill="#fff"/>
     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7862 8.48705C13.0695 8.18486 13.5441 8.16955 13.8463 8.45285L16.513 10.9528C16.6642 11.0946 16.75 11.2927 16.75 11.5C16.75 11.7073 16.6642 11.9054 16.513 12.0472L13.8463 14.5472C13.5441 14.8305 13.0695 14.8151 12.7862 14.513C12.5029 14.2108 12.5182 13.7361 12.8204 13.4528L14.1034 12.25H10.6667C10.3329 12.25 9.8225 12.3497 9.4196 12.6216C9.05681 12.8665 8.75 13.2655 8.75 14C8.75 14.4142 8.41421 14.75 8 14.75C7.58579 14.75 7.25 14.4142 7.25 14C7.25 12.7345 7.83208 11.8835 8.5804 11.3784C9.28861 10.9003 10.1116 10.75 10.6667 10.75L14.1034 10.75L12.8204 9.54716C12.5182 9.26386 12.5029 8.78923 12.7862 8.48705Z" fill="#fff"/>
@@ -1340,10 +1340,10 @@ function processInfo(evoxId, type, addMore, comego) {
           document.getElementById("showMoreBusStart").style.display = null;
           timetableContent += `
       <div class="timeItem fade-in-slide-up${previous[0] && index === 0 ? " isNext" : ""
-            } ${isLocal ? "isLocal" : ""}" onclick="showDetailedTime('${time
+            } ${isLocal ? "isLocal" : ""}" onclick="this.querySelector('.actions lord-icon').playerInstance.play();setTimeout(function() {showDetailedTime('${time
               .replace(/<\/?vox>/g, "")
               .replace(/<\/?vox>/g, "")
-              .replace(/ .*$/, "")}','next')">
+              .replace(/ .*$/, "")}','next')}, 600)">
       <p>${time}</p>
         <div class="actions">
         ${isLocal
@@ -1351,12 +1351,11 @@ function processInfo(evoxId, type, addMore, comego) {
                                 src="snap.png">`
               : ""
             }
-          <svg ${!localStorage.getItem("extVOASA")
-              ? ' style="display: none;transform: rotate(180deg)"'
-              : 'style="transform: rotate(180deg)"'
-            }  xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"/>
-</svg>
+          
+                                  <lord-icon
+                                    src="https://cdn.lordicon.com/zllgguxq.json" colors="primary:#fff,secondary:#b4b4b4"
+                                    style="width:25px;height:25px;margin-left:5px;${!localStorage.getItem("extVOASA") ? 'display: none' : ''}">
+                                  </lord-icon>
         </div>
       </div>
     `;
@@ -2646,7 +2645,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         document.getElementById(
           "busDirections"
         ).innerHTML += `<div class="Block ${go_or_back === "go" ? " active" : ""
-          }" onclick="changeToOpposite('go', '${bus}', '${verification}', this)">
+        }" onclick="changeToOpposite('go', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2656,7 +2655,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         document.getElementById(
           "busDirections"
         ).innerHTML += `<div class="Block${go_or_back === "come" ? " active" : ""
-          }" onclick="changeToOpposite('come', '${bus}', '${verification}', this)">
+        }" onclick="changeToOpposite('come', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -3253,7 +3252,7 @@ function showVerticalStations() {
       document.getElementById(
         "stationsSpawnVertical"
       ).innerHTML += `<div id="global-vertical-station-${station.StopCode
-        }" class="timeItem fade-in-slide-up">
+      }" class="timeItem fade-in-slide-up">
                                         <div onclick="showStopDetails('${station.StopCode
         }', '${capitalizeWords(
           station.StopDescr
@@ -3858,7 +3857,7 @@ function searchInInput() {
       document.getElementById(
         "toSpawnFinds"
       ).innerHTML = `<div onclick="spawnAndShowInfo('${bus.LineID
-        }', 'remain', '${bus.LineDescr
+      }', 'remain', '${bus.LineDescr
         }',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"></path>
@@ -4159,7 +4158,9 @@ function showLocalPanel() {
 
 let startingJson = {};
 
-function handleActivity(startingJson, te) {
+let prevX = null
+let visualX = null
+function handleActivity(startingJson, first) {
   if (startingJson.start_min) {
     console.warn(startingJson);
 
@@ -4175,6 +4176,31 @@ function handleActivity(startingJson, te) {
       console.log("Running normally");
       document.getElementById("activity").style.display = "flex";
     }
+
+
+
+    function setBusIconLocation() {
+      const indicator = document.getElementById("progress-indicator");
+      const bus = document.getElementById("bus3D");
+
+      const rect = indicator.getBoundingClientRect();
+      const busParentRect = bus.offsetParent.getBoundingClientRect();
+
+      // Align horizontally (if not already)
+      bus.style.left = `${rect.left - busParentRect.left}px`;
+
+      // Align vertically
+      bus.style.top = `${rect.top - busParentRect.top - 35}px`;
+      bus.style.opacity = "1";
+    }
+    if (first) {
+      prevX = null
+      visualX = null
+      document.getElementById("progress-fill").style.width = `0%`;
+      document.getElementById("progress-indicator").style.left = `0%`;
+      setBusIconLocation()
+    }
+
 
     fetch(
       `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
@@ -4198,27 +4224,32 @@ function handleActivity(startingJson, te) {
           let x = 98 - (Number(min) * 100) / Number(startingJson.start_min);
           //console.log("starting x", x);
           x = x < 2 ? x + 4 : x;
+
           console.log("Activity:", min, "x:", x);
-          document.getElementById("progress-fill").style.width = `${x}%`;
-          document.getElementById("progress-indicator").style.left = `${x}%`;
+          if (prevX && x === prevX) {
+            console.log("prev")
+            if (!visualX) {
+              visualX = x + 0.1
+            } else {
+              visualX = visualX + 0.1
+            }
+
+            document.getElementById("progress-fill").style.width = `${visualX}%`
+            document.getElementById("progress-indicator").style.left = `${visualX}%`;
+          } else {
+            document.getElementById("progress-fill").style.width = `${x}%`
+            document.getElementById("progress-indicator").style.left = `${x}%`;
+
+          }
+          prevX = x
+
           document.getElementById("to-?").innerText = startingJson.stationName;
           document.getElementById("busidNoReq").innerText =
             startingJson.busName;
           document.getElementById("howMuchActivity").innerText = `${min} ${min >= 2 || min === 0 ? "λεπτά" : "λεπτό"
             }`;
 
-          const indicator = document.getElementById("progress-indicator");
-          const bus = document.getElementById("bus3D");
-
-          const rect = indicator.getBoundingClientRect();
-          const busParentRect = bus.offsetParent.getBoundingClientRect();
-
-          // Align horizontally (if not already)
-          bus.style.left = `${rect.left - busParentRect.left}px`;
-
-          // Align vertically
-          bus.style.top = `${rect.top - busParentRect.top - 35}px`;
-          bus.style.opacity = "1";
+          setBusIconLocation()
         }
       })
       .catch((error) => {
@@ -4253,14 +4284,17 @@ function addActivity(stationName, stationId, currentMinEl) {
   localStorage.setItem("currentActivity", JSON.stringify(startingJson));
   console.log("Set!", startingJson);
   document.getElementById("notice-card").style.display = "block";
-  document.getElementById("notice-card").style.opacity = "1";
   setTimeout(function () {
-    document.getElementById("notice-card").style.opacity = "0";
+    document.getElementById("notice-card").style.opacity = "1";
     setTimeout(function () {
-      document.getElementById("notice-card").style.display = "none";
-    }, 300);
-  }, 5000);
-  handleActivity(startingJson);
+      document.getElementById("notice-card").style.opacity = "0";
+      setTimeout(function () {
+        document.getElementById("notice-card").style.display = "none";
+      }, 300);
+    }, 5000);
+  }, 200)
+
+  handleActivity(startingJson, 'first');
 }
 
 function removeAct() {
@@ -4271,7 +4305,7 @@ function removeAct() {
 
 if (localStorage.getItem("currentActivity")) {
   startingJson = JSON.parse(localStorage.getItem("currentActivity"));
-  handleActivity(startingJson);
+  handleActivity(startingJson, 'first');
   function loop() {
     console.log("Calling handleActivity saved");
     handleActivity(startingJson);

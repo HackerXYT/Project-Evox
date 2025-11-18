@@ -3627,7 +3627,7 @@ select:focus {
 
 .alertInMenu {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   border-radius: 15px;
   padding: 10px 15px;
@@ -3636,12 +3636,18 @@ select:focus {
   transform: translateY(50px);
   opacity: 0;
   transition: opacity 0.5s ease, transform 0.5s ease;
-  background-color: #ffffff21;
+  background-color: rgb(255 255 255 / 9%);
+}
+
+.alertInMenu .rowAlert {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .actionButtonIn {
   border-radius: 15px;
-  background-color: #9cfa5024;
+  background-color: rgb(255 255 255 / 9%);
   padding: 10px 15px;
   box-sizing: border-box;
   color: #fff;
@@ -3743,10 +3749,12 @@ vox.keepDefault {
   transform: translateX(-50%);
   width: 90%;
   padding: 1rem;
-  background-color: #fff;
+  background-color: rgb(255 255 255 / 9%);
   border-radius: 10px;
   box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
   z-index: 9999;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
   opacity: 0;
   display: none;
@@ -3754,15 +3762,18 @@ vox.keepDefault {
 }
 
 .title {
-  font-weight: 600;
-  color: rgb(31 41 55);
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .description {
   margin-top: 1rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: rgb(75 85 99);
+  color: rgb(203, 203, 203);
 }
 
 .description a {
