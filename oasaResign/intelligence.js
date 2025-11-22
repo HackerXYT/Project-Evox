@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.85";
+const currentVersion = "2.2.9";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -132,7 +132,7 @@ function closeSearch() {
     iconInC.style.display = null;
     triggerSearch.style.display = null;
     bottomSearchParent.classList.remove("scrolled");
-    $("#searchIn").fadeIn("fast", function () { });
+    $("#searchIn").fadeIn("fast", function () {});
 
     document.getElementById("map-bus-info").style.opacity = "0";
     setTimeout(() => {
@@ -169,9 +169,10 @@ function getReady() {
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${localStorage.getItem("extV")
-      ? localStorage.getItem("extV")
-      : localStorage.getItem("extVOASA")
+    )}&deviceId=${
+      localStorage.getItem("extV")
+        ? localStorage.getItem("extV")
+        : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
@@ -225,8 +226,10 @@ function getReady() {
         updateLocation(cityOrAreaName);
       } else {
         fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${loc[1]
-          }.json?access_token=${mapboxgl.accessToken
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${
+            loc[1]
+          }.json?access_token=${
+            mapboxgl.accessToken
           }&language=el&vevox=${randomString()}`
         )
           .then((response) => response.json())
@@ -342,8 +345,10 @@ function bypassAny() {
       updateLocation(cityOrAreaName);
     } else {
       fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${loc[1]
-        }.json?access_token=${mapboxgl.accessToken
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${
+          loc[1]
+        }.json?access_token=${
+          mapboxgl.accessToken
         }&language=el&vevox=${randomString()}`
       )
         .then((response) => response.json())
@@ -732,8 +737,9 @@ function spawnInFeed(bus, descr, nextBusTime, timeInM, type, isPreload) {
     };
 
     const item = document.createElement("div");
-    item.className = `item ${highlight}${isPreload ? " isPreloaded" : ""}${selectedSection.length === 1 ? " fullWidth" : ""
-      }`;
+    item.className = `item ${highlight}${isPreload ? " isPreloaded" : ""}${
+      selectedSection.length === 1 ? " fullWidth" : ""
+    }`;
     item.innerHTML = `
     <div class="busName glowUpGlobaltxt_title">${busData.bus}</div>
           <div class="info">
@@ -745,10 +751,11 @@ function spawnInFeed(bus, descr, nextBusTime, timeInM, type, isPreload) {
           <div class="fav-actions">
             <div onclick="processInfo('${evoxId}', 'getTimes')" class="button-action important">
               <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" class="${busData === selectedSection[0] && section !== "frequent"
-        ? "clock-bg on"
-        : "clock-bg"
-      }" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" class="${
+                  busData === selectedSection[0] && section !== "frequent"
+                    ? "clock-bg on"
+                    : "clock-bg"
+                }" />
               </svg>
             </div>
             <div onclick="showOnMap('${evoxId}')" class="button-action">
@@ -828,8 +835,9 @@ function handleFavoriteOverrides(
       }
 
       const item = document.createElement("div");
-      item.className = `item favorite justBorder${isPreload ? " isPreloaded" : ""
-        }${selectedSection.length === 1 ? " fullWidth" : ""}`;
+      item.className = `item favorite justBorder${
+        isPreload ? " isPreloaded" : ""
+      }${selectedSection.length === 1 ? " fullWidth" : ""}`;
       item.innerHTML = `
       <div class="busName glowUpGlobaltxt_title">${bus}</div>
           <div class="info">
@@ -842,10 +850,11 @@ function handleFavoriteOverrides(
             <div onclick="processInfo('${evoxId}', 'getTimes')" class="button-action important">
               <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" 
-                class="${busData === selectedSection[0] && section !== "frequent"
-          ? "clock-bg on"
-          : "clock-bg"
-        }" />
+                class="${
+                  busData === selectedSection[0] && section !== "frequent"
+                    ? "clock-bg on"
+                    : "clock-bg"
+                }" />
               </svg>
             </div>
             <div onclick="showOnMap('${evoxId}')" class="button-action">
@@ -885,7 +894,7 @@ function handleFavoriteOverrides(
 }
 
 function registerPWA() {
-  return; //Remove me after debug
+  //return; //Remove me after debug
   if (!hasInternetConnection()) {
     console.log("No internet connection. PWA registration skipped.");
     return;
@@ -1078,7 +1087,8 @@ function processInfo(evoxId, type, addMore, comego) {
             );
             document.getElementById(
               "multiple-routes"
-            ).innerHTML += `<div onclick="switchRouteTo(this)" class="Block${descr === aroute.LineDescr ? " active" : ""
+            ).innerHTML += `<div onclick="switchRouteTo(this)" class="Block${
+              descr === aroute.LineDescr ? " active" : ""
             }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
     <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.2843 2 8.90356 3.38071 6.14214 6.14214C3.38071 8.90356 2 10.2843 2 12C2 13.7157 3.38071 15.0964 6.14214 17.8579C8.90356 20.6193 10.2843 22 12 22C13.7157 22 15.0964 20.6193 17.8579 17.8579C20.6193 15.0964 22 13.7157 22 12C22 10.2843 20.6193 8.90356 17.8579 6.14214C15.0964 3.38071 13.7157 2 12 2Z" fill="#fff"/>
@@ -1165,8 +1175,9 @@ function processInfo(evoxId, type, addMore, comego) {
           console.log("result", busInfo.descr);
           const result = splitter.getSecondPart(); // Trim any leading or trailing spaces
           console.log("result", result);
-          document.getElementById("busGOCOME").innerHTML += `<div class="Block${comego === "go" ? " active" : ""
-            }" onclick="switchTo('go', this)">
+          document.getElementById("busGOCOME").innerHTML += `<div class="Block${
+            comego === "go" ? " active" : ""
+          }" onclick="switchTo('go', this)">
                                         <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1176,8 +1187,9 @@ function processInfo(evoxId, type, addMore, comego) {
 
         if (data.come) {
           const result = splitter.getFirstPart();
-          document.getElementById("busGOCOME").innerHTML += `<div class="Block${comego === "come" ? " active" : ""
-            }" onclick="switchTo('come', this)">
+          document.getElementById("busGOCOME").innerHTML += `<div class="Block${
+            comego === "come" ? " active" : ""
+          }" onclick="switchTo('come', this)">
                                         <svg fill="#fff" width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <path d="M0 21.984q0.032-0.8 0.608-1.376l4-4q0.448-0.48 1.056-0.576t1.12 0.128 0.864 0.736 0.352 1.12v1.984h18.016q0.8 0 1.408-0.576t0.576-1.408v-8q0-0.832-0.576-1.408t-1.408-0.608h-16q-0.736 0-1.248-0.416t-0.64-0.992 0-1.152 0.64-1.024 1.248-0.416h16q2.464 0 4.224 1.76t1.76 4.256v8q0 2.496-1.76 4.224t-4.224 1.76h-18.016v2.016q0 0.64-0.352 1.152t-0.896 0.704-1.12 0.096-1.024-0.544l-4-4q-0.64-0.608-0.608-1.44z"></path>
 </svg>Προς ${capitalizeWords(result)}
@@ -1222,10 +1234,11 @@ function processInfo(evoxId, type, addMore, comego) {
           ).innerHTML = `<div class="failed">
     <img src="snap.png" class="failed-icon">
     <vox class="failed-message">Δεν βρέθηκαν δεδομένα</vox>
-    <span class="failed-subtext">${capitalizeWords(formattedText).includes("κυκλικη")
-              ? "Η διαδρομή του λεωφορείου είναι κυκλική.<br>Δεν υπάρχουν δρομολόγια για επιστροφή."
-              : "Δεν υπάρχει διαθέσιμη διαδρομή επιστροφής για αυτό το λεωφορείο."
-            }</span>
+    <span class="failed-subtext">${
+      capitalizeWords(formattedText).includes("κυκλικη")
+        ? "Η διαδρομή του λεωφορείου είναι κυκλική.<br>Δεν υπάρχουν δρομολόγια για επιστροφή."
+        : "Δεν υπάρχει διαθέσιμη διαδρομή επιστροφής για αυτό το λεωφορείο."
+    }</span>
 </div>
 `;
         }
@@ -1324,37 +1337,48 @@ function processInfo(evoxId, type, addMore, comego) {
             match: working,
             isLocal: isLocal,
           };
-          timetableContent += `<div class="previous fade-in-slide-up timeItem ${isLocal ? "isLocal" : ""
-            }" onclick="showDetailedTime('${previous[0].time
-              .replace(/<\/?vox>/g, "")
-              .replace(/ .*$/, "")}','previous' , '${result}')">
+          timetableContent += `<div class="previous fade-in-slide-up timeItem ${
+            isLocal ? "isLocal" : ""
+          }" onclick="showDetailedTime('${previous[0].time
+            .replace(/<\/?vox>/g, "")
+            .replace(/ .*$/, "")}','previous' , '${result}')">
         <p>${result}</p>
         <div class="actions" style="display:flex;flex-direction: column;justify-content: center;align-items: flex-end;">
-          <vox style="text-decoration: line-through;">${previous[0].time
-            }</vox><span style='font-size: 0.9rem;margin-top:4px;'>${previous[0].formatted
-            }</span>
+          <vox style="text-decoration: line-through;">${
+            previous[0].time
+          }</vox><span style='font-size: 0.9rem;margin-top:4px;'>${
+            previous[0].formatted
+          }</span>
         </div>
       </div>`;
         }
         remains.forEach((time, index) => {
           document.getElementById("showMoreBusStart").style.display = null;
           timetableContent += `
-      <div class="timeItem fade-in-slide-up${previous[0] && index === 0 ? " isNext" : ""
-            } ${isLocal ? "isLocal" : ""}" onclick="this.querySelector('.actions lord-icon').playerInstance.play();setTimeout(function() {showDetailedTime('${time
-              .replace(/<\/?vox>/g, "")
-              .replace(/<\/?vox>/g, "")
-              .replace(/ .*$/, "")}','next')}, 600)">
+      <div class="timeItem fade-in-slide-up${
+        previous[0] && index === 0 ? " isNext" : ""
+      } ${
+            isLocal ? "isLocal" : ""
+          }" onclick="this.querySelector('.actions lord-icon').playerInstance.play();setTimeout(function() {showDetailedTime('${time
+            .replace(/<\/?vox>/g, "")
+            .replace(/<\/?vox>/g, "")
+            .replace(/ .*$/, "")}','next')}, 600)">
       <p>${time}</p>
         <div class="actions">
-        ${isLocal
-              ? `<img style='width:20px;height:20px'
+        ${
+          isLocal
+            ? `<img style='width:20px;height:20px'
                                 src="snap.png">`
-              : ""
-            }
+            : ""
+        }
           
                                   <lord-icon
                                     src="https://cdn.lordicon.com/zllgguxq.json" colors="primary:#fff,secondary:#b4b4b4"
-                                    style="width:25px;height:25px;margin-left:5px;${!localStorage.getItem("extVOASA") ? 'display: none' : ''}">
+                                    style="width:25px;height:25px;margin-left:5px;${
+                                      !localStorage.getItem("extVOASA")
+                                        ? "display: none"
+                                        : ""
+                                    }">
                                   </lord-icon>
         </div>
       </div>
@@ -1480,16 +1504,18 @@ function processInfo(evoxId, type, addMore, comego) {
                 }
 
                 stations.forEach((station, index) => {
-                  container.innerHTML += `<div class="item" id="global-station-${station.StopCode
-                    }">
+                  container.innerHTML += `<div class="item" id="global-station-${
+                    station.StopCode
+                  }">
                                             <div class="stationName">${capitalizeWords(
-                      station.StopDescr
-                    )}</div>
+                                              station.StopDescr
+                                            )}</div>
                                             <div class="info">
                                                 <div class="text">
                                                     <span>Επόμενη άφιξη</span>
-                                                    <span id="station-${station.StopCode
-                    }"><!--<div class="loaderTimes"></div>--><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                                                    <span id="station-${
+                                                      station.StopCode
+                                                    }"><!--<div class="loaderTimes"></div>--><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
         <path opacity="0.5"
             d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
             fill="#8fceff" />
@@ -1499,14 +1525,18 @@ function processInfo(evoxId, type, addMore, comego) {
     </svg></span>
                                                 </div>
                                             </div>
-                                            <div class="fav-actions"${!localStorage.getItem("extVOASA")
-                      ? ' style="display: none"'
-                      : ""
-                    }>
-                                            <div id="start-schedo-station-${station.StopCode
-                    }" onclick="addInfinity('${busInfo.bus
-                    }', '${station.StopCode
-                    }', 'showUp', this)" style="display:none" class="button-action glowUpGBSM">
+                                            <div class="fav-actions"${
+                                              !localStorage.getItem("extVOASA")
+                                                ? ' style="display: none"'
+                                                : ""
+                                            }>
+                                            <div id="start-schedo-station-${
+                                              station.StopCode
+                                            }" onclick="addInfinity('${
+                    busInfo.bus
+                  }', '${
+                    station.StopCode
+                  }', 'showUp', this)" style="display:none" class="button-action glowUpGBSM">
                                                     <svg class="glowUpGlobaltxt_title" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5023 14.3674L20.5319 9.35289C21.2563 8.63072 21.6185 8.26963 21.8092 7.81046C22 7.3513 22 6.84065 22 5.81937V5.33146C22 3.76099 22 2.97576 21.5106 2.48788C21.0213 2 20.2337 2 18.6585 2H18.1691C17.1447 2 16.6325 2 16.172 2.19019C15.7114 2.38039 15.3493 2.74147 14.6249 3.46364L9.59522 8.47817C8.74882 9.32202 8.224 9.84526 8.02078 10.3506C7.95657 10.5103 7.92446 10.6682 7.92446 10.8339C7.92446 11.5238 8.48138 12.0791 9.59522 13.1896L9.74492 13.3388L11.4985 11.5591C11.7486 11.3053 12.1571 11.3022 12.4109 11.5523C12.6647 11.8024 12.6678 12.2109 12.4177 12.4647L10.6587 14.2499L10.7766 14.3674C11.8905 15.4779 12.4474 16.0331 13.1394 16.0331C13.2924 16.0331 13.4387 16.006 13.5858 15.9518C14.1048 15.7607 14.6345 15.2325 15.5023 14.3674ZM17.8652 8.47854C17.2127 9.12904 16.1548 9.12904 15.5024 8.47854C14.8499 7.82803 14.8499 6.77335 15.5024 6.12284C16.1548 5.47233 17.2127 5.47233 17.8652 6.12284C18.5177 6.77335 18.5177 7.82803 17.8652 8.47854Z" fill="#FFF"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M2.77409 12.4814C3.07033 12.778 3.07004 13.2586 2.77343 13.5548L2.61779 13.7103C2.48483 13.8431 2.48483 14.058 2.61779 14.1908C2.75125 14.3241 2.96801 14.3241 3.10147 14.1908L4.8136 12.4807C5.1102 12.1845 5.59079 12.1848 5.88704 12.4814C6.18328 12.778 6.18298 13.2586 5.88638 13.5548L4.17426 15.2648C3.4481 15.9901 2.27116 15.9901 1.545 15.2648C0.818334 14.5391 0.818333 13.362 1.545 12.6362L1.70065 12.4807C1.99725 12.1845 2.47784 12.1848 2.77409 12.4814ZM7.29719 16.696C7.5903 16.9957 7.58495 17.4762 7.28525 17.7693L5.55508 19.4614C5.25538 19.7545 4.77481 19.7491 4.48171 19.4494C4.1886 19.1497 4.19395 18.6692 4.49365 18.3761L6.22382 16.684C6.52352 16.3909 7.00409 16.3963 7.29719 16.696ZM11.4811 18.118C11.7774 18.4146 11.7771 18.8952 11.4805 19.1915L9.76834 20.9015C9.63539 21.0343 9.63539 21.2492 9.76834 21.382C9.9018 21.5153 10.1186 21.5153 10.252 21.382L10.4077 21.2265C10.7043 20.9303 11.1849 20.9306 11.4811 21.2272C11.7774 21.5238 11.7771 22.0044 11.4805 22.3006L11.3248 22.4561C10.5987 23.1813 9.42171 23.1813 8.69556 22.4561C7.96889 21.7303 7.96889 20.5532 8.69556 19.8274L10.4077 18.1174C10.7043 17.8211 11.1849 17.8214 11.4811 18.118Z" fill="#FFF"/>
@@ -1533,10 +1563,13 @@ function processInfo(evoxId, type, addMore, comego) {
                             </path>
                         </svg>
                                                 </div>
-                                                <div id="2min-schedo-station-${station.StopCode
-                    }" onclick="addInfinity('${busInfo.bus
-                    }', '${station.StopCode
-                    }', '2min', this)" class="button-action">
+                                                <div id="2min-schedo-station-${
+                                                  station.StopCode
+                                                }" onclick="addInfinity('${
+                    busInfo.bus
+                  }', '${
+                    station.StopCode
+                  }', '2min', this)" class="button-action">
                                                     <svg class="glowUpGlobaltxt_title" xmlns="http://www.w3.org/2000/svg" fill="#fff" width="20px"
                                                         height="20px" viewBox="-1 0 19 19" class="cf-icon-svg">
                                                         <path
@@ -1557,10 +1590,11 @@ function processInfo(evoxId, type, addMore, comego) {
                             </path>
                         </svg>
                                                 </div>
-                                                <div onclick="handleClick('${station.StopCode
-                    }', '${capitalizeWords(
-                      station.StopDescr
-                    )}')" class="button-action">
+                                                <div onclick="handleClick('${
+                                                  station.StopCode
+                                                }', '${capitalizeWords(
+                    station.StopDescr
+                  )}')" class="button-action">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
                                                         <path opacity="0.5" d="M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z" fill="#fff"/>
                                                         <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" fill="#fff"/>
@@ -1973,9 +2007,9 @@ function findBusInfo2(
             if (
               route.route_descr === completeJson.descr ||
               route.route_descr ===
-              capitalizeGreek(
-                document.getElementById("busInfoDesc").innerText
-              )
+                capitalizeGreek(
+                  document.getElementById("busInfoDesc").innerText
+                )
             ) {
               console.warn("VOXNEW FOUND:", route, route.route_descr);
               activeRouteCode = route.route_code;
@@ -2411,10 +2445,11 @@ function spawnNearby() {
         if (dot.getAttribute("data-status") === "hidden") {
           this.innerHTML = `<p>${capitalizeWords(
             coord.StopDescr
-          )}</p><svg onclick="openStation('${coord.StopCode
-            }', '${capitalizeWords(
-              coord.StopDescr
-            )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+          )}</p><svg onclick="openStation('${
+            coord.StopCode
+          }', '${capitalizeWords(
+            coord.StopDescr
+          )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
           dot.setAttribute("data-status", "visible");
@@ -2644,7 +2679,8 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         const result1 = splitter.getSecondPart(); // Trim any leading or trailing spa
         document.getElementById(
           "busDirections"
-        ).innerHTML += `<div class="Block ${go_or_back === "go" ? " active" : ""
+        ).innerHTML += `<div class="Block ${
+          go_or_back === "go" ? " active" : ""
         }" onclick="changeToOpposite('go', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2654,7 +2690,8 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         const result2 = splitter.getFirstPart(); // Trim any leading or trailing spa
         document.getElementById(
           "busDirections"
-        ).innerHTML += `<div class="Block${go_or_back === "come" ? " active" : ""
+        ).innerHTML += `<div class="Block${
+          go_or_back === "come" ? " active" : ""
         }" onclick="changeToOpposite('come', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2737,23 +2774,25 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
           if (dot.getAttribute("data-status") === "hidden") {
             this.innerHTML = `<div class="dotBusInfoShow">
                     <p>${capitalizeWords(
-              coord.StopDescr
-            )}<!--${comego}EVXDEBUG--></p>
+                      coord.StopDescr
+                    )}<!--${comego}EVXDEBUG--></p>
                     <div class="dotrow">
-                    <div onclick="openStation('${coord.StopCode
-              }', '${capitalizeWords(
-                coord.StopDescr
-              )}', '${bus}', '${verification}');" class="actiondot">
+                    <div onclick="openStation('${
+                      coord.StopCode
+                    }', '${capitalizeWords(
+              coord.StopDescr
+            )}', '${bus}', '${verification}');" class="actiondot">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
                                                         <path opacity="0.5" d="M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z" fill="#fff"></path>
                                                         <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" fill="#fff"></path>
                                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.25 10.5C6.25 10.0858 6.58579 9.75 7 9.75H7.5C7.91421 9.75 8.25 10.0858 8.25 10.5C8.25 10.9142 7.91421 11.25 7.5 11.25H7C6.58579 11.25 6.25 10.9142 6.25 10.5ZM9.75 10.5C9.75 10.0858 10.0858 9.75 10.5 9.75H17C17.4142 9.75 17.75 10.0858 17.75 10.5C17.75 10.9142 17.4142 11.25 17 11.25H10.5C10.0858 11.25 9.75 10.9142 9.75 10.5ZM6.25 14C6.25 13.5858 6.58579 13.25 7 13.25H7.5C7.91421 13.25 8.25 13.5858 8.25 14C8.25 14.4142 7.91421 14.75 7.5 14.75H7C6.58579 14.75 6.25 14.4142 6.25 14ZM9.75 14C9.75 13.5858 10.0858 13.25 10.5 13.25H17C17.4142 13.25 17.75 13.5858 17.75 14C17.75 14.4142 17.4142 14.75 17 14.75H10.5C10.0858 14.75 9.75 14.4142 9.75 14ZM6.25 17.5C6.25 17.0858 6.58579 16.75 7 16.75H7.5C7.91421 16.75 8.25 17.0858 8.25 17.5C8.25 17.9142 7.91421 18.25 7.5 18.25H7C6.58579 18.25 6.25 17.9142 6.25 17.5ZM9.75 17.5C9.75 17.0858 10.0858 16.75 10.5 16.75H17C17.4142 16.75 17.75 17.0858 17.75 17.5C17.75 17.9142 17.4142 18.25 17 18.25H10.5C10.0858 18.25 9.75 17.9142 9.75 17.5Z" fill="#fff"></path>
                                                         </svg></div>
 
-                    <div onclick='walkMeTo("${coord.lng}", "${coord.lat
-              }", event, "${capitalizeWords(
-                coord.StopDescr
-              )}")' class="actiondot"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+                    <div onclick='walkMeTo("${coord.lng}", "${
+              coord.lat
+            }", event, "${capitalizeWords(
+              coord.StopDescr
+            )}")' class="actiondot"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-768.000000, -48.000000)" fill-rule="nonzero">
             <g transform="translate(768.000000, 48.000000)">
@@ -2773,10 +2812,11 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
             return;
             this.innerHTML = `<p>${capitalizeWords(
               coord.StopDescr
-            )}{EVX-DEBUG-3}</p><svg onclick="openStation('${coord.StopCode
-              }', '${capitalizeWords(
-                coord.StopDescr
-              )}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+            )}{EVX-DEBUG-3}</p><svg onclick="openStation('${
+              coord.StopCode
+            }', '${capitalizeWords(
+              coord.StopDescr
+            )}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
           } else {
@@ -3116,7 +3156,8 @@ function showDetailedTime(time, type, text) {
           foundMatch = true;
         } else {
           console.log(
-            `None: ${schedo.bus} ${schedo.time} ${schedo.id},\nLocal: ${document.getElementById("busInfoID").innerText
+            `None: ${schedo.bus} ${schedo.time} ${schedo.id},\nLocal: ${
+              document.getElementById("busInfoID").innerText
             } ${time} ${extVOASA}`
           );
         }
@@ -3251,15 +3292,18 @@ function showVerticalStations() {
     keepForVerticalStations.stops.forEach((station) => {
       document.getElementById(
         "stationsSpawnVertical"
-      ).innerHTML += `<div id="global-vertical-station-${station.StopCode
+      ).innerHTML += `<div id="global-vertical-station-${
+        station.StopCode
       }" class="timeItem fade-in-slide-up">
-                                        <div onclick="showStopDetails('${station.StopCode
-        }', '${capitalizeWords(
-          station.StopDescr
-        )}')" class="rowDefault"><p>${capitalizeWords(station.StopDescr)}</p>
+                                        <div onclick="showStopDetails('${
+                                          station.StopCode
+                                        }', '${capitalizeWords(
+        station.StopDescr
+      )}')" class="rowDefault"><p>${capitalizeWords(station.StopDescr)}</p>
                                         <div class="actions">
-                                            <span id="timeFor-${station.StopCode
-        }"><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                                            <span id="timeFor-${
+                                              station.StopCode
+                                            }"><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
         <path opacity="0.5"
             d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
             fill="#8fceff" />
@@ -3272,9 +3316,10 @@ function showVerticalStations() {
                                         </div></div>
                                         <div style="display: none" class='moreActions'>
                                         <div onclick="addActivity('${capitalizeWords(
-          station.StopDescr
-        )}', '${station.StopCode
-        }', this)" style="display: none" class="themeButton">
+                                          station.StopDescr
+                                        )}', '${
+        station.StopCode
+      }', this)" style="display: none" class="themeButton">
                                             Παρακολούθηση
                                         </div>
                                         <div style="display: none" class="themeButton">
@@ -3334,7 +3379,8 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${document.getElementById("busInfoID").innerText
+              `addInfinity('${
+                document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3351,7 +3397,8 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${document.getElementById("busInfoID").innerText
+              `addInfinity('${
+                document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3364,7 +3411,8 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${document.getElementById("busInfoID").innerText
+              `addInfinity('${
+                document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3380,7 +3428,8 @@ function showVerticalStations() {
               activity[1].querySelector("vox").innerText = "2' μακριά";
               activity[1].setAttribute(
                 "onclick",
-                `addInfinity('${document.getElementById("busInfoID").innerText
+                `addInfinity('${
+                  document.getElementById("busInfoID").innerText
                 }', '${stop.StopCode}', '2min', this)`
               );
               activity[0].style.display = "flex";
@@ -3856,9 +3905,11 @@ function searchInInput() {
       );
       document.getElementById(
         "toSpawnFinds"
-      ).innerHTML = `<div onclick="spawnAndShowInfo('${bus.LineID
-      }', 'remain', '${bus.LineDescr
-        }',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
+      ).innerHTML = `<div onclick="spawnAndShowInfo('${
+        bus.LineID
+      }', 'remain', '${
+        bus.LineDescr
+      }',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"></path>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"></path>
@@ -3868,8 +3919,9 @@ function searchInInput() {
 <path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"></path>
 <path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"></path>
 <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"></path>
-</svg>${bus.LineID
-        }<svg style="transform: rotate(-35deg)" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+</svg>${
+        bus.LineID
+      }<svg style="transform: rotate(-35deg)" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
   </div>${document.getElementById("toSpawnFinds").innerHTML}`;
@@ -3947,7 +3999,8 @@ function addInfinity(busLineId, stationCode, type, el) {
                     "t50-username"
                   )}&deviceId=${localStorage.getItem(
                     "extVOASA"
-                  )}&busId=${busLineId}&stationCode=${stationCode}&routeCode=${routeCode}&origin=resign${type === "2min" ? "&method=2minutes" : ""
+                  )}&busId=${busLineId}&stationCode=${stationCode}&routeCode=${routeCode}&origin=resign${
+                    type === "2min" ? "&method=2minutes" : ""
                   }&vevox=${randomString()}`
                 ) //&method=2minutes
                   .then((response) => response.text())
@@ -4158,8 +4211,8 @@ function showLocalPanel() {
 
 let startingJson = {};
 
-let prevX = null
-let visualX = null
+let prevX = null;
+let visualX = null;
 function handleActivity(startingJson, first) {
   if (startingJson.start_min) {
     console.warn(startingJson);
@@ -4177,8 +4230,6 @@ function handleActivity(startingJson, first) {
       document.getElementById("activity").style.display = "flex";
     }
 
-
-
     function setBusIconLocation() {
       const indicator = document.getElementById("progress-indicator");
       const bus = document.getElementById("bus3D");
@@ -4194,13 +4245,12 @@ function handleActivity(startingJson, first) {
       bus.style.opacity = "1";
     }
     if (first) {
-      prevX = null
-      visualX = null
+      prevX = null;
+      visualX = null;
       document.getElementById("progress-fill").style.width = `0%`;
       document.getElementById("progress-indicator").style.left = `0%`;
-      setBusIconLocation()
+      setBusIconLocation();
     }
-
 
     fetch(
       `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
@@ -4227,29 +4277,33 @@ function handleActivity(startingJson, first) {
 
           console.log("Activity:", min, "x:", x);
           if (prevX && x === prevX) {
-            console.log("prev")
+            console.log("prev");
             if (!visualX) {
-              visualX = x + 0.1
+              visualX = x + 0.1;
             } else {
-              visualX = visualX + 0.1
+              visualX = visualX + 0.1;
             }
 
-            document.getElementById("progress-fill").style.width = `${visualX}%`
-            document.getElementById("progress-indicator").style.left = `${visualX}%`;
+            document.getElementById(
+              "progress-fill"
+            ).style.width = `${visualX}%`;
+            document.getElementById(
+              "progress-indicator"
+            ).style.left = `${visualX}%`;
           } else {
-            document.getElementById("progress-fill").style.width = `${x}%`
+            document.getElementById("progress-fill").style.width = `${x}%`;
             document.getElementById("progress-indicator").style.left = `${x}%`;
-
           }
-          prevX = x
+          prevX = x;
 
           document.getElementById("to-?").innerText = startingJson.stationName;
           document.getElementById("busidNoReq").innerText =
             startingJson.busName;
-          document.getElementById("howMuchActivity").innerText = `${min} ${min >= 2 || min === 0 ? "λεπτά" : "λεπτό"
-            }`;
+          document.getElementById("howMuchActivity").innerText = `${min} ${
+            min >= 2 || min === 0 ? "λεπτά" : "λεπτό"
+          }`;
 
-          setBusIconLocation()
+          setBusIconLocation();
         }
       })
       .catch((error) => {
@@ -4264,10 +4318,12 @@ function changeActivity() {
   const current = document
     .getElementById("progress-fill")
     .style.width.replace("%", "");
-  document.getElementById("progress-fill").style.width = `${Number(current) + 10
-    }%`;
-  document.getElementById("progress-indicator").style.left = `${Number(current) + 10
-    }%`;
+  document.getElementById("progress-fill").style.width = `${
+    Number(current) + 10
+  }%`;
+  document.getElementById("progress-indicator").style.left = `${
+    Number(current) + 10
+  }%`;
 }
 
 function addActivity(stationName, stationId, currentMinEl) {
@@ -4292,9 +4348,9 @@ function addActivity(stationName, stationId, currentMinEl) {
         document.getElementById("notice-card").style.display = "none";
       }, 300);
     }, 5000);
-  }, 200)
+  }, 200);
 
-  handleActivity(startingJson, 'first');
+  handleActivity(startingJson, "first");
 }
 
 function removeAct() {
@@ -4305,7 +4361,7 @@ function removeAct() {
 
 if (localStorage.getItem("currentActivity")) {
   startingJson = JSON.parse(localStorage.getItem("currentActivity"));
-  handleActivity(startingJson, 'first');
+  handleActivity(startingJson, "first");
   function loop() {
     console.log("Calling handleActivity saved");
     handleActivity(startingJson);
@@ -4546,8 +4602,9 @@ function openNotificationsView() {
 </svg>`;
       withLastUsed.forEach((device) => {
         devices.innerHTML += `<div class="timeItem">
-                                        <p>${device.os === "macOS" ? apple : linux
-          }</p>
+                                        <p>${
+                                          device.os === "macOS" ? apple : linux
+                                        }</p>
                                         <span>${device.extV}</span>
                                         <div class="actions">
                                             ${device.last_used}
@@ -4568,8 +4625,9 @@ function openNotificationsView() {
           document.getElementById(
             "current-device"
           ).innerHTML = `<div class="timeItem">
-                                        <p>${item.os === "macOS" ? apple : linux
-            }</p>
+                                        <p>${
+                                          item.os === "macOS" ? apple : linux
+                                        }</p>
                                         <span>${item.extV}</span>
                                     </div>`;
         }
@@ -4637,9 +4695,10 @@ function openNotificationsView() {
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${localStorage.getItem("extV")
-      ? localStorage.getItem("extV")
-      : localStorage.getItem("extVOASA")
+    )}&deviceId=${
+      localStorage.getItem("extV")
+        ? localStorage.getItem("extV")
+        : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
@@ -4658,11 +4717,12 @@ function openNotificationsView() {
                                         <p>${item.bus}</p>
                                         <span>${item.station}</span>
                                         <div class="actions">
-                                            ${item.notificationType ===
-            "countDownBegin"
-            ? countdown
-            : twomin
-          }
+                                            ${
+                                              item.notificationType ===
+                                              "countDownBegin"
+                                                ? countdown
+                                                : twomin
+                                            }
                                         </div>
                                     </div>`;
       });
@@ -5012,8 +5072,9 @@ function changeScreen(el) {
       const isMovingDown = newPage > activePage;
 
       const rotateAngle = isMovingDown ? -45 : 45;
-      arrow.style.transform = `translateY(${(activePage - 1) * 80
-        }px) rotate(${rotateAngle}deg)`;
+      arrow.style.transform = `translateY(${
+        (activePage - 1) * 80
+      }px) rotate(${rotateAngle}deg)`;
 
       setTimeout(() => {
         arrow.style.transform = `translateY(${yOffset}px) rotate(${rotateAngle}deg)`;
@@ -5031,13 +5092,11 @@ function changeScreen(el) {
   function nowCheckForFunctions() {
     setTimeout(function () {
       //For complete arrow stop [90%]
-      if (activePage === 2) {
-        return;
-      }
 
       document.getElementById("content").style.display = "none";
       document.getElementById("settingsContainer").style.display = "none";
       document.getElementById("reportBug").style.display = "none";
+      document.getElementById("evoxAccount").style.display = "none";
 
       document.getElementById("bottomSearchParent").style.opacity = "0";
       setTimeout(function () {
@@ -5053,15 +5112,31 @@ function changeScreen(el) {
         }, 400);
       }
 
+      if (activePage === 2) {
+        //Evox Account
+        document
+          .getElementById("evoxAccount")
+          .classList.add("fade-in-slide-up");
+        document.getElementById("content").style.display = "none";
+        document.getElementById("evoxAccount").style.display = null;
+        setTimeout(function () {
+          document
+            .getElementById("evoxAccount")
+            .classList.remove("fade-in-slide-up");
+        }, 500);
+        setupEvoxAccount();
+      }
+
       if (activePage === 4) {
         //Report Bug
         document.getElementById("reportBug").classList.add("fade-in-slide-up");
         document.getElementById("content").style.display = "none";
         document.getElementById("reportBug").style.display = null;
         setTimeout(function () {
-          document.getElementById("reportBug").classList.remove("fade-in-slide-up");
+          document
+            .getElementById("reportBug")
+            .classList.remove("fade-in-slide-up");
         }, 500);
-        //setupSettings();
       }
 
       if (activePage === 3) {
@@ -5086,6 +5161,50 @@ function changeScreen(el) {
       }
     }, 200);
     //Immediate action
+  }
+}
+
+function setupEvoxAccount() {
+  const fav_buses = localStorage.getItem("oasa_favorites");
+  const fav_stations = localStorage.getItem("favorite_stations");
+  let favoritesTotal = 0;
+  if (fav_buses) {
+    favoritesTotal = favoritesTotal + JSON.parse(fav_buses).length;
+  }
+  if (fav_stations) {
+    favoritesTotal = favoritesTotal + JSON.parse(fav_stations).length;
+  }
+  document.getElementById("evxAccountUsername").innerText = localStorage.getItem("t50-username")
+  document.getElementById("evxAccountPFP").src = document.getElementById("oasaPfp").src
+  document.getElementById("favoritesTotal").innerText = favoritesTotal;
+  document.getElementById("activeNotifications").innerText =
+    document.getElementById("activeNotifs").innerText;
+
+  const evxEmail = localStorage.getItem("t50-email");
+  const evxPswd = localStorage.getItem("t50pswd");
+  if (evxEmail && evxPswd) {
+    fetch(
+      `${serverIP}accounts?email=${evxEmail}&password=${atob(evxPswd)}&autologin=true&ip=null`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        if (
+          data.includes("Credentials Correct") ||
+          data.includes("IP Not Verified")
+        ) {
+          document.getElementById("evxConnection").innerText = "Ενεργή"
+        } else {
+          document.getElementById("evxConnection").innerText = "Ανενεργή"
+        }
+      })
+      .catch((error) => {
+        console.error("Server Connection Failed!", error);
+      });
   }
 }
 
@@ -5157,9 +5276,10 @@ function triggerNotificationsReload() {
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${localStorage.getItem("extV")
-      ? localStorage.getItem("extV")
-      : localStorage.getItem("extVOASA")
+    )}&deviceId=${
+      localStorage.getItem("extV")
+        ? localStorage.getItem("extV")
+        : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
@@ -5305,11 +5425,11 @@ async function searchAndMarkPlaces(query) {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
           query
         )}.json?` +
-        `access_token=${accessToken}` +
-        `&limit=10` +
-        `&proximity=${userLng},${userLat}` +
-        `&types=place,address,poi` +
-        `&bbox=${greeceBBox.join(",")}`
+          `access_token=${accessToken}` +
+          `&limit=10` +
+          `&proximity=${userLng},${userLat}` +
+          `&types=place,address,poi` +
+          `&bbox=${greeceBBox.join(",")}`
       );
       const data = await response.json();
 
@@ -5445,10 +5565,11 @@ function spawnClosestStops(focusedSpot) {
           if (dot.getAttribute("data-status") === "hidden") {
             this.innerHTML = `<p>${capitalizeWords(
               coord.StopDescr
-            )}</p><svg onclick="openStation('${coord.StopCode
-              }', '${capitalizeWords(
-                coord.StopDescr
-              )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+            )}</p><svg onclick="openStation('${
+              coord.StopCode
+            }', '${capitalizeWords(
+              coord.StopDescr
+            )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
             dot.setAttribute("data-status", "visible");
@@ -5492,7 +5613,7 @@ function spawnClosestStops(focusedSpot) {
         .addTo(map);
       markers_intel.push(marker);
     })
-    .catch((error) => { });
+    .catch((error) => {});
 }
 
 function openExtLineId(lineId, desc, elem) {
@@ -5947,7 +6068,7 @@ function toggleNearbyInfo() {
   const elem = document.getElementById("nearbyInfo");
   if (elem.classList.contains("active")) {
     //toggle off
-    elem.classList.remove("active")
+    elem.classList.remove("active");
     markers_intel.forEach((marker) => marker.remove());
     markers_intel = [];
     for (const key in liveSpawned) {
@@ -5958,11 +6079,11 @@ function toggleNearbyInfo() {
     liveSpawned = {};
     if (liveBusesNearInterval) {
       clearInterval(liveBusesNearInterval);
-      liveBusesNearInterval = null
+      liveBusesNearInterval = null;
     }
   } else {
     triggerNearbyStationsSpawn();
-    elem.classList.add("active")
+    elem.classList.add("active");
     //toggle on
   }
 }
