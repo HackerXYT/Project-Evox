@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.9";
+const currentVersion = "2.2.91";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -132,7 +132,7 @@ function closeSearch() {
     iconInC.style.display = null;
     triggerSearch.style.display = null;
     bottomSearchParent.classList.remove("scrolled");
-    $("#searchIn").fadeIn("fast", function () {});
+    $("#searchIn").fadeIn("fast", function () { });
 
     document.getElementById("map-bus-info").style.opacity = "0";
     setTimeout(() => {
@@ -169,10 +169,9 @@ function getReady() {
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${
-      localStorage.getItem("extV")
-        ? localStorage.getItem("extV")
-        : localStorage.getItem("extVOASA")
+    )}&deviceId=${localStorage.getItem("extV")
+      ? localStorage.getItem("extV")
+      : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
@@ -226,10 +225,8 @@ function getReady() {
         updateLocation(cityOrAreaName);
       } else {
         fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${
-            loc[1]
-          }.json?access_token=${
-            mapboxgl.accessToken
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${loc[1]
+          }.json?access_token=${mapboxgl.accessToken
           }&language=el&vevox=${randomString()}`
         )
           .then((response) => response.json())
@@ -345,10 +342,8 @@ function bypassAny() {
       updateLocation(cityOrAreaName);
     } else {
       fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${
-          loc[1]
-        }.json?access_token=${
-          mapboxgl.accessToken
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${loc[0]},${loc[1]
+        }.json?access_token=${mapboxgl.accessToken
         }&language=el&vevox=${randomString()}`
       )
         .then((response) => response.json())
@@ -737,9 +732,8 @@ function spawnInFeed(bus, descr, nextBusTime, timeInM, type, isPreload) {
     };
 
     const item = document.createElement("div");
-    item.className = `item ${highlight}${isPreload ? " isPreloaded" : ""}${
-      selectedSection.length === 1 ? " fullWidth" : ""
-    }`;
+    item.className = `item ${highlight}${isPreload ? " isPreloaded" : ""}${selectedSection.length === 1 ? " fullWidth" : ""
+      }`;
     item.innerHTML = `
     <div class="busName glowUpGlobaltxt_title">${busData.bus}</div>
           <div class="info">
@@ -751,11 +745,10 @@ function spawnInFeed(bus, descr, nextBusTime, timeInM, type, isPreload) {
           <div class="fav-actions">
             <div onclick="processInfo('${evoxId}', 'getTimes')" class="button-action important">
               <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" class="${
-                  busData === selectedSection[0] && section !== "frequent"
-                    ? "clock-bg on"
-                    : "clock-bg"
-                }" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" class="${busData === selectedSection[0] && section !== "frequent"
+        ? "clock-bg on"
+        : "clock-bg"
+      }" />
               </svg>
             </div>
             <div onclick="showOnMap('${evoxId}')" class="button-action">
@@ -835,9 +828,8 @@ function handleFavoriteOverrides(
       }
 
       const item = document.createElement("div");
-      item.className = `item favorite justBorder${
-        isPreload ? " isPreloaded" : ""
-      }${selectedSection.length === 1 ? " fullWidth" : ""}`;
+      item.className = `item favorite justBorder${isPreload ? " isPreloaded" : ""
+        }${selectedSection.length === 1 ? " fullWidth" : ""}`;
       item.innerHTML = `
       <div class="busName glowUpGlobaltxt_title">${bus}</div>
           <div class="info">
@@ -850,11 +842,10 @@ function handleFavoriteOverrides(
             <div onclick="processInfo('${evoxId}', 'getTimes')" class="button-action important">
               <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM15.8321 14.5547C15.5257 15.0142 14.9048 15.1384 14.4453 14.8321L11.8451 13.0986C11.3171 12.7466 11 12.1541 11 11.5196L11 11.5L11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7L13 11.4648L15.5547 13.1679C16.0142 13.4743 16.1384 14.0952 15.8321 14.5547Z" 
-                class="${
-                  busData === selectedSection[0] && section !== "frequent"
-                    ? "clock-bg on"
-                    : "clock-bg"
-                }" />
+                class="${busData === selectedSection[0] && section !== "frequent"
+          ? "clock-bg on"
+          : "clock-bg"
+        }" />
               </svg>
             </div>
             <div onclick="showOnMap('${evoxId}')" class="button-action">
@@ -1087,8 +1078,7 @@ function processInfo(evoxId, type, addMore, comego) {
             );
             document.getElementById(
               "multiple-routes"
-            ).innerHTML += `<div onclick="switchRouteTo(this)" class="Block${
-              descr === aroute.LineDescr ? " active" : ""
+            ).innerHTML += `<div onclick="switchRouteTo(this)" class="Block${descr === aroute.LineDescr ? " active" : ""
             }">
             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
     <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.2843 2 8.90356 3.38071 6.14214 6.14214C3.38071 8.90356 2 10.2843 2 12C2 13.7157 3.38071 15.0964 6.14214 17.8579C8.90356 20.6193 10.2843 22 12 22C13.7157 22 15.0964 20.6193 17.8579 17.8579C20.6193 15.0964 22 13.7157 22 12C22 10.2843 20.6193 8.90356 17.8579 6.14214C15.0964 3.38071 13.7157 2 12 2Z" fill="#fff"/>
@@ -1175,9 +1165,8 @@ function processInfo(evoxId, type, addMore, comego) {
           console.log("result", busInfo.descr);
           const result = splitter.getSecondPart(); // Trim any leading or trailing spaces
           console.log("result", result);
-          document.getElementById("busGOCOME").innerHTML += `<div class="Block${
-            comego === "go" ? " active" : ""
-          }" onclick="switchTo('go', this)">
+          document.getElementById("busGOCOME").innerHTML += `<div class="Block${comego === "go" ? " active" : ""
+            }" onclick="switchTo('go', this)">
                                         <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M40 14H17.0062C10.1232 14 4.27787 19.6204 4.00964 26.5C3.72612 33.7696 9.73291 40 17.0062 40H34.0016" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1187,9 +1176,8 @@ function processInfo(evoxId, type, addMore, comego) {
 
         if (data.come) {
           const result = splitter.getFirstPart();
-          document.getElementById("busGOCOME").innerHTML += `<div class="Block${
-            comego === "come" ? " active" : ""
-          }" onclick="switchTo('come', this)">
+          document.getElementById("busGOCOME").innerHTML += `<div class="Block${comego === "come" ? " active" : ""
+            }" onclick="switchTo('come', this)">
                                         <svg fill="#fff" width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <path d="M0 21.984q0.032-0.8 0.608-1.376l4-4q0.448-0.48 1.056-0.576t1.12 0.128 0.864 0.736 0.352 1.12v1.984h18.016q0.8 0 1.408-0.576t0.576-1.408v-8q0-0.832-0.576-1.408t-1.408-0.608h-16q-0.736 0-1.248-0.416t-0.64-0.992 0-1.152 0.64-1.024 1.248-0.416h16q2.464 0 4.224 1.76t1.76 4.256v8q0 2.496-1.76 4.224t-4.224 1.76h-18.016v2.016q0 0.64-0.352 1.152t-0.896 0.704-1.12 0.096-1.024-0.544l-4-4q-0.64-0.608-0.608-1.44z"></path>
 </svg>Προς ${capitalizeWords(result)}
@@ -1234,11 +1222,10 @@ function processInfo(evoxId, type, addMore, comego) {
           ).innerHTML = `<div class="failed">
     <img src="snap.png" class="failed-icon">
     <vox class="failed-message">Δεν βρέθηκαν δεδομένα</vox>
-    <span class="failed-subtext">${
-      capitalizeWords(formattedText).includes("κυκλικη")
-        ? "Η διαδρομή του λεωφορείου είναι κυκλική.<br>Δεν υπάρχουν δρομολόγια για επιστροφή."
-        : "Δεν υπάρχει διαθέσιμη διαδρομή επιστροφής για αυτό το λεωφορείο."
-    }</span>
+    <span class="failed-subtext">${capitalizeWords(formattedText).includes("κυκλικη")
+              ? "Η διαδρομή του λεωφορείου είναι κυκλική.<br>Δεν υπάρχουν δρομολόγια για επιστροφή."
+              : "Δεν υπάρχει διαθέσιμη διαδρομή επιστροφής για αυτό το λεωφορείο."
+            }</span>
 </div>
 `;
         }
@@ -1337,48 +1324,41 @@ function processInfo(evoxId, type, addMore, comego) {
             match: working,
             isLocal: isLocal,
           };
-          timetableContent += `<div class="previous fade-in-slide-up timeItem ${
-            isLocal ? "isLocal" : ""
-          }" onclick="showDetailedTime('${previous[0].time
-            .replace(/<\/?vox>/g, "")
-            .replace(/ .*$/, "")}','previous' , '${result}')">
+          timetableContent += `<div class="previous fade-in-slide-up timeItem ${isLocal ? "isLocal" : ""
+            }" onclick="showDetailedTime('${previous[0].time
+              .replace(/<\/?vox>/g, "")
+              .replace(/ .*$/, "")}','previous' , '${result}')">
         <p>${result}</p>
         <div class="actions" style="display:flex;flex-direction: column;justify-content: center;align-items: flex-end;">
-          <vox style="text-decoration: line-through;">${
-            previous[0].time
-          }</vox><span style='font-size: 0.9rem;margin-top:4px;'>${
-            previous[0].formatted
-          }</span>
+          <vox style="text-decoration: line-through;">${previous[0].time
+            }</vox><span style='font-size: 0.9rem;margin-top:4px;'>${previous[0].formatted
+            }</span>
         </div>
       </div>`;
         }
         remains.forEach((time, index) => {
           document.getElementById("showMoreBusStart").style.display = null;
           timetableContent += `
-      <div class="timeItem fade-in-slide-up${
-        previous[0] && index === 0 ? " isNext" : ""
-      } ${
-            isLocal ? "isLocal" : ""
-          }" onclick="this.querySelector('.actions lord-icon').playerInstance.play();setTimeout(function() {showDetailedTime('${time
-            .replace(/<\/?vox>/g, "")
-            .replace(/<\/?vox>/g, "")
-            .replace(/ .*$/, "")}','next')}, 600)">
+      <div class="timeItem fade-in-slide-up${previous[0] && index === 0 ? " isNext" : ""
+            } ${isLocal ? "isLocal" : ""
+            }" onclick="this.querySelector('.actions lord-icon').playerInstance.play();setTimeout(function() {showDetailedTime('${time
+              .replace(/<\/?vox>/g, "")
+              .replace(/<\/?vox>/g, "")
+              .replace(/ .*$/, "")}','next')}, 600)">
       <p>${time}</p>
         <div class="actions">
-        ${
-          isLocal
-            ? `<img style='width:20px;height:20px'
+        ${isLocal
+              ? `<img style='width:20px;height:20px'
                                 src="snap.png">`
-            : ""
-        }
+              : ""
+            }
           
                                   <lord-icon
                                     src="https://cdn.lordicon.com/zllgguxq.json" colors="primary:#fff,secondary:#b4b4b4"
-                                    style="width:25px;height:25px;margin-left:5px;${
-                                      !localStorage.getItem("extVOASA")
-                                        ? "display: none"
-                                        : ""
-                                    }">
+                                    style="width:25px;height:25px;margin-left:5px;${!localStorage.getItem("extVOASA")
+              ? "display: none"
+              : ""
+            }">
                                   </lord-icon>
         </div>
       </div>
@@ -1504,18 +1484,16 @@ function processInfo(evoxId, type, addMore, comego) {
                 }
 
                 stations.forEach((station, index) => {
-                  container.innerHTML += `<div class="item" id="global-station-${
-                    station.StopCode
-                  }">
+                  container.innerHTML += `<div class="item" id="global-station-${station.StopCode
+                    }">
                                             <div class="stationName">${capitalizeWords(
-                                              station.StopDescr
-                                            )}</div>
+                      station.StopDescr
+                    )}</div>
                                             <div class="info">
                                                 <div class="text">
                                                     <span>Επόμενη άφιξη</span>
-                                                    <span id="station-${
-                                                      station.StopCode
-                                                    }"><!--<div class="loaderTimes"></div>--><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                                                    <span id="station-${station.StopCode
+                    }"><!--<div class="loaderTimes"></div>--><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
         <path opacity="0.5"
             d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
             fill="#8fceff" />
@@ -1525,18 +1503,14 @@ function processInfo(evoxId, type, addMore, comego) {
     </svg></span>
                                                 </div>
                                             </div>
-                                            <div class="fav-actions"${
-                                              !localStorage.getItem("extVOASA")
-                                                ? ' style="display: none"'
-                                                : ""
-                                            }>
-                                            <div id="start-schedo-station-${
-                                              station.StopCode
-                                            }" onclick="addInfinity('${
-                    busInfo.bus
-                  }', '${
-                    station.StopCode
-                  }', 'showUp', this)" style="display:none" class="button-action glowUpGBSM">
+                                            <div class="fav-actions"${!localStorage.getItem("extVOASA")
+                      ? ' style="display: none"'
+                      : ""
+                    }>
+                                            <div id="start-schedo-station-${station.StopCode
+                    }" onclick="addInfinity('${busInfo.bus
+                    }', '${station.StopCode
+                    }', 'showUp', this)" style="display:none" class="button-action glowUpGBSM">
                                                     <svg class="glowUpGlobaltxt_title" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5023 14.3674L20.5319 9.35289C21.2563 8.63072 21.6185 8.26963 21.8092 7.81046C22 7.3513 22 6.84065 22 5.81937V5.33146C22 3.76099 22 2.97576 21.5106 2.48788C21.0213 2 20.2337 2 18.6585 2H18.1691C17.1447 2 16.6325 2 16.172 2.19019C15.7114 2.38039 15.3493 2.74147 14.6249 3.46364L9.59522 8.47817C8.74882 9.32202 8.224 9.84526 8.02078 10.3506C7.95657 10.5103 7.92446 10.6682 7.92446 10.8339C7.92446 11.5238 8.48138 12.0791 9.59522 13.1896L9.74492 13.3388L11.4985 11.5591C11.7486 11.3053 12.1571 11.3022 12.4109 11.5523C12.6647 11.8024 12.6678 12.2109 12.4177 12.4647L10.6587 14.2499L10.7766 14.3674C11.8905 15.4779 12.4474 16.0331 13.1394 16.0331C13.2924 16.0331 13.4387 16.006 13.5858 15.9518C14.1048 15.7607 14.6345 15.2325 15.5023 14.3674ZM17.8652 8.47854C17.2127 9.12904 16.1548 9.12904 15.5024 8.47854C14.8499 7.82803 14.8499 6.77335 15.5024 6.12284C16.1548 5.47233 17.2127 5.47233 17.8652 6.12284C18.5177 6.77335 18.5177 7.82803 17.8652 8.47854Z" fill="#FFF"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M2.77409 12.4814C3.07033 12.778 3.07004 13.2586 2.77343 13.5548L2.61779 13.7103C2.48483 13.8431 2.48483 14.058 2.61779 14.1908C2.75125 14.3241 2.96801 14.3241 3.10147 14.1908L4.8136 12.4807C5.1102 12.1845 5.59079 12.1848 5.88704 12.4814C6.18328 12.778 6.18298 13.2586 5.88638 13.5548L4.17426 15.2648C3.4481 15.9901 2.27116 15.9901 1.545 15.2648C0.818334 14.5391 0.818333 13.362 1.545 12.6362L1.70065 12.4807C1.99725 12.1845 2.47784 12.1848 2.77409 12.4814ZM7.29719 16.696C7.5903 16.9957 7.58495 17.4762 7.28525 17.7693L5.55508 19.4614C5.25538 19.7545 4.77481 19.7491 4.48171 19.4494C4.1886 19.1497 4.19395 18.6692 4.49365 18.3761L6.22382 16.684C6.52352 16.3909 7.00409 16.3963 7.29719 16.696ZM11.4811 18.118C11.7774 18.4146 11.7771 18.8952 11.4805 19.1915L9.76834 20.9015C9.63539 21.0343 9.63539 21.2492 9.76834 21.382C9.9018 21.5153 10.1186 21.5153 10.252 21.382L10.4077 21.2265C10.7043 20.9303 11.1849 20.9306 11.4811 21.2272C11.7774 21.5238 11.7771 22.0044 11.4805 22.3006L11.3248 22.4561C10.5987 23.1813 9.42171 23.1813 8.69556 22.4561C7.96889 21.7303 7.96889 20.5532 8.69556 19.8274L10.4077 18.1174C10.7043 17.8211 11.1849 17.8214 11.4811 18.118Z" fill="#FFF"/>
@@ -1563,13 +1537,10 @@ function processInfo(evoxId, type, addMore, comego) {
                             </path>
                         </svg>
                                                 </div>
-                                                <div id="2min-schedo-station-${
-                                                  station.StopCode
-                                                }" onclick="addInfinity('${
-                    busInfo.bus
-                  }', '${
-                    station.StopCode
-                  }', '2min', this)" class="button-action">
+                                                <div id="2min-schedo-station-${station.StopCode
+                    }" onclick="addInfinity('${busInfo.bus
+                    }', '${station.StopCode
+                    }', '2min', this)" class="button-action">
                                                     <svg class="glowUpGlobaltxt_title" xmlns="http://www.w3.org/2000/svg" fill="#fff" width="20px"
                                                         height="20px" viewBox="-1 0 19 19" class="cf-icon-svg">
                                                         <path
@@ -1590,11 +1561,10 @@ function processInfo(evoxId, type, addMore, comego) {
                             </path>
                         </svg>
                                                 </div>
-                                                <div onclick="handleClick('${
-                                                  station.StopCode
-                                                }', '${capitalizeWords(
-                    station.StopDescr
-                  )}')" class="button-action">
+                                                <div onclick="handleClick('${station.StopCode
+                    }', '${capitalizeWords(
+                      station.StopDescr
+                    )}')" class="button-action">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
                                                         <path opacity="0.5" d="M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z" fill="#fff"/>
                                                         <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" fill="#fff"/>
@@ -2007,9 +1977,9 @@ function findBusInfo2(
             if (
               route.route_descr === completeJson.descr ||
               route.route_descr ===
-                capitalizeGreek(
-                  document.getElementById("busInfoDesc").innerText
-                )
+              capitalizeGreek(
+                document.getElementById("busInfoDesc").innerText
+              )
             ) {
               console.warn("VOXNEW FOUND:", route, route.route_descr);
               activeRouteCode = route.route_code;
@@ -2445,11 +2415,10 @@ function spawnNearby() {
         if (dot.getAttribute("data-status") === "hidden") {
           this.innerHTML = `<p>${capitalizeWords(
             coord.StopDescr
-          )}</p><svg onclick="openStation('${
-            coord.StopCode
-          }', '${capitalizeWords(
-            coord.StopDescr
-          )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+          )}</p><svg onclick="openStation('${coord.StopCode
+            }', '${capitalizeWords(
+              coord.StopDescr
+            )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
           dot.setAttribute("data-status", "visible");
@@ -2679,8 +2648,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         const result1 = splitter.getSecondPart(); // Trim any leading or trailing spa
         document.getElementById(
           "busDirections"
-        ).innerHTML += `<div class="Block ${
-          go_or_back === "go" ? " active" : ""
+        ).innerHTML += `<div class="Block ${go_or_back === "go" ? " active" : ""
         }" onclick="changeToOpposite('go', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2690,8 +2658,7 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
         const result2 = splitter.getFirstPart(); // Trim any leading or trailing spa
         document.getElementById(
           "busDirections"
-        ).innerHTML += `<div class="Block${
-          go_or_back === "come" ? " active" : ""
+        ).innerHTML += `<div class="Block${go_or_back === "come" ? " active" : ""
         }" onclick="changeToOpposite('come', '${bus}', '${verification}', this)">
                                               <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M36 7L43 13.4615L36 21" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2774,25 +2741,23 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
           if (dot.getAttribute("data-status") === "hidden") {
             this.innerHTML = `<div class="dotBusInfoShow">
                     <p>${capitalizeWords(
-                      coord.StopDescr
-                    )}<!--${comego}EVXDEBUG--></p>
-                    <div class="dotrow">
-                    <div onclick="openStation('${
-                      coord.StopCode
-                    }', '${capitalizeWords(
               coord.StopDescr
-            )}', '${bus}', '${verification}');" class="actiondot">
+            )}<!--${comego}EVXDEBUG--></p>
+                    <div class="dotrow">
+                    <div onclick="openStation('${coord.StopCode
+              }', '${capitalizeWords(
+                coord.StopDescr
+              )}', '${bus}', '${verification}');" class="actiondot">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
                                                         <path opacity="0.5" d="M21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.3529 4.10856 18.175 4.01211 16 4H8C5.82497 4.01211 4.64706 4.10856 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983Z" fill="#fff"></path>
                                                         <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" fill="#fff"></path>
                                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.25 10.5C6.25 10.0858 6.58579 9.75 7 9.75H7.5C7.91421 9.75 8.25 10.0858 8.25 10.5C8.25 10.9142 7.91421 11.25 7.5 11.25H7C6.58579 11.25 6.25 10.9142 6.25 10.5ZM9.75 10.5C9.75 10.0858 10.0858 9.75 10.5 9.75H17C17.4142 9.75 17.75 10.0858 17.75 10.5C17.75 10.9142 17.4142 11.25 17 11.25H10.5C10.0858 11.25 9.75 10.9142 9.75 10.5ZM6.25 14C6.25 13.5858 6.58579 13.25 7 13.25H7.5C7.91421 13.25 8.25 13.5858 8.25 14C8.25 14.4142 7.91421 14.75 7.5 14.75H7C6.58579 14.75 6.25 14.4142 6.25 14ZM9.75 14C9.75 13.5858 10.0858 13.25 10.5 13.25H17C17.4142 13.25 17.75 13.5858 17.75 14C17.75 14.4142 17.4142 14.75 17 14.75H10.5C10.0858 14.75 9.75 14.4142 9.75 14ZM6.25 17.5C6.25 17.0858 6.58579 16.75 7 16.75H7.5C7.91421 16.75 8.25 17.0858 8.25 17.5C8.25 17.9142 7.91421 18.25 7.5 18.25H7C6.58579 18.25 6.25 17.9142 6.25 17.5ZM9.75 17.5C9.75 17.0858 10.0858 16.75 10.5 16.75H17C17.4142 16.75 17.75 17.0858 17.75 17.5C17.75 17.9142 17.4142 18.25 17 18.25H10.5C10.0858 18.25 9.75 17.9142 9.75 17.5Z" fill="#fff"></path>
                                                         </svg></div>
 
-                    <div onclick='walkMeTo("${coord.lng}", "${
-              coord.lat
-            }", event, "${capitalizeWords(
-              coord.StopDescr
-            )}")' class="actiondot"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
+                    <div onclick='walkMeTo("${coord.lng}", "${coord.lat
+              }", event, "${capitalizeWords(
+                coord.StopDescr
+              )}")' class="actiondot"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-768.000000, -48.000000)" fill-rule="nonzero">
             <g transform="translate(768.000000, 48.000000)">
@@ -2812,11 +2777,10 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
             return;
             this.innerHTML = `<p>${capitalizeWords(
               coord.StopDescr
-            )}{EVX-DEBUG-3}</p><svg onclick="openStation('${
-              coord.StopCode
-            }', '${capitalizeWords(
-              coord.StopDescr
-            )}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+            )}{EVX-DEBUG-3}</p><svg onclick="openStation('${coord.StopCode
+              }', '${capitalizeWords(
+                coord.StopDescr
+              )}', '${bus}', '${verification}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
           } else {
@@ -3156,8 +3120,7 @@ function showDetailedTime(time, type, text) {
           foundMatch = true;
         } else {
           console.log(
-            `None: ${schedo.bus} ${schedo.time} ${schedo.id},\nLocal: ${
-              document.getElementById("busInfoID").innerText
+            `None: ${schedo.bus} ${schedo.time} ${schedo.id},\nLocal: ${document.getElementById("busInfoID").innerText
             } ${time} ${extVOASA}`
           );
         }
@@ -3292,18 +3255,15 @@ function showVerticalStations() {
     keepForVerticalStations.stops.forEach((station) => {
       document.getElementById(
         "stationsSpawnVertical"
-      ).innerHTML += `<div id="global-vertical-station-${
-        station.StopCode
+      ).innerHTML += `<div id="global-vertical-station-${station.StopCode
       }" class="timeItem fade-in-slide-up">
-                                        <div onclick="showStopDetails('${
-                                          station.StopCode
-                                        }', '${capitalizeWords(
-        station.StopDescr
-      )}')" class="rowDefault"><p>${capitalizeWords(station.StopDescr)}</p>
+                                        <div onclick="showStopDetails('${station.StopCode
+        }', '${capitalizeWords(
+          station.StopDescr
+        )}')" class="rowDefault"><p>${capitalizeWords(station.StopDescr)}</p>
                                         <div class="actions">
-                                            <span id="timeFor-${
-                                              station.StopCode
-                                            }"><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                                            <span id="timeFor-${station.StopCode
+        }"><svg class="compassAnim" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
         <path opacity="0.5"
             d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
             fill="#8fceff" />
@@ -3316,16 +3276,28 @@ function showVerticalStations() {
                                         </div></div>
                                         <div style="display: none" class='moreActions'>
                                         <div onclick="addActivity('${capitalizeWords(
-                                          station.StopDescr
-                                        )}', '${
-        station.StopCode
-      }', this)" style="display: none" class="themeButton">
+          station.StopDescr
+        )}', '${station.StopCode
+        }', this)" style="display: none" class="themeButton">
                                             Παρακολούθηση
                                         </div>
                                         <div style="display: none" class="themeButton">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 1C10.9477 1 10.5 1.44772 10.5 2V3H9.99998C7.23864 3 4.99999 5.23825 4.99999 7.99975V11C4.99999 11.7377 4.76718 12.5722 4.39739 13.4148C4.03165 14.2482 3.55876 15.0294 3.14142 15.6439C2.38188 16.7624 2.85216 18.5301 4.40564 18.8103C5.42144 18.9935 6.85701 19.2115 8.54656 19.3527C8.54454 19.4015 8.54352 19.4506 8.54352 19.5C8.54352 21.433 10.1105 23 12.0435 23C13.9765 23 15.5435 21.433 15.5435 19.5C15.5435 19.4482 15.5424 19.3966 15.5402 19.3453C17.1921 19.204 18.596 18.9903 19.5943 18.8103C21.1478 18.5301 21.6181 16.7624 20.8586 15.6439C20.4412 15.0294 19.9683 14.2482 19.6026 13.4148C19.2328 12.5722 19 11.7377 19 11V7.99975C19 5.23825 16.7613 3 14 3H13.5V2C13.5 1.44772 13.0523 1 12.5 1H11.5ZM12 19.5C12.5113 19.5 13.0122 19.4898 13.4997 19.4715C13.5076 20.2758 12.8541 20.9565 12.0435 20.9565C11.2347 20.9565 10.5803 20.2778 10.5872 19.4747C11.0473 19.491 11.5191 19.5 12 19.5ZM9.99998 5C8.34305 5 6.99999 6.34298 6.99999 7.99975V11C6.99999 12.1234 6.65547 13.2463 6.22878 14.2186C5.79804 15.2 5.25528 16.0911 4.79599 16.7675C4.78578 16.7825 4.78102 16.7969 4.77941 16.8113C4.77797 16.8242 4.77919 16.8362 4.78167 16.8458C6.3644 17.1303 9.00044 17.5 12 17.5C14.9995 17.5 17.6356 17.1303 19.2183 16.8458C19.2208 16.8362 19.222 16.8242 19.2206 16.8113C19.2189 16.7969 19.2142 16.7825 19.204 16.7675C18.7447 16.0911 18.2019 15.2 17.7712 14.2186C17.3445 13.2463 17 12.1234 17 11V7.99975C17 6.34298 15.6569 5 14 5H9.99998Z" fill="#d5d5d5"></path>
                             </svg> <vox>../</vox>
+                            <svg class="loadingInfi" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                            viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                            <path opacity="0.2" fill="#fff"
+                                d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                     s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                     c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                            <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                     C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                    from="0 20 20" to="360 20 20" dur="0.3s" repeatCount="indefinite" />
+                            </path>
+                        </svg>
                                         </div>
                                         </div>
                                     </div>`;
@@ -3379,8 +3351,7 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${
-                document.getElementById("busInfoID").innerText
+              `addInfinity('${document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3397,8 +3368,7 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${
-                document.getElementById("busInfoID").innerText
+              `addInfinity('${document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3411,8 +3381,7 @@ function showVerticalStations() {
             activity[1].style.display = "flex";
             activity[1].setAttribute(
               "onclick",
-              `addInfinity('${
-                document.getElementById("busInfoID").innerText
+              `addInfinity('${document.getElementById("busInfoID").innerText
               }', '${stop.StopCode}', 'showUp', this)`
             );
             activity[1].querySelector("vox").innerText = "Όταν εμφανιστεί";
@@ -3428,8 +3397,7 @@ function showVerticalStations() {
               activity[1].querySelector("vox").innerText = "2' μακριά";
               activity[1].setAttribute(
                 "onclick",
-                `addInfinity('${
-                  document.getElementById("busInfoID").innerText
+                `addInfinity('${document.getElementById("busInfoID").innerText
                 }', '${stop.StopCode}', '2min', this)`
               );
               activity[0].style.display = "flex";
@@ -3905,11 +3873,9 @@ function searchInInput() {
       );
       document.getElementById(
         "toSpawnFinds"
-      ).innerHTML = `<div onclick="spawnAndShowInfo('${
-        bus.LineID
-      }', 'remain', '${
-        bus.LineDescr
-      }',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
+      ).innerHTML = `<div onclick="spawnAndShowInfo('${bus.LineID
+      }', 'remain', '${bus.LineDescr
+        }',null,null, 'saveSearch')" class="Block simple-fadeIn match" style="opacity:0;">
       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.5 19.9815C16.0728 19.9415 17.1771 19.815 18 19.4151V20.9999C18 21.5522 17.5523 21.9999 17 21.9999H15.5C14.9477 21.9999 14.5 21.5522 14.5 20.9999V19.9815Z" fill="#FFF"></path>
 <path d="M6 19.415C6.82289 19.815 7.9272 19.9415 9.5 19.9815V20.9999C9.5 21.5522 9.05228 21.9999 8.5 21.9999H7C6.44772 21.9999 6 21.5522 6 20.9999V19.415Z" fill="#FFF"></path>
@@ -3919,9 +3885,8 @@ function searchInInput() {
 <path opacity="0.5" d="M5.5 9.5C5.5 10.9142 5.5 11.6213 5.93934 12.0607C6.37868 12.5 7.08579 12.5 8.5 12.5H15.5C16.9142 12.5 17.6213 12.5 18.0607 12.0607C18.5 11.6213 18.5 10.9142 18.5 9.5V6.99998C18.5 5.58578 18.5 4.87868 18.0607 4.43934C17.6213 4 16.9142 4 15.5 4H8.5C7.08579 4 6.37868 4 5.93934 4.43934C5.5 4.87868 5.5 5.58579 5.5 7V9.5Z" fill="#FFF"></path>
 <path d="M2.4 11.8L4 13L4.00093 9H3C2.44772 9 2 9.44772 2 10V11C2 11.3148 2.14819 11.6111 2.4 11.8Z" fill="#FFF"></path>
 <path d="M21 9H19.999L20 13L21.6 11.8C21.8518 11.6111 22 11.3148 22 11V10C22 9.44772 21.5522 9 21 9Z" fill="#FFF"></path>
-</svg>${
-        bus.LineID
-      }<svg style="transform: rotate(-35deg)" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+</svg>${bus.LineID
+        }<svg style="transform: rotate(-35deg)" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
   </div>${document.getElementById("toSpawnFinds").innerHTML}`;
@@ -3947,89 +3912,126 @@ function searchInInput() {
   document.getElementById("toSpawnFinds").classList.remove("hidden");
 }
 
-function addInfinity(busLineId, stationCode, type, el) {
+function addInfinity(busLineId, stationCode, type, el) { //Change: use route code instead of LineId to avoid bus routes conflicts
   el.classList.add("loading");
   const toFindRouteCode = evoxIds[activeEvoxId];
-  const linesSearch = fullLine.filter((item) => item.LineID === busLineId);
-  let routeCode = null;
-  if (linesSearch.length === 0) {
-    alert("Δεν βρέθηκε η γραμμή.");
+
+
+  let foundLineCode = null
+  let busHasNoMultipleRoutes = false;
+  if (toFindRouteCode.multiple) {
+    toFindRouteCode.multiple.forEach((route, i) => {
+      if (route.LineDescr === toFindRouteCode.descr) {
+        foundLineCode = route.LineCode
+      }
+    })
+  } else {
+    busHasNoMultipleRoutes = true
   }
-  linesSearch.forEach((line) => {
-    console.warn("Line found:", line);
-    const lineCode = line.LineCode;
-    fetch(
-      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
-        `https://telematics.oasa.gr/api/?act=webGetRoutes&p1=${lineCode}&keyOrigin=evoxEpsilon`
-      )}&vevox=${randomString()}`
-    )
-      .then((response) => response.json())
-      .then((routes) => {
-        console.log(routes);
-        if (routes) {
-          let matched = false;
-          const toFindRouteDescr = toFindRouteCode.descr;
-          const routeDescrs = routes.map((route) => route.RouteDescr);
 
-          routes.forEach((route) => {
-            const nearestMatchDescr = getNearestMatch(
-              toFindRouteDescr,
-              routeDescrs
-            );
-            if (route.RouteDescr === nearestMatchDescr) {
-              console.log(route.RouteCode, route.RouteDescr);
-              routeCode = route.RouteCode;
-              matched = true;
-              // You can uncomment this if you want to stop after finding the match
-              // return;
-            }
-          });
+  console.log(foundLineCode)
 
-          if (!matched) {
-            alert("Σφάλμα εύρεσης της γραμμής.");
-            //console.log("No matching route found.");
-            el.classList.remove("loading");
-            return;
-          } else {
-            console.log("OKAY");
-            if (type === "showUp" || type === "2min") {
-              if (localStorage.getItem("extVOASA")) {
-                fetch(
-                  `https://florida.evoxs.xyz/liveNotif?username=${localStorage.getItem(
-                    "t50-username"
-                  )}&deviceId=${localStorage.getItem(
-                    "extVOASA"
-                  )}&busId=${busLineId}&stationCode=${stationCode}&routeCode=${routeCode}&origin=resign${
-                    type === "2min" ? "&method=2minutes" : ""
-                  }&vevox=${randomString()}`
-                ) //&method=2minutes
-                  .then((response) => response.text())
-                  .then((data) => {
-                    console.log("SchedoInfi:", data);
-                    el.classList.remove("loading");
-                    //set
-                  })
-                  .catch((error) => {
-                    console.error("Failed to check for updates");
-                  });
-              } else {
-                alert(
-                  "Δεν έχετε συνδεθεί με το Florida. Παρακαλώ συνδεθείτε για να ενεργοποιήσετε τις ειδοποιήσεις."
-                );
+  //Do normal;
+  if (busHasNoMultipleRoutes === false) {
+    if (foundLineCode) {
+      const linesSearch = fullLine.filter((item) => item.LineID === busLineId && item.LineCode === foundLineCode);
+      mainProcess(linesSearch)
+      console.log("[EVX] Using Primary Method. Bus has multiple routes. Will use the active one.")
+    } else {
+      console.error("[EVX] Primary failed. No routes?")
+    }
+  } else {
+    const linesSearch = fullLine.filter((item) => item.LineID === busLineId);
+    mainProcess(linesSearch)
+    console.log("[EVX] Using Secondary Method. Bus has only one route.")
+  }
+  function mainProcess(linesSearch) {
+
+    let routeCode = null;
+    if (linesSearch.length === 0) {
+      alert("Δεν βρέθηκε η γραμμή.");
+    }
+
+    linesSearch.forEach((line) => {
+      console.warn("Line found:", line);
+      const lineCode = line.LineCode;
+      fetch(
+        `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
+          `https://telematics.oasa.gr/api/?act=webGetRoutes&p1=${lineCode}&keyOrigin=evoxEpsilon`
+        )}&vevox=${randomString()}`
+      )
+        .then((response) => response.json())
+        .then((routes) => {
+          console.log(routes);
+          if (routes) {
+            let matched = false;
+            const toFindRouteDescr = toFindRouteCode.descr;
+            const routeDescrs = routes.map((route) => route.RouteDescr);
+
+            routes.forEach((route) => {
+              const nearestMatchDescr = getNearestMatch(
+                toFindRouteDescr,
+                routeDescrs
+              );
+              if (route.RouteDescr === nearestMatchDescr) {
+                console.log(route.RouteCode, route.RouteDescr);
+                routeCode = route.RouteCode;
+                matched = true;
+                // You can uncomment this if you want to stop after finding the match
+                // return;
               }
+            });
+
+            if (!matched) {
+              alert("Σφάλμα εύρεσης της γραμμής.");
+              //console.log("No matching route found.");
+              el.classList.remove("loading");
+              return;
             } else {
-              alert(`Αγνωστος τύπος ειδοποίησης. ${type}`);
+              console.log("OKAY", routeCode);
+              if (type === "showUp" || type === "2min") {
+                if (localStorage.getItem("extVOASA")) {
+                  //el.classList.remove("loading");
+                  //console.warn("Notification Set Halted! DEBUG")
+                  //return;
+                  fetch(
+                    `https://florida.evoxs.xyz/liveNotif?username=${localStorage.getItem(
+                      "t50-username"
+                    )}&deviceId=${localStorage.getItem(
+                      "extVOASA"
+                    )}&busId=${busLineId}&stationCode=${stationCode}&routeCode=${routeCode}&origin=resign${type === "2min" ? "&method=2minutes" : ""
+                    }&vevox=${randomString()}`
+                  ) //&method=2minutes
+                    .then((response) => response.text())
+                    .then((data) => {
+                      console.log("SchedoInfi:", data);
+                      el.classList.remove("loading");
+                      //set
+                    })
+                    .catch((error) => {
+                      console.error("Failed to check for updates");
+                    });
+                } else {
+                  alert(
+                    "Δεν έχετε συνδεθεί με το Florida. Παρακαλώ συνδεθείτε για να ενεργοποιήσετε τις ειδοποιήσεις."
+                  );
+                }
+              } else {
+                alert(`Αγνωστος τύπος ειδοποίησης. ${type}`);
+              }
             }
+          } else {
+            alert("Σφάλμα εύρεσης της γραμμής. [Routes]");
           }
-        } else {
-          alert("Σφάλμα εύρεσης της γραμμής. [Routes]");
-        }
-      })
-      .catch((error) => {
-        el.classList.remove("loading");
-        console.error("Failed to check for updates");
-      });
-  });
+        })
+        .catch((error) => {
+          el.classList.remove("loading");
+          console.error("Failed to check for updates");
+        });
+    });
+  }
+  //if not ask.
+
 }
 
 function switchRouteTo(el) {
@@ -4299,9 +4301,8 @@ function handleActivity(startingJson, first) {
           document.getElementById("to-?").innerText = startingJson.stationName;
           document.getElementById("busidNoReq").innerText =
             startingJson.busName;
-          document.getElementById("howMuchActivity").innerText = `${min} ${
-            min >= 2 || min === 0 ? "λεπτά" : "λεπτό"
-          }`;
+          document.getElementById("howMuchActivity").innerText = `${min} ${min >= 2 || min === 0 ? "λεπτά" : "λεπτό"
+            }`;
 
           setBusIconLocation();
         }
@@ -4318,12 +4319,10 @@ function changeActivity() {
   const current = document
     .getElementById("progress-fill")
     .style.width.replace("%", "");
-  document.getElementById("progress-fill").style.width = `${
-    Number(current) + 10
-  }%`;
-  document.getElementById("progress-indicator").style.left = `${
-    Number(current) + 10
-  }%`;
+  document.getElementById("progress-fill").style.width = `${Number(current) + 10
+    }%`;
+  document.getElementById("progress-indicator").style.left = `${Number(current) + 10
+    }%`;
 }
 
 function addActivity(stationName, stationId, currentMinEl) {
@@ -4421,19 +4420,24 @@ function triggerSave(busId, busLineCode, RouteCode, type, stopCode) {
   }
 }
 
-function openFromMap(el, elem, old) {
+function openFromMap(el, elem, old, fromNotifications, event) {
   const busId = el.getAttribute("data-bus");
-  const busDescr = el.getAttribute("data-name");
+  let busDescr = el.getAttribute("data-name");
   const linesSearch = fullLine.filter((item) => item.LineID === busId);
+  if (fromNotifications) {
+    event.stopPropagation()
+    returnFromNotifications()
+  }
   linesSearch.forEach((line) => {
     if (line.LineDescr !== busDescr) {
       console.warn(
         "Line description mismatch:",
         line.LineDescr,
         "vs",
-        busDescr
+        busDescr, "Fixing."
       );
-      return;
+      busDescr = line.LineDescr
+      el.setAttribute("data-name", line.LineDescr)
     }
     const evoxId = generateRandomId(10);
     const busDataComplete = {
@@ -4602,9 +4606,8 @@ function openNotificationsView() {
 </svg>`;
       withLastUsed.forEach((device) => {
         devices.innerHTML += `<div class="timeItem">
-                                        <p>${
-                                          device.os === "macOS" ? apple : linux
-                                        }</p>
+                                        <p>${device.os === "macOS" ? apple : linux
+          }</p>
                                         <span>${device.extV}</span>
                                         <div class="actions">
                                             ${device.last_used}
@@ -4625,9 +4628,8 @@ function openNotificationsView() {
           document.getElementById(
             "current-device"
           ).innerHTML = `<div class="timeItem">
-                                        <p>${
-                                          item.os === "macOS" ? apple : linux
-                                        }</p>
+                                        <p>${item.os === "macOS" ? apple : linux
+            }</p>
                                         <span>${item.extV}</span>
                                     </div>`;
         }
@@ -4691,57 +4693,286 @@ function openNotificationsView() {
         document.getElementById("defaultNotice").style.display = null;
       }
     });
+  const notifications = document.getElementById("active-notifications");
 
+  const loading = `<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px"
+                                viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                                <path opacity="0.2" fill="#fff"
+                                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                             s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                             c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                                <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                             C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                                </path>
+                            </svg>`
+  notifications.innerHTML = loading;
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${
-      localStorage.getItem("extV")
-        ? localStorage.getItem("extV")
-        : localStorage.getItem("extVOASA")
+    )}&deviceId=${localStorage.getItem("extV")
+      ? localStorage.getItem("extV")
+      : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
     .then((data) => {
-      const notifications = document.getElementById("active-notifications");
-      notifications.innerHTML = "";
 
+
+
+      let totalNotifis = 0
       const countdown = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M20.75 13.25C20.75 18.08 16.83 22 12 22C7.17 22 3.25 18.08 3.25 13.25C3.25 8.42 7.17 4.5 12 4.5C16.83 4.5 20.75 8.42 20.75 13.25Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M12 8V13" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M9 2H15" stroke="#fff" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
       const twomin = `<svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="25px" height="25px" viewBox="-1 0 19 19" class="cf-icon-svg"><path d="M16.417 9.6A7.917 7.917 0 1 1 8.5 1.683 7.917 7.917 0 0 1 16.417 9.6zm-5.431 2.113H8.309l1.519-1.353q.223-.203.43-.412a2.974 2.974 0 0 0 .371-.449 2.105 2.105 0 0 0 .255-.523 2.037 2.037 0 0 0 .093-.635 1.89 1.89 0 0 0-.2-.889 1.853 1.853 0 0 0-.532-.63 2.295 2.295 0 0 0-.76-.37 3.226 3.226 0 0 0-.88-.12 2.854 2.854 0 0 0-.912.144 2.373 2.373 0 0 0-.764.42 2.31 2.31 0 0 0-.55.666 2.34 2.34 0 0 0-.274.89l1.491.204a1.234 1.234 0 0 1 .292-.717.893.893 0 0 1 1.227-.056.76.76 0 0 1 .222.568 1.002 1.002 0 0 1-.148.536 2.42 2.42 0 0 1-.389.472L6.244 11.77v1.295h4.742z"/></svg>`;
-      data.infinite.forEach((item) => {
-        notifications.innerHTML += `<div class="timeItem">
+      let isLastFetchDone = false;
+      data.infinite.forEach((item, i) => {
+        totalNotifis++
+        fetch(
+          `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
+            `https://telematics.oasa.gr/api/?act=getRouteName&p1=${item.known.route_code}&keyOrigin=evoxEpsilon`
+          )}&vevox=${randomString()}`
+        )
+          .then((response) => response.json())
+          .then((route_name) => {
+            console.log(route_name, "EVX")
+            const isLoading = !!notifications.querySelector("#loader-1");
+            if (i === 0 && isLoading) {
+              notifications.innerHTML = ""
+            }
+            if (i === data.infinite.length - 1) isLastFetchDone = true
+            notifications.innerHTML += `<div class="timeItem fade-in-slide-up infinity" style="display:none;">
+        <div class="timeItemContent">
                                         <p>${item.bus}</p>
                                         <span>${item.station}</span>
                                         <div class="actions">
-                                            ${
-                                              item.notificationType ===
-                                              "countDownBegin"
-                                                ? countdown
-                                                : twomin
-                                            }
+                                            ${item.notificationType ===
+                "countDownBegin"
+                ? countdown
+                : twomin
+              }
+                                        </div>
+                                        </div>
+                                         <div class="slidingOptionsFlorida">
+                                            <div class="button-action-global">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M2.75 6.16667C2.75 5.70644 3.09538 5.33335 3.52143 5.33335L6.18567 5.3329C6.71502 5.31841 7.18202 4.95482 7.36214 4.41691C7.36688 4.40277 7.37232 4.38532 7.39185 4.32203L7.50665 3.94993C7.5769 3.72179 7.6381 3.52303 7.72375 3.34536C8.06209 2.64349 8.68808 2.1561 9.41147 2.03132C9.59457 1.99973 9.78848 1.99987 10.0111 2.00002H13.4891C13.7117 1.99987 13.9056 1.99973 14.0887 2.03132C14.8121 2.1561 15.4381 2.64349 15.7764 3.34536C15.8621 3.52303 15.9233 3.72179 15.9935 3.94993L16.1083 4.32203C16.1279 4.38532 16.1333 4.40277 16.138 4.41691C16.3182 4.95482 16.8778 5.31886 17.4071 5.33335H19.9786C20.4046 5.33335 20.75 5.70644 20.75 6.16667C20.75 6.62691 20.4046 7 19.9786 7H3.52143C3.09538 7 2.75 6.62691 2.75 6.16667Z" fill="#FFF"/>
+<path d="M11.6068 21.9998H12.3937C15.1012 21.9998 16.4549 21.9998 17.3351 21.1366C18.2153 20.2734 18.3054 18.8575 18.4855 16.0256L18.745 11.945C18.8427 10.4085 18.8916 9.6402 18.45 9.15335C18.0084 8.6665 17.2628 8.6665 15.7714 8.6665H8.22905C6.73771 8.6665 5.99204 8.6665 5.55047 9.15335C5.10891 9.6402 5.15777 10.4085 5.25549 11.945L5.515 16.0256C5.6951 18.8575 5.78515 20.2734 6.66534 21.1366C7.54553 21.9998 8.89927 21.9998 11.6068 21.9998Z" fill="#FFF"/>
+</svg>
+                                                   
+                                                </div>
+                                                <div data-bus="${item.bus}" data-name="${route_name[0].route_descr || 'Unknown'}" class="button-action-global openFromNotifications">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-480.000000, -240.000000)">
+            <g transform="translate(480.000000, 240.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+                </path>
+                <path d="M21,4 C21,3.44772 20.5523,3 20,3 L15,3 C14.4477,3 14,3.44772 14,4 C14,4.55229 14.4477,5 15,5 L17.5858,5 L15.4766,7.10925 C16.0231,7.49844 16.5016,7.97695 16.8908,8.52347 L19,6.41424 L19,9 C19,9.55228 19.4477,10 20,10 C20.5523,10 21,9.55228 21,9 L21,4 Z M15.4765,7.10925 C14.4957,6.41079 13.2958,6 12,6 L5,6 C3.89543,6 3,6.89543 3,8 L3,19 C3,20.1046 3.89543,21 5,21 L16,21 C17.1046,21 18,20.1046 18,19 L18,12 C18,10.7042 17.5892,9.50428 16.8907,8.52347 L10.7071,14.7071 C10.3166,15.0976 9.68342,15.0976 9.29289,14.7071 C8.90237,14.3166 8.90237,13.6834 9.29289,13.2929 L15.4765,7.10925 Z" fill="#FFF">
+                </path>
+            </g>
+        </g>
+    </g>
+</svg>
+                                                   
+                                                </div>
+                                            
                                         </div>
                                     </div>`;
+          })
+          .catch((error) => {
+            console.error("EVX", error)
+          });
+
+
+
       });
+      const firstFetch = setInterval(function () {
+        if (isLastFetchDone === true) {
+          isLastFetchDone = false
+          clearInterval(firstFetch)
+          notifications.querySelectorAll(".timeItem.infinity").forEach(item => {
+            item.style.display = null
+            let startX = 0;
+            let currentX = 0;
+            let dragging = false;
+
+            const content = item.querySelector('.timeItemContent');
+            const sliding = item.querySelector('.slidingOptionsFlorida');
+            const slidingWidth = sliding.offsetWidth;
+
+            // Initialize sliding position
+            sliding.style.position = 'absolute';
+            sliding.style.top = '0';
+            sliding.style.bottom = '0';
+            sliding.style.right = `-${slidingWidth}px`;
+
+            item.addEventListener('touchstart', e => {
+              document.getElementById("busInfodefault").style.overflow = "hidden"
+              document.getElementById("notificationsView").style.overflow = "hidden"
+              startX = e.touches[0].clientX;
+              dragging = true;
+              content.style.transition = 'none';
+              sliding.style.transition = 'none';
+            });
+
+            item.addEventListener('touchmove', e => {
+              if (!dragging) return;
+              currentX = e.touches[0].clientX - startX;
+              if (currentX < 0) { // swipe left only
+                const moveX = Math.max(currentX, -slidingWidth); // limit to slidingWidth
+                content.style.transform = `translateX(${moveX}px)`;
+                sliding.style.right = `${-slidingWidth - moveX}px`; // move sliding in
+              }
+            });
+
+            item.addEventListener('touchend', e => {
+              document.getElementById("notificationsView").style.overflow = "auto"
+              document.getElementById("busInfodefault").style.overflow = "auto"
+              dragging = false;
+              content.style.transition = 'transform 0.2s';
+              sliding.style.transition = 'right 0.2s';
+
+              if (currentX < -slidingWidth / 2) {
+                item.classList.add('swiped');
+                content.style.transform = `translateX(-${slidingWidth}px)`;
+                sliding.style.right = `0px`;
+              } else {
+                item.classList.remove('swiped');
+                content.style.transform = `translateX(0)`;
+                sliding.style.right = `-${slidingWidth}px`;
+              }
+
+              currentX = 0;
+            });
+
+            item.querySelectorAll('.slidingOptionsFlorida .button-action-global.openFromNotifications').forEach(btn => {
+              console.log(btn, "EVXVX")
+              btn.addEventListener('click', event => {
+                event.stopPropagation()
+                openFromMap(btn, null, null, true, event);
+              });
+            });
+          });
+        }
+      }, 100)
 
       const clock = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z" fill="#fff"/>
 <path d="M12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2343 11.5174 13.3346L16.1372 16.0019C16.6155 16.278 17.2271 16.1141 17.5032 15.6358C17.7793 15.1575 17.6155 14.5459 17.1372 14.2698L13 11.8812V6C13 5.44772 12.5523 5 12 5Z" fill="#fff"/>
 </svg>`;
-      data.schedo.forEach((item) => {
-        notifications.innerHTML += `<div class="timeItem">
+      data.schedo.forEach((item, i) => {
+        const isLoading = !!notifications.querySelector("#loader-1");
+        if (i === 0 && isLoading) notifications.innerHTML = ""
+        totalNotifis++
+        notifications.innerHTML += `<div class="timeItem fade-in-slide-up clockNotifs" style="display:none;">
+        <div class="timeItemContent">
                                         <p>${item.bus}</p>
                                         <span>${item.time}</span>
                                         <div class="actions">
                                             ${clock}
                                         </div>
+                                        </div>
+                                         <div class="slidingOptionsFlorida">
+                                            <div class="button-action-global">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M2.75 6.16667C2.75 5.70644 3.09538 5.33335 3.52143 5.33335L6.18567 5.3329C6.71502 5.31841 7.18202 4.95482 7.36214 4.41691C7.36688 4.40277 7.37232 4.38532 7.39185 4.32203L7.50665 3.94993C7.5769 3.72179 7.6381 3.52303 7.72375 3.34536C8.06209 2.64349 8.68808 2.1561 9.41147 2.03132C9.59457 1.99973 9.78848 1.99987 10.0111 2.00002H13.4891C13.7117 1.99987 13.9056 1.99973 14.0887 2.03132C14.8121 2.1561 15.4381 2.64349 15.7764 3.34536C15.8621 3.52303 15.9233 3.72179 15.9935 3.94993L16.1083 4.32203C16.1279 4.38532 16.1333 4.40277 16.138 4.41691C16.3182 4.95482 16.8778 5.31886 17.4071 5.33335H19.9786C20.4046 5.33335 20.75 5.70644 20.75 6.16667C20.75 6.62691 20.4046 7 19.9786 7H3.52143C3.09538 7 2.75 6.62691 2.75 6.16667Z" fill="#FFF"/>
+<path d="M11.6068 21.9998H12.3937C15.1012 21.9998 16.4549 21.9998 17.3351 21.1366C18.2153 20.2734 18.3054 18.8575 18.4855 16.0256L18.745 11.945C18.8427 10.4085 18.8916 9.6402 18.45 9.15335C18.0084 8.6665 17.2628 8.6665 15.7714 8.6665H8.22905C6.73771 8.6665 5.99204 8.6665 5.55047 9.15335C5.10891 9.6402 5.15777 10.4085 5.25549 11.945L5.515 16.0256C5.6951 18.8575 5.78515 20.2734 6.66534 21.1366C7.54553 21.9998 8.89927 21.9998 11.6068 21.9998Z" fill="#FFF"/>
+</svg>
+                                                   
+                                                </div>
+                                                <div data-bus="${item.bus}" data-name="Unknown" class="button-action-global openFromNotifications">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-480.000000, -240.000000)">
+            <g transform="translate(480.000000, 240.000000)">
+                <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" fill-rule="nonzero">
+                </path>
+                <path d="M21,4 C21,3.44772 20.5523,3 20,3 L15,3 C14.4477,3 14,3.44772 14,4 C14,4.55229 14.4477,5 15,5 L17.5858,5 L15.4766,7.10925 C16.0231,7.49844 16.5016,7.97695 16.8908,8.52347 L19,6.41424 L19,9 C19,9.55228 19.4477,10 20,10 C20.5523,10 21,9.55228 21,9 L21,4 Z M15.4765,7.10925 C14.4957,6.41079 13.2958,6 12,6 L5,6 C3.89543,6 3,6.89543 3,8 L3,19 C3,20.1046 3.89543,21 5,21 L16,21 C17.1046,21 18,20.1046 18,19 L18,12 C18,10.7042 17.5892,9.50428 16.8907,8.52347 L10.7071,14.7071 C10.3166,15.0976 9.68342,15.0976 9.29289,14.7071 C8.90237,14.3166 8.90237,13.6834 9.29289,13.2929 L15.4765,7.10925 Z" fill="#FFF">
+                </path>
+            </g>
+        </g>
+    </g>
+</svg>
+                                                   
+                                                </div>
+                                            
+                                        </div>
                                     </div>`;
       });
 
-      if (notifications.innerHTML === "") {
+      setTimeout(function () {
+        notifications.querySelectorAll(".timeItem.clockNotifs").forEach(item => {
+          item.style.display = null
+          let startX = 0;
+          let currentX = 0;
+          let dragging = false;
+
+          const content = item.querySelector('.timeItemContent');
+          const sliding = item.querySelector('.slidingOptionsFlorida');
+          const slidingWidth = sliding.offsetWidth;
+
+          // Initialize sliding position
+          sliding.style.position = 'absolute';
+          sliding.style.top = '0';
+          sliding.style.bottom = '0';
+          sliding.style.right = `-${slidingWidth}px`;
+
+          item.addEventListener('touchstart', e => {
+            document.getElementById("busInfodefault").style.overflow = "hidden"
+            document.getElementById("notificationsView").style.overflow = "hidden"
+            startX = e.touches[0].clientX;
+            dragging = true;
+            content.style.transition = 'none';
+            sliding.style.transition = 'none';
+          });
+
+          item.addEventListener('touchmove', e => {
+            if (!dragging) return;
+            currentX = e.touches[0].clientX - startX;
+            if (currentX < 0) { // swipe left only
+              const moveX = Math.max(currentX, -slidingWidth); // limit to slidingWidth
+              content.style.transform = `translateX(${moveX}px)`;
+              sliding.style.right = `${-slidingWidth - moveX}px`; // move sliding in
+            }
+          });
+
+          item.addEventListener('touchend', e => {
+            document.getElementById("notificationsView").style.overflow = "auto"
+            document.getElementById("busInfodefault").style.overflow = "auto"
+            dragging = false;
+            content.style.transition = 'transform 0.2s';
+            sliding.style.transition = 'right 0.2s';
+
+            if (currentX < -slidingWidth / 2) {
+              item.classList.add('swiped');
+              content.style.transform = `translateX(-${slidingWidth}px)`;
+              sliding.style.right = `0px`;
+            } else {
+              item.classList.remove('swiped');
+              content.style.transform = `translateX(0)`;
+              sliding.style.right = `-${slidingWidth}px`;
+            }
+
+            currentX = 0;
+          });
+
+          item.querySelectorAll('.slidingOptionsFlorida .button-action-global.openFromNotifications').forEach(btn => {
+            console.log(btn, "EVXVX")
+            btn.addEventListener('click', event => {
+              event.stopPropagation()
+              openFromMap(btn, null, null, true, event);
+            });
+          });
+        });
+      }, 300)
+
+
+      if (totalNotifis === 0) {
         notifications.innerHTML += `
         <div style="display:flex;flex-direction:column;width:100%;justify-content:center;align-items:center;text-align:center">
         <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24" fill="none">
@@ -5072,9 +5303,8 @@ function changeScreen(el) {
       const isMovingDown = newPage > activePage;
 
       const rotateAngle = isMovingDown ? -45 : 45;
-      arrow.style.transform = `translateY(${
-        (activePage - 1) * 80
-      }px) rotate(${rotateAngle}deg)`;
+      arrow.style.transform = `translateY(${(activePage - 1) * 80
+        }px) rotate(${rotateAngle}deg)`;
 
       setTimeout(() => {
         arrow.style.transform = `translateY(${yOffset}px) rotate(${rotateAngle}deg)`;
@@ -5276,10 +5506,9 @@ function triggerNotificationsReload() {
   fetch(
     `https://florida.evoxs.xyz/activeSchedo?username=${localStorage.getItem(
       "t50-username"
-    )}&deviceId=${
-      localStorage.getItem("extV")
-        ? localStorage.getItem("extV")
-        : localStorage.getItem("extVOASA")
+    )}&deviceId=${localStorage.getItem("extV")
+      ? localStorage.getItem("extV")
+      : localStorage.getItem("extVOASA")
     }&vevox=${randomString()}`
   )
     .then((response) => response.json())
@@ -5425,11 +5654,11 @@ async function searchAndMarkPlaces(query) {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
           query
         )}.json?` +
-          `access_token=${accessToken}` +
-          `&limit=10` +
-          `&proximity=${userLng},${userLat}` +
-          `&types=place,address,poi` +
-          `&bbox=${greeceBBox.join(",")}`
+        `access_token=${accessToken}` +
+        `&limit=10` +
+        `&proximity=${userLng},${userLat}` +
+        `&types=place,address,poi` +
+        `&bbox=${greeceBBox.join(",")}`
       );
       const data = await response.json();
 
@@ -5565,11 +5794,10 @@ function spawnClosestStops(focusedSpot) {
           if (dot.getAttribute("data-status") === "hidden") {
             this.innerHTML = `<p>${capitalizeWords(
               coord.StopDescr
-            )}</p><svg onclick="openStation('${
-              coord.StopCode
-            }', '${capitalizeWords(
-              coord.StopDescr
-            )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+            )}</p><svg onclick="openStation('${coord.StopCode
+              }', '${capitalizeWords(
+                coord.StopDescr
+              )}');" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
             dot.setAttribute("data-status", "visible");
@@ -5613,7 +5841,7 @@ function spawnClosestStops(focusedSpot) {
         .addTo(map);
       markers_intel.push(marker);
     })
-    .catch((error) => {});
+    .catch((error) => { });
 }
 
 function openExtLineId(lineId, desc, elem) {

@@ -594,20 +594,21 @@
   --fade-color: #090f1bfc;
   /*121216*/
   /* Slightly lighter shade, still close to OLED black */
-  background: linear-gradient(
-      to bottom left,
+  background: linear-gradient(to bottom left,
       rgba(63, 66, 77, 0) 50%,
-      /* Keep dark to transparent */ rgba(63, 66, 77, 0.05) 75%,
-      /* Very subtle brightness */ rgba(63, 66, 77, 0.1) 100%
-    ),
+      /* Keep dark to transparent */
+      rgba(63, 66, 77, 0.05) 75%,
+      /* Very subtle brightness */
+      rgba(63, 66, 77, 0.1) 100%),
     /* Slightly more visible */
-      linear-gradient(
-        to top,
-        rgba(10, 25, 50, 0) 50%,
-        /* Keep dark blue hint */ rgba(0, 20, 80, 0.03) 75%,
-        /* Very subtle brighter blue */ rgba(0, 0, 50, 0.05) 100%
-      ),
-    /* Slightly brighter blue */ var(--fade-color);
+    linear-gradient(to top,
+      rgba(10, 25, 50, 0) 50%,
+      /* Keep dark blue hint */
+      rgba(0, 20, 80, 0.03) 75%,
+      /* Very subtle brighter blue */
+      rgba(0, 0, 50, 0.05) 100%),
+    /* Slightly brighter blue */
+    var(--fade-color);
   background-repeat: no-repeat;
   background-size: 300% 300%;
 }
@@ -653,12 +654,10 @@
   width: 100%;
   height: 100%;
 
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 100%);
 
   background-size: 200% 100%;
   background-repeat: no-repeat;
@@ -709,20 +708,21 @@
   /* Full height */
   z-index: 1;
   /* Keeps the content in front of the pseudo-element */
-  background: linear-gradient(
-      to bottom left,
+  background: linear-gradient(to bottom left,
       rgba(0, 0, 0, 0) 50%,
-      /* Darker to transparent */ rgba(0, 0, 0, 0.1) 75%,
-      /* Darker to slightly visible */ rgba(0, 0, 0, 0.2) 100%
-    ),
+      /* Darker to transparent */
+      rgba(0, 0, 0, 0.1) 75%,
+      /* Darker to slightly visible */
+      rgba(0, 0, 0, 0.2) 100%),
     /* Darker still */
-      linear-gradient(
-        to top,
-        rgba(10, 25, 50, 0) 50%,
-        /* Darker gradient with a hint of blue */ rgba(0, 20, 80, 0.05) 75%,
-        /* Darker blue */ rgba(0, 0, 50, 0.08) 100%
-      ),
-    /* Darker blue */ var(--fade-color);
+    linear-gradient(to top,
+      rgba(10, 25, 50, 0) 50%,
+      /* Darker gradient with a hint of blue */
+      rgba(0, 20, 80, 0.05) 75%,
+      /* Darker blue */
+      rgba(0, 0, 50, 0.08) 100%),
+    /* Darker blue */
+    var(--fade-color);
 }
 
 /* Create a pseudo-element to hold the background image */
@@ -748,28 +748,20 @@
 #phone.login {
   --fade-color: #000000;
 
-  background: radial-gradient(
-      circle at 30% 30%,
+  background: radial-gradient(circle at 30% 30%,
       rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 80%
-    ),
-    radial-gradient(
-      circle at 70% 70%,
+      rgba(255, 255, 255, 0) 80%),
+    radial-gradient(circle at 70% 70%,
       rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 90%
-    ),
-    linear-gradient(
-      to top right,
+      rgba(255, 255, 255, 0) 90%),
+    linear-gradient(to top right,
       rgba(244, 31, 31, 0) 50%,
       rgba(244, 31, 31, 0.1) 75%,
-      rgba(244, 31, 31, 0.2) 100%
-    ),
-    linear-gradient(
-      to bottom left,
+      rgba(244, 31, 31, 0.2) 100%),
+    linear-gradient(to bottom left,
       rgba(255, 121, 121, 0) 50%,
       rgba(255, 121, 121, 0.1) 75%,
-      rgba(255, 121, 121, 0.2) 100%
-    ),
+      rgba(255, 121, 121, 0.2) 100%),
     var(--fade-color);
 
   background-repeat: no-repeat;
@@ -981,8 +973,21 @@
   font-size: 14px;
 }
 
+.themeButton vox {
+  white-space: nowrap;
+}
+
 .themeButton svg {
   margin-right: 5px;
+}
+
+.themeButton .loadingInfi {
+  margin-left: 10px;
+  display: none;
+}
+
+.themeButton.loading .loadingInfi {
+  display: flex;
 }
 
 .themeButton.timetable {
@@ -997,11 +1002,9 @@
   left: 0;
   width: 100%;
   height: 280px;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 22, 0) 0%,
-    var(--fade-color) 98%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 20, 22, 0) 0%,
+      var(--fade-color) 98%);
   pointer-events: none;
 }
 
@@ -1012,11 +1015,9 @@
   left: 0;
   width: 100%;
   height: 280px;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 22, 0) 0%,
-    var(--fade-color) 98%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 20, 22, 0) 0%,
+      var(--fade-color) 98%);
   pointer-events: none;
 }
 
@@ -1165,16 +1166,14 @@
   /* Dark mode colors and gradient */
   background: #1f42f425;
   /* Fallback for browsers that don't support gradients */
-  background: linear-gradient(
-    135deg,
-    #293fac2d 25%,
-    #00000042 25%,
-    #00000042 50%,
-    #293fac2d 50%,
-    #293fac2d 75%,
-    #00000042 75%,
-    #00000042
-  );
+  background: linear-gradient(135deg,
+      #293fac2d 25%,
+      #00000042 25%,
+      #00000042 50%,
+      #293fac2d 50%,
+      #293fac2d 75%,
+      #00000042 75%,
+      #00000042);
   background-size: 40px 40px;
 
   /* Animation */
@@ -1365,12 +1364,10 @@
 }
 
 .skeleton-button2 {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
@@ -1386,22 +1383,18 @@
 }
 
 .skeleton-text {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
 .skeleton-button {
-  background: linear-gradient(
-    90deg,
-    #e0e0e000 25%,
-    #ffffff17 50%,
-    #e0e0e000 75%
-  );
+  background: linear-gradient(90deg,
+      #e0e0e000 25%,
+      #ffffff17 50%,
+      #e0e0e000 75%);
   background-size: 200% 100%;
 }
 
@@ -1555,6 +1548,49 @@
   margin-bottom: 10px;
   min-height: 70px;
   transition: background-color 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+  z-index: 9;
+}
+
+.slidingOptionsFlorida {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  border-radius: 0 10px 10px 0;
+  gap: 0;
+  z-index: 10;
+}
+
+.timeItemContent {
+  display: flex;
+  width: 100%;
+  transition: transform 0.2s;
+  align-items: center;
+}
+
+.timeItemContent {
+  flex: 1;
+  /* fill available width */
+  z-index: 1;
+  /* above sliding */
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+
+.timetableSpawn .timeItem.swiped .timeItemContent {
+  transform: translateX(-120px);
+  /* slide left by sliding width */
 }
 
 .timeItem.forCheckboxes {
@@ -2658,11 +2694,11 @@ body {
 }
 
 /* Anahtarın etkin hale gelmesindeki stil değişiklikleri */
-.toggle-switch .toggle-input:checked + .toggle-label {
+.toggle-switch .toggle-input:checked+.toggle-label {
   background-color: #4caf50;
 }
 
-.toggle-switch .toggle-input:checked + .toggle-label::before {
+.toggle-switch .toggle-input:checked+.toggle-label::before {
   transform: translateX(16px);
 }
 
@@ -2671,11 +2707,11 @@ body {
   background-color: #bebebe;
 }
 
-.toggle-switch.light .toggle-input:checked + .toggle-label {
+.toggle-switch.light .toggle-input:checked+.toggle-label {
   background-color: #9b9b9b;
 }
 
-.toggle-switch.light .toggle-input:checked + .toggle-label::before {
+.toggle-switch.light .toggle-input:checked+.toggle-label::before {
   transform: translateX(6px);
 }
 
@@ -2684,11 +2720,11 @@ body {
   background-color: #4b4b4b;
 }
 
-.toggle-switch.dark .toggle-input:checked + .toggle-label {
+.toggle-switch.dark .toggle-input:checked+.toggle-label {
   background-color: #717171;
 }
 
-.toggle-switch.dark .toggle-input:checked + .toggle-label::before {
+.toggle-switch.dark .toggle-input:checked+.toggle-label::before {
   transform: translateX(16px);
 }
 
@@ -3268,8 +3304,33 @@ body {
   width: 100%;
 }
 
-.search-input-container > input,
-#search-container > button {
+.button-action-global {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  background-color: #40404372;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  /*border-radius: 20px;*/
+  color: #fff;
+  flex: -1;
+  gap: 5px;
+  /*Take full space*/
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+}
+
+.slidingOptionsFlorida .button-action-global:nth-child(1) {
+  background-color: #cd626272;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.search-input-container>input,
+#search-container>button {
   background-color: rgb(var(--theme-medium));
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -3287,8 +3348,8 @@ body {
     width 0.4s ease-in-out;
 }
 
-.search-input-container > input,
-#search-container > button {
+.search-input-container>input,
+#search-container>button {
   background-color: rgb(255 255 255 / 10%);
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -3298,7 +3359,7 @@ body {
 }
 
 .search-input-container:has(input:focus),
-#search-container > button:focus {
+#search-container>button:focus {
   background-color: rgba(255, 255, 255, 0.088);
 }
 
@@ -3313,12 +3374,12 @@ body {
   /*padding-right: 90px;*/
 }
 
-.search-input-container > img {
+.search-input-container>img {
   height: 1.5rem;
   margin: var(--isOldDevice);
 }
 
-.search-input-container > input {
+.search-input-container>input {
   width: 100%;
   height: 3.25rem;
   background-color: transparent;
@@ -3591,28 +3652,20 @@ select:focus {
   padding: 25px;
   box-sizing: border-box;
   color: #fff;
-  background: radial-gradient(
-      circle at 30% 30%,
+  background: radial-gradient(circle at 30% 30%,
       rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 80%
-    ),
-    radial-gradient(
-      circle at 70% 70%,
+      rgba(255, 255, 255, 0) 80%),
+    radial-gradient(circle at 70% 70%,
       rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 90%
-    ),
-    linear-gradient(
-      to top right,
+      rgba(255, 255, 255, 0) 90%),
+    linear-gradient(to top right,
       rgba(244, 31, 31, 0) 50%,
       rgba(244, 31, 31, 0.1) 75%,
-      rgba(244, 31, 31, 0.2) 100%
-    ),
-    linear-gradient(
-      to bottom left,
+      rgba(244, 31, 31, 0.2) 100%),
+    linear-gradient(to bottom left,
       rgba(255, 121, 121, 0) 50%,
       rgba(255, 121, 121, 0.1) 75%,
-      rgba(255, 121, 121, 0.2) 100%
-    ),
+      rgba(255, 121, 121, 0.2) 100%),
     var(--fade-color);
   background-repeat: no-repeat;
   background-size: 300% 300%;
@@ -3778,6 +3831,7 @@ vox.keepDefault {
   object-fit: cover;
   border-radius: 50%;
 }
+
 .evoxAccountPreview .accountInfo {
   display: flex;
   flex-direction: column;
@@ -3814,6 +3868,7 @@ vox.keepDefault {
   gap: 10px;
   align-items: center;
 }
+
 .rowCardsContainer .card .icon {
   width: 40px;
   height: 40px;
@@ -3834,6 +3889,7 @@ vox.keepDefault {
   align-items: left;
   gap: 0;
 }
+
 .evoxAccountButtons {
   display: flex;
   flex-direction: column;
@@ -3886,13 +3942,16 @@ vox.keepDefault {
   gap: 0;
   color: #fff;
 }
+
 .evoxAccountButtons .button .itemsCol p:nth-child(1) {
   font-weight: bold;
 }
+
 .evoxAccountButtons .button .itemsCol p:nth-child(2) {
   font-size: 13px;
   color: #ffffff99;
 }
+
 .evoxAccountButtons .button .farRight {
   display: flex;
   flex-direction: row;
@@ -4160,22 +4219,22 @@ vox.keepDefault {
   width: 1px;
 }
 
-.radioInput input[type="radio"]:checked + span {
+.radioInput input[type="radio"]:checked+span {
   box-shadow: 0 0 0 0.0625em #3b3b3b;
   background-color: rgb(255 255 255);
   z-index: 1;
   color: #000000;
 }
 
-.radioInput label:nth-child(1) input[type="radio"]:checked + span {
+.radioInput label:nth-child(1) input[type="radio"]:checked+span {
   background-color: rgb(182, 182, 182);
 }
 
-.radioInput label:nth-child(2) input[type="radio"]:checked + span {
+.radioInput label:nth-child(2) input[type="radio"]:checked+span {
   background-color: rgb(210 149 54);
 }
 
-.radioInput label:nth-child(3) input[type="radio"]:checked + span {
+.radioInput label:nth-child(3) input[type="radio"]:checked+span {
   background-color: rgb(210, 54, 54);
 }
 
