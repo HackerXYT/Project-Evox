@@ -852,7 +852,7 @@ li:before {
     }
     
     .screen_home .section .innerRow .right .largeImage .rating .box {
-        opacity: 0 !important;
+        opacity: 0 !important; /*Change Maybe?*/
     }
     
     .screen_home .section .aboutTitle {
@@ -913,7 +913,7 @@ li:before {
     }
     
     .screen_home .section.services .innerRow.steps .stepsContainer .step .number {
-        font-size: 32px;
+        font-size: 40px;
     }
     
     .screen_home .section.services .innerRow.steps .stepsContainer .step .stepName {
@@ -943,4 +943,18 @@ li:before {
         font-size: 13px;
         padding: 8px 12px;
     }
+}
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+    background-color: #fff;
+    color: #5D6969;
+    font-size: 14px;
+    text-align: center;
 }
