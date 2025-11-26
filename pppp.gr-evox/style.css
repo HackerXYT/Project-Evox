@@ -10,6 +10,9 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
 }
 
 
@@ -88,6 +91,7 @@ h5 {
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -431,9 +435,11 @@ h5 {
     justify-content: space-evenly;
     display: flex;
     flex-direction: row;
-    width: 1078px;
+    width: 100%;
+    max-width: 1078px;
     min-width: 40%;
     gap: 25px;
+    box-sizing: border-box;
 }
 
 .screen_home .section.services .innerRow.steps {
@@ -442,7 +448,8 @@ h5 {
     background: linear-gradient(140deg, #1b3b7f 0%, #10847e 100%);
     display: flex;
     flex-direction: column;
-    width: 1078px;
+    width: 100%;
+    max-width: 1078px;
     min-width: 40%;
     padding: 30px;
     box-sizing: border-box;
@@ -545,10 +552,12 @@ h5 {
     margin-top: 50px;
     display: flex;
     flex-direction: row;
-    width: 1078px;
+    width: 100%;
+    max-width: 1078px;
     min-width: 40%;
     gap: 50px;
     justify-content: space-evenly;
+    box-sizing: border-box;
 }
 
 .screen_home .section.learnMore .moreInfo .informationBox {
@@ -605,6 +614,12 @@ li {
     margin-left: 10px;
 }
 
+@media (max-width: 768px) {
+    li {
+        font-size: 14px;
+    }
+}
+
 li:before {
     content: '•';
     float: left;
@@ -630,15 +645,302 @@ li:before {
     margin-top: auto;
 }
 
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: #203988;
+    margin: 2px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 3;
+    padding: 20px;
+}
+
+.mobile-menu .mobile-item {
+    padding: 18px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #86898a;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-menu .mobile-item:hover {
+    color: #203988;
+    font-weight: bold;
+}
+
+.mobile-menu .mobile-item:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .navigator .section .name {
+        font-size: 13px;
+    }
+    
+    .screen_home .section {
+        padding: 0 10px;
+    }
+    
+    .screen_home .section .innerRow .left .largeName {
+        font-size: 22px;
+    }
+    
+    .screen_home .section .innerRow .left .learnMoreTitle {
+        font-size: 18px;
+    }
+    
+    .screen_home .section .aboutTitle {
+        font-size: 22px;
+    }
+    
+    .screen_home .section.services .innerRow.steps .header {
+        font-size: 18px;
+    }
+    
+    .screen_home .section .innerRow .left .short_description {
+        font-size: 14px;
+    }
+    
+    .screen_home .section .aboutDescription {
+        font-size: 14px;
+        margin: 0 10px;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsDesc {
+        margin: 0 10px;
+        font-size: 14px;
+    }
+    
+    li {
+        font-size: 13px;
+    }
+}
+
 @media (max-width: 768px) {
+    .navigator {
+        padding: 15px 20px;
+        justify-content: space-between;
+    }
+    
+    .navigator .section.right {
+        display: none;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .navigator .section .name {
+        font-size: 16px;
+    }
+    
+    .screen_home .section.first {
+        padding-top: 15vh;
+        padding-bottom: 3vh;
+    }
+    
+    .screen_home .section {
+        gap: 40px;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+    
+    .screen_home .section .innerRow {
+        flex-direction: column;
+        gap: 30px;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .screen_home .section .innerRow .left, .screen_home .section .innerRow .right {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .screen_home .section .innerRow .left .largeName {
+        font-size: 28px;
+        text-align: center;
+    }
+    
+    .screen_home .section .innerRow .left .learnMoreTitle {
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .screen_home .section .innerRow .left .banner {
+        text-align: center;
+        align-self: center;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .screen_home .section .innerRow .left .short_description {
+        text-align: center;
+        font-size: 15px;
+    }
+    
+    .screen_home .section .innerRow .left .buttons_row {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .screen_home .section .innerRow .left .buttons_row .button {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+        font-size: 14px;
+        padding: 15px 20px;
+        min-height: 44px;
+        box-sizing: border-box;
+    }
+    
+    .screen_home .section .innerRow .left .topSkills {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+    
+    .screen_home .section .innerRow .left .topSkills .skill {
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .screen_home .section .innerRow .left .topSkills .skill .icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .screen_home .section .innerRow .left .topSkills .skill .description {
+        text-align: left;
+        font-size: 12px;
+    }
+    
+    .screen_home .section .innerRow .left .topSkills .skill .title {
+        font-size: 16px;
+    }
+    
     .screen_home .section .innerRow .right .largeImage .rating .box {
         opacity: 0 !important;
     }
-
-    .screen_home .section .innerRow {
-        flex-direction: column;
+    
+    .screen_home .section .aboutTitle {
+        font-size: 28px;
+        padding: 0 10px;
     }
-    .screen_home .section .innerRow .left, .screen_home .section .innerRow .right {
+    
+    .screen_home .section .aboutDescription {
+        padding-left: 0;
+        padding-right: 0;
+        font-size: 15px;
+        margin: 0 15px;
+        box-sizing: border-box;
+    }
+    
+    .screen_home .section.services .innerRow.services {
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
         max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .screen_home .section.services .innerRow.services .service {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .screen_home .section.services .innerRow.steps {
+        width: 100%;
+        padding: 20px 15px;
+        max-width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    
+    .screen_home .section.services .innerRow.steps .header {
+        font-size: 24px;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsDesc {
+        padding-left: 0;
+        padding-right: 0;
+        font-size: 15px;
+        margin: 0 15px;
+        box-sizing: border-box;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsContainer {
+        flex-direction: column;
+        gap: 25px;
+        align-items: flex-start;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsContainer .step {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsContainer .step .number {
+        font-size: 32px;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsContainer .step .stepName {
+        font-size: 18px;
+    }
+    
+    .screen_home .section.services .innerRow.steps .stepsContainer .step .stepDesc {
+        font-size: 14px;
+    }
+    
+    .screen_home .section.learnMore .moreInfo {
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .screen_home .section.learnMore .moreInfo .informationBox {
+        width: 100%;
+        padding: 20px 15px;
+    }
+    
+    .learnMoreButton {
+        width: 100%;
+        max-width: 200px;
+        font-size: 13px;
+        padding: 8px 12px;
     }
 }

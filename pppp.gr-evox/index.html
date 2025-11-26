@@ -48,6 +48,17 @@
                 Επικοινωνία
             </div>
         </div>
+        <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="mobile-menu">
+        <div class="mobile-item">Αρχική</div>
+        <div class="mobile-item">Υπηρεσίες</div>
+        <div class="mobile-item">Πληροφορίες</div>
+        <div class="mobile-item">Επικοινωνία</div>
     </div>
 
     <div class="screen_home">
@@ -507,6 +518,23 @@
         const element = document.getElementById('scrollIndicator');
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+    });
 </script>
 
 </html>
