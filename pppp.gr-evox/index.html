@@ -18,7 +18,7 @@
         <div class="left section">
             <div class="icon">
                 <img src="logo.png" width="25px" height="25px">
-                
+
             </div>
             <p class="name">Δρ. Παπαποστόλου Απόστολος</p>
         </div>
@@ -490,6 +490,18 @@
             Papapostolou Apostolos © 2025 All Rights Reserved | Made with ❤️ by Papapostolou
         </div>
     </div>
+    <div id="evxWarning" class="evxWarning">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+            <path
+                d="M16.2426 7.75736C17.6695 9.18422 18.2275 11.1509 17.9166 13M7.75736 16.2426C5.41421 13.8995 5.41421 10.1005 7.75736 7.75732M4.92893 19.0711C1.02369 15.1658 1.02369 8.83418 4.92893 4.92893M19.0711 4.92898C21.9628 7.8207 22.7133 12.0428 21.3225 15.6251M10.5 10.6771C10.1888 11.0297 10 11.4928 10 12C10 13.1046 10.8954 14 12 14C12.5072 14 12.9703 13.8112 13.3229 13.5M21 21L3 3"
+                stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p class="evxTitle">Η σύνδεση απέτυχε.</p>
+        <p class="evxDesc">Οι δυναμικές ενέργειες δεν θα λειτούργουν.<br>Δοκιμάστε ξανά αργότερα ή συνεχίστε χωρίς
+            αυτές.</p>
+        <div onclick="continueAnyway()" class="learnMoreButton evx">Συνέχεια</div>
+        <p class="evxBtnLabel">Η επιλογή σας θα παραμείνει μέχρι να κλείσετε το παράθυρο.</p>
+    </div>
 </body>
 <script>
     setTimeout(function () {
@@ -528,6 +540,32 @@
             });
         }
     });
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+        fetch('http://192.168.1.117:1974/status')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // parse JSON
+            })
+            .then(data => {
+                if (data.status === 200) {
+                    console.log("Server Okay")
+                } else {
+                    if(!sessionStorage.getItem("continueAnyway")) document.getElementById("evxWarning").style.display = 'flex'
+                }
+            })
+            .catch(error => {
+                if(!sessionStorage.getItem("continueAnyway")) document.getElementById("evxWarning").style.display = 'flex'
+            });
+
+    });
+
+    function continueAnyway() {
+        document.getElementById("evxWarning").style.display = 'none'
+        sessionStorage.setItem("continueAnyway", 'true')
+    }
 </script>
 
 </html>
