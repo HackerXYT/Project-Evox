@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="el">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Λογιστική Ι - Πλήρης Εξήγηση</title>
+        <link rel="icon" type="image/png" href="../jeanneCloud.png">
+        <link rel="apple-touch-icon-precomposed" href="../jeanneCloud.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent">
+        <meta name="application-name" content="pppp">
+        <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --gray: #64748b;
+        }
+        .dark-mode {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e2e8f0;
+            --gray: #94a3b8;
+            --primary: #60a5fa;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding-top: 60px; /* χώρος για το fixed theme button */
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        header h1 { 
+            font-size: 2.5rem; 
+            margin: 0 0 0.5rem 0; 
+        }
+        header p { 
+            font-size: 1.1rem; 
+            opacity: 0.95; 
+        }
+
+        /* Mobile-first layout */
+        nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            max-width: 80vw;
+            height: 100vh;
+            background: var(--card);
+            border-right: 1px solid #e2e8f0;
+            padding: 6rem 1.5rem 2rem;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: left 0.3s ease;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+        }
+        nav.open { left: 0; }
+
+        nav h3 { 
+            color: var(--primary); 
+            margin: 0 0 1.5rem 0; 
+            font-size: 1.4rem;
+        }
+        nav ul { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0;
+        }
+        nav a {
+            display: block;
+            padding: 0.9rem 1.2rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0.4rem 0;
+            transition: all 0.3s;
+            font-size: 1.05rem;
+        }
+        nav a:hover, nav a.active {
+            background: var(--primary-light);
+            color: white;
+            transform: translateX(8px);
+        }
+
+        main {
+            padding: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            transition: margin-left 0.3s;
+        }
+
+        section {
+            background: var(--card);
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: 0.6rem;
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        /* Hamburger Menu Button */
+        #menu-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1100;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Theme Toggle */
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+            padding: 0.8rem 1.3rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 0.95rem;
+        }
+
+        /* Overlay when menu open */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 900;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Accordion */
+        .accordion {
+            background: #e0e7ff;
+            color: #1e40af;
+            cursor: pointer;
+            padding: 1rem 1.2rem;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            margin: 0.6rem 0;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .accordion:hover { background: #c7d2fe; }
+        .accordion.active { background: #a5b4fc; color: white; }
+        .panel {
+            padding: 0 1.2rem;
+            background: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dark mode adjustments */
+        .dark-mode .accordion {
+            background: #1e40af;
+            color: #e0e7ff;
+        }
+        .dark-mode .accordion:hover {
+            background: #3b82f6;
+        }
+        .dark-mode .accordion.active {
+            background: #2563eb;
+            color: white;
+        }
+        .dark-mode .panel {
+            background: var(--card);
+        }
+
+        /* Responsive Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.9rem;
+            text-align: left;
+        }
+        th { 
+            background: var(--primary); 
+            color: white; 
+            position: sticky;
+            top: 0;
+        }
+
+        .dark-mode table {
+            background: var(--card);
+        }
+        .dark-mode th {
+            background: var(--primary);
+        }
+        .dark-mode th, .dark-mode td {
+            border-color: #475569;
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 768px) {
+            header h1 { font-size: 3rem; }
+            main { padding: 2rem; }
+            section { padding: 2.2rem; }
+        }
+
+        @media (min-width: 1024px) {
+            #menu-toggle { display: none; }
+            nav {
+                left: 0;
+                position: fixed;
+                width: 300px;
+                padding: 2rem 1.5rem;
+            }
+            nav.open { left: 0; }
+            main {
+                margin-left: 320px;
+                padding: 2.5rem;
+            }
+            .overlay { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 2.5rem 1rem 1.8rem; }
+            header h1 { font-size: 2.2rem; }
+            section { padding: 1.4rem; }
+            h2 { font-size: 1.6rem; }
+            .accordion { font-size: 1rem; padding: 0.9rem; }
+        }
+    </style>
+    </head>
+    <body>
+        <button id="menu-toggle">☰</button>
+        <div class="overlay" id="overlay"></div>
+        <button id="theme-toggle">Dark Mode</button>
+
+        <header>
+            <h1>Λογιστική Ι</h1>
+            <p>Πλήρης Εξήγηση του PDF – Όλα τα Μέρη & Όλες οι Σελίδες</p>
+        </header>
+
+        <nav>
+            <h3>Περιεχόμενα</h3>
+            <ul>
+                <li><a href="#intro">Εισαγωγή</a></li>
+                <li><a href="#basic-terms">Βασικοί Όροι</a></li>
+                <li><a href="#economic-result">Οικονομικό Αποτέλεσμα</a></li>
+                <li><a href="#balance-sheet">Ισολογισμός & Λογαριασμοί</a></li>
+                <li><a href="#revenues-expenses">Έσοδα & Έξοδα</a></li>
+                <li><a href="#account-82">Λογαριασμός 82</a></li>
+                <li><a href="#income-statement">Κατάσταση Αποτελεσμάτων</a></li>
+                <li><a href="#purchases">Αγορές Αποθεμάτων</a></li>
+                <li><a href="#sales">Πωλήσεις Αποθεμάτων</a></li>
+                <li><a href="#inventory">Φυσική Απογραφή & Κόστος
+                        Πωληθέντων</a></li>
+                <li><a href="#gross-result">Μικτό Αποτέλεσμα</a></li>
+                <li><a href="#net-result">Καθαρό Αποτέλεσμα</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="intro">
+                <h2>Εισαγωγή</h2>
+                <p>Το PDF που έχεις είναι από το μάθημα <strong>Λογιστική
+                        Ι</strong> του Πανεπιστημίου Πελοποννήσου (2025). Εξηγεί
+                    πώς μια επιχείρηση υπολογίζει στο τέλος του χρόνου αν
+                    κέρδισε ή έχασε λεφτά. Αυτό λέγεται <strong>Οικονομικό
+                        Αποτέλεσμα</strong> και υπολογίζεται σε δύο στάδια:
+                    Μικτό και Καθαρό Αποτέλεσμα.</p>
+            </section>
+
+            <section id="basic-terms">
+                <h2>Βασικοί Όροι (σαν να είσαι 10 χρονών)</h2>
+                <button class="accordion">Λογιστική</button>
+                <div class="panel"><p>Το «ημερολόγιο» της επιχείρησης που γράφει
+                        όλα τα λεφτά που μπαίνουν και βγαίνουν.</p></div>
+                <button class="accordion">Επιχείρηση</button>
+                <div class="panel"><p>Ένα μαγαζί ή εταιρεία που πουλάει πράγματα
+                        για να βγάλει λεφτά.</p></div>
+                <button class="accordion">Οικονομικό Αποτέλεσμα</button>
+                <div class="panel"><p>Το τελικό σκορ: Κέρδος ή Ζημιά.</p></div>
+                <button class="accordion">Λογαριασμός</button>
+                <div class="panel"><p>Ένα κουτάκι με αριθμό όπου γράφουμε
+                        συγκεκριμένα πράγματα (π.χ. 20 = Εμπορεύματα).</p></div>
+                <button class="accordion">Χρέωση / Πίστωση</button>
+                <div class="panel"><p>Αριστερή στήλη = Χρέωση (συνήθως έξοδα),
+                        Δεξιά = Πίστωση (συνήθως έσοδα).</p></div>
+                <button class="accordion">Ισολογισμός</button>
+                <div class="panel"><p>Φωτογραφία της επιχείρησης μια
+                        συγκεκριμένη μέρα: τι έχει και τι χρωστάει.</p></div>
+                <button class="accordion">Κατάσταση Αποτελεσμάτων</button>
+                <div class="panel"><p>Ταινία όλης της χρονιάς: τι έγινε με τα
+                        λεφτά.</p></div>
+            </section>
+
+            <section id="economic-result">
+                <h2>Οικονομικό Αποτέλεσμα (Σελίδα 4)</h2>
+                <ul>
+                    <li>Υπολογίζεται κάθε 31 Δεκεμβρίου</li>
+                    <li>Χρησιμοποιούμε:
+                        <ul>
+                            <li>Ομάδα 7 → Έσοδα</li>
+                            <li>Ομάδα 6 → Έξοδα</li>
+                            <li>Ομάδα 2 → Αποθέματα</li>
+                            <li>Φυσική Απογραφή (μετράμε τι έμεινε στην
+                                αποθήκη)</li>
+                        </ul>
+                    </li>
+                    <li><strong>2 Στάδια</strong>:
+                        <ol>
+                            <li>Μικτό Αποτέλεσμα (Πωλήσεις – Κόστος
+                                Πωληθέντων)</li>
+                            <li>Καθαρό Αποτέλεσμα (Μικτό + άλλα έσοδα – άλλα
+                                έξοδα)</li>
+                        </ol>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="balance-sheet">
+                <h2>Ισολογισμός & Λογαριασμοί (Σελίδα 6)</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th colspan="2">Ενεργητικό (τι έχει)</th><th
+                                colspan="2">Παθητικό (τι χρωστάει +
+                                κεφάλαιο)</th></tr>
+                        <tr><td>10</td><td>Γη</td><td>40</td><td>Κεφάλαιο</td></tr>
+                        <tr><td>12-15</td><td>Κτήρια, μηχανήματα
+                                κλπ</td><td>49</td><td>Αποτελέσματα εις
+                                νέο</td></tr>
+                        <tr><td>20</td><td>Εμπορεύματα</td><td>50</td><td>Προμηθευτές</td></tr>
+                        <tr><td>24</td><td>Πρώτες
+                                ύλες</td><td>54</td><td>Φόροι</td></tr>
+                        <tr><td>30</td><td>Πελάτες</td><td>52</td><td>Δάνεια</td></tr>
+                        <tr><td>38</td><td>Ταμείο /
+                                Τράπεζα</td><td></td><td></td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="revenues-expenses">
+                <h2>Έσοδα & Έξοδα (Σελίδα 7)</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>Έξοδα (Ομάδα 6)</th><th>Έσοδα (Ομάδα
+                                7)</th></tr>
+                        <tr><td>60 – Μισθοί</td><td>70 – Πωλήσεις</td></tr>
+                        <tr><td>64 – Ενοίκια, ρεύμα</td><td>71 – Λοιπά
+                                έσοδα</td></tr>
+                        <tr><td>65 – Τόκοι που πληρώνουμε</td><td>72 – Τόκοι που
+                                παίρνουμε</td></tr>
+                        <tr><td>66 – Αποσβέσεις</td><td>75 – Ενοίκια που
+                                εισπράττουμε</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="account-82">
+                <h2>Λογαριασμός 82 – ΑΠΟΤΕΛΕΣΜΑ ΠΕΡΙΟΔΟΥ (Σελίδα 8)</h2>
+                <p>Είναι το «μεγάλο κουτί» που στο τέλος της χρονιάς μαζεύουμε
+                    τα πάντα για να δούμε κέρδος ή ζημιά.</p>
+                <p><strong>1ο Στάδιο</strong>: Βάζουμε μέσα τις αγορές + αρχικό
+                    απόθεμα, βγάζουμε το τελικό απόθεμα → προκύπτει Κόστος
+                    Πωληθέντων → Πωλήσεις – Κόστος = Μικτό Αποτέλεσμα</p>
+                <p><strong>2ο Στάδιο</strong>: Προσθέτουμε Ομάδα 7, αφαιρούμε
+                    Ομάδα 6 → Καθαρό Αποτέλεσμα</p>
+            </section>
+
+            <section id="income-statement">
+                <h2>Κατάσταση Αποτελεσμάτων (Σελίδα 9)</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><td>Πωλήσεις</td><td></td></tr>
+                        <tr><td>– Κόστος Πωλήσεων</td><td>← 1ο στάδιο</td></tr>
+                        <tr><td>= Μικτό Αποτέλεσμα</td><td></td></tr>
+                        <tr><td>+ Λοιπά έσοδα</td><td></td></tr>
+                        <tr><td>– Μισθοί, ενοίκια, τόκοι κλπ</td><td>← 2ο
+                                στάδιο</td></tr>
+                        <tr><td>= Καθαρό Αποτέλεσμα μετά
+                                φόρων</td><td></td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="purchases">
+                <h2>Αγορές Αποθεμάτων (Σελίδες 11-13)</h2>
+                <p>Όταν αγοράζεις εμπορεύματα, κάνεις:</p>
+                <ul>
+                    <li>Χρέωση 20 (ή 24,25…) – αύξηση αποθέματος</li>
+                    <li>Πίστωση 38 (ταμείο) ή 50 (προμηθευτής)</li>
+                </ul>
+                <p>Παράδειγμα: Αγορά 550 τεμάχια × 2€ = 1.100€ → χρέωση 20 με
+                    1.100€</p>
+            </section>
+
+            <section id="sales">
+                <h2>Πωλήσεις Αποθεμάτων (Σελίδες 14-18)</h2>
+                <p>Η πώληση ΔΕΝ κουνάει τον λογαριασμό 20!</p>
+                <p>Μόνο:</p>
+                <ul>
+                    <li>Χρέωση 38 ή 30 (λεφτά από πελάτη)</li>
+                    <li>Πίστωση 70 (πωλήσεις)</li>
+                </ul>
+                <p>Παράδειγμα: Πούλησες 400 × 5€ = 2.000€ → πίστωση 70 με
+                    2.000€</p>
+            </section>
+
+            <section id="inventory">
+                <h2>Φυσική Απογραφή & Κόστος Πωληθέντων (Σελίδες 19-28)</h2>
+                <p>Στις 31/12 μετράς τι έμεινε στην αποθήκη → π.χ. 150 τεμάχια ×
+                    2€ = 300€</p>
+                <p><strong>Κόστος Πωληθέντων</strong> = Αρχικό απόθεμα + Αγορές
+                    – Τελικό απόθεμα</p>
+                <p>Στο παράδειγμα: 0 + 1.100 – 300 = 800€</p>
+                <p>Κέρδος = 2.000 – 800 = 1.200€</p>
+                <p><strong>Παραδείγματα</strong>:</p>
+                <ul>
+                    <li>Παράδειγμα 1: Πωλήσεις 3.000€ → Κέρδος 1.600€</li>
+                    <li>Παράδειγμα 2: Πωλήσεις 1.000€ → Ζημιά 400€</li>
+                    <li>Παράδειγμα 3: Με αρχικό απόθεμα → Κόστος 1.800€ → Κέρδος
+                        1.200€</li>
+                </ul>
+            </section>
+
+            <section id="gross-result">
+                <h2>Μικτό Αποτέλεσμα – Λογιστική Απεικόνιση (Σελίδες 30-35)</h2>
+                <p>Στο τέλος της χρονιάς κάνουμε 3 κινήσεις στον 82:</p>
+                <ol>
+                    <li>Χρεώνουμε 82 με όλα τα υπόλοιπα Ομάδας 2 (αγορές +
+                        αρχικό απόθεμα)</li>
+                    <li>Πιστώνουμε 82 με τις πωλήσεις (70)</li>
+                    <li>Πιστώνουμε 82 με την απογραφή 31/12 (και χρεώνουμε τα
+                        αποθέματα)</li>
+                </ol>
+                <p>Το υπόλοιπο του 82 = Μικτό Αποτέλεσμα</p>
+                <p>Παράδειγμα: Πωλήσεις 240.000 – Κόστος 44.000 = Μικτό Κέρδος
+                    196.000€</p>
+            </section>
+
+            <section id="net-result">
+                <h2>Καθαρό Αποτέλεσμα (Σελίδες 37-43)</h2>
+                <p>Συνεχίζουμε στον ίδιο 82:</p>
+                <ul>
+                    <li>Χρεώνουμε 82 με όλα τα έξοδα Ομάδας 6 (19.000€)</li>
+                    <li>Πιστώνουμε 82 με όλα τα έσοδα Ομάδας 7 (35.000€)</li>
+                </ul>
+                <p>Τελικό υπόλοιπο 82 = 212.000€ Καθαρό Κέρδος</p>
+                <p>Μετά, όλοι οι λογαριασμοί 60-75 μηδενίζονται, και το απόθεμα
+                    μένει σωστό για την επόμενη χρονιά.</p>
+            </section>
+        </main>
+
+        <script>
+        // Accordion
+        document.querySelectorAll('.accordion').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+                const panel = btn.nextElementSibling;
+                panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
+            });
+        });
+
+        // Dark Mode
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('theme-toggle').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.querySelector('nav').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('active');
+        });
+        document.getElementById('overlay').addEventListener('click', () => {
+            document.querySelector('nav').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+        });
+
+        // Highlight active section in nav (optional)
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${current}`) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    </script>
+    </body>
+</html>
