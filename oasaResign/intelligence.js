@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.91";
+const currentVersion = "2.2.92";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -3588,7 +3588,6 @@ function showStopDetails(stopCode, stopName) {
       .then((buses) => {
         if (buses === null) {
           console.log("None coming to station");
-        } else {
         }
       })
       .catch((error) => {
@@ -3647,13 +3646,19 @@ function showStopDetails(stopCode, stopName) {
               });
             });
 
-            // After collecting all arrival times, create HTML
-            Object.keys(busesArrivals).forEach((lineID) => {
-              const arrivalTimes = Array.from(busesArrivals[lineID]).join(
-                "', "
-              ); // Convert Set to array and join times with a comma
-              const busDesc = start[lineID].desc;
-              document.getElementById("busesComingtoStation").innerHTML += `
+            //Get all the buses that are able to come to that station
+            fetch(
+              `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`
+            )
+              .then((response) => response.json())
+              .then((busesToStation) => {
+
+                Object.keys(busesArrivals).forEach((lineID) => {
+                  const arrivalTimes = Array.from(busesArrivals[lineID]).join(
+                    "', "
+                  ); // Convert Set to array and join times with a comma
+                  const busDesc = start[lineID].desc;
+                  document.getElementById("busesComingtoStation").innerHTML += `
                           <div onclick="openExtLineId('${lineID}', '${busDesc}', this)" class="timeItem">
                               <p>${lineID}</p>
                               <div class="actions">
@@ -3666,7 +3671,44 @@ function showStopDetails(stopCode, stopName) {
                               </div>
                           </div>
                       `;
-            });
+                });
+                let spawnedToStation = {}
+                busesToStation.forEach((bus) => {
+                  if (!busesArrivals[bus.LineID]) {
+                    if (spawnedToStation[bus.LineID]) {
+                      spawnedToStation[bus.LineID]++
+                      sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr)
+                      if (document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p span")) {
+                        document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p span").innerHTML = spawnedToStation[bus.LineID]
+                      } else {
+                        document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p").innerHTML += `<span onclick="showOtherLines(this, '${bus.LineID}', event)" class="circle_howManyBusLinesFound">${spawnedToStation[bus.LineID]}</span>`
+                      }
+                      return;
+                    }
+                    spawnedToStation[bus.LineID] = 1
+                    sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr)
+                    document.getElementById("busesComingtoStation").innerHTML += `
+                          <div id="stationGeneraleNotComing-${bus.LineID}" onclick="openExtLineId('${bus.LineID}', '${bus.RouteDescr}', this)" class="timeItem">
+                              <p class="readyToShowMore">${bus.LineID}</p>
+                              <div class="actions">
+                                  <span><img src="busNotFound.png" width="25px" height="25px"></span>
+                                  <vox>
+                                  <svg style="transform: rotate(180deg);margin-left:5px;" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                      <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path>
+                                  </svg>
+                                  </vox>
+                              </div>
+                          </div>
+                      `;
+                  }
+                })
+              })
+              .catch((error) => {
+                console.log("getStopGeneralBuses [1] error:", error);
+              });
+
+
+
           })
           .catch((error) => {
             document.getElementById("busesComingtoStation").innerHTML = `
