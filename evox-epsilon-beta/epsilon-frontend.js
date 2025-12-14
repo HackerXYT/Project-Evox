@@ -3374,49 +3374,75 @@ function enableFlorida() {
             })
             .then(function (subscription) {
                 console.log('User is subscribed:', subscription);
+                const evoxJson = {
+                    username: localStorage.getItem("t50-username"),
+                    os1: os,
+                    osVersion: osVersion,
+                    method: "attachOASA",
+                    subscription,
+                };
 
-                if (!localStorage.getItem("extV")) {
-                    const url = `${srv}/floridaV?getWhat=anId&forUser=${localStorage.getItem("t50-username")}&os1=${os}&osVersion=${osVersion}`;
-                    fetch(url)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.text();
-                        })
-                        .then(data => {
-                            localStorage.setItem("extV", data)
-                            console.log('Fetched data:', data);
-                            const evoxJson = {
-                                'subscription': subscription,
-                                'username': localStorage.getItem("t50-username"),
-                                'email': localStorage.getItem("t50-email"),
-                                'id': data
-                            }
-                            document.getElementById("deviceId").innerHTML = data
-                            // Send subscription to server
-                            fetch('https://florida.evoxs.xyz/subscribe', {
-                                method: 'POST',
-                                body: JSON.stringify(evoxJson),
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                                .then(() => {
-                                    loadFlorida()
-                                    console.log('Request completed');
-                                    warn("Welcome To Florida")
-                                    aitPlay('push_notifications_enabled')
-                                })
-                                .catch(error => {
-                                    warn('There was a problem with the fetch operation:', error);
-                                });
-                        })
-                        .catch(error => {
-                            console.error('Fetch error:', error);
-                        });
-                } else {
-                    console.log("Id exists", localStorage.getItem("extV"));
+                return fetch("https://florida.evoxs.xyz/oasaAttach", {
+                    method: "POST",
+                    body: JSON.stringify(evoxJson),
+                    headers: { "Content-Type": "application/json" },
+                }).then(async (response) => {
+                    if (!response.ok) {
+                        const err = await response.text();
+                        throw new Error(`HTTP ${response.status}: ${err}`);
+                    }
+                    return response.json();
+                });
+
+                //if (!localStorage.getItem("extV")) {
+                //    const url = `${srv}/floridaV?getWhat=anId&forUser=${localStorage.getItem("t50-username")}&os1=${os}&osVersion=${osVersion}`;
+                //    fetch(url)
+                //        .then(response => {
+                //            if (!response.ok) {
+                //                throw new Error('Network response was not ok');
+                //            }
+                //            return response.text();
+                //        })
+                //        .then(data => {
+                //            localStorage.setItem("extV", data)
+                //            console.log('Fetched data:', data);
+                //            const evoxJson = {
+                //                'subscription': subscription,
+                //                'username': localStorage.getItem("t50-username"),
+                //                'email': localStorage.getItem("t50-email"),
+                //                'id': data
+                //            }
+                //            document.getElementById("deviceId").innerHTML = data
+                //            // Send subscription to server
+                //            fetch('https://florida.evoxs.xyz/subscribe', {
+                //                method: 'POST',
+                //                body: JSON.stringify(evoxJson),
+                //                headers: {
+                //                    'Content-Type': 'application/json'
+                //                }
+                //            })
+                //                .then(() => {
+                //                    loadFlorida()
+                //                    console.log('Request completed');
+                //                    warn("Welcome To Florida")
+                //                    aitPlay('push_notifications_enabled')
+                //                })
+                //                .catch(error => {
+                //                    warn('There was a problem with the fetch operation:', error);
+                //                });
+                //        })
+                //        .catch(error => {
+                //            console.error('Fetch error:', error);
+                //        });
+                //} else {
+                //    console.log("Id exists", localStorage.getItem("extV"));
+                //}
+
+            })
+            .then((data) => {
+                if (data.message === "Complete") {
+                    localStorage.setItem("extVOASA", data.id);
+                    localStorage.setItem("extV", data.id);
                 }
 
             })

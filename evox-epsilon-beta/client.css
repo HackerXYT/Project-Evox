@@ -7,6 +7,7 @@ html {
   scroll-behavior: smooth;
   user-select: none;
   -webkit-touch-callout: none;
+  overflow: hidden !important;
 }
 
 
@@ -203,6 +204,7 @@ body::-webkit-scrollbar {
 }
 
 .gatewayExplore {
+  z-index: 1;
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
@@ -718,7 +720,8 @@ body.no-scroll {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: row;
-  position: relative; /* Added to position the span above the text */
+  position: relative;
+  /* Added to position the span above the text */
 }
 
 .socialInfo .socialUser.over p {
@@ -734,9 +737,12 @@ body.no-scroll {
   font-size: 15px;
   font-weight: normal;
   margin: 0;
-  position: absolute; /* Makes it positioned above the text */
-  top: -20px; /* Adjust to move it above */
-  left: 10px; /* Align with the left side, adjust as necessary */
+  position: absolute;
+  /* Makes it positioned above the text */
+  top: -20px;
+  /* Adjust to move it above */
+  left: 10px;
+  /* Align with the left side, adjust as necessary */
   display: inline-flex;
   align-items: center;
 }
@@ -2660,13 +2666,9 @@ a {
 
 }
 
-/* Ensure the bottom actions are at the bottom */
-.bottom-actions {
-  flex-shrink: 0;
-  /* Other styles as needed */
-}
 
 .bottom-actions {
+  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -2678,10 +2680,11 @@ a {
   /* Offset by 50% of the element's width */
   bottom: 17px;
   /* Position at the bottom with a 10px margin */
-  padding: 5px;
+  padding: 5px 10px;
+  box-sizing: border-box;
   background-color: #202d35;
   border-radius: 35px;
-  width: 78%;
+  width: 95%;
   z-index: 1;
 }
 
@@ -4850,7 +4853,6 @@ a {
   margin: 0;
   font-size: 15px;
   color: #777a80;
-  margin-bottom: 8px;
 }
 
 
@@ -5664,7 +5666,7 @@ a {
   opacity: 1;
 }
 
-.galaxyBackTo > * {
+.galaxyBackTo>* {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -5960,6 +5962,9 @@ a {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  padding-top: 80px;
+  padding-bottom: 120px;
+  box-sizing: border-box;
 }
 
 .secureline-messages>*:last-child {
@@ -5967,10 +5972,6 @@ a {
   /* Adjust as needed */
 }
 
-.secureline-messages>*:first-child {
-  margin-bottom: 100px;
-  /* Adjust as needed */
-}
 
 .bottomActions {
   padding-left: 20px;
@@ -6536,8 +6537,10 @@ a {
     position: fixed;
     left: 50%;
     bottom: 0;
-    width: 420px; /* Adjust as needed */
-    height: 80%; /* Adjust as needed */
+    width: 420px;
+    /* Adjust as needed */
+    height: 80%;
+    /* Adjust as needed */
     padding: 0 30px 30px 30px;
     display: flex;
     flex-direction: column;
@@ -6555,13 +6558,13 @@ a {
     overflow-x: hidden;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-}
+  }
 
-.securelinePopup.active {
+  .securelinePopup.active {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
-}
+  }
 
 }
 
@@ -6865,6 +6868,7 @@ vo input {
   height: 20px;
   margin: 0 !important;
 }
+
 .option svg {
   margin-left: auto;
   margin-right: 10px;
@@ -7629,14 +7633,14 @@ vox.svgIconAnimated {
 
 @keyframes fadeInSlideUp {
   from {
-      opacity: 0;
-      transform: translateY(20px);
-      /* Adjust the Y value for how far the element slides up */
+    opacity: 0;
+    transform: translateY(20px);
+    /* Adjust the Y value for how far the element slides up */
   }
 
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -7647,14 +7651,14 @@ vox.svgIconAnimated {
 
 @keyframes SlideDownfadeOut {
   from {
-      opacity: 1;
-      transform: translateY(0px);
-      /* Adjust the Y value for how far the element slides up */
+    opacity: 1;
+    transform: translateY(0px);
+    /* Adjust the Y value for how far the element slides up */
   }
 
   to {
-      opacity: 0;
-      transform: translateY(20px);
+    opacity: 0;
+    transform: translateY(20px);
   }
 }
 
@@ -7666,7 +7670,8 @@ vox.svgIconAnimated {
 
 .user.bgvid {
   position: relative;
-  overflow: hidden; /* Ensures video stays within div */
+  overflow: hidden;
+  /* Ensures video stays within div */
 }
 
 .bg-video {
@@ -7676,6 +7681,12 @@ vox.svgIconAnimated {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1; /* Puts the video behind the content */
+  z-index: -1;
+  /* Puts the video behind the content */
   filter: brightness(0.7);
+}
+
+#container {
+  overflow: auto;
+  max-height: 100vh;
 }

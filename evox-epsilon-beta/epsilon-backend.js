@@ -321,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.36'
+const appVersion = '8.3.4'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
