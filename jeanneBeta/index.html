@@ -267,8 +267,7 @@
             <span class="fade-in-slide-up">Η σύνδεση με τον εξωτερικό διακομιστή απέτυχε.</span>
             <span class="fade-in-slide-up desc">Ζητήστε βοήθεια από την αρχική οθόνη.</span>
             <div class="bottom-recovery-actions">
-                <div onclick="window.location.reload()"
-                    class="editButton showProfileBtn"
+                <div onclick="window.location.reload()" class="editButton showProfileBtn"
                     style="margin-right: 0px; white-space: nowrap;width:auto;background-color:#10101096;color:#fff;border: 2.5px solid #282828;">
                     Επανεκκίνηση</div>
             </div>
@@ -388,6 +387,38 @@
                             </svg></div>
                     </div>
                 </div>
+                <div class="loginByName" id="loginByEmail" style="display: none;">
+
+                    <p>Σύνδεση με Email</p>
+                    <span>Πληκτρολόγηστε το email σας για να συνδεθείτε στον λογαριασμό σας.</span>
+                    <div class="inputsLogin">
+                        <div class="inv-button creds" onclick="document.getElementById('voxName').focus()">
+                            <vo class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24"
+                                    class="icon glyph">
+                                    <path
+                                        d="M22,8.32V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V8.69L4,9.78l7.52,4.1A1,1,0,0,0,12,14a1,1,0,0,0,.5-.14L20,9.49Z"
+                                        style="fill:#fff" />
+                                    <path d="M22,6h0L20,7.18l-8,4.67L4,7.5,2,6.4V6A2,2,0,0,1,4,4H20A2,2,0,0,1,22,6Z"
+                                        style="fill:#fff" />
+                                </svg>
+                            </vo>
+
+                            <input id="voxEmail" type="name" placeholder="Διεύθυνση email">
+                            <!-- oninput="searchByName()"-->
+                            <vox class="mirror-text"></vox>
+                        </div>
+                        <div id="searchForEmail" class="optionButton focus svgOnRight">
+                            <!-- onclick="searchByEmailComplete()"-->
+                            Αναζήτηση<svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px"
+                                viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+                                    stroke="#8880eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
                 <div class="loginByName" id="loginByIp" style="display: none;">
 
                     <p style="text-align: center;width: 100%;">Καλωσόρισες ξανά!</p>
@@ -453,26 +484,36 @@
                 <p>Ας ξεκινήσουμε</p>
                 <span>Συνδεθείτε παρακάτω για να διαχειριστείτε τον λογαριασμό σας.</span>
                 <div class="buttonsLogin">
-                    <div onclick="nameLogin()" class="optionButton focus"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="17.5px" height="17.5px" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="6" r="4" stroke="#8880eb" stroke-width="1.5" />
+                    <div onclick="nameLogin()" class="optionButton focus">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"
+                            fill="none">
                             <path
-                                d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
-                                stroke="#8880eb" stroke-width="1.5" />
-                        </svg>Συνέχεια με όνομα</div>
-                    <div onclick='startEvoxLogin()' class="optionButton"><img src="../oasaResign/evox-logo-dark.png"
-                            width="17.5px" height="17.5px">Συνέχεια με Evox</div>
+                                d="M7.25 6a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM2.25 22c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75a.75.75 0 0 1-.75.75H3a.75.75 0 0 1-.75-.75Z"
+                                fill="#8880eb" />
+                        </svg>Σύνδεση με όνομα
+                    </div>
+                    <div onclick="emailLogin()" class="optionButton"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="20px" height="20px" viewBox="0 0 24 24" id="mail" class="icon glyph">
+                            <path
+                                d="M22,8.32V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V8.69L4,9.78l7.52,4.1A1,1,0,0,0,12,14a1,1,0,0,0,.5-.14L20,9.49Z"
+                                style="fill:#fff" />
+                            <path d="M22,6h0L20,7.18l-8,4.67L4,7.5,2,6.4V6A2,2,0,0,1,4,4H20A2,2,0,0,1,22,6Z"
+                                style="fill:#fff" />
+                        </svg>Σύνδεση με Email</div>
+                    <div onclick="ipLogin()" style="display: none" id="ipLogin" class="optionButton">
+                        <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" width="17.5px"
+                            height="17.5px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M20 19L20.5303 19.5303C20.8232 19.2374 20.8232 18.7626 20.5303 18.4697L20 19ZM8 4.25C7.58579 4.25 7.25 4.58579 7.25 5C7.25 5.41421 7.58579 5.75 8 5.75V4.25ZM18.5303 16.4697C18.2374 16.1768 17.7626 16.1768 17.4697 16.4697C17.1768 16.7626 17.1768 17.2374 17.4697 17.5303L18.5303 16.4697ZM17.4697 20.4697C17.1768 20.7626 17.1768 21.2374 17.4697 21.5303C17.7626 21.8232 18.2374 21.8232 18.5303 21.5303L17.4697 20.4697ZM13.75 18.25C13.3358 18.25 13 18.5858 13 19C13 19.4142 13.3358 19.75 13.75 19.75V18.25ZM10 19.75C10.4142 19.75 10.75 19.4142 10.75 19C10.75 18.5858 10.4142 18.25 10 18.25V19.75ZM11 5.75C11.4142 5.75 11.75 5.41421 11.75 5C11.75 4.58579 11.4142 4.25 11 4.25V5.75ZM15 4.25C14.5858 4.25 14.25 4.58579 14.25 5C14.25 5.41421 14.5858 5.75 15 5.75V4.25ZM7.5 12.75H16.5V11.25H7.5V12.75ZM20.5303 18.4697L18.5303 16.4697L17.4697 17.5303L19.4697 19.5303L20.5303 18.4697ZM19.4697 18.4697L17.4697 20.4697L18.5303 21.5303L20.5303 19.5303L19.4697 18.4697ZM20.75 8.5C20.75 6.15279 18.8472 4.25 16.5 4.25V5.75C18.0188 5.75 19.25 6.98122 19.25 8.5H20.75ZM16.5 12.75C18.8472 12.75 20.75 10.8472 20.75 8.5H19.25C19.25 10.0188 18.0188 11.25 16.5 11.25V12.75ZM4.75 15.5C4.75 13.9812 5.98122 12.75 7.5 12.75V11.25C5.15279 11.25 3.25 13.1528 3.25 15.5H4.75ZM7.5 18.25C5.98122 18.25 4.75 17.0188 4.75 15.5H3.25C3.25 17.8472 5.15279 19.75 7.5 19.75V18.25ZM20 18.25H13.75V19.75H20V18.25ZM10 18.25H7.5V19.75H10V18.25ZM11 4.25H8V5.75H11V4.25ZM16.5 4.25H15V5.75H16.5V4.25Z"
+                                fill="#fff" />
+                            <circle cx="6" cy="5" r="2" stroke="#ffff" stroke-width="1.5" />
+                        </svg>
+                        Σύνδεση με IP
+                    </div>
                     <div class="horizontalButtons">
-                        <div onclick="ipLogin()" style="display: none" id="ipLogin" class="optionButton">
-                            <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" width="17.5px"
-                                height="17.5px" viewBox="0 0 24 24" fill="none">
-                                <path
-                                    d="M20 19L20.5303 19.5303C20.8232 19.2374 20.8232 18.7626 20.5303 18.4697L20 19ZM8 4.25C7.58579 4.25 7.25 4.58579 7.25 5C7.25 5.41421 7.58579 5.75 8 5.75V4.25ZM18.5303 16.4697C18.2374 16.1768 17.7626 16.1768 17.4697 16.4697C17.1768 16.7626 17.1768 17.2374 17.4697 17.5303L18.5303 16.4697ZM17.4697 20.4697C17.1768 20.7626 17.1768 21.2374 17.4697 21.5303C17.7626 21.8232 18.2374 21.8232 18.5303 21.5303L17.4697 20.4697ZM13.75 18.25C13.3358 18.25 13 18.5858 13 19C13 19.4142 13.3358 19.75 13.75 19.75V18.25ZM10 19.75C10.4142 19.75 10.75 19.4142 10.75 19C10.75 18.5858 10.4142 18.25 10 18.25V19.75ZM11 5.75C11.4142 5.75 11.75 5.41421 11.75 5C11.75 4.58579 11.4142 4.25 11 4.25V5.75ZM15 4.25C14.5858 4.25 14.25 4.58579 14.25 5C14.25 5.41421 14.5858 5.75 15 5.75V4.25ZM7.5 12.75H16.5V11.25H7.5V12.75ZM20.5303 18.4697L18.5303 16.4697L17.4697 17.5303L19.4697 19.5303L20.5303 18.4697ZM19.4697 18.4697L17.4697 20.4697L18.5303 21.5303L20.5303 19.5303L19.4697 18.4697ZM20.75 8.5C20.75 6.15279 18.8472 4.25 16.5 4.25V5.75C18.0188 5.75 19.25 6.98122 19.25 8.5H20.75ZM16.5 12.75C18.8472 12.75 20.75 10.8472 20.75 8.5H19.25C19.25 10.0188 18.0188 11.25 16.5 11.25V12.75ZM4.75 15.5C4.75 13.9812 5.98122 12.75 7.5 12.75V11.25C5.15279 11.25 3.25 13.1528 3.25 15.5H4.75ZM7.5 18.25C5.98122 18.25 4.75 17.0188 4.75 15.5H3.25C3.25 17.8472 5.15279 19.75 7.5 19.75V18.25ZM20 18.25H13.75V19.75H20V18.25ZM10 18.25H7.5V19.75H10V18.25ZM11 4.25H8V5.75H11V4.25ZM16.5 4.25H15V5.75H16.5V4.25Z"
-                                    fill="#fff" />
-                                <circle cx="6" cy="5" r="2" stroke="#ffff" stroke-width="1.5" />
-                            </svg>
-                            IP Login
-                        </div>
+                        <div onclick='startEvoxLogin()' class="optionButton"><img src="../oasaResign/evox-logo-dark.png"
+                                width="17.5px" height="17.5px">Evox</div>
+
                         <div onclick="help()" class="optionButton">
                             <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" fill="#fff"
                                 width="20.5px" height="20.5px" viewBox="0 0 56 56">
@@ -723,60 +764,36 @@
                 </div>
             </div>
 
-            <div class="postInput" style="margin-bottom: 0px;padding:0px 10px;">
+            <div class="postInput"
+                style="margin-bottom: 0px;padding:0px 10px;padding-bottom: 15px;box-sizing: border-box;">
                 <div class="profilePicture-in">
                     <img id="selfPfp" src="reloading-pfp.gif">
                 </div>
                 <div class="input-post">
                     <p id="name-sur-view">Φόρτωση..</p>
                     <div class="text-area-cont" style="position: relative;">
-                        <p onclick="createPost(document.getElementById('create-switch'));openKeyboard()"
+                        <p id="writingAnimation"
+                            onclick="createPost(document.getElementById('create-switch'));openKeyboard()"
                             style="color: #636363;font-size: 14px;margin-top: 5px;margin-left: 0px;padding-left: 0px;width: 100%;font-weight: 100;">
                             Τι νέο υπάρχει;</p>
-                    </div>
-
-                    <div class="icons">
-                        <div onclick="focusOnIcon(this)" class="iconA">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path
-                                    d="M2.58078 19.0112L2.56078 19.0312C2.29078 18.4413 2.12078 17.7713 2.05078 17.0312C2.12078 17.7613 2.31078 18.4212 2.58078 19.0112Z"
-                                    fill="#808080"></path>
-                                <path
-                                    d="M9.00109 10.3811C10.3155 10.3811 11.3811 9.31553 11.3811 8.00109C11.3811 6.68666 10.3155 5.62109 9.00109 5.62109C7.68666 5.62109 6.62109 6.68666 6.62109 8.00109C6.62109 9.31553 7.68666 10.3811 9.00109 10.3811Z"
-                                    fill="#808080"></path>
-                                <path
-                                    d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.19C2 17.28 2.19 18.23 2.56 19.03C3.42 20.93 5.26 22 7.81 22H16.19C19.83 22 22 19.83 22 16.19V13.9V7.81C22 4.17 19.83 2 16.19 2ZM20.37 12.5C19.59 11.83 18.33 11.83 17.55 12.5L13.39 16.07C12.61 16.74 11.35 16.74 10.57 16.07L10.23 15.79C9.52 15.17 8.39 15.11 7.59 15.65L3.85 18.16C3.63 17.6 3.5 16.95 3.5 16.19V7.81C3.5 4.99 4.99 3.5 7.81 3.5H16.19C19.01 3.5 20.5 4.99 20.5 7.81V12.61L20.37 12.5Z"
-                                    fill="#808080"></path>
-                            </svg>
-                        </div>
-                        <div onclick="focusOnIcon(this)" class="iconA">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M11.2383 2.79888C10.6243 2.88003 9.86602 3.0542 8.7874 3.30311L7.55922 3.58654C6.6482 3.79677 6.02082 3.94252 5.54162 4.10698C5.07899 4.26576 4.81727 4.42228 4.61978 4.61978C4.42228 4.81727 4.26576 5.07899 4.10698 5.54162C3.94252 6.02082 3.79677 6.6482 3.58654 7.55922L3.30311 8.7874C3.0542 9.86602 2.88003 10.6243 2.79888 11.2383C2.71982 11.8365 2.73805 12.2413 2.84358 12.6092C2.94911 12.9772 3.14817 13.3301 3.53226 13.7954C3.92651 14.2731 4.47607 14.8238 5.25882 15.6066L7.08845 17.4362C8.44794 18.7957 9.41533 19.7608 10.247 20.3954C11.0614 21.0167 11.6569 21.25 12.2623 21.25C12.8678 21.25 13.4633 21.0167 14.2776 20.3954C15.1093 19.7608 16.0767 18.7957 17.4362 17.4362C18.7957 16.0767 19.7608 15.1093 20.3954 14.2776C21.0167 13.4633 21.25 12.8678 21.25 12.2623C21.25 11.6569 21.0167 11.0614 20.3954 10.247C19.7608 9.41533 18.7957 8.44794 17.4362 7.08845L15.6066 5.25882C14.8238 4.47607 14.2731 3.92651 13.7954 3.53226C13.3301 3.14817 12.9772 2.94911 12.6092 2.84358C12.2413 2.73805 11.8365 2.71982 11.2383 2.79888ZM11.0418 1.31181C11.7591 1.21701 12.3881 1.21969 13.0227 1.4017C13.6574 1.58372 14.1922 1.91482 14.7502 2.37538C15.2897 2.82061 15.8905 3.4214 16.641 4.17197L18.5368 6.06774C19.8474 7.37835 20.8851 8.41598 21.5879 9.33714C22.311 10.2849 22.75 11.197 22.75 12.2623C22.75 13.3276 22.311 14.2397 21.5879 15.1875C20.8851 16.1087 19.8474 17.1463 18.5368 18.4569L18.4569 18.5368C17.1463 19.8474 16.1087 20.8851 15.1875 21.5879C14.2397 22.311 13.3276 22.75 12.2623 22.75C11.197 22.75 10.2849 22.311 9.33714 21.5879C8.41598 20.8851 7.37833 19.8474 6.06771 18.5368L4.17196 16.641C3.4214 15.8905 2.82061 15.2897 2.37538 14.7502C1.91482 14.1922 1.58372 13.6574 1.4017 13.0227C1.21969 12.3881 1.21701 11.7591 1.31181 11.0418C1.40345 10.3484 1.59451 9.52048 1.83319 8.48622L2.13385 7.18334C2.33302 6.32023 2.49543 5.61639 2.68821 5.05469C2.88955 4.46806 3.14313 3.9751 3.55912 3.55912C3.9751 3.14313 4.46806 2.88955 5.05469 2.68821C5.61639 2.49543 6.32023 2.33302 7.18335 2.13385L8.48622 1.83319C9.52047 1.59451 10.3484 1.40345 11.0418 1.31181ZM9.49094 7.99514C9.00278 7.50699 8.21133 7.50699 7.72317 7.99514C7.23502 8.4833 7.23502 9.27476 7.72317 9.76291C8.21133 10.2511 9.00278 10.2511 9.49094 9.76291C9.97909 9.27476 9.97909 8.4833 9.49094 7.99514ZM6.66251 6.93448C7.73645 5.86054 9.47766 5.86054 10.5516 6.93448C11.6255 8.00843 11.6255 9.74963 10.5516 10.8236C9.47766 11.8975 7.73645 11.8975 6.66251 10.8236C5.58857 9.74963 5.58857 8.00843 6.66251 6.93448ZM19.0511 10.9902C19.344 11.2831 19.344 11.7579 19.0511 12.0508L12.0721 19.0301C11.7792 19.323 11.3043 19.323 11.0114 19.0301C10.7185 18.7372 10.7185 18.2623 11.0114 17.9694L17.9904 10.9902C18.2833 10.6973 18.7582 10.6973 19.0511 10.9902Z"
-                                    fill="#808080"></path>
-                            </svg>
-                        </div>
-                        <div class="iconA">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path d="M11 16L13 8" stroke="#808080" stroke-width="2" stroke-linecap="round"></path>
-                                <path
-                                    d="M17 15L19.6961 12.3039V12.3039C19.8639 12.1361 19.8639 11.8639 19.6961 11.6961V11.6961L17 9"
-                                    stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                </path>
-                                <path
-                                    d="M7 9L4.32151 11.6785V11.6785C4.14394 11.8561 4.14394 12.1439 4.32151 12.3215V12.3215L7 15"
-                                    stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                </path>
-                            </svg>
-                        </div>
                     </div>
                 </div>
             </div>
             <div style="margin-top: 10px;" class="border"></div>
 
+            <div class="foryou-discovery" id="comingSoon">
+                <div class="comingSoon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="30px" height="30px" viewBox="0 0 24 24">
+                        <path
+                            d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z" />
+                    </svg>
+                    <p>Οι καταχωρήσεις των συμμαθητών σου έρχονται σύντομα.</p>
+                    <span>Συλλέγουμε ακόμα όλες τις καταχωρήσεις για την επετηρίδα.</span>
+                    <div class="buttonCarouseli" style="width: auto;">
+                        Τι γίνεται μετά?
+                    </div>
+                </div>
+            </div>
             <div class="foryou-discovery" id="foryou">
 
             </div>
@@ -1174,7 +1191,8 @@
                         </svg>
                     </div>
                 </div>
-                <div style="width: 100%;display: flex;flex-direction: column;display: none;" id="media">
+                <div style="width: 100%;display: flex;flex-direction: column;display: none;box-sizing: border-box;padding-bottom: 50px;"
+                    id="media">
                     <div class="media-grid" id="allMedia">
                         <img src="choiceb.jpg" />
                         <img src="fleur.png" />
@@ -1183,8 +1201,10 @@
                         <img src="recap.png" />
                         <!-- More images will just keep filling in a grid -->
                     </div>
-                    <div onclick="localStorage.removeItem('hasSeenMediaDesc');showMedia(document.getElementById('carouselItem-3'))" style="margin-top: 15px;display: flex;align-items: center;gap: 10px;width: 100%;justify-content: center;font-size: 12px;font-weight: lighter;"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                            viewBox="0 0 24 24" fill="none">
+                    <div onclick="localStorage.removeItem('hasSeenMediaDesc');showMedia(document.getElementById('carouselItem-3'))"
+                        style="margin-top: 15px;display: flex;align-items: center;gap: 10px;width: 100%;justify-content: center;font-size: 12px;font-weight: lighter;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
                             <path opacity="0.5"
                                 d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
                                 fill="#fff" />
@@ -1194,7 +1214,8 @@
                             <path
                                 d="M12 7C12.5523 7 13 7.44771 13 8C13 8.55229 12.5523 9 12 9C11.4477 9 11 8.55229 11 8C11 7.44771 11.4477 7 12 7Z"
                                 fill="#fff" />
-                        </svg>Προσωπικά δεδομένα</div>
+                        </svg>Προσωπικά δεδομένα
+                    </div>
                 </div>
                 <div class="fromMe_Slider" style="width: 100%;display: flex;flex-direction: column;" id="fromMe_Slider">
                     <div class="finishSetup" id="finishSetup" style="display: none;">
@@ -2312,7 +2333,7 @@
                                     fill="#808080" />
                             </svg>
                         </div>
-                        <div onclick="focusOnIcon(this)" class="iconA">
+                        <div onclick="focusOnIcon(this)" class="iconA" style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
                                 fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -2320,7 +2341,7 @@
                                     fill="#808080" />
                             </svg>
                         </div>
-                        <div class="iconA">
+                        <div class="iconA" style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
                                 fill="none">
                                 <path d="M11 16L13 8" stroke="#808080" stroke-width="2" stroke-linecap="round" />

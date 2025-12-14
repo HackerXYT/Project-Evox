@@ -1,4 +1,4 @@
-const appVersion = "2.0.61"
+const appVersion = "2.0.7"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -2051,8 +2051,83 @@ function transformGreekName(name, num) {
     return transformedName;
 }
 
+let animationPickedNames = []
+function beginWritingTextAnimation() {
+    const ac = localStorage.getItem("jeanDarc_accountData");
+    if (!ac) { return; }
+    const parsed = JSON.parse(ac)
+    fetch(`https://arc.evoxs.xyz/?metode=rekomandimet&emri=${parsed.name}&pin=${atob(parsed.pin)}`)
+        .then(response => response.json())
+        .then(names => {
+            let hasFinished = false;
+
+
+            function runNewAnimation() {
+                const randomName = names[Math.floor(Math.random() * names.length)];
+
+                if (!animationPickedNames.includes(randomName)) {
+                    const emri = randomName.split(" ")[0]
+                    const speed = 125;
+                    const text = `${getGender(removeTonos(emri)) === "Male" ? "Ο" : "Η"} ${emri} είναι...`
+                    const el = document.getElementById("writingAnimation");
+                    let i = 0;
+                    hasFinished = false;
+
+                    el.textContent = "";
+
+                    function type() {
+                        if (i < text.length) {
+                            el.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        } else {
+                            hasFinished = true;
+                            console.log("Typing finished");
+                        }
+                    }
+
+                    type();
+                }
+            }
+            runNewAnimation()
+            let workingOnNew = false;
+            setInterval(function () {
+                if (workingOnNew === true) return;
+                if (hasFinished === true) {
+                    workingOnNew = true
+                    setTimeout(function () {
+                        function erase() {
+                            const speed = 20;
+                            if (document.getElementById("writingAnimation").textContent.length > 0 && document.getElementById("writingAnimation").textContent !== "⠀") {
+                                let newVal = document.getElementById("writingAnimation").textContent.slice(0, -1);
+                                if (newVal === "") {
+                                    newVal = "⠀"
+                                }
+                                document.getElementById("writingAnimation").textContent = newVal
+                                setTimeout(erase, speed);
+                            } else {
+                                runNewAnimation()
+                                workingOnNew = false
+                            }
+                        }
+
+                        erase();
+
+                    }, 2800)
+                }
+            })
+        })
+        .catch(error => {
+            document.getElementById("allUsers").innerHTML = `<p style="text-align:center;">Κάτι απέτυχε.</p>`;
+            console.error("Jeanne D'arc Database is offline?", error)
+
+        });
+}
+
 let myInfo = null
 function attach() {
+    //document.getElementById("comingSoon")
+    document.getElementById("foryou").style.display = "none"
     downloadProfiles()
     if (!sessionStorage.getItem("betaSession")) {
         //return;
@@ -2163,7 +2238,7 @@ function attach() {
 
 
         spawnRandom()
-
+        beginWritingTextAnimation()
         informacion(foundName)
             .then(info => {
                 myInfo = info
@@ -4083,18 +4158,35 @@ function nameLogin() {
         const boxUp = document.getElementById("boxUp");
         const currentHeight = boxUp.offsetHeight + 'px';
         boxUpDefaultHeight = currentHeight
+        boxUp.style.transition = 'height 1s';
+        boxUp.style.height = currentHeight;
+        setTimeout(() => {
+            boxUp.style.height = '250px';
+        }, 10);
+        $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail').fadeOut(function () {
+            $("#loginByName").fadeIn("fast")
+        });
+
+    })
+}
+
+function emailLogin() {
+    document.getElementById("topLeftBack").classList.add("active")
+    $("#appInfo").fadeOut("fast")
+    $("#textDialog").fadeOut("fast", function () {
+        const boxUp = document.getElementById("boxUp");
+        const currentHeight = boxUp.offsetHeight + 'px';
+        boxUpDefaultHeight = currentHeight
         boxUp.style.transition = 'height 1s'; // Adjust the duration as needed
         boxUp.style.height = currentHeight;
         setTimeout(() => {
             boxUp.style.height = '250px';
         }, 10);
-        $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp').fadeOut(function () {
-            $("#loginByName").fadeIn("fast")
+        $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail').fadeOut(function () {
+            $("#loginByEmail").fadeIn("fast")
         });
 
     })
-
-
 }
 
 function help() {
@@ -4163,12 +4255,14 @@ function goBackToMain() {
         $("#ipLoginSection").fadeOut("fast")
         $("#loginByIp").fadeOut("fast", function () {
             $("#loginByName").fadeOut("fast", function () {
-                $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #ipLoginSection').fadeIn(function () {
-                    $("#textDialog").fadeIn("fast", function () {
-                        $("#appInfo").fadeIn("fast")
+                $("#loginByEmail").fadeOut("fast", function () {
+                    $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #ipLoginSection').fadeIn(function () {
+                        $("#textDialog").fadeIn("fast", function () {
+                            $("#appInfo").fadeIn("fast")
 
-                    })
-                });
+                        })
+                    });
+                })
             })
         })
 
@@ -4227,8 +4321,10 @@ function calculateTextWidth(text) {
 }
 
 function removeTonos(str) {
-    return str;
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return str
+        .normalize('NFD')              // διαχωρίζει γράμμα + τόνο
+        .replace(/[\u0300-\u036f]/g, '') // αφαιρεί τους τόνους
+        .normalize('NFC');             // επανασυνθέτει
 }
 
 let previousWidth = null;
@@ -4366,7 +4462,8 @@ function searchByNameComplete() {
         document.getElementById("userPinPfp").style.display = 'none'
         karuseliCont.innerHTML = ''
         pickasCurrent(matchedNames[0])
-        matchedNames.forEach(name => {
+        const unique = [...new Set(matchedNames)];
+        unique.forEach(name => {
             count++
             const firstChar = (str) => str.split(' ')[1]?.charAt(0) || null;
             const ranId = Math.floor(Math.random() * 909999) + 1
@@ -4384,7 +4481,7 @@ function searchByNameComplete() {
 
             });
 
-            if (count === matchedNames.length) {
+            if (count === unique.length) {
                 const karuseli = document.querySelectorAll('.fytyre');
                 function positionImages() {
                     const zgjedhurIndex = Array.from(karuseli).findIndex(el => el.classList.contains('zgjedhur'));
@@ -4422,8 +4519,8 @@ function searchByNameComplete() {
             //setTimeout(function () {
             //document.getElementById("loadText").style.opacity = '0'
             //    setTimeout(function () { //
-            const a = matchedNames[0].split(' ')[0].replace(/[σς]+$/, '')
-            const b = matchedNames[0].split(' ')[1].replace(/[σς]+$/, '')
+            const a = unique[0].split(' ')[0].replace(/[σς]+$/, '')
+            const b = unique[0].split(' ')[1].replace(/[σς]+$/, '')
             $("#tasks").fadeOut("fast", function () {
                 document.getElementById("loadText").style.opacity = '0'
                 document.getElementById("taskLoading").style.display = 'none'
@@ -4440,7 +4537,7 @@ function searchByNameComplete() {
                             $("#loginContainer").fadeOut("fast", function () {
                                 document.getElementById("loginContainer").style.display = 'none'
                                 $("#multimatch").fadeOut("fast", function () {
-                                    document.getElementById("nameForMultiple").innerText = matchedNames[0]
+                                    document.getElementById("nameForMultiple").innerText = unique[0]
                                     document.getElementById("nameForMultiple").style.display = 'flex'
                                     $("#lock").fadeIn("fast")
                                     $("#hexa").fadeOut("fast")
@@ -6006,8 +6103,13 @@ function loadMoreUsers() {
             names.forEach(name => {
                 json.names[name] = {}
             })
-            spawnItems(json, 'loadMore', names);
-
+            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(parsed.pin)}`)
+                .then(response => response.json())
+                .then(sociale => {
+                    const following = sociale.following
+                    spawnItems(json, 'loadMore', names, following);
+                })
+                .catch(error => console.error("Jeanne D'arc Database is offline."));
 
         })
         .catch(error => console.error("Jeanne D'arc Database is offline."));
@@ -6134,10 +6236,13 @@ function openDiscovery(el) {
         fetch(`https://arc.evoxs.xyz/?metode=getNotifications&emri=${foundName}&pin=${process}`)
             .then(response => response.json())
             .then(notifications => {
-
+                let maxNotifications = 40
+                let spawnedNotifications = 0
                 if (notifications.length !== 0) {
                     const workOn = notifications.reverse()
                     workOn.forEach((notification, index) => {
+                        if(spawnedNotifications === maxNotifications) return;
+                        spawnedNotifications++
                         if (notification.notification.mentionedUser) {
                             getImage(notification.notification.mentionedUser).then(profileSrc => {
                                 document.getElementById("notifications-container").innerHTML += `<div class="notification-div" style="order: ${index}">
@@ -7980,6 +8085,7 @@ function showFromMe(el) {
 }
 
 function showForyou() {
+    document.getElementById("comingSoon").style.display = 'none'
     document.getElementById("foryou-carousel").classList.add("active")
     document.getElementById("mentioned-carousel").classList.remove("active")
     document.getElementById("fixed-foryou").classList.add("active")
@@ -7989,6 +8095,7 @@ function showForyou() {
 }
 
 function showMentioned() {
+    document.getElementById("comingSoon").style.display = 'none'
     document.getElementById("foryou-carousel").classList.remove("active")
     document.getElementById("mentioned-carousel").classList.add("active")
     document.getElementById("fixed-foryou").classList.remove("active")
@@ -8059,8 +8166,61 @@ function showMentioned() {
                 })
 
                 console.log(complete, "Complete")
+                let stopLoading = 15
+                let currentLoaded = 0
                 Object.entries(complete).forEach(([nameOfMentioned, post]) => {
+
                     post.forEach(post => {
+                        if (currentLoaded === stopLoading) return;
+                        currentLoaded++
+                        getImage(post.sentBy).then(profileSrc => {
+                            let src = "appLogoV2-stable.png"
+                            if (profileSrc) {
+                                src = profileSrc.imageData
+                            }
+                            container.innerHTML += `<div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                <div class="post extpost">
+                    <div class="profilePicture">
+                        <img src="${src}">
+                    </div>
+                    <div class="postInfo">
+                        <div class="userInfo">
+                            <p onclick="extMention('${post.sentBy}')">${post.sentBy}</p>
+                            <span>6 μήνες</span>
+                        </div>
+                        <div class="postContent" style="height: auto;">
+                            <p><vox onclick="extMention('${nameOfMentioned}')" class="mention male">@${nameOfMentioned}</vox>
+                                ${post.contents}
+                            </p>
+                        </div>
+                        <div class="mediaContainer">
+                        
+                        </div>
+                        
+                        <div class="icons">
+                    <div id="mwvjgm2gzmd2qmx" onclick="focusOnIcon(this, 'likeBtn', '${post.sentBy}', '${nameOfMentioned}')" class="iconA">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg><p style="display:none" class="pop-text">${post.likes && post.likes.count ? post.likes.count : "0"}</p>
+                    </div>
+                    
+                    <div onclick="focusOnIcon(this, 'shareButton')" class="iconA">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                            <path d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div onclick="focusOnIcon(this, 'savePost', '${post.sentBy}', '${nameOfMentioned}')" class="iconA">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+<path d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"></path>
+</svg><vox style="display:none"></vox>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>`
+                        })
+
+                        return;
                         container.innerHTML += `<br>${post.sentBy}->${nameOfMentioned}: ${post.contents}<br>Cryptox: ${post.isCryptoxed}<br>Saved: ${post.saved}<br>Likes: ${JSON.stringify(post.likes, null, 2)}<br>`
                     })
 
