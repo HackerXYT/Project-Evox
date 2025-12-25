@@ -3647,9 +3647,16 @@ select:focus {
 }
 
 .color-picker {
-  display: flex;
-  gap: 20px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 3 columns of equal width */
+  gap: 20px; /* spacing between items */
+  width: max-content; /* make the grid shrink to fit its content */
+  margin-left: auto;
+  margin-right: auto; /* center the grid horizontally */
 }
+
+
 
 .color-circle {
   width: 60px;
@@ -4073,7 +4080,6 @@ vox.keepDefault {
 }
 
 .accept {
-  font-size: 0.75rem;
   line-height: 1rem;
   background-color: rgb(17 24 39);
   font-weight: 500;
@@ -4359,4 +4365,99 @@ button.uploadBugMedia svg {
   flex-direction: column;
   align-items: left;
   justify-content: center;
+}
+
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 30px;
+}
+
+.settings-page.hidden {
+  display: none;
+}
+
+.settings-page span.description {
+  margin-top: 0;
+}
+
+.mapStyles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 300px;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mapStylesRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100px;
+  gap: 10px;
+}
+
+.mapStylesRow .mapStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  border-radius: 12px;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+
+  overflow: hidden;
+}
+
+.mapStylesRow .mapStyle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.mapStylesRow .mapStyle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.6) 100%);
+}
+
+.mapStylesRow .mapStyle span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 10px;
+  z-index: 3;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  font-family: 'SF Pro Text';
+}
+
+.mapStyle span .checkedIndicatorMap {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
 }

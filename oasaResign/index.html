@@ -654,7 +654,7 @@
         </div>
 
     </div>
-    <div id="phone" class="login">
+    <div id="phone">
 
         <div id="main-wrapper">
 
@@ -1560,63 +1560,216 @@
                             <span class="welcoming">OASA</span>
                         </div>
                     </div>
-                    <div class="settings-section">
-                        <span>Γενικά</span>
-                        <div class="a-setting">
-                            <p>Ειδοποιήσεις</p>
-
-                            <div class="toggle-switch" id="notifications-toggle-parent">
-                                <input type="checkbox" id="notifications-toggle" class="toggle-input" />
-                                <label for="notifications-toggle" class="toggle-label"></label>
+                    <div class="settings-page hidden" id="settings-page-3" data-desc="app-apperance">
+                        <div class="settings-section">
+                            <span>Χρώμα Εφαρμογής</span>
+                            <span class="description">Διαλέξτε το κύριο χρώμα της εφαρμογής OASA.</span>
+                            <span class="description">Για να επιστρέψετε, σύρετε το δάχτυλό σας από αριστερά προς τα
+                                δεξιά.</span>
+                            <div class="color-picker" id="color-picker">
+                                
                             </div>
                         </div>
-
-                        <div class="a-setting">
-                            <p>Φωτεινό θέμα</p>
-
-                            <div class="toggle-switch" id="theme-light-parent">
-                                <input type="checkbox" id="theme-light" class="toggle-input" />
-                                <label for="theme-light" class="toggle-label"></label>
-                            </div>
-                        </div>
-
                     </div>
+                    <div class="settings-page hidden" id="settings-page-2" data-desc="map-apperance">
+                        <div class="settings-section">
+                            <span>Τύπος Χάρτη</span>
+                            <span class="description">Διαλέξτε την εμφάνιση του χάρτη που προτιμάτε.</span>
+                            <span class="description">Για να επιστρέψετε, σύρετε το δάχτυλό σας από αριστερά προς τα
+                                δεξιά.</span>
 
-                    <div class="settings-section">
-                        <span>Σύνδεση</span>
-                        <div onclick="manualLogout()" class="a-setting">
-                            <p>Αποσύνδεση</p>
 
-                            <div class="loaderIn">
-                                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="25px"
-                                    height="25px" viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
-                                        fill="#fff"></path>
-                                </svg>
+                            <div class="mapStyles">
+                                <div class="mapStylesRow">
+                                    <div class="mapStyle big">
+                                        <img src="./map-styles/map2.png">
+                                        <span>Σκοτεινό <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+                                </div>
+                                <div class="mapStylesRow">
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map1.png">
+                                        <span>Δορυφόρος <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map3.png">
+                                        <span>Πρότυπο <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+
+                                </div>
+                                <div class="mapStylesRow">
+
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map4.png">
+                                        <span>Ύπαιθρο <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map5.png">
+                                        <span>Φωτεινό <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+
+                                </div>
+                                <div class="mapStylesRow">
+
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map6.png">
+                                        <span>Κίνηση φωτεινό <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+                                    <div class="mapStyle">
+                                        <img src="./map-styles/map7.png">
+                                        <span>Κίνηση σκοτεινό <div class="checkedIndicatorMap">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                                                        fill="#66FF00" />
+                                                </svg>
+                                            </div></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-page" id="settings-page-1">
+                        <div class="settings-section">
+                            <span>Γενικά</span>
+                            <div class="a-setting">
+                                <p>Ειδοποιήσεις</p>
+
+                                <div class="toggle-switch" id="notifications-toggle-parent">
+                                    <input type="checkbox" id="notifications-toggle" class="toggle-input" />
+                                    <label for="notifications-toggle" class="toggle-label"></label>
+                                </div>
+                            </div>
+
+                            <div class="a-setting">
+                                <p>Φωτεινό θέμα</p>
+
+                                <div class="toggle-switch" id="theme-light-parent">
+                                    <input type="checkbox" id="theme-light" class="toggle-input" />
+                                    <label for="theme-light" class="toggle-label"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="settings-section">
+                            <span>Εμφάνιση</span>
+                            <div onclick="openSettingsPage('2')" class="a-setting">
+                                <p>Χάρτης</p>
+
+                                <div class="loaderIn">
+                                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                                        width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                            fill="#fff"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div onclick="openSettingsPage('3')" class="a-setting">
+                                <p>Χρώμα εφαρμογής</p>
+
+                                <div class="loaderIn">
+                                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                                        width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                            fill="#fff"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="settings-section">
+                            <span>Σύνδεση</span>
+                            <div onclick="manualLogout()" class="a-setting">
+                                <p>Αποσύνδεση</p>
+
+                                <div class="loaderIn">
+                                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                                        width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                            fill="#fff"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div onclick="clearFavorites(this)" class="a-setting">
+                                <p>Εκκαθάριση αγαπημένων</p>
+                                <div class="loaderIn">
+                                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                                        width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                            fill="#fff"></path>
+                                    </svg>
+                                </div>
+
+                            </div>
+
+                            <div class="a-setting">
+                                <p>Έκδοση εφαρμογής</p>
+                                <div style="color: white;" class="loaderIn" id="showUpV">
+                                    0.0?
+                                </div>
+
                             </div>
                         </div>
 
-                        <div onclick="clearFavorites(this)" class="a-setting">
-                            <p>Εκκαθάριση αγαπημένων</p>
-                            <div class="loaderIn">
-                                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="25px"
-                                    height="25px" viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
-                                        fill="#fff"></path>
-                                </svg>
-                            </div>
-
-                        </div>
-
-                        <div class="a-setting">
-                            <p>Έκδοση εφαρμογής</p>
-                            <div style="color: white;" class="loaderIn" id="showUpV">
-                                0.0?
-                            </div>
-
-                        </div>
 
                     </div>
 

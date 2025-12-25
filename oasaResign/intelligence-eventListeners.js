@@ -46,6 +46,11 @@ let outsideOfZone = false;
 let blockGoingToLogin = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+  
+  if (localStorage.getItem("color_theme")) {
+    setTheme(localStorage.getItem("color_theme"))
+  }
+  enableMapSelection();
   document.fonts.ready.then(() => {
     //document.getElementById("loaderFullscreen").classList.add("appLoaded");
 
@@ -635,3 +640,42 @@ if (!CSS.supports('field-sizing', 'content')) {
 
   textarea.addEventListener('paste', () => setTimeout(resizeTextarea, 0));
 }
+
+let startX = 0;
+let startY = 0;
+
+function handleStart(x, y) {
+  startX = x;
+  startY = y;
+}
+
+function handleEnd(x, y) {
+  const deltaX = x - startX;
+  const deltaY = y - startY;
+
+  if (deltaX > 50 && Math.abs(deltaY) < 40) {
+    if (!document.getElementById("settings-page-2").classList.contains("hidden")) {
+      document.getElementById("settings-page-2").classList.add("hidden")
+      document.getElementById("settings-page-1").classList.remove("hidden")
+    }
+    if (!document.getElementById("settings-page-3").classList.contains("hidden")) {
+      document.getElementById("settings-page-3").classList.add("hidden")
+      document.getElementById("settings-page-1").classList.remove("hidden")
+    }
+  }
+}
+
+// Pointer events (desktop + mobile)
+document.body.addEventListener("pointerdown", (e) => handleStart(e.clientX, e.clientY));
+document.body.addEventListener("pointerup", (e) => handleEnd(e.clientX, e.clientY));
+
+// Touch events fallback (some mobile browsers)
+document.body.addEventListener("touchstart", (e) => {
+  const t = e.touches[0];
+  handleStart(t.clientX, t.clientY);
+}, { passive: true });
+
+document.body.addEventListener("touchend", (e) => {
+  const t = e.changedTouches[0];
+  handleEnd(t.clientX, t.clientY);
+}, { passive: true });

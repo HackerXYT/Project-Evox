@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.2.92";
+const currentVersion = "2.3.0";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -3506,6 +3506,9 @@ let active_station = null;
 function showStopDetails(stopCode, stopName) {
   haptics.trigger();
   try {
+    if (!evoxIds[activeEvoxId]) {
+
+    }
     triggerSave(
       evoxIds[activeEvoxId].bus,
       null,
@@ -4109,6 +4112,20 @@ function switchRouteTo(el) {
 function openStation(code, descr, busId, busDescr) {
   haptics.trigger();
   console.log("Opening station:", code, descr);
+  if (!busId || !busDescr) {
+    fetch(
+      `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${code}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`
+    )
+      .then((response) => response.json())
+      .then((busesToStation) => {
+        console.log("busesToStation", busesToStation)
+        openStation(code, descr, busesToStation[0].LineID, busesToStation[0].LineDescr)
+
+      }).catch((error) => {
+        console.log("Fallback [1] error:", error);
+      });
+    return;
+  }
   console.warn(busId, busDescr);
   const linesSearch = fullLine.filter((item) => item.LineID === busId);
   let stopNow = false;
@@ -5526,20 +5543,20 @@ function toggleLightModeStyles() {
   // Toggle #phone --fade-color
   if (phone) {
     const currentFade = phone.style.getPropertyValue("--fade-color");
-    if (currentFade === "rgb(124, 124, 124)" || currentFade === "#7c7c7c") {
+    if (currentFade === "rgb(124, 124, 124)" || currentFade === "#919191") {
       phone.style.setProperty("--fade-color", "inherit");
     } else {
-      phone.style.setProperty("--fade-color", "#7c7c7c");
+      phone.style.setProperty("--fade-color", "#919191");
     }
   }
 
   // Toggle .fullScreenLoader background-color
   loaders.forEach((loader) => {
     const currentBg = loader.style.backgroundColor;
-    if (currentBg === "rgb(124, 124, 124)" || currentBg === "#7c7c7c") {
+    if (currentBg === "rgb(124, 124, 124)" || currentBg === "#919191") {
       loader.style.backgroundColor = "inherit";
     } else {
-      loader.style.backgroundColor = "#7c7c7c";
+      loader.style.backgroundColor = "#919191";
     }
   });
 }
@@ -5576,6 +5593,12 @@ function triggerNotificationsReload() {
 
 const themes = [
   {
+    "--search-bg": "#1f42f4",
+    "--box-bg": "#1f42f425",
+    "--box-border": "#293fac",
+    "--clock-bg": "#3557fd",
+  },
+  {
     "--search-bg": "#00960c",
     "--box-bg": "#51f41f25",
     "--box-border": "#4eac29",
@@ -5593,7 +5616,113 @@ const themes = [
     "--box-border": "#990000",
     "--clock-bg": "#cc3333",
   },
+  {
+    "--search-bg": "#ff8c00",
+    "--box-bg": "#ffd48025",
+    "--box-border": "#cc7000",
+    "--clock-bg": "#ffa500",
+  },
+  {
+    "--search-bg": "#2e8b57",
+    "--box-bg": "#66cc9955",
+    "--box-border": "#1a5d3b",
+    "--clock-bg": "#33cc99",
+  },
+  {
+    "--search-bg": "#4682b4",
+    "--box-bg": "#99ccee25",
+    "--box-border": "#2a4d66",
+    "--clock-bg": "#3399ff",
+  },
+  {
+    "--search-bg": "#ff1493",
+    "--box-bg": "#ff99cc25",
+    "--box-border": "#cc0066",
+    "--clock-bg": "#ff3399",
+  },
+  {
+    "--search-bg": "#556b2f",
+    "--box-bg": "#99bb6625",
+    "--box-border": "#334d1a",
+    "--clock-bg": "#66aa33",
+  },
+  {
+    "--search-bg": "#9932cc",
+    "--box-bg": "#cc99ff25",
+    "--box-border": "#660099",
+    "--clock-bg": "#b266ff",
+  },
+  {
+    "--search-bg": "#00ced1",
+    "--box-bg": "#66ffff25",
+    "--box-border": "#008b8b",
+    "--clock-bg": "#33ffff",
+  },
+  {
+    "--search-bg": "#ff6347",
+    "--box-bg": "#ffb39925",
+    "--box-border": "#cc3300",
+    "--clock-bg": "#ff5500",
+  },
+  {
+    "--search-bg": "#daa520",
+    "--box-bg": "#ffe06625",
+    "--box-border": "#aa7f00",
+    "--clock-bg": "#ffcc33",
+  },
+  {
+    "--search-bg": "#4b0082",
+    "--box-bg": "#9966cc25",
+    "--box-border": "#330066",
+    "--clock-bg": "#8000ff",
+  },
+  {
+    "--search-bg": "#20b2aa",
+    "--box-bg": "#66e0d125",
+    "--box-border": "#008b80",
+    "--clock-bg": "#33cfcf",
+  },
+  {
+    "--search-bg": "#ff7f50",
+    "--box-bg": "#ffb38025",
+    "--box-border": "#cc5533",
+    "--clock-bg": "#ff9966",
+  },
+  {
+    "--search-bg": "#6a5acd",
+    "--box-bg": "#9999ff25",
+    "--box-border": "#4d33cc",
+    "--clock-bg": "#7f66ff",
+  },
+  {
+    "--search-bg": "#3cb371",
+    "--box-bg": "#66d19925",
+    "--box-border": "#2a804d",
+    "--clock-bg": "#33cc88",
+  },
+  {
+    "--search-bg": "#ff4500",
+    "--box-bg": "#ff996625",
+    "--box-border": "#cc3300",
+    "--clock-bg": "#ff6600",
+  },
+  {
+    "--search-bg": "#8a2be2",
+    "--box-bg": "#b266ff25",
+    "--box-border": "#5d0099",
+    "--clock-bg": "#9f66ff",
+  }
 ];
+
+const container = document.getElementById('color-picker');
+themes.forEach((theme, index) => {
+  const circle = document.createElement('div');
+  circle.className = 'color-circle';
+  circle.style.background = theme["--search-bg"];
+  circle.title = `Theme ${index + 1}`;
+  circle.onclick = () => setTheme(index);
+  container.appendChild(circle);
+});
 
 function setTheme(index) {
   const root = document.documentElement.style;
@@ -5601,6 +5730,7 @@ function setTheme(index) {
   for (const varName in theme) {
     root.setProperty(varName, theme[varName]);
   }
+  localStorage.setItem("color_theme", index)
 }
 
 function favoriteStation(e) {
@@ -6357,3 +6487,113 @@ function toggleNearbyInfo() {
     //toggle on
   }
 }
+
+function openSettingsPage(page) {
+  const page1 = document.getElementById("settings-page-1")
+  const page_map_appearance = document.getElementById("settings-page-2")
+  const page_app_appearance = document.getElementById("settings-page-3")
+  if (page === "2") {
+    page1.classList.add("hidden")
+    page_map_appearance.classList.remove("hidden")
+    loadSetMap()
+  } else if (page === "3") {
+    page1.classList.add("hidden")
+    page_app_appearance.classList.remove("hidden")
+
+  }
+}
+
+function loadSetMap() {
+  const container = document.getElementById("settings-page-2");
+  let item = localStorage.getItem("map_style");
+
+  if (!item) {
+    item = "mapbox://styles/mapbox/dark-v11"
+  };
+
+  const dictionary = {
+    "mapbox://styles/mapbox/satellite-streets-v12": 1,
+    "mapbox://styles/mapbox/dark-v11": 2,
+    "mapbox://styles/mapbox/standard": 3,
+    "mapbox://styles/mapbox/outdoors-v12": 4,
+    "mapbox://styles/mapbox/light-v11": 5,
+    "mapbox://styles/mapbox/navigation-day-v1": 6,
+    "mapbox://styles/mapbox/navigation-night-v1": 7
+  };
+
+  const mapIndex = dictionary[item];
+  if (!mapIndex) return;
+
+  // Reset all indicators
+  container.querySelectorAll(".checkedIndicatorMap").forEach(el => {
+    el.style.opacity = "0";
+  });
+
+  // Find matching image
+  const images = container.querySelectorAll(".mapStyle img");
+
+  let found = false;
+
+  images.forEach(img => {
+    if (img.src.includes(`map${mapIndex}.png`)) {
+      const indicator = img
+        .closest(".mapStyle")
+        .querySelector(".checkedIndicatorMap");
+
+      if (indicator) {
+        indicator.style.opacity = "1";
+        found = true;
+      }
+    }
+  });
+
+  if (!found) {
+    alert("Map not found");
+  }
+}
+
+function enableMapSelection() {
+  const container = document.getElementById("settings-page-2");
+
+  const dictionary = {
+    1: "mapbox://styles/mapbox/satellite-streets-v12",
+    2: "mapbox://styles/mapbox/dark-v11",
+    3: "mapbox://styles/mapbox/standard",
+    4: "mapbox://styles/mapbox/outdoors-v12",
+    5: "mapbox://styles/mapbox/light-v11",
+    6: "mapbox://styles/mapbox/navigation-day-v1",
+    7: "mapbox://styles/mapbox/navigation-night-v1"
+  };
+
+  container.querySelectorAll(".mapStyle").forEach(mapStyle => {
+    mapStyle.addEventListener("click", () => {
+      const img = mapStyle.querySelector("img");
+      if (!img) return;
+
+      const match = img.src.match(/map(\d+)\.png/);
+      if (!match) return;
+
+      const index = match[1];
+      const mapStyleValue = dictionary[index];
+      if (!mapStyleValue) return;
+
+      // Save to localStorage
+      localStorage.setItem("map_style", mapStyleValue);
+
+      // Clear previous selection
+      container.querySelectorAll(".checkedIndicatorMap").forEach(el => {
+        el.classList.remove("active");
+      });
+
+      // Activate current
+      const indicator = mapStyle.querySelector(".checkedIndicatorMap");
+      if (indicator) indicator.classList.add("active");
+
+      console.log("Saved map style:", mapStyleValue);
+      loadSetMap()
+      map.setStyle(mapStyleValue);
+
+    });
+  });
+}
+
