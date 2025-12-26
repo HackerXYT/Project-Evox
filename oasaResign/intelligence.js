@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.0";
+const currentVersion = "2.3.05";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -3507,7 +3507,6 @@ function showStopDetails(stopCode, stopName) {
   haptics.trigger();
   try {
     if (!evoxIds[activeEvoxId]) {
-
     }
     triggerSave(
       evoxIds[activeEvoxId].bus,
@@ -3524,15 +3523,12 @@ function showStopDetails(stopCode, stopName) {
       name: stopName,
     };
     const favStationsJSON = localStorage.getItem("favorite_stations");
-
     if (favStationsJSON) {
       try {
         const favStations = JSON.parse(favStationsJSON);
         const e = document.getElementById("favStation");
         const path = e?.querySelector("svg path");
-
         let isFavorite = false;
-
         if (Array.isArray(favStations) && path) {
           isFavorite = favStations.some((stationNode) => {
             const match =
@@ -3548,7 +3544,6 @@ function showStopDetails(stopCode, stopName) {
             }
             return match;
           });
-
           if (!isFavorite) {
             path.style.fill = "#fff";
             path.style.transform = "scale(1)";
@@ -3559,7 +3554,6 @@ function showStopDetails(stopCode, stopName) {
       }
     }
     document.getElementById("stationInfoName").innerText = stopName;
-
     if (
       document.getElementById("returnTopDefines").classList.contains("scrolled")
     ) {
@@ -3569,7 +3563,6 @@ function showStopDetails(stopCode, stopName) {
     document
       .getElementById("stationsVertical")
       .classList.add("fade-out-slide-down");
-
     setTimeout(function () {
       document.getElementById("stationsVertical").style.display = "none";
       document
@@ -3581,7 +3574,6 @@ function showStopDetails(stopCode, stopName) {
     setTimeout(function () {
       document.getElementById("stationInfo").classList.add("shown");
     }, 200);
-
     fetch(
       `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(
         `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
@@ -3596,10 +3588,11 @@ function showStopDetails(stopCode, stopName) {
       .catch((error) => {
         console.log("intelligence [1] error:", error);
       });
-
-    document.getElementById(
-      "busesComingtoStation"
-    ).innerHTML = `<div class="timeItem skeleton-button2"></div><div class="timeItem skeleton-button2"></div><div class="timeItem skeleton-button2"></div><div class="timeItem skeleton-button2"></div>`;
+    const skeletonItems = 10
+    document.getElementById("busesComingtoStation").innerHTML = ''
+    for (let i = 0; i < skeletonItems; i++) {
+      document.getElementById("busesComingtoStation").innerHTML += `<div class="timeItem skeleton-button2"></div>`;
+    }
     const stop_url_1 = encodeURIComponent(
       `https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`
     );
@@ -3620,10 +3613,12 @@ function showStopDetails(stopCode, stopName) {
         )
           .then((response) => response.json())
           .then((arrivals) => {
+            if (arrivals === null) {
+              arrivals = [];
+            }
             document.getElementById("busesComingtoStation").innerHTML = "";
             let matchFound = false;
             let busesArrivals = {}; // Object to keep track of buses and their arrival times
-
             stop.forEach((data) => {
               count++;
               start[data.LineID] = {
@@ -3635,27 +3630,22 @@ function showStopDetails(stopCode, stopName) {
               if (count === stop.length) {
                 isReady = true;
               }
-
               arrivals.forEach((arrive) => {
                 if (arrive.route_code === data.RouteCode) {
                   if (!busesArrivals[data.LineID]) {
                     busesArrivals[data.LineID] = new Set(); // Initialize a Set for this bus to store unique times
                   }
-
                   busesArrivals[data.LineID].add(arrive.btime2); // Add the new arrival time to the Set (automatically handles duplicates)
-
                   matchFound = true; // Set flag to true if a match is found
                 }
               });
             });
-
             //Get all the buses that are able to come to that station
             fetch(
               `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`
             )
               .then((response) => response.json())
               .then((busesToStation) => {
-
                 Object.keys(busesArrivals).forEach((lineID) => {
                   const arrivalTimes = Array.from(busesArrivals[lineID]).join(
                     "', "
@@ -3709,9 +3699,6 @@ function showStopDetails(stopCode, stopName) {
               .catch((error) => {
                 console.log("getStopGeneralBuses [1] error:", error);
               });
-
-
-
           })
           .catch((error) => {
             document.getElementById("busesComingtoStation").innerHTML = `
@@ -3741,20 +3728,16 @@ function showStopDetails(stopCode, stopName) {
     // $("#userFeed").fadeIn("fast")
     document.getElementById("userFeed").classList.remove("focused");
     document.getElementById("userFeed").style.display = "block";
-
     document.getElementById("busTimetable").classList.remove("shown");
     document.getElementById("busTimetable").style.display = "none";
-
     setTimeout(function () {
       document.getElementById("busTimetable").style.display = "block";
       document
         .getElementById("busTimetable")
         .classList.remove("fade-out-slide-down");
     }, 200);
-
     setTimeout(function () {
       document.getElementById("userFeed").classList.add("focused");
-
       if (
         document
           .getElementById("returnTopDefines")
@@ -3763,26 +3746,21 @@ function showStopDetails(stopCode, stopName) {
         const element = document.getElementById("main-wrapper");
         element.scrollTop = 0;
       }
-
       document
         .getElementById("stationsVertical")
         .classList.remove("fade-out-slide-down");
       document.getElementById("stationsVertical").classList.remove("shown");
       document.getElementById("stationsVertical").style.display = "block";
-
       setTimeout(function () {
         document.getElementById("stationsVertical").classList.add("shown");
       }, 200);
-
       setTimeout(function () {
         document.getElementById("busTimetable").style.display = "none";
         document.getElementById("busTimetable").classList.remove("shown");
       }, 200);
-
       closeSearch();
       document.getElementById("searchIntelli").classList.remove("notLoaded");
     }, 400);
-
     directBack = false;
   }
 }
