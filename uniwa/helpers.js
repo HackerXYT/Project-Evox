@@ -87,6 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enter fullscreen on scroll down (keep this – it works great)
 
   container.addEventListener('scroll', () => {
+    // Usage
+    if (isDesktop()) {
+      return;
+    }
+
     if (isTransitioning) return; // ignore scroll during animation
     if (container.scrollTop > 10 && !announcements.classList.contains('fullscreen')) {
       enterFullScreen(announcements, () => {
@@ -283,4 +288,69 @@ function openDrawer() {
 function capitalizeGreek(str) {
   if (!str) return str;
   return str[0].toLocaleUpperCase('el-GR') + str.slice(1);
+}
+
+
+function getFileType(extension) {
+  if (!extension) return "Unknown";
+
+  const ext = extension.toLowerCase().replace(/^\./, ''); // remove leading dot if present
+
+  const types = {
+    'ppt': 'Αρχείο PowerPoint',
+    'pptx': 'Αρχείο PowerPoint',
+    'doc': 'Αρχείο Word',
+    'docx': 'Αρχείο Word',
+    'xls': 'Αρχείο Excel',
+    'xlsx': 'Αρχείο Excel',
+    'pdf': 'Αρχείο PDF',
+    'txt': 'Αρχείο κειμένου',
+    'jpg': 'Εικόνα',
+    'jpeg': 'Εικόνα', //
+    'png': 'Εικόνα',
+    'gif': 'Εικόνα GIF',
+    'mp3': 'Αρχείο ήχου',
+    'wav': 'Αρχείο ήχου',
+    'mp4': 'Βίντεο',
+    'mov': 'Βίντεο',
+    'zip': 'Συμπιεσμένο ZIP',
+    'rar': 'Συμπιεσμένο RAR',
+    // add more as needed
+  };
+
+  return types[ext] || "Unknown";
+}
+
+function getFileExtension(filename) {
+  if (typeof filename !== 'string' || !filename.includes('.')) return '';
+
+  const parts = filename.split('.');
+  return parts.pop().toLowerCase(); // returns extension in lowercase
+}
+
+function isDesktop() {
+  // Option 1: Using userAgent to detect mobile devices
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isMobile = /android|iphone|ipad|ipod|windows phone|blackberry|mobile/i.test(userAgent);
+  if (!isMobile) return true;
+
+  // Option 2 (optional): fallback to screen width check
+  return window.innerWidth > 1024; // Consider devices wider than 1024px as desktop
+}
+
+
+function logout() {
+  const keysToRemove = [
+    "university",
+    "uni_name",
+    "uni_pfp",
+    "uni_notifications"
+  ];
+
+  keysToRemove.forEach(key => {
+    localStorage.removeItem(key);
+  });
+
+  window.location.reload();
+
 }

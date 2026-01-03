@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("statusNotif").style.color = "rgb(255, 92, 92)";
       document.getElementById("notificationsToggle").checked = false;
     }
-    document.getElementById("name-username").innerText = `${localStorage.getItem("uni_name") || "Άγνωστο"
-      } - ${getToken().slice(0, 10)}`;
+    document.getElementById("name-username").innerText = `Καλωσόρισες, ${localStorage.getItem("uni_name") || ""}`;
 
 
     getAnnouncements().then((announcements) => {
@@ -80,8 +79,8 @@ function login() {
                       "notificationsToggle"
                     ).checked = false;
                   }
-                  document.getElementById("name-username").innerText = `${localStorage.getItem("uni_name") || "Άγνωστο"
-                    } - ${getToken().slice(0, 10)}`;
+                  document.getElementById("name-username").innerText = `Καλωσόρισες, ${localStorage.getItem("uni_name") || ""}`;
+
                   getAnnouncements().then((announcements) => {
                     console.log(announcements)
                     getCourses()
@@ -313,31 +312,92 @@ async function openCourse(course) {
     Authorization: `Bearer ${token}`,
   }).then((data) => {
     console.log(data);
-    container.innerHTML = ''
-    let toSpawn = ``
-    data.forEach((courseCategory, i) => {
-      toSpawn += `<div class="fullRow">
-                <p class="cat_name">${capitalizeGreek(courseCategory.sectionName)}</p>
-            </div>`
-      courseCategory.modules.forEach((cat, i) => {
-        console.log(cat)
-        toSpawn += `<div class="announcement bg2"><div data-c="${cat.type}" class="emoji">${icons[cat.type] || icons.default}</div>
-    <div class="col">
-        <div class="courseName">${capitalizeGreek(cat.name)}</span></div>
-    </div>
-</div>`
-      })
-      if (courseCategory.modules.length === 0) {
-        toSpawn += `<div class="announcement off" style="min-height: 30px;">
-        <div class="courseName wauto"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#fff" version="1.1" width="25px" height="25px" viewBox="0 0 142.916 142.916" xml:space="preserve">
-		<path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
-    </svg></div>
-</div>`
-      }
-    })
+    // Clear container
+    container.textContent = '';
 
-    container.innerHTML = toSpawn
-    container.innerHTML += `<div class="announcement off"></div>`
+    data.forEach(courseCategory => {
+      // Full row for category name
+      const fullRow = document.createElement('div');
+      fullRow.className = 'fullRow';
+
+      const catName = document.createElement('p');
+      catName.className = 'cat_name';
+      catName.textContent = capitalizeGreek(courseCategory.sectionName.replaceAll("`", ""));
+
+      fullRow.appendChild(catName);
+      container.appendChild(fullRow);
+
+      // Modules
+      courseCategory.modules.forEach(cat => {
+        const announcement = document.createElement('div');
+        announcement.className = 'announcement bg2';
+
+        // Emoji
+        const emojiDiv = document.createElement('div');
+        emojiDiv.className = 'emoji';
+        emojiDiv.dataset.c = cat.type;
+        emojiDiv.innerHTML = icons[cat.type] || icons.default;
+
+        // Column
+        const colDiv = document.createElement('div');
+        colDiv.className = 'col';
+
+        const courseNameDiv = document.createElement('div');
+        courseNameDiv.className = 'courseName';
+        courseNameDiv.textContent = capitalizeGreek(cat.name.replaceAll("΄", ""));
+        colDiv.appendChild(courseNameDiv);
+
+        // Resource info
+        if (cat.type === 'resource') {
+          const annText = document.createElement('div');
+          annText.className = 'ann_text';
+          const files = cat.contents.length;
+
+          let fileInfo = `${files} ${files === 1 ? "αρχείο" : "αρχεία"}`;
+          const ext = getFileExtension(cat.contents[0].filename)
+          const fileType = getFileType(ext)
+          if (files === 1) {
+            if (ext === 'png' || ext === 'gif' || ext === 'jpg' || ext === 'jpeg') {
+              emojiDiv.innerHTML = `<img src="${cat.contents[0].fileurl}" style="border-radius: 12px;" width="35px" height="35px">`
+            } else {
+              emojiDiv.innerHTML = `<img src="./icons/${ext}.svg" width="25px" height="25px">`
+            }
+            announcement.addEventListener("click", () => {
+              window.open(cat.contents[0].fileurl, "_blank");
+
+            });
+            fileInfo += ` - ${fileType}`;
+          }
+          annText.textContent = fileInfo;
+          colDiv.appendChild(annText);
+        }
+
+        announcement.appendChild(emojiDiv);
+        announcement.appendChild(colDiv);
+        container.appendChild(announcement);
+      });
+
+      // If no modules
+      if (courseCategory.modules.length === 0) {
+        const announcement = document.createElement('div');
+        announcement.className = 'announcement off';
+        announcement.style.minHeight = '30px';
+
+        const courseNameDiv = document.createElement('div');
+        courseNameDiv.className = 'courseName wauto';
+        courseNameDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#fff" version="1.1" width="25px" height="25px" viewBox="0 0 142.916 142.916" xml:space="preserve">
+      <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
+    </svg>`;
+        announcement.appendChild(courseNameDiv);
+        container.appendChild(announcement);
+      }
+    });
+
+    // Extra placeholder
+    const placeholder = document.createElement('div');
+    placeholder.className = 'announcement off';
+    container.appendChild(placeholder);
+
 
   });
 

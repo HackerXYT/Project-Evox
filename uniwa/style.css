@@ -383,6 +383,7 @@ h5 {
 .announcement.bg2 {
   background-color: #222222;
   align-items: center;
+  cursor: pointer;
 }
 
 .announcement.skeleton {
@@ -541,7 +542,7 @@ a:active {
   z-index: 99999;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
-  transform: translateX(100%);
+  transform: translateX(100vw);
   transition: transform 0.3s ease;
 }
 
@@ -551,6 +552,7 @@ a:active {
 }
 
 .drawer img {
+  cursor: pointer;
   width: 50px;
   height: 50px;
 }
@@ -588,6 +590,7 @@ a:active {
   padding: 5px;
   background-color: #272727;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .wauto {
@@ -599,11 +602,38 @@ a:active {
   top: 0;
   left: 0;
   background-color: #121212;
-  transform: translateX(100%);
+  transform: translateX(100vw);
   transition: transform 0.3s ease;
   z-index: 99999;
 }
 
 .main-sliding.active {
   transform: translateX(0);
+}
+
+#spawnCategoriesAndCourseInfo {
+  overflow-y: auto;
+}
+
+/* Entire scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #121212;
+  border-radius: 5px;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #272727;
+  border-radius: 6px;
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

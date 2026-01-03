@@ -7,6 +7,7 @@
     <title>EduVox</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="outer.css">
+    <link rel="stylesheet" href="desktop-responsive.css">
     <link rel="apple-touch-icon-precomposed" href="logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +27,7 @@
         <div class="tab">
             Λογαριασμός
         </div>
-        <div class="tab">
+        <div onclick="logout()" class="tab">
             Αποσύνδεση
         </div>
         <div onclick="closeDrawer()" class="tab cc">
@@ -85,7 +86,7 @@
             </div>
         </div>
         <div class="fullRow">
-            <p class="header">Τι θα κάνεις σήμερα;</p>
+            <p id="name-username" class="header">Τι θα κάνεις σήμερα;</p>
         </div>
         <div class="fullRow">
             <div class="search-container">
@@ -134,12 +135,12 @@
         <div class="bottom">
             Συνδεδεμένος χρήστης
             <br>
-            <vox id="name-username">name - username</vox>
+            <vox>name - username</vox>
         </div>
     </div>
     <div class="setup columnCentered" style="display: none;" id="setup">
         <img src="logoWhite.png">
-        <h3>Σύνδεση</h3>
+        <h3>EduVox</h3>
         <div class="group splitSection">
             <svg stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="icon">
                 <path
@@ -165,8 +166,15 @@
 
             </div>
         </button>
-        <span class="notice-text">Ο κωδικός σας δεν αποθηκεύεται ποτέ.<br>Τα
+        <span style="margin-top: 20px;" class="notice-text">Ο κωδικός σας δεν αποθηκεύεται ποτέ.<br>Τα
             δεδομένα σας είναι ασφαλή.</span>
+        <span class="notice-text">Δοκιμαστική εφαρμογή του οικοσυστήματος Evox,<br> με περιορισμένη πρόσβαση.<br>Δεν
+            αντικαθιστά την πλατφόρμα Moodle.</span>
+        <span style="cursor: pointer;color: #857eff;" class="notice-text"
+            onclick="window.location.href = '../privacy'">Πολιτική
+            Απορρήτου Evox</span>
+        <span style="cursor: pointer;color:#857eff;" class="notice-text" onclick="window.location.href = '../'">Μάθετε
+            περισσότερα</span>
     </div>
     <div id="generalLoading" class="columnCentered">
         <div class="loader"></div>
