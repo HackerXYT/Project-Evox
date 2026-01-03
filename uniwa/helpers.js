@@ -150,7 +150,8 @@ function enterFullScreen(element, createPlaceholderCallback) {
   element.style.left = `${rect.left}px`;
   element.style.width = `${rect.width}px`;
   element.style.height = `${rect.height}px`;
-
+  element.style.marginTop = '0'
+  element.style.margin = '0'
   // Force reflow to apply changes
   void element.offsetHeight;
 
@@ -166,51 +167,51 @@ function enterFullScreen(element, createPlaceholderCallback) {
 function exitFullScreen(element, placeholder, cleanupCallback) {
   if (!placeholder) return;
 
-  // Step 0: Scroll container to top to avoid iOS jump
-  const container = document.getElementById('announcementsContainer');
-  if (container) container.scrollTop = 0;
-
   const targetRect = placeholder.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
 
-  // Step 1: Fix element at full-screen start
-  element.style.position = 'absolute'; // absolute works better than fixed on iOS
-  element.style.top = '0px';
-  element.style.left = '0px';
-  element.style.width = '100vw';
-  element.style.height = '100vh';
+  // Freeze element visually
+  element.style.position = 'fixed';
+  element.style.top = `${elementRect.top}px`;
+  element.style.left = `${elementRect.left}px`;
+  element.style.width = `${elementRect.width}px`;
+  element.style.height = `${elementRect.height}px`;
 
   void element.offsetHeight; // force reflow
 
-  // Step 2: Trigger transition to placeholder
+  const deltaX = targetRect.left - elementRect.left;
+  const deltaY = targetRect.top - elementRect.top;
+  const scaleX = targetRect.width / elementRect.width;
+  const scaleY = targetRect.height / elementRect.height;
+
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      element.style.transition = 'all 0.3s ease';
-      element.style.top = `${targetRect.top + window.scrollY}px`;
-      element.style.left = `${targetRect.left + window.scrollX}px`;
-      element.style.width = `${targetRect.width}px`;
-      element.style.height = `${targetRect.height}px`;
-    });
+    element.style.transition = 'transform 0.3s ease';
+    element.style.margin = '-10px'
+    element.style.marginTop = '10px'
+    element.style.transform = `
+      translate(${deltaX}px, ${deltaY}px)
+      scale(${scaleX}, ${scaleY})
+    `;
   });
 
-  // Step 3: Cleanup
   const cleanup = () => {
     element.classList.remove('fullscreen');
     element.style.transition = '';
+    element.style.transform = '';
     element.style.position = '';
     element.style.top = '';
     element.style.left = '';
     element.style.width = '';
     element.style.height = '';
-    if (placeholder) placeholder.remove();
+    placeholder.remove();
     cleanupCallback?.();
     element.removeEventListener('transitionend', cleanup);
   };
 
   element.addEventListener('transitionend', cleanup);
-
-  // Fallback
   setTimeout(cleanup, 400);
 }
+
 
 
 
@@ -277,4 +278,9 @@ function closeDrawer() {
 function openDrawer() {
   document.getElementById("home").style.filter = "brightness(0.5)"
   document.getElementById("drawer").classList.add("active")
+}
+
+function capitalizeGreek(str) {
+  if (!str) return str;
+  return str[0].toLocaleUpperCase('el-GR') + str.slice(1);
 }

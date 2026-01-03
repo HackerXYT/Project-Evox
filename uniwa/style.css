@@ -56,6 +56,16 @@ body {
   transition: filter 0.3s ease;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none;
+  gap: 15px !important;
+}
+
 .fullRow {
   display: flex;
   width: 100%;
@@ -335,6 +345,8 @@ h5 {
   margin: -10px;
   margin-top: 15px;
   padding-bottom: 0;
+  will-change: transform;
+  transform-origin: top left;
   /* hide content outside */
 }
 
@@ -354,7 +366,7 @@ h5 {
   padding-bottom: 50px;
 }
 
-.announcementsContainer .announcement {
+.announcement {
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -368,7 +380,12 @@ h5 {
   /* wrap long words */
 }
 
-.announcementsContainer .announcement.skeleton {
+.announcement.bg2 {
+  background-color: #222222;
+  align-items: center;
+}
+
+.announcement.skeleton {
   width: 100%;
   min-height: 80px;
   box-sizing: border-box;
@@ -381,7 +398,17 @@ h5 {
   animation: shimmer 1.5s linear infinite;
 }
 
-.announcementsContainer .announcement .col {
+.announcement.off {
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement .col {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -540,4 +567,43 @@ a:active {
 
 .drawer .tab.cc {
   margin-top: auto;
+}
+
+#courseShow {
+  overflow-y: auto;
+}
+
+.emoji svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: #272727;
+  border-radius: 20px;
+}
+
+.wauto {
+  width: auto;
+}
+
+.main-sliding {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #121212;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 99999;
+}
+
+.main-sliding.active {
+  transform: translateX(0);
 }

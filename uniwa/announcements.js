@@ -50,6 +50,7 @@ function spawnAnnouncements() {
         if (i >= MAX_ANNOUNCEMENTS) return; // stop rendering
 
         const dictionaryItem = coursesDictionary.find(c => c.full === announcement.course);
+        console.log(dictionaryItem)
         const shortName = dictionaryItem.short;
         const emoji = dictionaryItem.emoji;
 
@@ -142,6 +143,10 @@ async function getCourses() {
             card.appendChild(content);
 
             coursesContainer.appendChild(card);
+
+            card.addEventListener("click", () => {
+                openCourse(course)
+            });
         });
 
     });
