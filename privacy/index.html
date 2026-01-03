@@ -102,9 +102,6 @@
     }
 </style>
 <script>
-    setTimeout(function () {
-
-    }, 1000)
     document.addEventListener('DOMContentLoaded', (event) => {
         console.log('DOM fully loaded and parsed');
         if (window.innerWidth > 1000) {
@@ -145,32 +142,32 @@
         document.getElementById("logo").style.height = "300px"
         document.getElementById("logo").style.opacity = "1"
         setTimeout(function () {
-        if (window.innerWidth > 1000) {
-            setTimeout(function () {
-                document.body.style.backgroundColor = '#1e1e1e'
-                const customBody = document.querySelector("[data-custom-class='body']");
-                if (customBody) {
-                    customBody.style.maxWidth = "800px";
-                    customBody.style.margin = "0 auto";
-                }
+            if (window.innerWidth > 1000) {
+                setTimeout(function () {
+                    document.body.style.backgroundColor = '#1e1e1e'
+                    const customBody = document.querySelector("[data-custom-class='body']");
+                    if (customBody) {
+                        customBody.style.maxWidth = "800px";
+                        customBody.style.margin = "0 auto";
+                    }
+                    document.getElementById("logo").style.width = "1000px"
+                    document.getElementById("logo").style.height = "1000px"
+                    document.getElementById("logo").style.opacity = "0"
+                    setTimeout(function () {
+                        document.getElementById("logo").style.display = "none"
+                    }, 1100)
+                }, 100)
+                console.log(window.innerWidth)
+
+            } else {
                 document.getElementById("logo").style.width = "1000px"
                 document.getElementById("logo").style.height = "1000px"
                 document.getElementById("logo").style.opacity = "0"
                 setTimeout(function () {
                     document.getElementById("logo").style.display = "none"
                 }, 1100)
-            }, 100)
-            console.log(window.innerWidth)
-
-        } else {
-            document.getElementById("logo").style.width = "1000px"
-            document.getElementById("logo").style.height = "1000px"
-            document.getElementById("logo").style.opacity = "0"
-            setTimeout(function () {
-                document.getElementById("logo").style.display = "none"
-            }, 1100)
-        }
-    }, 100)
+            }
+        }, 100)
     }
 
     // Add the event listener for resize
@@ -196,15 +193,15 @@
                 </span></span></strong></div>
     <div><br></div>
     <div><span style="color: #dcdcdc;"><strong><span style="font-size: 15px;"><span data-custom-class="subtitle">Last
-                        updated <bdt class="question">September 28, 2024</bdt>
+                        updated <bdt class="question">January 3, 2026</bdt>
                     </span></span></strong></span></div>
     <div><br></div>
     <div><br></div>
     <div><br></div>
     <div style="line-height: 1.5;"><span style="color: #dcdcdc;"><span style="color: #bababa; font-size: 15px;"><span
                     data-custom-class="body_text">This Privacy Notice
-                    for <bdt class="question">Twentyone Ross<bdt class="block-component"></bdt> (doing business as <bdt
-                            class="question">Evox</bdt>)<bdt class="statement-end-if-in-editor"></bdt>
+                    for <bdt class="question">Gregory Papapostolou<bdt class="block-component"></bdt> (doing business as
+                        <bdt class="question">Evox</bdt>)<bdt class="statement-end-if-in-editor"></bdt>
                     </bdt> (<bdt class="block-component"></bdt>"<strong>we</strong>," "<strong>us</strong>," or
                     "<strong>our</strong>"<bdt class="statement-end-if-in-editor"></bdt></span><span
                     data-custom-class="body_text">), describes how and why we might access, collect, store, use, and/or
@@ -4715,7 +4712,7 @@
                                                                                                                                                 <bdt
                                                                                                                                                     class="question">
                                                                                                                                                     admin@evoxs.xyz
-                                                                                                                                                    or 
+
                                                                                                                                                 </bdt>
                                                                                                                                                 <bdt
                                                                                                                                                     class="statement-end-if-in-editor">
@@ -4723,14 +4720,7 @@
                                                                                                                                                         class="block-component">
                                                                                                                                                     </bdt>
                                                                                                                                                 </bdt>
-                                                                                                                                            </span></span><span
-                                                                                                                                            style="font-size: 15px; color: #bababa;"><span
-                                                                                                                                                style="font-size: 15px; color: #bababa;"><span
-                                                                                                                                                    data-custom-class="body_text">contact
-                                                                                                                                                    us
-                                                                                                                                                    by
-                                                                                                                                                    post
-                                                                                                                                                    at:</span></span></span></span></span></span>
+                                                                                                                                            </span></span></span></span></span>
                                                                                                                         </div>
                                                                                                                         <div
                                                                                                                             style="line-height: 1.5;">
@@ -4748,8 +4738,8 @@
                                                                                                                                                         data-custom-class="body_text">
                                                                                                                                                         <bdt
                                                                                                                                                             class="question">
-                                                                                                                                                            Twentyone
-                                                                                                                                                            Ross
+                                                                                                                                                            Gregory
+                                                                                                                                                            Papapostolou
                                                                                                                                                         </bdt>
                                                                                                                                                     </span></span></span></span></span><span
                                                                                                                                         data-custom-class="body_text"><span
@@ -4833,7 +4823,10 @@
                                                                                                                                     <bdt
                                                                                                                                         class="question">
                                                                                                                                         Founded
-                                                                                                                                        by
+                                                                                                                                        with
+                                                                                                                                        the
+                                                                                                                                        support
+                                                                                                                                        of
                                                                                                                                         T50
                                                                                                                                     </bdt>
                                                                                                                                     <span
