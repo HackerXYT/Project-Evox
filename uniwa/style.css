@@ -7,12 +7,22 @@ html,
 body {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  touch-action: manipulation; /*Hold effects*/
+  touch-action: manipulation;
+  /*Hold effects*/
   overflow: hidden;
   height: 100%;
   font-family: "SF Pro Text";
   background-color: #121212;
   color: #e8e8e8;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   margin: 0;
 }
 
@@ -33,18 +43,73 @@ body {
   height: 100%;
 }
 
-.setup,.main {
+.columnGeneral {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  gap: 15px !important;
+  position: relative;
+  overscroll-behavior: none;
+  transition: filter 0.3s ease;
+}
+
+.fullRow {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.fullRow.around {
+  justify-content: space-between;
+}
+
+.pfp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+.pfp img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.sidebarToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #2b2b2b;
+  border-radius: 12px;
+
+}
+
+.fullRow .header {
+  font-size: 22px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.setup,
+.main {
   gap: 10px;
 }
 
 #generalLoading {
-    display: none;
-    gap: 20px;
+  display: none;
+  gap: 20px;
 }
 
 .setup img {
-  width: 55px;
-  height: 55px;
+  width: 75px;
+  height: 75px;
 }
 
 h1,
@@ -66,17 +131,413 @@ h5 {
 }
 
 .normalSize {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .bottom {
-    position: fixed;
-    bottom: env(safe-area-inset-bottom);
-    margin-bottom: 20px;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  bottom: env(safe-area-inset-bottom);
+  margin-bottom: 20px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1a;
+  /* Dark grey background */
+  padding: 12px 20px;
+  border-radius: 15px;
+  /* Makes it a pill/capsule shape */
+  width: 100%;
+  /* Adjust width as needed */
+  border: 1px solid #2a2a2a;
+  /* Subtle border for depth */
+}
+
+.search-input:focus {
+  outline: none;
+  /* Removes the default blue/orange border */
+  box-shadow: none;
+  /* Removes any glow effects */
+  background: transparent;
+  background-color: transparent;
+  /* Ensures no background color change */
+}
+
+/* If the container itself is changing color, add this: */
+.search-container:focus-within {
+  outline: none;
+  border-color: #2a2a2a;
+  /* Keep the border the same as its idle state */
+}
+
+.search-icon {
+  color: #888;
+  /* Muted grey icon */
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  background-color: transparent !important;
+  border: none;
+  outline: none;
+  color: #fff;
+  /* White typing text */
+  font-size: 16px;
+  width: 100%;
+}
+
+.fullRow.carousel {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Style for the placeholder text */
+.search-input::placeholder {
+  color: #666;
+  /* Matches the muted look of the image */
+}
+
+.cat_name {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.announcements .fullRow .cat_name,
+.courseName.cat_name {
+  margin-left: 0;
+}
+
+.carousel {
+  /* For Firefox */
+  scrollbar-width: none;
+
+  /* For Internet Explorer and Edge */
+  -ms-overflow-style: none;
+
+  /* Ensure scrolling is still enabled */
+  overflow-x: auto;
+  border-radius: 24px;
+}
+
+/* For Chrome, Safari, and Opera */
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card Base */
+.card {
+  min-width: 160px;
+  height: 220px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.card.skeleton {
+  min-width: 160px;
+  height: 220px;
+  border-radius: 24px;
+  box-sizing: border-box;
+  padding: 20px;
+  background: linear-gradient(90deg,
+      #2c2c2c 25%,
+      #3a3a3a 50%,
+      #2c2c2c 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+/* Specific Card Backgrounds */
+.bg-blue {
+  background-color: #f0f5ff;
+}
+
+.bg-green {
+  background-color: #f0f9f0;
+}
+
+.bg-yellow {
+  background-color: #fff9eb;
+}
+
+/* Icon Styling */
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  /* This shadow creates the 3D floating effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Text Styling */
+.card-content {
+  text-align: center;
+}
+
+.title {
+  display: block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  display: block;
+  font-size: 0.75rem;
+  color: #ffffff9c;
+  font-weight: 500;
+}
+
+.announcements {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* takes remaining height */
+  padding: 20px;
+  gap: 15px;
+  background-color: #1f1f1f;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+  overflow: hidden;
+  margin: -10px;
+  margin-top: 15px;
+  padding-bottom: 0;
+  /* hide content outside */
+}
+
+.announcementsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  /* take remaining height in parent */
+  overflow-y: auto;
+  /* enable vertical scroll */
+  margin-left: -20px;
+  margin-right: -20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 10px;
+  padding-bottom: 50px;
+}
+
+.announcementsContainer .announcement {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  /* change from center to top alignment */
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  gap: 10px;
+  background-color: #121212;
+  overflow-wrap: break-word;
+  /* wrap long words */
+}
+
+.announcementsContainer .announcement.skeleton {
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
+  padding: 20px;
+  background: linear-gradient(90deg,
+      #2c2c2c 25%,
+      #3a3a3a 50%,
+      #2c2c2c 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+.announcementsContainer .announcement .col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  /* allow column to take available width */
+  min-width: 0;
+  /* important to allow flex items to shrink */
+  gap: 5px;
+}
+
+
+.ann_text {
+  font-size: 14px;
+  word-break: break-word;
+  /* wrap very long words */
+}
+
+ul,
+ol {
+  padding-inline-start: 13px;
+}
+
+.emoji {
+  font-size: 22px;
+}
+
+.courseName {
+  font-size: 18px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+a {
+  color: #919191;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+a:visited {
+  color: #919191;
+}
+
+a:active {
+  color: #fff;
+}
+
+.announcements {
+  transition: top 0.3s ease-in-out, left 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out, margin 0.2s ease;
+  position: relative;
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  /* Ensures consistent bounding rect */
+}
+
+.announcements.fullscreen {
+  margin: 0;
+
+  /* keep minimal fullscreen styling here, but don't force transitions here */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* don't set transition here; transitions are controlled inline in JS */
+  overflow: auto;
+  z-index: 999;
+  border-radius: 0;
+}
+
+
+.announcements.fullscreen #announcementsContainer {
+  height: calc(100% - 50px);
+  /* Adjust '50px' to EXACTLY match your header (.fullRow) height; measure it in dev tools if needed */
+  overflow-y: auto;
+}
+
+#announcementsContainer {
+  -webkit-overflow-scrolling: touch;
+  /* Enables momentum + rubber-band */
+  overscroll-behavior-y: contain;
+  /* Contains overscroll inside → no page pull-to-refresh */
+  touch-action: pan-y pinch-zoom;
+  /* Allows vertical scroll + zoom, blocks other gestures */
+}
+
+.loadMore {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadMore .button {
+  width: auto;
+  display: flex;
+  align-items: center;
+  background-color: #121212;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 5px 15px;
+}
+
+.ann_text p {
+  margin-top: 4px;
+}
+
+.farRight {
+  font-size: 14px;
+
+  margin-left: auto;
+}
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  background-color: #1f1f1f;
+  z-index: 99999;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.drawer.active {
+  transform: translateX(0);
+
+}
+
+.drawer img {
+  width: 50px;
+  height: 50px;
+}
+
+.drawer .tab {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  background-color: #121212;
+  border-radius: 15px;
+  align-items: center;
+}
+
+.drawer .tab.cc {
+  margin-top: auto;
 }

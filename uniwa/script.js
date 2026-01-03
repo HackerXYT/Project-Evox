@@ -12,10 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("statusNotif").style.color = "rgb(255, 92, 92)";
       document.getElementById("notificationsToggle").checked = false;
     }
-    document.getElementById("name-username").innerText = `${
-      localStorage.getItem("uni_name") || "Άγνωστο"
-    } - ${getToken().slice(0, 10)}`;
-    document.getElementById("main").style.display = "flex";
+    document.getElementById("name-username").innerText = `${localStorage.getItem("uni_name") || "Άγνωστο"
+      } - ${getToken().slice(0, 10)}`;
+
+
+    getAnnouncements().then((announcements) => {
+      console.log(announcements)
+      getCourses()
+    });
+    //document.getElementById("main").style.display = "flex";
+    document.getElementById("home").style.display = "flex";
   }
 });
 
@@ -49,6 +55,7 @@ function login() {
               loading.classList.remove("popin");
               localStorage.setItem("uni_name", data.name);
               document.getElementById("name").innerText = data.name;
+              localStorage.setItem("uni_pfp", data.profileImage ? profileImage : "default")
               document.getElementById("welcomeMsg").style.display = "block";
               setTimeout(function () {
                 loading.classList.add("popout");
@@ -73,10 +80,14 @@ function login() {
                       "notificationsToggle"
                     ).checked = false;
                   }
-                  document.getElementById("name-username").innerText = `${
-                    localStorage.getItem("uni_name") || "Άγνωστο"
-                  } - ${getToken().slice(0, 10)}`;
-                  document.getElementById("main").style.display = "flex";
+                  document.getElementById("name-username").innerText = `${localStorage.getItem("uni_name") || "Άγνωστο"
+                    } - ${getToken().slice(0, 10)}`;
+                  getAnnouncements().then((announcements) => {
+                    console.log(announcements)
+                    getCourses()
+                  });
+                  //document.getElementById("main").style.display = "flex";
+                  document.getElementById("home").style.display = "flex";
                 }, 400);
               }, 3500);
             } else {
