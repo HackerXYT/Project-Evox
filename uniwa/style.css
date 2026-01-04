@@ -72,6 +72,15 @@ body {
   align-items: center;
 }
 
+.simpleRow {
+  display: flex;
+  align-items: center;
+}
+
+.gap-root {
+  gap: 10px;
+}
+
 .fullRow.around {
   justify-content: space-between;
 }
@@ -110,6 +119,27 @@ body {
 .setup,
 .main {
   gap: 10px;
+  background: radial-gradient(circle at 20% 10%,
+      #1a3c1a 0%,
+      #0a140a 50%,
+      #050805 100%);
+}
+
+.setup {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  gap: 15px !important;
+  position: relative;
+  overscroll-behavior: none;
+  transition: filter 0.3s ease;
+  background: radial-gradient(circle at 20% 10%,
+      #1a3c1a 0%,
+      #0a140a 50%,
+      #050805 100%);
 }
 
 #generalLoading {
@@ -378,6 +408,7 @@ h5 {
   background-color: #121212;
   overflow-wrap: break-word;
   /* wrap long words */
+  user-select: text;
 }
 
 .announcement.bg2 {
@@ -523,7 +554,6 @@ a:active {
 
 .farRight {
   font-size: 14px;
-
   margin-left: auto;
 }
 
@@ -636,4 +666,286 @@ a:active {
 /* Thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.imglogin {
+  width: 35px !important;
+  height: 35px !important;
+}
+
+/* Container for spacing between fields */
+.form-group {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 400px;
+  /* Adjust based on your layout */
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* The wrapper that mimics the input look */
+.input-container {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  /* Subtle dark transparency */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Soft border */
+  border-radius: 12px;
+  padding: 0 15px;
+  transition: border-color 0.3s ease;
+}
+
+.input-container:focus-within {
+  border-color: #63d451;
+  /* Highlight border on click */
+}
+
+/* The actual input tag */
+.input-container input {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 15px 10px;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-container input:focus {
+  outline: none;
+  background-color: transparent;
+}
+
+.input-container input:hover {
+  outline: none;
+  background-color: transparent;
+}
+
+/* Placeholder color */
+.input-container input::placeholder {
+  color: #FFFFFF66;
+}
+
+/* Empty icon slots */
+.icon-placeholder {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  /* Dimensions & Layout */
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+
+  /* Background Gradient: From Green to Lime */
+  background: linear-gradient(90deg, #4ade807d 0%, #d9f99d 100%);
+
+  /* Text Styling */
+  color: #050805;
+  /* Dark text for high contrast against the bright button */
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+
+  /* Border & Shape */
+  border: none;
+  border-radius: 50px;
+  /* Pill shape */
+
+  /* Interaction */
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Subtle hover and active effects for better UX */
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  /* Slight "press" effect when clicked */
+}
+
+/* --- Separator Styling --- */
+.separator {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+}
+
+/* These create the thin lines on either side of "Or" */
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.separator:not(:empty)::before {
+  margin-right: 15px;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 15px;
+}
+
+/* --- Social Section Styling --- */
+.social-container {
+  display: flex;
+  gap: 15px;
+  /* Spacing between Google and Apple */
+  width: 100%;
+}
+
+.btn-social {
+  flex: 1;
+  /* Makes both buttons equal width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Very subtle transparency */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 14px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-social:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.icon-placeholder img {
+  width: 20px;
+  height: 20px;
+}
+
+.centerMiddle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 10px;
+}
+
+.uni-selector {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+
+  padding: 8px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.uni-selector:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.icon-placeholder {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-placeholder.svg {
+  width: 25px;
+  height: 25px;
+}
+
+.icon-placeholder.round img {
+  border-radius: 5px;
+}
+
+.h2login {
+  width: 100%;
+}
+
+.lowerText {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-sizing: border-box;
+  padding-bottom: 15px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+:root {
+  --bg-color: #121212;
+  --loader-color: #fff;
+}
+
+#loading {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: transparent;
+
+  border-top: 1px solid var(--bg-color);
+  border-right: 1px solid var(--bg-color);
+  border-bottom: 1px solid var(--loader-color);
+  border-left: 1px solid var(--loader-color);
+
+  animation: loading 1.2s infinite linear;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
 }

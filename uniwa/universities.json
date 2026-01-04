@@ -1,0 +1,396 @@
+{
+    "records": [
+        {
+            "id": 19587,
+            "title": "\u0391.\u0395.\u039d.",
+            "full-title": "\u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1 \u0395\u03bc\u03c0\u03bf\u03c1\u03b9\u03ba\u03bf\u03cd \u039d\u03b1\u03c5\u03c4\u03b9\u03ba\u03bf\u03cd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aen.png"
+        },
+        {
+            "id": 19591,
+            "title": "\u0391\u0395\u0391 \u0391\u0398\u0397\u039d\u0391\u03a3",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u0395\u03ba\u03ba\u03bb\u03b7\u03c3\u03b9\u03b1\u03c3\u03c4\u03b9\u03ba\u03ae \u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1 \u0391\u03b8\u03ae\u03bd\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aea_athinas.png"
+        },
+        {
+            "id": 19592,
+            "title": "\u0391\u0395\u0391 \u0398\u0395\u03a3\/\u039d\u0399\u039a\u0397\u03a3",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u0395\u03ba\u03ba\u03bb\u03b7\u03c3\u03b9\u03b1\u03c3\u03c4\u03b9\u03ba\u03ae \u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1 \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aea_thessaloniki.png"
+        },
+        {
+            "id": 19593,
+            "title": "\u0391\u0395\u0391 \u0399\u03a9\u0391\u039d\u039d\u0399\u039d\u03a9\u039d",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u0395\u03ba\u03ba\u03bb\u03b7\u03c3\u03b9\u03b1\u03c3\u03c4\u03b9\u03ba\u03ae \u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1 \u0399\u03c9\u03b1\u03bd\u03bd\u03af\u03bd\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aea_ioanninon.png"
+        },
+        {
+            "id": 19594,
+            "title": "\u0391\u0395\u0391 \u039a\u03a1\u0397\u03a4\u0397\u03a3",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u0395\u03ba\u03ba\u03bb\u03b7\u03c3\u03b9\u03b1\u03c3\u03c4\u03b9\u03ba\u03ae \u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1 \u039a\u03c1\u03ae\u03c4\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aea_kritis.png"
+        },
+        {
+            "id": 19595,
+            "title": "\u0391\u03a0\u0398",
+            "full-title": "\u0391\u03c1\u03b9\u03c3\u03c4\u03bf\u03c4\u03ad\u03bb\u03b5\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/auth.png"
+        },
+        {
+            "id": 19636,
+            "title": "\u0391\u03a3\u039a\u03a4",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u03a3\u03c7\u03bf\u03bb\u03ae \u039a\u03b1\u03bb\u03ce\u03bd \u03a4\u03b5\u03c7\u03bd\u03ce\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/askt.png"
+        },
+        {
+            "id": 19637,
+            "title": "\u0391\u03a3\u03a0\u0391\u0399\u03a4\u0395",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b1\u03c4\u03b7 \u03a3\u03c7\u03bf\u03bb\u03ae \u03a0\u03b1\u03b9\u03b4\u03b1\u03b3\u03c9\u03b3\u03b9\u03ba\u03ae\u03c2 \u03ba\u03b1\u03b9 \u03a4\u03b5\u03c7\u03bd\u03bf\u03bb\u03bf\u03b3\u03b9\u03ba\u03ae\u03c2 \u0395\u03ba\u03c0\u03b1\u03af\u03b4\u03b5\u03c5\u03c3\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aspaite.png"
+        },
+        {
+            "id": 19641,
+            "title": "\u0391\u03a3\u03a4. \u03a3\u03a7\u039f\u039b\u0395\u03a3",
+            "full-title": "\u0391\u03c3\u03c4\u03c5\u03bd\u03bf\u03bc\u03b9\u03ba\u03ad\u03c2 \u03a3\u03c7\u03bf\u03bb\u03ad\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/police.png"
+        },
+        {
+            "id": 19646,
+            "title": "\u0391\u03a3\u03a4\u0395",
+            "full-title": "\u0391\u03bd\u03ce\u03c4\u03b5\u03c1\u03b7 \u03a3\u03c7\u03bf\u03bb\u03ae \u03a4\u03bf\u03c5\u03c1\u03b9\u03c3\u03c4\u03b9\u03ba\u03ae\u03c2 \u0395\u03ba\u03c0\u03b1\u03af\u03b4\u03b5\u03c5\u03c3\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aste.png"
+        },
+        {
+            "id": 19648,
+            "title": "\u0393\u0395\u03a9\u03a0\u039f\u039d\u0399\u039a\u039f \u03a0\u0391\u039d.",
+            "full-title": "\u0393\u03b5\u03c9\u03c0\u03bf\u03bd\u03b9\u03ba\u03cc \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/geoponiko_pan.png"
+        },
+        {
+            "id": 19657,
+            "title": "\u0394\u0399.\u03a0\u0391.\u0395.",
+            "full-title": "\u0394\u03b9\u03b5\u03b8\u03bd\u03ad\u03c2 \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u03c4\u03b7\u03c2 \u0395\u03bb\u03bb\u03ac\u03b4\u03bf\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/dipae.png"
+        },
+        {
+            "id": 19688,
+            "title": "\u0394\u03a0\u0398",
+            "full-title": "\u0394\u03b7\u03bc\u03bf\u03ba\u03c1\u03af\u03c4\u03b5\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0398\u03c1\u03ac\u03ba\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/dpth.png"
+        },
+        {
+            "id": 19708,
+            "title": "\u0395\u039a\u03a0\u0391",
+            "full-title": "\u0395\u03b8\u03bd\u03b9\u03ba\u03cc \u03ba\u03b1\u03b9 \u039a\u03b1\u03c0\u03bf\u03b4\u03b9\u03c3\u03c4\u03c1\u03b9\u03b1\u03ba\u03cc \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0391\u03b8\u03b7\u03bd\u03ce\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/ekpa.png"
+        },
+        {
+            "id": 19749,
+            "title": "\u0395\u039b.\u039c\u0395.\u03a0\u0391.",
+            "full-title": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03cc \u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03b9\u03b1\u03ba\u03cc \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/messogiako.png"
+        },
+        {
+            "id": 19760,
+            "title": "\u0395\u039c\u03a0",
+            "full-title": "\u0395\u03b8\u03bd\u03b9\u03ba\u03cc \u039c\u03b5\u03c4\u03c3\u03cc\u03b2\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/emp.png"
+        },
+        {
+            "id": 19769,
+            "title": "\u0399\u039f\u039d\u0399\u039f \u03a0\u0391\u039d\/\u039c\u0399\u039f",
+            "full-title": "\u0399\u03cc\u03bd\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/ionio_pane.png"
+        },
+        {
+            "id": 19778,
+            "title": "\u039b.\u03a3. - \u0395\u039b. \u0391\u039a\u03a4.",
+            "full-title": "\u039b\u03b9\u03bc\u03b5\u03bd\u03b9\u03ba\u03cc \u03a3\u03ce\u03bc\u03b1 - \u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ae \u0391\u03ba\u03c4\u03bf\u03c6\u03c5\u03bb\u03b1\u03ba\u03ae",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/limeniko_swma.png"
+        },
+        {
+            "id": 19780,
+            "title": "\u039f\u03a0\u0391",
+            "full-title": "\u039f\u03b9\u03ba\u03bf\u03bd\u03bf\u03bc\u03b9\u03ba\u03cc \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0391\u03b8\u03b7\u03bd\u03ce\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/opa.png"
+        },
+        {
+            "id": 19788,
+            "title": "\u03a0\u0391\u039d. \u0391\u0399\u0393\u0391\u0399\u039f\u03a5",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0391\u03b9\u03b3\u03b1\u03af\u03bf\u03c5",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/aigaiou.png"
+        },
+        {
+            "id": 19806,
+            "title": "\u03a0\u0391\u039d. \u0394\u03a5\u03a4. \u0391\u03a4\u03a4\u0399\u039a\u0397\u03a3",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0394\u03c5\u03c4\u03b9\u03ba\u03ae\u03c2 \u0391\u03c4\u03c4\u03b9\u03ba\u03ae\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/ditikis_attikis.png"
+        },
+        {
+            "id": 19832,
+            "title": "\u03a0\u0391\u039d. \u0394\u03a5\u03a4. \u039c\u0391\u039a.",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0394\u03c5\u03c4\u03b9\u03ba\u03ae\u03c2 \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/dytikis_makedonias.png"
+        },
+        {
+            "id": 19853,
+            "title": "\u03a0\u0391\u039d. \u0398\u0395\u03a3\u03a3\u0391\u039b\u0399\u0391\u03a3",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03af\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/thessalias.png"
+        },
+        {
+            "id": 19888,
+            "title": "\u03a0\u0391\u039d. \u0399\u03a9\u0391\u039d\u039d\u0399\u039d\u03a9\u039d",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u0399\u03c9\u03b1\u03bd\u03bd\u03af\u03bd\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/panepistimio_ioanninon.png"
+        },
+        {
+            "id": 19909,
+            "title": "\u03a0\u0391\u039d. \u039a\u03a1\u0397\u03a4\u0397\u03a3",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u039a\u03c1\u03ae\u03c4\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/kritis.png"
+        },
+        {
+            "id": 19926,
+            "title": "\u03a0\u0391\u039d. \u039c\u0391\u039a\u0395\u0394.",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/pamak.png"
+        },
+        {
+            "id": 19934,
+            "title": "\u03a0\u0391\u039d. \u03a0\u0391\u03a4\u03a1\u03a9\u039d",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u03a0\u03b1\u03c4\u03c1\u03ce\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/patrwn.png"
+        },
+        {
+            "id": 19969,
+            "title": "\u03a0\u0391\u039d. \u03a0\u0395\u0399\u03a1\u0391\u0399\u0391",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u03a0\u03b5\u03b9\u03c1\u03b1\u03b9\u03ac",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/pireus.png"
+        },
+        {
+            "id": 19979,
+            "title": "\u03a0\u0391\u039d. \u03a0\u0395\u039b\/\u039d\u0397\u03a3\u039f\u03a5",
+            "full-title": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf \u03a0\u03b5\u03bb\u03bf\u03c0\u03bf\u03bd\u03bd\u03ae\u03c3\u03bf\u03c5",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/pelloponisou.png"
+        },
+        {
+            "id": 20001,
+            "title": "\u03a0\u0391\u039d\u03a4\u0395\u0399\u039f",
+            "full-title": "\u03a0\u03ac\u03bd\u03c4\u03b5\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/panteion.png"
+        },
+        {
+            "id": 20010,
+            "title": "\u03a0\u039f\u039b\/\u03a7\u039d\u0395\u0399\u039f \u039a\u03a1\u0397\u03a4\u0397\u03a3",
+            "full-title": "\u03a0\u03bf\u03bb\u03c5\u03c4\u03b5\u03c7\u03bd\u03b5\u03af\u03bf \u039a\u03c1\u03ae\u03c4\u03b7\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/kritis.png"
+        },
+        {
+            "id": 20015,
+            "title": "\u03a3.\u03a0.\u0391.",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u03a0\u03c5\u03c1\u03bf\u03c3\u03b2\u03b5\u03c3\u03c4\u03b9\u03ba\u03ae\u03c2 \u0391\u03ba\u03b1\u03b4\u03b7\u03bc\u03af\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/pirosvistiki.png"
+        },
+        {
+            "id": 20017,
+            "title": "\u03a3\u0391\u039d",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u0391\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u039d\u03bf\u03c3\u03b7\u03bb\u03b5\u03c5\u03c4\u03b9\u03ba\u03ae\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/san.png"
+        },
+        {
+            "id": 20018,
+            "title": "\u03a3\u0399",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u0399\u03ba\u03ac\u03c1\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/ikaron.png"
+        },
+        {
+            "id": 20019,
+            "title": "\u03a3\u039c\u03a5",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u039c\u03bf\u03bd\u03af\u03bc\u03c9\u03bd \u0391\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/smy.png"
+        },
+        {
+            "id": 20021,
+            "title": "\u03a3\u039c\u03a5\u0391",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u039c\u03bf\u03bd\u03af\u03bc\u03c9\u03bd \u0391\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u0391\u03b5\u03c1\u03bf\u03c0\u03bf\u03c1\u03af\u03b1\u03c2",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/smya.png"
+        },
+        {
+            "id": 20025,
+            "title": "\u03a3\u039c\u03a5\u039d",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u039c\u03bf\u03bd\u03af\u03bc\u03c9\u03bd \u0391\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u039d\u03b1\u03c5\u03c4\u03b9\u03ba\u03bf\u03cd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/smyn.png"
+        },
+        {
+            "id": 20027,
+            "title": "\u03a3\u03a3\u0391\u03a3",
+            "full-title": "\u03a3\u03c4\u03c1\u03b1\u03c4\u03b9\u03c9\u03c4\u03b9\u03ba\u03ae \u03a3\u03c7\u03bf\u03bb\u03ae \u0391\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u03a3\u03c9\u03bc\u03ac\u03c4\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/ssas.png"
+        },
+        {
+            "id": 20028,
+            "title": "\u03a3\u03a3\u0395",
+            "full-title": "\u03a3\u03c4\u03c1\u03b1\u03c4\u03b9\u03c9\u03c4\u03b9\u03ba\u03ae \u03a3\u03c7\u03bf\u03bb\u03ae \u0395\u03c5\u03b5\u03bb\u03c0\u03af\u03b4\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/sse.png"
+        },
+        {
+            "id": 20031,
+            "title": "\u03a7\u0391\u03a1\u039f\u039a\u039f\u03a0\u0395\u0399\u039f",
+            "full-title": "\u03a7\u03b1\u03c1\u03bf\u03ba\u03cc\u03c0\u03b5\u03b9\u03bf \u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/harokopio.png"
+        },
+        {
+            "id": 20495,
+            "title": "\u03a3\u039d\u0394",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u039d\u03b1\u03c5\u03c4\u03b9\u03ba\u03ce\u03bd \u0394\u03bf\u03ba\u03af\u03bc\u03c9\u03bd",
+            "isActive": 1,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/snd.png"
+        },
+        {
+            "id": 31034,
+            "title": "\u03a4\u0395\u0399 \u0398\u0395\u03a3\/\u039d\u0399\u039a\u0397\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/teithe.png"
+        },
+        {
+            "id": 31035,
+            "title": "\u03a4\u0395\u0399 \u0398\u0395\u03a3\u03a3\u0391\u039b\u0399\u0391\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03af\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_thessalias.png"
+        },
+        {
+            "id": 31036,
+            "title": "\u03a4\u0395\u0399 \u039a\u0395\u039d\u03a4\u03a1. \u039c\u0391\u039a\u0395\u0394",
+            "full-title": "\u03a4\u0395\u0399 \u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae\u03c2 \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_kentriki_make.png"
+        },
+        {
+            "id": 31037,
+            "title": "\u03a4\u0395\u0399 \u0394\u03a5\u03a4. \u0395\u039b\u039b\u0391\u0394\u0391\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u0394\u03c5\u03c4\u03b9\u03ba\u03ae\u03c2 \u0395\u03bb\u03bb\u03ac\u03b4\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_dit_elladas.png"
+        },
+        {
+            "id": 31039,
+            "title": "\u03a4\u0395\u0399 \u0391\u039d. \u039c\u0391\u039a. \u0398\u03a1\u0391\u039a\u0397\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u0391\u03bd\u03b1\u03c4\u03bf\u03bb\u03b9\u03ba\u03ae\u03c2 \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1\u03c2 \u03ba\u03b1\u03b9 \u0398\u03c1\u03ac\u03ba\u03b7\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_an_mak_thrakis.png"
+        },
+        {
+            "id": 31040,
+            "title": "\u03a4\u0395\u0399 \u0394\u03a5\u03a4. \u039c\u0391\u039a.",
+            "full-title": "\u03a4\u0395\u0399 \u0394\u03c5\u03c4\u03b9\u03ba\u03ae\u03c2 \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_dyt_makedonias.png"
+        },
+        {
+            "id": 31044,
+            "title": "\u03a4\u0395\u0399 \u03a3\u03a4. \u0395\u039b\u039b\u0391\u0394\u0391\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u03a3\u03c4\u03b5\u03c1\u03b5\u03ac\u03c2 \u0395\u03bb\u03bb\u03ac\u03b4\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_st_elladas.png"
+        },
+        {
+            "id": 31047,
+            "title": "\u03a4\u0395\u0399 \u039a\u03a1\u0397\u03a4\u0397\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u039a\u03c1\u03ae\u03c4\u03b7\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_kritis.png"
+        },
+        {
+            "id": 31058,
+            "title": "\u03a4\u0395\u0399 \u03a0\u0395\u039b\/\u039d\u0397\u03a3\u039f\u03a5",
+            "full-title": "\u03a4\u0395\u0399 \u03a0\u03b5\u03bb\u03bf\u03c0\u03bf\u03bd\u03bd\u03ae\u03c3\u03bf\u03c5",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_pelloponisou.png"
+        },
+        {
+            "id": 31064,
+            "title": "\u03a4\u0395\u0399 \u0399\u039f\u039d\u0399\u03a9\u039d \u039d\u0397\u03a3\u03a9\u039d",
+            "full-title": "\u03a4\u0395\u0399 \u0399\u03bf\u03bd\u03af\u03c9\u03bd \u039d\u03ae\u03c3\u03c9\u03bd",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_ionion_nison.png"
+        },
+        {
+            "id": 31086,
+            "title": "\u03a4\u0395\u0399 \u0397\u03a0\u0395\u0399\u03a1\u039f\u03a5",
+            "full-title": "\u03a4\u0395\u0399 \u0397\u03c0\u03b5\u03af\u03c1\u03bf\u03c5",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_ipeirou.png"
+        },
+        {
+            "id": 33528,
+            "title": "\u03a4\u0395\u0399 \u0391\u0398\u0397\u039d\u0391\u03a3",
+            "full-title": "\u03a4\u0395\u0399 \u0391\u03b8\u03ae\u03bd\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_athinas.png"
+        },
+        {
+            "id": 33739,
+            "title": "\u03a4\u0395\u0399 \u03a0\u0395\u0399\u03a1\u0391\u0399\u0391",
+            "full-title": "\u03a4\u0395\u0399 \u03a0\u03b5\u03b9\u03c1\u03b1\u03b9\u03ac",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/tei_peiraia.png"
+        },
+        {
+            "id": 36603,
+            "title": "\u03a3\u03a4\u03a5\u0391",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u03a4\u03b5\u03c7\u03bd\u03b9\u03ba\u03ce\u03bd \u03a5\u03c0\u03b1\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u0391\u03b5\u03c1\u03bf\u03c0\u03bf\u03c1\u03af\u03b1\u03c2",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/stya.png"
+        },
+        {
+            "id": 36715,
+            "title": "\u03a3\u03a5\u0394\u0395",
+            "full-title": "\u03a3\u03c7\u03bf\u03bb\u03ae \u03a5\u03c0\u03b1\u03be\u03b9\u03c9\u03bc\u03b1\u03c4\u03b9\u03ba\u03ce\u03bd \u0394\u03b9\u03bf\u03b9\u03ba\u03b7\u03c4\u03b9\u03ba\u03ce\u03bd",
+            "isActive": 0,
+            "logoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/syde.png"
+        }
+    ]
+}

@@ -232,11 +232,16 @@ function cleanHtml(htmlString) {
     return newStyle ? `style="${newStyle}"` : '';
   });
 
-  // Remove all &nbsp; entities
-  htmlString = htmlString.replace(/&nbsp;/gi, '');
+  // Remove &nbsp; ONLY when near hyphens
+  // Handles: &nbsp;-, -&nbsp;, &nbsp; - , - &nbsp;
+  htmlString = htmlString.replace(
+    /(&nbsp;\s*-\s*)|(\s*-\s*&nbsp;)/gi,
+    match => match.replace(/&nbsp;/gi, '')
+  );
 
   return htmlString;
 }
+
 
 document.getElementById('search-moodle').addEventListener('focus', (e) => {
   e.target.removeAttribute('readonly');
@@ -322,6 +327,7 @@ function getFileType(extension) {
 }
 
 function getFileExtension(filename) {
+  if (!filename) return ''
   if (typeof filename !== 'string' || !filename.includes('.')) return '';
 
   const parts = filename.split('.');
@@ -353,4 +359,42 @@ function logout() {
 
   window.location.reload();
 
+}
+
+function searchCourses(searchTerm) {
+  if (!searchTerm || !activeCourse) return [];
+
+  const lowerSearch = searchTerm.toLowerCase();
+
+  return activeCourse
+    .map(section => {
+      const filteredModules = section.modules
+        .map(module => {
+          const contents = module.contents || [];
+
+          const filteredContents = contents.filter(content =>
+            content.filename.toLowerCase().includes(lowerSearch)
+          );
+
+          if (module.name.toLowerCase().includes(lowerSearch) || filteredContents.length > 0) {
+            return {
+              ...module,
+              contents: filteredContents
+            };
+          }
+
+          return null;
+        })
+        .filter(module => module !== null);
+
+      if (filteredModules.length > 0) {
+        return {
+          ...section,
+          modules: filteredModules
+        };
+      }
+
+      return null;
+    })
+    .filter(section => section !== null);
 }

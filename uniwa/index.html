@@ -64,7 +64,7 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 <input type="text" name="moodle_search_unique_xyz" autocomplete="one-time-code"
-                    placeholder="Αναζήτησε στο μάθημα" class="search-input" readonly id="search-course">
+                    placeholder="Αναζήτησε στο μάθημα" class="search-input" id="search-course">
             </div>
         </div>
         <div class="column" id="spawnCategoriesAndCourseInfo">
@@ -138,7 +138,7 @@
             <vox>name - username</vox>
         </div>
     </div>
-    <div class="setup columnCentered" style="display: none;" id="setup">
+    <div class="setup" style="display: none;" id="setup-old"> <!--columnCentered-->
         <img src="logoWhite.png">
         <h3>EduVox</h3>
         <div class="group splitSection">
@@ -147,7 +147,7 @@
                     d="M20 21C20 18.2386 16.4183 16 12 16C7.58172 16 4 18.2386 4 21M12 13C9.23858 13 7 10.7614 7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8C17 10.7614 14.7614 13 12 13Z"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <input id="username" class="input" type="name" placeholder="Όνομα χρήστη">
+            <input class="input" type="name" placeholder="Όνομα χρήστη">
         </div>
         <div class="group">
             <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@
                     d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
                     stroke-linejoin="round" stroke-linecap="round"></path>
             </svg>
-            <input id="password" class="input" type="password" placeholder="Κωδικός πρόσβασης">
+            <input class="input" type="password" placeholder="Κωδικός πρόσβασης">
         </div>
 
         <button onclick="login()" class="splitSection">
@@ -175,6 +175,100 @@
             Απορρήτου Evox</span>
         <span style="cursor: pointer;color:#857eff;" class="notice-text" onclick="window.location.href = '../'">Μάθετε
             περισσότερα</span>
+    </div>
+
+    <div class="setup" style="display: none;" id="setup">
+        <div class="fullRow pcchange" style="gap: 10px;">
+            <button class="uni-selector">
+                <div class="icon-placeholder round">
+                    <img id="uni-icon" src="logo.png">
+                </div> <span id="uni-name"></span>
+            </button>
+            <div class="farRight simpleRow gap-root pclong">
+                <img class="imglogin" onclick="closeDrawer()" src="logoWhite.png">
+                EduVox
+            </div>
+
+        </div>
+        <div class="centerMiddle">
+            <h2 class="h2login">Καλωσορίσατε</h2>
+            <span>Η σύνδεση στο EduVox πραγματοποιείται με τα στοιχεία πρόσβασης του Moodle.</span>
+
+
+            <div class="form-group">
+                <label for="email">Όνομα χρήστη</label>
+                <div class="input-container">
+                    <div class="icon-placeholder svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 12.25C11.2583 12.25 10.5333 12.0301 9.91661 11.618C9.29993 11.206 8.81928 10.6203 8.53545 9.93506C8.25163 9.24984 8.17736 8.49584 8.32206 7.76841C8.46675 7.04098 8.8239 6.3728 9.34835 5.84835C9.8728 5.3239 10.541 4.96675 11.2684 4.82206C11.9958 4.67736 12.7498 4.75162 13.4351 5.03545C14.1203 5.31928 14.706 5.79993 15.118 6.41661C15.5301 7.0333 15.75 7.75832 15.75 8.5C15.75 9.49456 15.3549 10.4484 14.6517 11.1517C13.9484 11.8549 12.9946 12.25 12 12.25ZM12 6.25C11.555 6.25 11.12 6.38196 10.75 6.62919C10.38 6.87643 10.0916 7.22783 9.92127 7.63896C9.75098 8.0501 9.70642 8.5025 9.79323 8.93895C9.88005 9.37541 10.0943 9.77632 10.409 10.091C10.7237 10.4057 11.1246 10.62 11.561 10.7068C11.9975 10.7936 12.4499 10.749 12.861 10.5787C13.2722 10.4084 13.6236 10.12 13.8708 9.75003C14.118 9.38002 14.25 8.94501 14.25 8.5C14.25 7.90326 14.0129 7.33097 13.591 6.90901C13.169 6.48705 12.5967 6.25 12 6.25Z"
+                                fill="#FFFFFF66" />
+                            <path
+                                d="M19 19.25C18.8019 19.2474 18.6126 19.1676 18.4725 19.0275C18.3324 18.8874 18.2526 18.6981 18.25 18.5C18.25 16.55 17.19 15.25 12 15.25C6.81 15.25 5.75 16.55 5.75 18.5C5.75 18.6989 5.67098 18.8897 5.53033 19.0303C5.38968 19.171 5.19891 19.25 5 19.25C4.80109 19.25 4.61032 19.171 4.46967 19.0303C4.32902 18.8897 4.25 18.6989 4.25 18.5C4.25 13.75 9.68 13.75 12 13.75C14.32 13.75 19.75 13.75 19.75 18.5C19.7474 18.6981 19.6676 18.8874 19.5275 19.0275C19.3874 19.1676 19.1981 19.2474 19 19.25Z"
+                                fill="#FFFFFF66" />
+                        </svg>
+                    </div> <input id="username" type="name" placeholder="Εισάγετε το όνομα χρήστη σας">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Κωδικός πρόσβασης</label>
+                <div class="input-container">
+                    <div class="icon-placeholder svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M17 10.25H16.75V8C16.75 6.74022 16.2496 5.53204 15.3588 4.64124C14.468 3.75045 13.2598 3.25 12 3.25C10.7402 3.25 9.53204 3.75045 8.64124 4.64124C7.75045 5.53204 7.25 6.74022 7.25 8V10.25H7C6.27065 10.25 5.57118 10.5397 5.05546 11.0555C4.53973 11.5712 4.25 12.2707 4.25 13V18C4.25 18.7293 4.53973 19.4288 5.05546 19.9445C5.57118 20.4603 6.27065 20.75 7 20.75H17C17.7293 20.75 18.4288 20.4603 18.9445 19.9445C19.4603 19.4288 19.75 18.7293 19.75 18V13C19.75 12.2707 19.4603 11.5712 18.9445 11.0555C18.4288 10.5397 17.7293 10.25 17 10.25ZM8.75 8C8.75 7.13805 9.09241 6.3114 9.7019 5.7019C10.3114 5.09241 11.138 4.75 12 4.75C12.862 4.75 13.6886 5.09241 14.2981 5.7019C14.9076 6.3114 15.25 7.13805 15.25 8V10.25H8.75V8ZM18.25 18C18.25 18.3315 18.1183 18.6495 17.8839 18.8839C17.6495 19.1183 17.3315 19.25 17 19.25H7C6.66848 19.25 6.35054 19.1183 6.11612 18.8839C5.8817 18.6495 5.75 18.3315 5.75 18V13C5.75 12.6685 5.8817 12.3505 6.11612 12.1161C6.35054 11.8817 6.66848 11.75 7 11.75H17C17.3315 11.75 17.6495 11.8817 17.8839 12.1161C18.1183 12.3505 18.25 12.6685 18.25 13V18Z"
+                                fill="#FFFFFF66" />
+                        </svg>
+                    </div> <input id="password" type="password" placeholder="Εισάγετε τον κωδικό σας">
+                    <div class="icon-placeholder right"></div>
+                </div>
+            </div>
+            <div id="wrong-creds" class="fullRow" style="display: none;">
+                <span style="color: #ff6c6c;" class="lowerText">Το όνομα χρήστη ή ο κωδικός είναι λάθος.</span>
+            </div>
+            <div class="fullRow">
+                <span class="lowerText">Ο κωδικός σας δεν αποθηκεύεται ποτέ. Τα δεδομένα σας είναι ασφαλή.</span>
+            </div>
+
+            <button onclick="login(this)" class="btn-primary">Σύνδεση</button>
+
+            <div class="separator">
+                <span>ή</span>
+            </div>
+
+            <div class="social-container">
+                <button onclick="window.location.href = '../evox-epsilon-beta/'" class="btn-social">
+                    <div class="icon-placeholder">
+                        <img src="../oasaResign/evox-logo-dark.png">
+                    </div> <span>Evox</span>
+                </button>
+
+            </div>
+            <div class="footer">
+                <span class="notice-text">Η παρούσα εφαρμογή αποτελεί πιλοτική υλοποίηση του οικοσυστήματος Evox, με
+                    περιορισμένη λειτουργικότητα και πρόσβαση. Δεν αντικαθιστά την πλατφόρμα Moodle.</span>
+                <div class="fullRow justify-center gap-root">
+                    <span style="cursor: pointer;color: #857eff;" class="notice-text"
+                        onclick="window.location.href = '../privacy'">Πολιτική
+                        Απορρήτου Evox</span>
+                    <span style="cursor: pointer;color:#aba7ff;" class="notice-text"
+                        onclick="window.location.href = '../'">Μάθετε
+                        περισσότερα</span>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- <span style="margin-top: 20px;" class="notice-text">Ο κωδικός σας δεν αποθηκεύεται ποτέ.<br>Τα
+            δεδομένα σας είναι ασφαλή.</span>
+        <span class="notice-text">Δοκιμαστική εφαρμογή του οικοσυστήματος Evox,<br> με περιορισμένη πρόσβαση.<br>Δεν
+            αντικαθιστά την πλατφόρμα Moodle.</span>
+        <span style="cursor: pointer;color: #857eff;" class="notice-text"
+            onclick="window.location.href = '../privacy'">Πολιτική
+            Απορρήτου Evox</span>
+        <span style="cursor: pointer;color:#857eff;" class="notice-text" onclick="window.location.href = '../'">Μάθετε
+            περισσότερα</span> -->
     </div>
     <div id="generalLoading" class="columnCentered">
         <div class="loader"></div>

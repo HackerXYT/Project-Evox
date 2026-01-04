@@ -8,39 +8,75 @@
     }
 
     .main-sliding {
-        /* Default hidden/off-screen state remains the same on desktop */
+        /* Default hidden/off-screen state */
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #121212;
-        transform: translateX(100vw);
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        z-index: 99999;
-    }
-
-    .main-sliding.active {
-        /* On desktop: center it like a large modal card instead of full slide */
-        transform: translate(-50%, -50%) !important;
-        /* Will be combined with top/left below */
-        top: 50% !important;
-        left: 50% !important;
+        top: 50%;
+        /* center vertically */
+        left: 100vw;
+        /* start off-screen to the right */
         width: 90%;
         max-width: 1100px;
         height: 100%;
         max-height: 900px;
+        background-color: #121212;
+        transform: translateY(-50%);
+        /* only center vertically, not X */
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+            left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 99999;
         border-radius: 32px;
         overflow: auto;
         box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-            box-shadow 0.3s ease;
+    }
+
+    .main-sliding.active {
+        left: 50%;
+        /* slide to horizontal center */
+        transform: translate(-50%, -50%);
+        /* fully center */
+    }
+
+    .h2login {
+        text-align: center;
+    }
+
+    .separator {
+        max-width: 600px;
+    }
+
+    .farRight.pclong {
+        margin-left: 315px;
+        font-size: 18px;
+    }
+
+    .uni-selector {
+        padding: 11px 32px;
+        font-size: 18px;
+    }
+
+    .pcchange {
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .uni-selector .icon-placeholder {
+        width: 30px;
+        height: 30px;
+    }
+
+    .uni-selector .icon-placeholder img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .social-container {
+        max-width: 600px;
     }
 
     /* Base adjustments for better desktop feel */
     html,
     body {
-        height: auto;
+        height: 100%;
         min-height: 100vh;
         overflow: auto;
         background-color: #0a0a0a;
@@ -52,7 +88,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        max-width: 1440px;
         /* Global max-width to prevent ultra-wide stretching */
         margin: 0 auto;
     }
@@ -262,6 +297,11 @@
         height: 50px;
         border-radius: 25px;
     }
+
+    .main {
+        overflow: auto !important;
+    }
+
 }
 
 /* Extra large screens: scale up further */
@@ -269,7 +309,6 @@
 
     .columnGeneral,
     .columnCentered,
-    .setup,
     .main {
         max-width: 1200px;
         padding: 50px 40px;
