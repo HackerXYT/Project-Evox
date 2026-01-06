@@ -17,6 +17,10 @@ async function reach(url, addServer, type, method = "GET", body = null, headers 
     const response = await fetch(`${addServer ? server : ""}${url}`, options);
 
     if (!response.ok) {
+      if (response.status === 403) {
+        document.getElementById("home").style.filter = 'brightness(0.5)'
+        document.getElementById("alert").style.display = null
+      }
       throw new Error("Network response was not ok " + response.status);
     }
 
