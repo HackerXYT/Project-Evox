@@ -1128,12 +1128,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     patchSafeAreaInsetTop()
 
-    const safeAreaTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-top)') || 0);
-
-    if (safeAreaTop === 0) {
-        // Do something
-        document.querySelector(".notch-hidden").style.display = 'none'
+    function isiOSWithNotch() {
+        if (/iP(hone|od|ad)/.test(navigator.userAgent)) {
+            const { width, height } = window.screen;
+            // List of iPhones with notch (portrait)
+            const notchDevices = [
+                { w: 375, h: 812 },
+                { w: 414, h: 896 },
+                { w: 390, h: 844 },
+                { w: 428, h: 926 },
+                { w: 360, h: 780 },
+            ];
+            return notchDevices.some(d => (d.w === width && d.h === height) || (d.w === height && d.h === width));
+        }
+        return false;
     }
+
+    const notchElement = document.querySelector(".notch-hidden");
+    if (notchElement) {
+        if (isiOSWithNotch() && isPWAInstalled()) {
+            notchElement.style.display = ''; // show it
+        } else {
+            notchElement.style.display = 'none'; // hide it
+        }
+    }
+
 
     let countElems = 0
     document.querySelectorAll('.moving-elements div').forEach(interactive => {
@@ -1843,6 +1862,8 @@ function autoLogin() {
             const json = JSON.parse(val)
             foundName = json.name
             if (foundName.includes("παποστόλ") || foundName.includes("Λιλάντα") || foundName.includes("Γερακιανάκη")) {
+                document.getElementById("dev-settings").style.display = 'flex'
+
                 document.getElementById("admin-preview").style.display = null
             }
             //const color = getGender(foundName.split(" ")[0]) === "Male" ? "#298ef2" : "Female"
@@ -2123,7 +2144,24 @@ function beginWritingTextAnimation() {
 
         });
 }
-
+function installPWA() {
+    const instructions = getPwaInstallInstructionsGR()
+    let formed = {
+        title: instructions.supported === true ? "Οδηγίες λήψης" : "Ο browser σας δεν υποστηρίζεται",
+        description: instructions.reason || "",
+    }
+    instructions.steps.forEach((step, i) => formed.description += `<ol style="text-align: left;padding-left: 20px; 
+  box-sizing: border-box; 
+  margin-top: 10px;list-style-type: decimal;display:flex;align-items:center"><vo style="margin-right: 10px;">${i + 1}.</vo> ${step}</ol>`)
+    console.log(formed)
+    EvalertNext({
+        "title": formed.title,
+        "description": formed.description,
+        "buttons": ["Έγινε"],
+        "buttonAction": [],
+        "addons": []
+    })
+}
 let myInfo = null
 function attach() {
     //document.getElementById("comingSoon")
@@ -2159,6 +2197,26 @@ function attach() {
         changeLoadingText(`Καλώς ήρθες ξανά 👋`)
     } else {
         changeLoadingText(`Καλώς ήρθες!`)
+    }
+    if (!isPWAInstalled() && !localStorage.getItem("dontShowInstallPopup")) {
+        EvalertNext({
+            "title": "Η Jeanne d'Arc είναι καλύτερη στην εφαρμογή.",
+            "description": "Θα θέλατε να εγκαταστήσετε την εφαρμογή Jeanne d'Arc στη συσκευή σας;",
+            "buttons": ["Λήψη", "Να μην εμφανιστεί ξανά"],
+            "buttonAction": ["installPWA()", 'dontShowInstallAgain()'],
+            "addons": [
+                {
+                    "icon": "bell",
+                    "title": "Ειδοποιήσεις",
+                    "desc": "Λαμβάνετε ειδοποιήσεις για τις καταχωρήσεις σας ακόμη και εκτός της εφαρμογής"
+                },
+                {
+                    "icon": "jeanne:logo",
+                    "title": "Εμπειρία χρήστη",
+                    "desc": "Συνολικά καλύτερη εμπειρία χρήστη και απόδοση"
+                }
+            ]
+        })
     }
     document.getElementById("gradColored").style.opacity = '1'
     if (atob(JSON.parse(localStorage.getItem("jeanDarc_accountData")).pin) === '0000') {
@@ -2281,6 +2339,10 @@ function attach() {
         }
     }, 250)
 
+}
+
+function dontShowInstallAgain() {
+    localStorage.setItem("dontShowInstallPopup", "true")
 }
 
 function dismissNotification(el) {
@@ -6241,7 +6303,7 @@ function openDiscovery(el) {
                 if (notifications.length !== 0) {
                     const workOn = notifications.reverse()
                     workOn.forEach((notification, index) => {
-                        if(spawnedNotifications === maxNotifications) return;
+                        if (spawnedNotifications === maxNotifications) return;
                         spawnedNotifications++
                         if (notification.notification.mentionedUser) {
                             getImage(notification.notification.mentionedUser).then(profileSrc => {
@@ -6723,7 +6785,11 @@ function loadSentToUser(emri, redo) {
             loadFresh(true);
         }
 
-        document.getElementById("sentToSelectedUser").innerHTML = html;
+        document.getElementById("sentToSelectedUser").innerHTML = html === "" ? `<div style='z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: #cfcfcfa2'>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 -0.5 17 17" version="1.1" class="si-glyph si-glyph-deny"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <path d="M9.016,0.06 C4.616,0.06 1.047,3.629 1.047,8.029 C1.047,12.429 4.615,15.998 9.016,15.998 C13.418,15.998 16.985,12.429 16.985,8.029 C16.985,3.629 13.418,0.06 9.016,0.06 L9.016,0.06 Z M3.049,8.028 C3.049,4.739 5.726,2.062 9.016,2.062 C10.37,2.062 11.616,2.52 12.618,3.283 L4.271,11.631 C3.508,10.629 3.049,9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.544,13.583 5.569,12.889 L13.878,4.58 C14.571,5.555 14.982,6.743 14.982,8.028 C14.981,11.317 12.306,13.994 9.016,13.994 L9.016,13.994 Z" fill="#ff481bc5" class="si-glyph-fill">
+                        </path></g></svg>
+                        Δεν μπορείς να δεις τις αποδοχές.<br>Ακολούθησε τον χρήστη για να ξεκλειδώσεις αυτή τη λειτουργία.</div>` : html;
     }
 
 
@@ -7908,14 +7974,22 @@ function Evalert(message) {
         document.getElementById("cloudEvoxMain").innerHTML = ''
         document.getElementById("cloudEvoxMain").style.display = 'none'
     }
-    message.addons.forEach(add => {
-        document.getElementById("cloudEvoxMain").innerHTML += `<div class="actionUnlocked">
-                    ${add.icon === 'lock' ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+    const NotificationIcons = {
+        "lock": `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
                         fill="none">
                         <path
                             d="M18 2c-2.762 0-5 2.238-5 5v3H4.6c-.88 0-1.6.72-1.6 1.6v7C3 19.92 4.08 21 5.4 21h9.2c1.32 0 2.4-1.08 2.4-2.4v-7c0-.88-.72-1.6-1.6-1.6H15V7c0-1.658 1.342-3 3-3s3 1.342 3 3v3a1 1 0 1 0 2 0V7c0-2.762-2.238-5-5-5Z"
                             fill="#FFF" />
-                    </svg>`: add.icon === 'jeanne:logo' ? `<img src="assetView-2.png" style="width: 25px;height: 25px;">` : `<img src="assetView-2.png" style="width: 25px;height: 25px;">`}
+                    </svg>`,
+        "jeanne:logo": `<img src="assetView-2.png" style="width: 25px;height: 25px;">`,
+        "default": `<img src="assetView-2.png" style="width: 25px;height: 25px;">`,
+        "bell": `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                            <path d="M12.0009 5C13.4331 5 14.8066 5.50571 15.8193 6.40589C16.832 7.30606 17.4009 8.52696 17.4009 9.8C17.4009 11.7691 17.846 13.2436 18.4232 14.3279C19.1606 15.7133 19.5293 16.406 19.5088 16.5642C19.4849 16.7489 19.4544 16.7997 19.3026 16.9075C19.1725 17 18.5254 17 17.2311 17H6.77066C5.47638 17 4.82925 17 4.69916 16.9075C4.54741 16.7997 4.51692 16.7489 4.493 16.5642C4.47249 16.406 4.8412 15.7133 5.57863 14.3279C6.1558 13.2436 6.60089 11.7691 6.60089 9.8C6.60089 8.52696 7.16982 7.30606 8.18251 6.40589C9.19521 5.50571 10.5687 5 12.0009 5ZM12.0009 5V3M9.35489 20C10.0611 20.6233 10.9888 21.0016 12.0049 21.0016C13.0209 21.0016 13.9486 20.6233 14.6549 20" stroke="#e8e8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>`
+    }
+    message.addons.forEach(add => {
+        document.getElementById("cloudEvoxMain").innerHTML += `<div class="actionUnlocked">
+                    ${NotificationIcons[add.icon] || NotificationIcons.default}
                     <div class="actionunlockedtext">
                         <span>${add.title}</span>
                         <desc>${add.desc}</desc>
@@ -8166,6 +8240,22 @@ function showMentioned() {
                 })
 
                 console.log(complete, "Complete")
+                if (friendsPosts.length === 0) {
+                    document.getElementById("mentioned").innerHTML = `<div style="display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    align-items:center;
+                    width:100%;
+                    text-align: center;
+                    margin-top:15px;
+                    gap: 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1" width="40px" height="40px" viewBox="0 0 142.916 142.916" xml:space="preserve">
+		                <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
+                    </svg>
+                    <p>Δεν υπάρχουν καταχωρήσεις προς προβολή.</p>
+                    <span style="font-size: 14px;font-family: 'SF Normal';">Δοκιμάστε να ακολουθήσετε μερικούς συμμαθητές σας.</span>
+                    </div>`
+                }
                 let stopLoading = 15
                 let currentLoaded = 0
                 Object.entries(complete).forEach(([nameOfMentioned, post]) => {
@@ -8366,6 +8456,18 @@ document.getElementById("search-box").addEventListener("input", () => {
 function revertAlphaBackground() {
     document.getElementById("bgGrd").style.display = document.getElementById("bgGrd").style.display === 'none' ? null : 'none'
     document.getElementById("gradColored").style.display = document.getElementById("gradColored").style.display === 'none' ? null : 'none'
+    setTimeout(function () {
+        document.getElementById("icon-checkmark").style.display = null
+        document.getElementById("icon-error").style.display = "none"
+        document.getElementById("icon-spinner").style.display = "none";
+        document.getElementById("notice-text").innerText = document.getElementById("gradColored").style.display === 'none' ? "Το κινούμενο φόντο είναι πλέον απενεργοποιημένο." : 'Το κινούμενο φόντο είναι πλέον ενεργό.'
+        document.getElementById("notice-main").classList.add("active")
+        setTimeout(function () {
+
+            document.getElementById("notice-main").classList.remove("active")
+        }, 2500)
+    }, 200)
+    document.getElementById("notice-main").classList.remove("active")
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8476,6 +8578,7 @@ function activeSlidingEvents(id) {
 activeSlidingEvents('settings-panel');
 activeSlidingEvents('image-viewer');
 activeSlidingEvents('likedPosts-panel');
+activeSlidingEvents('changeEmail-panel');
 activeSlidingEvents('changeClass-panel');
 activeSlidingEvents('savedPosts-panel');
 
@@ -8589,6 +8692,11 @@ function openSettings() {
 
 function closeSettings() {
     document.getElementById('settings-panel').classList.remove('activated')
+}
+
+function showChangeEmailPanel() {
+    document.getElementById("changeEmail-panel").classList.add("activated")
+    //To do
 }
 
 function showLikedPosts() {
@@ -9542,6 +9650,7 @@ async function InitializeBranded() {
 
 
 
+
         const targetSrc = ['logo.png', 'appLogoV2.png', 'assetView-2.png'];
         const branded = ['logo-Branded.png', 'appLogoV2-Branded.png', 'assetView-2-Branded.png'];
 
@@ -9641,3 +9750,164 @@ function switchAccountGracefully(accountName, masterPin) {
             console.error(`User: ${accountName} doesn't exist!\n${error}`)
         });
 }
+
+function isPWAInstalled() {
+    // Android / Chromium browsers
+    const isStandaloneDisplay =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches;
+
+    // iOS Safari (only reliable way)
+    const isIOSStandalone = window.navigator.standalone === true;
+
+    return isStandaloneDisplay || isIOSStandalone;
+}
+
+function getPwaInstallInstructionsGR() {
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isAndroid = /Android/.test(ua);
+    const isMac = /Macintosh/.test(ua);
+    const isWindows = /Windows/.test(ua);
+
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    const isChrome = /Chrome|Chromium/.test(ua) && !/Edge|Edg/.test(ua);
+    const isEdge = /Edg/.test(ua);
+    const isFirefox = /Firefox/.test(ua);
+    const isSamsung = /SamsungBrowser/.test(ua);
+
+    // 📱 iOS
+    if (isIOS) {
+        if (isSafari) {
+            return {
+                supported: true,
+                platform: "iOS",
+                browser: "Safari",
+                steps: [
+                    `Πατήστε το κουμπί Κοινή χρήση (τετράγωνο με βέλος)<svg style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="25px" height="25px" viewBox="0 0 50 50"><path d="M30.3 13.7L25 8.4l-5.3 5.3-1.4-1.4L25 5.6l6.7 6.7z"/><path d="M24 7h2v21h-2z"/><path d="M35 40H15c-1.7 0-3-1.3-3-3V19c0-1.7 1.3-3 3-3h7v2h-7c-.6 0-1 .4-1 1v18c0 .6.4 1 1 1h20c.6 0 1-.4 1-1V19c0-.6-.4-1-1-1h-7v-2h7c1.7 0 3 1.3 3 3v18c0 1.7-1.3 3-3 3z"/></svg>`,
+                    "Επιλέξτε «Προσθήκη στην Αρχική Οθόνη»",
+                    "Πατήστε «Προσθήκη»"
+                ]
+            };
+        }
+
+        return {
+            supported: false,
+            platform: "iOS",
+            browser: "Άλλο",
+            reason: "Η εγκατάσταση εφαρμογών ιστού (PWA) στο iOS υποστηρίζεται μόνο μέσω Safari",
+            steps: [
+                "Ανοίξτε τη σελίδα στο Safari",
+                "Πατήστε 'Λήψη' ξανά και ακολουθήστε τις οδηγίες",
+            ]
+        };
+    }
+
+    // 🤖 Android
+    if (isAndroid) {
+        if (isChrome) {
+            return {
+                supported: true,
+                platform: "Android",
+                browser: "Chrome",
+                steps: [
+                    "Πατήστε το μενού (⋮)",
+                    "Επιλέξτε «Εγκατάσταση εφαρμογής»",
+                    "Επιβεβαιώστε την εγκατάσταση"
+                ]
+            };
+        }
+
+        if (isSamsung) {
+            return {
+                supported: true,
+                platform: "Android",
+                browser: "Samsung Internet",
+                steps: [
+                    "Πατήστε το μενού (☰)",
+                    "Επιλέξτε «Προσθήκη σε»",
+                    "Πατήστε «Αρχική οθόνη»"
+                ]
+            };
+        }
+
+        if (isFirefox) {
+            return {
+                supported: true,
+                platform: "Android",
+                browser: "Firefox",
+                steps: [
+                    "Πατήστε το μενού (⋮)",
+                    "Πατήστε «Εγκατάσταση»"
+                ]
+            };
+        }
+    }
+
+    // 💻 Desktop
+    if (isWindows || isMac) {
+        if (isChrome) {
+            return {
+                supported: true,
+                platform: "Υπολογιστής",
+                browser: "Chrome",
+                steps: [
+                    "Πατήστε το εικονίδιο εγκατάστασης (➕) στη γραμμή διευθύνσεων",
+                    "Επιβεβαιώστε την εγκατάσταση"
+                ]
+            };
+        }
+
+        if (isEdge) {
+            return {
+                supported: true,
+                platform: "Υπολογιστής",
+                browser: "Edge",
+                steps: [
+                    "Πατήστε το μενού (⋯)",
+                    "Επιλέξτε Εφαρμογές → Εγκατάσταση αυτής της τοποθεσίας ως εφαρμογή"
+                ]
+            };
+        }
+
+        if (isSafari && isMac) {
+            return {
+                supported: true,
+                platform: "macOS",
+                browser: "Safari",
+                steps: [
+                    "Ανοίξτε το μενού «Αρχείο»",
+                    "Επιλέξτε «Προσθήκη στο Dock»"
+                ]
+            };
+        }
+
+        if (isFirefox) {
+            return {
+                supported: false,
+                platform: "Υπολογιστής",
+                browser: "Firefox",
+                reason: "Ο Firefox δεν υποστηρίζει εγκατάσταση PWA",
+                steps: []
+            };
+        }
+    }
+
+    return {
+        supported: false,
+        platform: "Άγνωστο",
+        browser: "Άγνωστο",
+        reason: "Η εγκατάσταση PWA δεν υποστηρίζεται σε αυτή τη συσκευή ή πρόγραμμα περιήγησης",
+        steps: []
+    };
+}
+
+let lastTouch = 0;
+document.addEventListener('touchend', function (e) {
+    const now = new Date().getTime();
+    if (now - lastTouch <= 300) {  // 300ms double-tap threshold
+        e.preventDefault(); // prevent double-tap zoom/scroll
+    }
+    lastTouch = now;
+}, { passive: false });

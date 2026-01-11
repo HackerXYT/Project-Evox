@@ -139,6 +139,18 @@ async function fetchAndSaveImage(id, imageUrl) {
 function saveCookie(name, value) {
     const expires = new Date(Date.now() + 21 * 365 * 24 * 60 * 60 * 1000).toUTCString();
     document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    setTimeout(function () {
+        document.getElementById("icon-checkmark").style.display = null
+        document.getElementById("icon-error").style.display = "none"
+        document.getElementById("icon-spinner").style.display = "none";
+        document.getElementById("notice-text").innerText = `Τα cookies ενημερώθηκαν`
+        document.getElementById("notice-main").classList.add("active")
+        setTimeout(function () {
+
+            document.getElementById("notice-main").classList.remove("active")
+        }, 2500)
+    }, 200)
+    document.getElementById("notice-main").classList.remove("active")
 }
 
 function removeCookie(name) {
@@ -150,6 +162,20 @@ function clearAllCookies() {
         const name = cookie.split("=")[0].trim();
         removeCookie(name);
     });
+
+    setTimeout(function () {
+        document.getElementById("icon-checkmark").style.display = null
+        document.getElementById("icon-error").style.display = "none"
+        document.getElementById("icon-spinner").style.display = "none";
+        document.getElementById("notice-text").innerText = `Τα Cookies διαγράφηκαν`
+        document.getElementById("notice-main").classList.add("active")
+        setTimeout(function () {
+
+            document.getElementById("notice-main").classList.remove("active")
+        }, 2500)
+    }, 200)
+    document.getElementById("notice-main").classList.remove("active")
+
 }
 
 function getCookie(name) {

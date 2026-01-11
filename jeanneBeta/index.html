@@ -1683,7 +1683,7 @@
                     </div>
                 </div>
 
-                <vox class="hideNonDev" id="hideNonDev">
+                <vox class="hideNonDev" id="hideNonDev" style="display: none;">
                     <div class="temp-select-me"
                         style="z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: #cfcfcfa2;margin-top:80px;color:red;text-shadow: 0px 2px 4px rgba(0,0,0,0.51);">
 
@@ -1744,42 +1744,7 @@
                     </vox>
                 </vox>
 
-                <h2 class="topicHead" style="margin-top: 20px;">BETA</h2>
-                <div class="toyou">
-                    <div onclick="revertAlphaBackground()" class="aclass fade-in-slide-up">
-                        <div class="left">
-                            🅰️ Toggle Alpha Background
-                        </div>
-                        <div class="right">
-                            >
-                        </div>
-                    </div>
 
-                </div>
-
-                <div class="toyou">
-                    <div onclick="saveCookie('disableUnite', 'true')" class="aclass fade-in-slide-up">
-                        <div class="left">
-                            🚫 Disable Unite
-                        </div>
-                        <div class="right">
-                            >
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="toyou" style="margin-bottom: 100px;">
-                    <div onclick="clearAllCookies()" class="aclass fade-in-slide-up">
-                        <div class="left">
-                            ⚠️ Clear All Evox Cookies.
-                        </div>
-                        <div class="right">
-                            >
-                        </div>
-                    </div>
-
-                </div>
 
 
             </div>
@@ -2481,34 +2446,8 @@
             </div>
         </div>
         <div class="settings-section">
-            <p class="section-title">Προτιμήσεις</p>
+            <p class="section-title">Λογαριασμός</p>
             <div class="section-buttons squared">
-
-                <div onclick="openChangeClass()" class="section-a-button">
-                    <div class="title-button-section">
-                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17.0671 2.27157C17.5 2.09228 17.9639 2 18.4324 2C18.9009 2 19.3648 2.09228 19.7977 2.27157C20.2305 2.45086 20.6238 2.71365 20.9551 3.04493C21.2864 3.37621 21.5492 3.7695 21.7285 4.20235C21.9077 4.63519 22 5.09911 22 5.56761C22 6.03611 21.9077 6.50003 21.7285 6.93288C21.5492 7.36572 21.2864 7.75901 20.9551 8.09029L20.4369 8.60845L15.3916 3.56308L15.9097 3.04493C16.241 2.71365 16.6343 2.45086 17.0671 2.27157Z"
-                                fill="#e8e8e8"></path>
-                            <path
-                                d="M13.9774 4.9773L3.6546 15.3001C3.53154 15.4231 3.44273 15.5762 3.39694 15.7441L2.03526 20.7369C1.94084 21.0831 2.03917 21.4534 2.29292 21.7071C2.54667 21.9609 2.91693 22.0592 3.26314 21.9648L8.25597 20.6031C8.42387 20.5573 8.57691 20.4685 8.69996 20.3454L19.0227 10.0227L13.9774 4.9773Z"
-                                fill="#e8e8e8"></path>
-                        </svg>
-
-                        Αλλαγή τάξης
-                    </div>
-                    <div id="selfClassPreview" class="hint-option">{replaceme}<svg style="transform: rotate(180deg)"
-                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path
-                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
-                                fill="#fff" />
-                        </svg></div>
-                </div>
-
-
-
                 <div onclick="document.getElementById('settings-panel').classList.remove('activated');changePin();"
                     class="section-a-button">
                     <div class="title-button-section">
@@ -2518,7 +2457,7 @@
                                 d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
                                 stroke="#e8e8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        PIN Λογαριασμού
+                        PIN
                     </div>
                     <div class="hint-option">
                         <vox id="pin-preview-strength">?</vox><svg style="transform: rotate(180deg)"
@@ -2530,26 +2469,26 @@
                         </svg>
                     </div>
                 </div>
-
-                <div onclick="checkForLocal()" class="section-a-button">
+                <div onclick="showChangeEmailPanel()" class="section-a-button">
                     <div class="title-button-section">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"
-                                fill="#e8e8e8"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#e8e8e8" width="20px" height="20px"
+                            viewBox="0 0 35 35" data-name="Layer 2" id="ee13b174-13f0-43ea-b921-f168b1054f8d">
+                            <path
+                                d="M29.384,30.381H5.615A5.372,5.372,0,0,1,.25,25.015V9.984A5.371,5.371,0,0,1,5.615,4.619H29.384A5.372,5.372,0,0,1,34.75,9.984V25.015A5.372,5.372,0,0,1,29.384,30.381ZM5.615,7.119A2.868,2.868,0,0,0,2.75,9.984V25.015a2.868,2.868,0,0,0,2.865,2.866H29.384a2.869,2.869,0,0,0,2.866-2.866V9.984a2.869,2.869,0,0,0-2.866-2.865Z" />
+                            <path
+                                d="M17.486,20.865a4.664,4.664,0,0,1-2.9-.975L1.218,9.237A1.25,1.25,0,1,1,2.777,7.282L16.141,17.935a2.325,2.325,0,0,0,2.7-.007L32.04,7.287a1.249,1.249,0,1,1,1.569,1.945L20.414,19.873A4.675,4.675,0,0,1,17.486,20.865Z" />
                         </svg>
-
-                        Επιδιόρθωση σφαλμάτων
+                        Αλλαγή Email
                     </div>
-                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                        viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
-                            fill="#fff" />
-                    </svg>
+                    <div class="hint-option">
+                        <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="20px"
+                            height="20px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                fill="#fff" />
+                        </svg>
+                    </div>
                 </div>
-
                 <div class="section-a-button">
                     <div class="title-button-section">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
@@ -2584,6 +2523,57 @@
                             </div>
                         </label></div>
                 </div>
+            </div>
+        </div>
+        <div class="settings-section">
+            <p class="section-title">Προτιμήσεις</p>
+            <div class="section-buttons squared">
+
+                <div onclick="openChangeClass()" class="section-a-button">
+                    <div class="title-button-section">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.0671 2.27157C17.5 2.09228 17.9639 2 18.4324 2C18.9009 2 19.3648 2.09228 19.7977 2.27157C20.2305 2.45086 20.6238 2.71365 20.9551 3.04493C21.2864 3.37621 21.5492 3.7695 21.7285 4.20235C21.9077 4.63519 22 5.09911 22 5.56761C22 6.03611 21.9077 6.50003 21.7285 6.93288C21.5492 7.36572 21.2864 7.75901 20.9551 8.09029L20.4369 8.60845L15.3916 3.56308L15.9097 3.04493C16.241 2.71365 16.6343 2.45086 17.0671 2.27157Z"
+                                fill="#e8e8e8"></path>
+                            <path
+                                d="M13.9774 4.9773L3.6546 15.3001C3.53154 15.4231 3.44273 15.5762 3.39694 15.7441L2.03526 20.7369C1.94084 21.0831 2.03917 21.4534 2.29292 21.7071C2.54667 21.9609 2.91693 22.0592 3.26314 21.9648L8.25597 20.6031C8.42387 20.5573 8.57691 20.4685 8.69996 20.3454L19.0227 10.0227L13.9774 4.9773Z"
+                                fill="#e8e8e8"></path>
+                        </svg>
+
+                        Αλλαγή τάξης
+                    </div>
+                    <div id="selfClassPreview" class="hint-option">{replaceme}<svg style="transform: rotate(180deg)"
+                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                fill="#fff" />
+                        </svg></div>
+                </div>
+
+
+
+
+
+                <div onclick="checkForLocal()" class="section-a-button">
+                    <div class="title-button-section">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z"
+                                fill="#e8e8e8"></path>
+                        </svg>
+
+                        Επιδιόρθωση σφαλμάτων
+                    </div>
+                    <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                        viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                            fill="#fff" />
+                    </svg>
+                </div>
 
 
                 <div onclick="window.location.reload()" class="section-a-button">
@@ -2609,6 +2599,71 @@
                         Έκδοση εφαρμογής
                     </div>
                     <div class="hint-option" id="version2">v00.21</div>
+                </div>
+            </div>
+        </div>
+        <div id="dev-settings" class="settings-section" style="display: none;">
+            <p class="section-title">Ρυθμίσεις προγραμματιστή</p>
+            <div class="section-buttons squared">
+
+                <div onclick="revertAlphaBackground()" class="section-a-button">
+                    <div class="title-button-section">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48"
+                            fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M37 37C39.2091 37 41 35.2091 41 33C41 31.5272 39.6667 29.5272 37 27C34.3333 29.5272 33 31.5272 33 33C33 35.2091 34.7909 37 37 37Z"
+                                fill="#e8e8e8" />
+                            <path d="M20.8535 5.50439L24.389 9.03993" stroke="#e8e8e8" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M23.6818 8.33281L8.12549 23.8892L19.4392 35.2029L34.9955 19.6465L23.6818 8.33281Z"
+                                stroke="#e8e8e8" stroke-width="4" stroke-linejoin="round" />
+                            <path d="M12 20.0732L28.961 25.6496" stroke="#e8e8e8" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M4 43H44" stroke="#e8e8e8" stroke-width="4" stroke-linecap="round" />
+                        </svg>
+
+                        Toggle Animated Background
+                    </div>
+                    <div class="hint-option"><svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                            width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                fill="#fff" />
+                        </svg></div>
+                </div>
+                <div onclick="saveCookie('disableUnite', 'true')" class="section-a-button">
+                    <div class="title-button-section">
+                        <img style="border-radius: 15px;margin-left: 0px;" src="assetView-2-Branded.png" width="20px"
+                            height="20px" />
+
+
+                        Disable Unite
+                    </div>
+                    <div class="hint-option"><svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                            width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                fill="#fff" />
+                        </svg></div>
+                </div>
+                <div onclick="clearAllCookies()" class="section-a-button">
+                    <div class="title-button-section">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M9 16H9.01M12 11H12.01M7 10H7.01M15 16H15.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C12 5.76142 13.7909 8 16 8C16 10.2091 18.2386 12 21 12Z"
+                                stroke="#e8e8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        Clear All Evox Cookies.
+                    </div>
+                    <div class="hint-option"><svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg"
+                            width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                                fill="#fff" />
+                        </svg></div>
                 </div>
             </div>
         </div>
@@ -2659,6 +2714,68 @@
                     έχουν κάνει οι ίδιοι καταχώρηση με το όνομα σου ή να σου έχουν επιτρέψει να βλέπεις τις
                     δημοσιεύσεις τους.
                 </p>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div id="changeEmail-panel" class="slidingPanel">
+        <div class="settings-row">
+            <vox style="gap: 10px;"
+                onclick="document.getElementById('changeEmail-panel').classList.remove('activated')">
+                <div class="arrowBG">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                            fill="#fff" />
+                    </svg>
+                </div>
+                Ρυθμίσεις
+            </vox>
+
+        </div>
+        <div class="settings-section centered">
+            <p class="section-title">Τρέχον Email</p>
+            <div class="inv-button creds">
+                <vo class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px"
+                        viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="6" r="4" stroke="#fff" stroke-width="1.5"></circle>
+                        <path
+                            d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                            stroke="#fff" stroke-width="1.5"></path>
+                    </svg></vo>
+
+                <input id="voxmail-settings-current" type="email" placeholder="Τρέχον Email" readonly>
+            </div>
+            <p class="section-title">Νέο Email</p>
+            <div class="inv-button creds">
+                <vo class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px"
+                        viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="6" r="4" stroke="#fff" stroke-width="1.5"></circle>
+                        <path
+                            d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                            stroke="#fff" stroke-width="1.5"></path>
+                    </svg></vo>
+
+                <input id="voxmail-settings-new" type="email" placeholder="Νέο Email">
+            </div>
+
+            <div class="settings-row">
+                <p style="font-size: 14px; font-weight: lighter; color: #838383; margin: 0;">
+                    Κατανοώ ότι η απώλεια πρόσβασης στο νέο email σημαίνει πως δεν θα μπορώ να ανακτήσω τον κωδικό του
+                    λογαριασμού μου.
+                </p>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <div class="toggle-switch-background">
+                        <div class="toggle-switch-handle"></div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="buttonCarouseli" style="width: auto;margin-top: 15px;;">
+                Επιβεβαίωση Email
             </div>
 
 

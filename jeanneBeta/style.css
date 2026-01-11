@@ -939,8 +939,10 @@ img {
     padding: 5px;
 
     position: relative;
-    overflow: hidden;
-    overflow-y: auto;
+    overflow: hidden !important;
+    touch-action: manipulation;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     /*overflow-y: scroll;
     scroll-snap-type: y mandatory;
@@ -953,19 +955,13 @@ img {
     width: 100%;
     height: 100%;
     display: flex;
-    display: none;
     flex-direction: column;
-    /*padding: 5px;
-
-    position: relative;*/
     overflow: hidden;
+    /* hides inner scrolling if needed */
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    /*overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 10px;
-    scroll-padding-bottom: 10px;*/
     overflow-anchor: none;
-    overscroll-behavior-y: contain;
+    overscroll-behavior: none;
+    display: none;
 }
 
 .app>* {
@@ -993,15 +989,17 @@ img {
 }
 
 @keyframes borderRadiusPulse {
-  0% {
-    border-radius: 0;
-  }
-  50% {
-    border-radius: 50%;
-  }
-  100% {
-    border-radius: 0;
-  }
+    0% {
+        border-radius: 0;
+    }
+
+    50% {
+        border-radius: 50%;
+    }
+
+    100% {
+        border-radius: 0;
+    }
 }
 
 
@@ -1541,7 +1539,7 @@ img {
 
 .notice-main {
     position: fixed;
-    bottom: calc(70px + env(safe-area-inset-bottom));
+    bottom: calc(25px + env(safe-area-inset-bottom));
     width: 95%;
     height: auto;
     box-sizing: border-box;
@@ -1583,7 +1581,7 @@ img {
 
 .navigation {
     position: fixed;
-    bottom: 0;
+    bottom: calc(-1 * env(safe-area-inset-bottom));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1596,6 +1594,7 @@ img {
     will-change: transform;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.7s ease-in-out, height 1s ease-in-out;
     transform: translateY(100vh);
+    overscroll-behavior: none;
     /* Ensure it doesn’t move */
 }
 
@@ -1611,8 +1610,6 @@ img {
     box-sizing: border-box;
     /*background-color: #09090994;*/
     background-color: #0c0c0c;
-    ;
-
     /*141414e8*/
     display: flex;
     flex-direction: row;
@@ -4951,6 +4948,11 @@ input:-webkit-autofill:active {
     gap: 10px;
 }
 
+.settings-section.centered {
+    height: 100%;
+    justify-content: center;
+}
+
 .section-title {
     font-size: 14px;
     font-weight: lighter;
@@ -5001,7 +5003,8 @@ input:-webkit-autofill:active {
     margin-left: 10px;
 }
 
-.title-button-section svg {
+.title-button-section svg,
+.title-button-section img {
     padding: 10px;
     background-color: #343434;
     border-radius: 50%;
@@ -6203,10 +6206,15 @@ select:focus {
     align-items: center;
 }
 
+.actionUnlocked svg {
+    flex-shrink: 0;
+}
+
 .actionUnlocked .actionunlockedtext {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
 }
 
 .actionUnlocked .actionunlockedtext desc {
@@ -7240,8 +7248,8 @@ select:focus {
 .hideNonDev vox {
     filter: blur(5.5px);
     pointer-events: none;
-    cursor:not-allowed;
-    
+    cursor: not-allowed;
+
 }
 
 .postContainer.skel.loading {
@@ -7267,6 +7275,7 @@ select:focus {
     padding: 30px 10px;
     gap: 10px;
 }
+
 .comingSoon * {
     text-align: center;
 }
@@ -7274,4 +7283,14 @@ select:focus {
 .comingSoon span {
     font-family: 'SF Normal';
     font-size: 14px;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* prevents page from scrolling */
+    touch-action: pan-x pan-y;
+    /* optional: prevent double-tap scroll/zoom issues */
 }
