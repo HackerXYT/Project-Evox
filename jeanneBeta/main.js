@@ -1126,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-    patchSafeAreaInsetTop()
+    //patchSafeAreaInsetTop()
 
     function isiOSWithNotch() {
         if (/iP(hone|od|ad)/.test(navigator.userAgent)) {
@@ -3840,14 +3840,15 @@ function showSocial() {
 
 function closePostCreate(frontend) {
     document.getElementById("navigation").classList.add("active")
-    document.body.style.overflow = null;
+    document.body.style.overflow = 'hidden';
+    document.body.style.overflowX = 'hidden';
 
-    document.getElementById("app").style.transform = null;
-    document.getElementById("gradColored").style.opacity = null;
-    document.getElementById("gradColored").style.borderRadius = null;
-    document.getElementById("gradColored").style.transform = null;
-    document.getElementById("app").style.opacity = null;
-    document.body.style.backgroundColor = null;
+    document.getElementById("app").style.transform = '';
+    document.getElementById("gradColored").style.opacity = '1';
+    document.getElementById("gradColored").style.borderRadius = '';
+    document.getElementById("gradColored").style.transform = '';
+    document.getElementById("app").style.opacity = '1';
+    document.body.style.backgroundColor = '';
     footer.style.display = 'none'
     function finalize(frn) {
 
@@ -5866,8 +5867,19 @@ function openKeyboard() {
 const footer = document.querySelector(".popup-footer");
 
 function adjustFooterPosition() {
+    if (!footer) return;
     if (window.visualViewport) {
-        footer.style.bottom = (window.innerHeight - window.visualViewport.height) + "px";
+        const delta = window.innerHeight - window.visualViewport.height;
+        // Only apply when a large viewport change occurs (likely keyboard open).
+        // Small deltas (safe-area insets) should be handled by CSS.
+        if (delta > 100) {
+            footer.style.bottom = delta + "px";
+        } else {
+            // remove inline override so CSS (including env(safe-area-inset-bottom)) controls positioning
+            footer.style.bottom = "";
+        }
+    } else {
+        footer.style.bottom = "";
     }
 }
 
@@ -6043,10 +6055,6 @@ function createPost(el, dontClear) {
                 console.error('There was an issue setting up personal info:', error);
             });
     }, 150)
-
-
-
-
 }
 
 function openEditProfile() {
@@ -8239,8 +8247,8 @@ function showMentioned() {
                     });
                 })
 
-                console.log(complete, "Complete")
-                if (friendsPosts.length === 0) {
+                console.log(complete, "Complete", friendsPosts)
+                if (friendsPosts.length === 0 || friendsPosts.length === 1 && friendsPosts[0].Name === 'EVOX_NOTFOUND') {
                     document.getElementById("mentioned").innerHTML = `<div style="display:flex;
                     flex-direction:column;
                     justify-content:center;

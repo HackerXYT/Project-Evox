@@ -640,6 +640,7 @@ input {
   border-top-right-radius: 2rem;
   /* Transition for sliding effect, opacity, and visibility */
   overflow: auto;
+  display: none;
 }
 
 .popup.active {
@@ -1425,6 +1426,7 @@ input {
   overflow-x: hidden;
   backdrop-filter: blur(55px);
   -webkit-backdrop-filter: blur(55px);
+  display: none !important;
 }
 
 .notification-center.jeanne {
