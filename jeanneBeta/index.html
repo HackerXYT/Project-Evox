@@ -387,6 +387,81 @@
                             </svg></div>
                     </div>
                 </div>
+                <div class="loginByName" id="setupInstagram" style="display: none;">
+
+                    <p>Προσθήκη Instagram</p>
+                    <span>Συνδέστε τον λογαριασμό σας Instagram για να χρησιμοποιείτε την ίδια εικόνα προφίλ και να
+                        συνδέεστε ευκολότερα με τους συμμαθητές σας, οι οποίοι θα σας αναγνωρίζουν πιο εύκολα.</span>
+                    <div class="inputsLogin">
+                        <div class="inv-button creds"
+                            onclick="document.getElementById('voxInstagramUsername-input').focus()">
+                            <vo class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px"
+                                    viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="6" r="4" stroke="#fff" stroke-width="1.5"></circle>
+                                    <path
+                                        d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                        stroke="#fff" stroke-width="1.5"></path>
+                                </svg></vo>
+
+                            <input id="voxInstagramUsername-input" type="name" placeholder="Instagram Username">
+                        </div>
+                        <div class="rowInLogin">
+                            <div onclick="continueSetupAccount('save')" class="optionButton focus svgOnRight">
+                                Επιβεβαίωση</div>
+                            <div onclick="continueSetupAccount('empty')" class="optionButton svgOnRight">
+                                Παράλειψη</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loginByName" id="addEmail" style="display: none;">
+
+                    <p>Προσθήκη Email</p>
+                    <span>Σε περίπτωση που ξεχάσετε το PIN, θα χρειαστείτε το email σας για να το επαναφέρετε.</span>
+                    <div class="inputsLogin">
+                        <div class="inv-button creds" onclick="document.getElementById('voxEmail-input').focus()">
+                            <vo class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24"
+                                    id="mail" class="icon glyph">
+                                    <path
+                                        d="M22,8.32V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V8.69L4,9.78l7.52,4.1A1,1,0,0,0,12,14a1,1,0,0,0,.5-.14L20,9.49Z"
+                                        style="fill:#fff"></path>
+                                    <path d="M22,6h0L20,7.18l-8,4.67L4,7.5,2,6.4V6A2,2,0,0,1,4,4H20A2,2,0,0,1,22,6Z"
+                                        style="fill:#fff"></path>
+                                </svg>
+                            </vo>
+
+                            <input id="voxEmail-input" type="email" placeholder="Διεύθυνση Email">
+                        </div>
+                        <div class="rowInLogin">
+                            <div onclick="verifyEmail()" id="" class="optionButton focus svgOnRight">
+                                Επιβεβαίωση</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loginByName" id="verifyEmail" style="display: none;">
+
+                    <p>Επιβεβαίωση Email</p>
+                    <span>Ένας 6ψήφιος κωδικός στάλθηκε στο email σας.<br>Εισάγετε τον για επιβεβαίωση.</span>
+                    <div class="inputsLogin">
+                        <div class="digitInputs">
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                            <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
+                        </div>
+                        <div class="rowInLogin">
+                            <div id="" class="optionButton focus svgOnRight">
+                                Επιβεβαίωση</div>
+                        </div>
+
+                    </div>
+                </div>
                 <div class="loginByName" id="loginByEmail" style="display: none;">
 
                     <p>Σύνδεση με Email</p>
@@ -590,8 +665,10 @@
                 </g>
             </svg>
         </vox>
+        <h2 class="loading-text text-lg" id="loadTextDouble">placeholder</h2>
         <p class="loading-text fade-in-slide-up" id="loadText">Περιμένετε..</p>
     </div>
+
 
     <div onclick="window.location.reload()" id="hexa" class="tasks">
         <img src="logo.png" id="splashLogo" style="z-index: 11;transition: transform 1s ease-in-out, opacity 1s ease;">
@@ -706,21 +783,6 @@
                             stroke-linejoin="round" />
                     </svg>-->
                 </div>
-                <div class="wlcmTxt" style="display: none;">
-                    <div id="welcmtxt" class="topTxt">
-                        Καλωσόρισες 👋
-                    </div>
-                    <div id="emri" class="bottomTxt">
-                        όνομα
-                    </div>
-                </div>
-                <div onclick="showSocial()" class="rightItem" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
-                            stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
             </div>
             <div class="stories fade-in-slide-up" style="display: none;">
                 <div class="plus">
@@ -782,7 +844,26 @@
             <div style="margin-top: 10px;" class="border"></div>
 
             <div class="foryou-discovery" id="comingSoon">
-                <div class="comingSoon">
+                <div id="downloadingFiles" class="comingSoon">
+                    <div class="circleLoading"
+                        style="flex-direction: row;width: 100%;height: auto;display: flex;justify-content: center;align-items: center;">
+                        <div class="loaderContainer"
+                            style="width: 50px;height: 50px;margin-top: 0;display: flex;align-items: center;justify-content: center;">
+                            <svg class="progressCircle" width="50" height="50" viewBox="0 0 100 100">
+                                <circle class="bg" cx="50" cy="50" r="45" />
+                                <circle class="progress" cx="50" cy="50" r="45" />
+                            </svg>
+                            <div style="font-size: 14px" class="progressText" id="progressText">0%</div>
+                        </div>
+                    </div>
+                    <p>Γίνεται λήψη δεδομένων.</p>
+                    <span>Γίνεται λήψη των απαραίτητων δεδομένων μαθητών για τη λειτουργία της εφαρμογής.<br>Η
+                        διαδικασία
+                        αυτή πραγματοποιείται μόνο μία φορά.</span>
+                    <span id="proccessing-file"></span>
+
+                </div>
+                <div id="comingSoonInner" class="comingSoon" style="display: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="30px" height="30px" viewBox="0 0 24 24">
                         <path
                             d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z" />
@@ -3079,9 +3160,9 @@
                         <circle class="bg" cx="50" cy="50" r="45" />
                         <circle class="progress" cx="50" cy="50" r="45" />
                     </svg>
-                    <div class="progressText" id="progressText">0%</div>
+                    <!-- <div class="progressText" id="progressText">0%</div> -->
                 </div>
-                <p style="margin-top:10px;" id="proccessing-file"></p>
+                <!-- <p style="margin-top:10px;" id="proccessing-file"></p> -->
             </div>
             <div class="buttonsPIN" id="buttonsEvalert">
                 <div onclick="evalertclose()">

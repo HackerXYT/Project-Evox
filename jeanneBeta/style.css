@@ -521,6 +521,12 @@ vo input::placeholder {
     transition: all 0.3s ease-in-out;
 }
 
+.loading-text.text-lg {
+    font-size: 22px;
+    margin-bottom: 5px;
+    display: none;
+}
+
 .welcome {
     display: flex;
     width: 100%;
@@ -7305,4 +7311,44 @@ body {
     touch-action: pan-x pan-y;
     flex: 1;
     /* optional: prevent double-tap scroll/zoom issues */
+}
+
+.rowInLogin {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 5px;
+}
+
+.digitInputs {
+    margin-top: 15px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+
+.digitInputs .digit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #3d3d3d8a;
+    border: 1px solid #2d2d2d98;
+    height: 50px;
+    border-radius: 11px;
+}
+
+.digitInputs .digit input {
+    color: #ffffff;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }

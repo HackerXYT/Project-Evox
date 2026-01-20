@@ -5,6 +5,54 @@ for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
 }
 const loremDummy = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 localStorage.setItem("Jeanne_LastVersion", appVersion)
+
+// Notification Queue Management
+let notificationQueue = [];
+let isNotificationActive = false;
+let onQueueEmptyCallbacks = [];
+
+function enqueueNotification(notificationData) {
+    notificationQueue.push(notificationData);
+    processNotificationQueue();
+}
+
+function onQueueEmpty(callback) {
+    if (notificationQueue.length === 0 && !isNotificationActive) {
+        // Queue is already empty, call immediately
+        callback();
+    } else {
+        // Queue is not empty, add callback to be called when it becomes empty
+        onQueueEmptyCallbacks.push(callback);
+    }
+}
+
+function processNotificationQueue() {
+    if (isNotificationActive || notificationQueue.length === 0) {
+        // If queue is now empty and no notification is active, trigger callbacks
+        if (!isNotificationActive && notificationQueue.length === 0) {
+            const callbacks = onQueueEmptyCallbacks;
+            onQueueEmptyCallbacks = [];
+            callbacks.forEach(cb => cb());
+        }
+        return;
+    }
+
+    isNotificationActive = true;
+    const notification = notificationQueue.shift();
+
+    // Show the notification and wait for it to be dismissed
+    Evalert(notification);
+
+    // Wait for the notification to be closed
+    const checkInterval = setInterval(() => {
+        if (!document.getElementById("evox-notice").classList.contains("active")) {
+            clearInterval(checkInterval);
+            isNotificationActive = false;
+            // Process the next notification in the queue
+            setTimeout(() => processNotificationQueue(), 300);
+        }
+    }, 100);
+}
 // Utility to generate random string
 function generateRandomString(length = 10) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -1541,13 +1589,47 @@ function clickPIN(element) {
                                             "pin": btoa(pin),
                                             "latestIp": ip
                                         }
-                                        localStorage.setItem("jeanDarc_accountData", JSON.stringify(accData))
+                                        //Remove me
+                                        //localStorage.setItem("jeanDarc_accountData", JSON.stringify(accData))
                                         sessionStorage.setItem("isNewUser", 'true')
                                         stopPull = null
                                         $("#tasks").fadeIn("fast")
                                         $("#hexa").fadeOut("fast")
 
-                                        autoLogin()
+                                        let firstTimeLogin = true
+
+                                        if (firstTimeLogin === true) {
+                                            //Implement first login functionallities
+                                            document.getElementById("tasks").classList.add("fade-out-slide-down")
+                                            setTimeout(function () {
+                                                document.getElementById("tasks").style.display = 'none'
+
+                                                document.getElementById("textDialog").style.display = 'none'
+                                                document.getElementById("appInfo").style.display = 'none'
+                                                document.getElementById("topLeftBack").style.display = 'none'
+                                                const boxUp = document.getElementById("boxUp");
+                                                const currentHeight = boxUp.offsetHeight + 'px';
+                                                boxUpDefaultHeight = currentHeight
+                                                boxUp.style.transition = 'height 1s'; // Adjust the duration as needed
+                                                boxUp.style.height = currentHeight;
+                                                setTimeout(() => {
+                                                    boxUp.style.height = '280px';
+                                                }, 10);
+                                                setTimeout(function () {
+                                                    document.getElementById("loginContainer").style.display = ''
+                                                    document.getElementById("welcome").classList.remove("fade-out-slide-down")
+                                                    document.getElementById("welcome").classList.add("fade-in-slide-up")
+                                                    document.getElementById("welcome").style.display = ''
+                                                    $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName').fadeOut(function () {
+                                                        $("#setupInstagram").fadeIn("fast")
+                                                    });
+                                                }, 500)
+
+                                            }, 300)
+
+                                        } else {
+                                            autoLogin()
+                                        }
 
                                     })
                                     //if (localStorage.getItem("remPIN") === "true") {
@@ -1938,7 +2020,6 @@ function autoLogin() {
                                     document.getElementById("instausername-SELF").innerText = informacionDictionary[foundName].instagram ? informacionDictionary[foundName].instagram : ""
 
                                     setTimeout(function () {
-
                                         attach()
                                     }, 1000)
                                 }).catch(error => {
@@ -2166,7 +2247,11 @@ let myInfo = null
 function attach() {
     //document.getElementById("comingSoon")
     document.getElementById("foryou").style.display = "none"
-    downloadProfiles()
+    // Wait for the notification queue to be completely empty before starting profile downloads
+    // This ensures PWA, PIN change, and other initial notifications are shown and dismissed first
+    onQueueEmpty(() => {
+        downloadProfiles()
+    })
     if (!sessionStorage.getItem("betaSession")) {
         //return;
         //EvalertNext({
@@ -2193,7 +2278,6 @@ function attach() {
 
 
     if (!sessionStorage.getItem('isNewUser')) {
-        document.getElementById("welcmtxt").innerHTML = `Καλώς ήρθες ξανά 👋`
         changeLoadingText(`Καλώς ήρθες ξανά 👋`)
     } else {
         changeLoadingText(`Καλώς ήρθες!`)
@@ -2263,10 +2347,10 @@ function attach() {
         //console.log(f.length)
         if (f.length > 1) {
 
-            document.getElementById("emri").innerText = `${transformGreekName(foundName, 0)}`
+            // document.getElementById("emri").innerText = `${transformGreekName(foundName, 0)}`
 
         } else {
-            document.getElementById("emri").innerText = `${transformGreekName(foundName, 0)} ${transformGreekName(foundName, 1)}`
+            // document.getElementById("emri").innerText = `${transformGreekName(foundName, 0)} ${transformGreekName(foundName, 1)}`
         }
 
 
@@ -2633,29 +2717,34 @@ function downloadProfiles() {
 
                 //document.getElementById("downloaded").innerHTML = percentage + "%"
                 //console.log(percentage)
+                if (percentage === 100) {
+                    document.getElementById("downloadingFiles").style.display = "none"
+                    document.getElementById("comingSoonInner").style.display = "flex"
+                }
                 if (percentage === 100 && runned === true && !localStorage.getItem("profilesDlOk")) {
                     localStorage.setItem("profilesDlOk", "200")
                     console.warn("All profiles are downloaded")
+
                     if (document.getElementById("evox-notice").classList.contains("active")) {
-                        evalertclose()
+                        //evalertclose()
                     }
-                    EvalertNext({
-                        "title": "Η λήψη ολοκληρώθηκε με επιτυχία",
-                        "description": "Τα απαιτούμενα δεδομένα έχουν ληφθεί.<br>Οι λειτουργίες της εφαρμογής θα εκτελούνται πλέον πιο γρήγορα.",
-                        "buttons": ["Συνέχεια"],
-                        "buttonAction": [],
-                        "addons": []
-                    })
+                    //EvalertNext({
+                    //    "title": "Η λήψη ολοκληρώθηκε με επιτυχία",
+                    //    "description": "Τα απαιτούμενα δεδομένα έχουν ληφθεί.<br>Οι λειτουργίες της εφαρμογής θα εκτελούνται πλέον πιο γρήγορα.",
+                    //    "buttons": ["Συνέχεια"],
+                    //    "buttonAction": [],
+                    //    "addons": []
+                    //})
                     clearInterval(intmain)
                 } else if (runned === false && !localStorage.getItem("profilesDlOk")) {
-                    EvalertNext({
-                        "title": `Γίνεται λήψη δεδομένων.`,
-                        "description": "Γίνεται λήψη των απαραίτητων δεδομένων μαθητών για τη λειτουργία της εφαρμογής. Η διαδικασία αυτή πραγματοποιείται μόνο μία φορά.",
-                        "buttons": ["Συνέχεια στο παρασκήνιο"],
-                        "buttonAction": [],
-                        "addons": [
-                        ]
-                    })
+                    // EvalertNext({
+                    // "title": `Γίνεται λήψη δεδομένων.`,
+                    // "description": "Γίνεται λήψη των απαραίτητων δεδομένων μαθητών για τη λειτουργία της εφαρμογής. Η διαδικασία αυτή πραγματοποιείται μόνο μία φορά.",
+                    // "buttons": ["Συνέχεια στο παρασκήνιο"],
+                    // "buttonAction": [],
+                    // "addons": [
+                    // ]
+                    // })
 
                     runned = true;
                 }
@@ -7847,7 +7936,7 @@ function notificationsStart(ready) {
 
 function showNotice() {
     getImage(foundName).then(profileSrc => {
-        document.getElementById("cloudsProfile").innerHTML = `<div class="mainIcon"><img id="myProfile-Animt" class="new" src="${profileSrc.imageData}"></div>`;
+        document.getElementById("cloudsProfile").innerHTML = `<div class="mainIcon"><img id="myProfile-Animt" class="new" src="${profileSrc && profileSrc.imageData ? profileSrc.imageData : localStorage.getItem(`ProfileSrc_${foundName}`)}"></div>`;
         document.getElementById("myProfile-Animt").addEventListener('animationend', function () {
             document.getElementById("myProfile-Animt").classList.remove("new")
         });
@@ -8069,16 +8158,8 @@ function evalertclose() {
 }
 
 function EvalertNext(json) {
-    if (document.getElementById("evox-notice").classList.contains("active")) {
-        let main = setInterval(function () {
-            if (!document.getElementById("evox-notice").classList.contains("active")) {
-                Evalert(json)
-                clearInterval(main)
-            }
-        }, 500)
-    } else {
-        Evalert(json)
-    }
+    // Use the notification queue instead of the old interval-based approach
+    enqueueNotification(json);
 }
 
 function showMedia(el) {

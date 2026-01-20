@@ -16,10 +16,10 @@ function disableRightClick(imageSrc) {
             //document.getElementById("loginContainer").style.display = null
             //document.getElementById("loadText").innerHTML = `Dev Mode Enabled`
             //document.getElementById("loadText").style.opacity = '1'
-//
-//
+            //
+            //
             //localStorage.setItem("devBypass", "temp")
-//
+            //
             //$("#device-warning").fadeOut("fast")
             //$("#hexa").fadeOut('fast')
             //$("#tasks").fadeIn("fast")
@@ -54,3 +54,54 @@ function disableRightClick(imageSrc) {
 
 //disableRightClick("../evox-epsilon-beta/epsilon-transparent.png");
 disableRightClick("assetView-2.png");
+
+function continueSetupAccount(insta_username) {
+    //after entering instagram
+    $("#setupInstagram").fadeOut(function () {
+        const boxUp = document.getElementById("boxUp");
+        const currentHeight = boxUp.offsetHeight + 'px';
+        boxUpDefaultHeight = currentHeight
+        boxUp.style.transition = 'height 1s'; // Adjust the duration as needed
+        boxUp.style.height = currentHeight;
+        setTimeout(() => {
+            boxUp.style.height = '260px';
+        }, 10);
+        $("#addEmail").fadeIn("fast")
+
+    })
+}
+
+function verifyEmail() {
+    const input = document.getElementById("voxEmail-input")
+    if (input.value === '') {
+        return;
+    }
+    $("#addEmail").fadeOut(function () {
+        const boxUp = document.getElementById("boxUp");
+        const currentHeight = boxUp.offsetHeight + 'px';
+        boxUpDefaultHeight = currentHeight
+        boxUp.style.transition = 'height 1s'; // Adjust the duration as needed
+        boxUp.style.height = currentHeight;
+        setTimeout(() => {
+            boxUp.style.height = '260px';
+        }, 10);
+        $("#verifyEmail").fadeIn("fast")
+
+    })
+
+}
+
+const inputs = document.querySelectorAll('.digitInputs input');
+
+inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === '' && index > 0) {
+            inputs[index - 1].focus();
+        }
+    });
+});
