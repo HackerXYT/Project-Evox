@@ -432,10 +432,10 @@
                                 </svg>
                             </vo>
 
-                            <input id="voxEmail-input" type="email" placeholder="Διεύθυνση Email">
+                            <input id="voxEmail-input" type="email" placeholder="Διεύθυνση Email" style="width: 100%;">
                         </div>
                         <div class="rowInLogin">
-                            <div onclick="verifyEmail()" id="" class="optionButton focus svgOnRight">
+                            <div onclick="verifyEmail()" id="startBtnEmail" class="optionButton focus svgOnRight">
                                 Επιβεβαίωση</div>
                         </div>
 
@@ -456,7 +456,8 @@
                             <div class="digit"><input type="text" maxlength="1" pattern="\d*" inputmode="numeric"></div>
                         </div>
                         <div class="rowInLogin">
-                            <div id="" class="optionButton focus svgOnRight">
+                            <div onclick="completeVerification()" id="verifyBtnEmail"
+                                class="optionButton focus svgOnRight">
                                 Επιβεβαίωση</div>
                         </div>
 
@@ -735,20 +736,19 @@
 
         </div>
         <div class="pin-pad">
-            <button onclick="clickPIN(this)">1</button>
-            <button onclick="clickPIN(this)">2</button>
-            <button onclick="clickPIN(this)">3</button>
-            <button onclick="clickPIN(this)">4</button>
-            <button onclick="clickPIN(this)">5</button>
-            <button onclick="clickPIN(this)">6</button>
-            <button onclick="clickPIN(this)">7</button>
-            <button onclick="clickPIN(this)">8</button>
-
-            <button onclick="clickPIN(this)">9</button>
+            <button onpointerdown="clickPIN(this)">1</button>
+            <button onpointerdown="clickPIN(this)">2</button>
+            <button onpointerdown="clickPIN(this)">3</button>
+            <button onpointerdown="clickPIN(this)">4</button>
+            <button onpointerdown="clickPIN(this)">5</button>
+            <button onpointerdown="clickPIN(this)">6</button>
+            <button onpointerdown="clickPIN(this)">7</button>
+            <button onpointerdown="clickPIN(this)">8</button>
+            <button onpointerdown="clickPIN(this)">9</button>
             <button class="delete-button" style="background: transparent;"></button>
 
 
-            <button onclick="clickPIN(this)">0</button><button onclick="deletePIN()" class="delete-button"
+            <button onpointerdown="clickPIN(this)">0</button><button onpointerdown="deletePIN()" class="delete-button"
                 style="background: transparent;"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
                     viewBox="0 0 24 24" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1168,6 +1168,7 @@
                 <img src="image_processing20210917-11582-kv16qe.png">
             </div>-->
             <div class="assets"> <!-- style="margin-bottom: 100px;"-->
+
                 <div class="userRow">
                     <div class="userCollumn">
                         <p id="userName">Ανάκτηση..</p>
@@ -1878,6 +1879,32 @@
         <!--Connection Below-->
         <div class="app fade-in-slide-up" id="search-in" style="padding-top: 0px;">
             <div class="assets" style="margin-bottom: 100px;">
+                <div class="userRow"
+                    style="justify-content: flex-start;box-sizing: border-box;padding-left: 20px;padding-right: 20px;">
+                    <div class="backArrow" onclick="openSearch(document.getElementById('search-switch'))">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path d="M5 12H19M5 12L11 6M5 12L11 18" stroke="#fff" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span style="margin-left: 10px;font-size: 14px">Πίσω</span>
+                    <div class="moreActions" style="margin-left: auto;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path d="M8 12H8.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M12 12H12.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M16 12H16.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path
+                                d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="#fff" stroke-width="2"></path>
+                        </svg>
+
+                    </div>
+                </div>
                 <div class="userRow">
                     <div class="userCollumn">
                         <p id="userName-search">Ανάκτηση..</p>
@@ -3958,6 +3985,7 @@
   pointer-events: none;
 "></div>
 </body>
+<script src="haptics.js"></script>
 <script src="../scripts/jquery-3.7.0.js"></script>
 <script src="database.js"></script>
 <script src="main.js"></script>

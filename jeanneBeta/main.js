@@ -1,9 +1,9 @@
-const appVersion = "2.0.7"
+const appVersion = "2.1.0"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
 }
-const loremDummy = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+const loremDummy = "Τι κάνεις; Προσπάθησες να δεις τι έχει γράψει ο/η συμμαθητής/τριά σου; Πολύ sneaky… θα μπορούσες απλώς να τον/την ακολουθήσεις, αλλά όχι—εσύ αποφάσισες να γίνεις stalker! Τι περίμενες να βρεις; Μυστικά, αστεία, κάτι που δεν ήταν για σένα; Κάθε λέξη που διαβάζεις τώρα είναι σαν καθρέφτης της περιέργειάς σου και σε κάνει να σκεφτείς: ποιος παρατηρεί ποιον; Μπορεί να τον/την ειδοποιήσουμε ότι το έκανες αυτό… αλλά ποιος ξέρει, ίσως όχι. Οι ιστορίες που ακολουθούν είναι εδώ για να σε κάνουν να γελάσεις, να σκεφτείς λίγο και να περάσεις καλά."
 localStorage.setItem("Jeanne_LastVersion", appVersion)
 
 // Notification Queue Management
@@ -1524,7 +1524,9 @@ document.getElementById('nameInput').addEventListener('keydown', function (event
 let pin = "";
 let toVerify;
 let proccessingPIN = false
+let loginHasEmail = false
 function clickPIN(element) {
+    if (proccessingPIN || pin.length >= 4) return;
     let number = element.innerHTML
     console.log(number)
     element.classList.add("active")
@@ -1558,10 +1560,10 @@ function clickPIN(element) {
             })
             if (pinAction === null) {
                 setTimeout(function () {
-                    fetch(`https://arc.evoxs.xyz/?metode=pin&pin=${pin}&emri=${foundName}`)
-                        .then(response => response.text())
+                    fetch(`https://arc.evoxs.xyz/?metode=pin&pin=${pin}&emri=${foundName}&accountData=all`)
+                        .then(response => response.json())
                         .then(status => {
-                            if (status === 'Granted') {
+                            if (status.message === 'Granted') {
                                 hasLoginFailed = false
                                 fetch('allowedUsers.evox')
                                     .then(response => response.json())
@@ -1589,17 +1591,48 @@ function clickPIN(element) {
                                             "pin": btoa(pin),
                                             "latestIp": ip
                                         }
-                                        //Remove me
-                                        //localStorage.setItem("jeanDarc_accountData", JSON.stringify(accData))
+                                        localStorage.setItem("jeanDarc_accountData", JSON.stringify(accData))
                                         sessionStorage.setItem("isNewUser", 'true')
                                         stopPull = null
                                         $("#tasks").fadeIn("fast")
                                         $("#hexa").fadeOut("fast")
 
-                                        let firstTimeLogin = true
 
-                                        if (firstTimeLogin === true) {
-                                            //Implement first login functionallities
+                                        loginHasEmail = status.hasEmail === true
+                                        if (status.hasInstagram === false) {
+                                            //Show add instagram dialog
+                                            setTimeout(function() {
+                                                document.getElementById("tasks").classList.add("fade-out-slide-down")
+                                                setTimeout(function () {
+                                                    document.getElementById("tasks").style.display = 'none'
+
+                                                    document.getElementById("textDialog").style.display = 'none'
+                                                    document.getElementById("appInfo").style.display = 'none'
+                                                    document.getElementById("topLeftBack").style.display = 'none'
+                                                    const boxUp = document.getElementById("boxUp");
+                                                    const currentHeight = boxUp.offsetHeight + 'px';
+                                                    boxUpDefaultHeight = currentHeight
+                                                    boxUp.style.transition = 'height 1s'; // Adjust the duration as needed
+                                                    boxUp.style.height = currentHeight;
+                                                    setTimeout(() => {
+                                                        boxUp.style.height = '280px';
+                                                    }, 10);
+                                                    setTimeout(function () {
+                                                        document.getElementById("loginContainer").style.display = ''
+                                                        document.getElementById("welcome").classList.remove("fade-out-slide-down")
+                                                        document.getElementById("welcome").classList.add("fade-in-slide-up")
+                                                        document.getElementById("welcome").style.display = ''
+                                                        $("#loginByName").fadeOut("fast")
+                                                        $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName').fadeOut(function () {
+                                                            $("#setupInstagram").fadeIn("fast")
+                                                        });
+                                                    }, 500)
+
+                                                }, 300)
+                                            }, 2500)
+                                            
+
+                                        } else if(loginHasEmail === false) {
                                             document.getElementById("tasks").classList.add("fade-out-slide-down")
                                             setTimeout(function () {
                                                 document.getElementById("tasks").style.display = 'none'
@@ -1620,13 +1653,13 @@ function clickPIN(element) {
                                                     document.getElementById("welcome").classList.remove("fade-out-slide-down")
                                                     document.getElementById("welcome").classList.add("fade-in-slide-up")
                                                     document.getElementById("welcome").style.display = ''
+                                                    $("#loginByName").fadeOut("fast")
                                                     $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName').fadeOut(function () {
-                                                        $("#setupInstagram").fadeIn("fast")
+                                                        $("#addEmail").fadeIn("fast")
                                                     });
                                                 }, 500)
 
                                             }, 300)
-
                                         } else {
                                             autoLogin()
                                         }
@@ -1636,7 +1669,7 @@ function clickPIN(element) {
                                     sessionStorage.setItem("remUnlocked", "true")
                                     //}
                                 })
-                            } else if (status === 'Denied') {
+                            } else if (status.message === 'Denied') {
                                 proccessingPIN = false
                                 deletePIN()
                                 deletePIN()
@@ -5334,6 +5367,22 @@ function loadSentByUser() {
                 finalHtml += item.ready;
             })
             document.getElementById("sentByUser").innerHTML = finalHtml;
+            if(finalHtml === '') {
+                 document.getElementById("sentByUser").innerHTML = `<div style="display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    align-items:center;
+                    width:100%;
+                    text-align: center;
+                    margin-top:15px;
+                    gap: 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1" width="40px" height="40px" viewBox="0 0 142.916 142.916" xml:space="preserve">
+		                <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"></path>
+                    </svg>
+                    <p>Δεν έχεις κάνει καμία καταχώρηση</p>
+                    <span style="font-size: 14px;font-family: 'SF Normal';">Πάτα το + για να γράψεις για τους συμμαθητές σου.</span>
+                    </div>`
+            }
             console.log("All user posts have been rendered!");
             //document.getElementById("sentByUser").innerHTML = html;
             // Do something after everything is done
@@ -5378,6 +5427,7 @@ function loadSentByUser() {
 
 
 function openProfile(el) {
+    haptics.trigger();
     document.getElementById("media").style.display = 'none'
     document.getElementById("carouselItem-1").classList.add("active")
     document.getElementById("carouselItem-2").classList.remove("active")
@@ -5387,6 +5437,9 @@ function openProfile(el) {
     el.classList.add("dropToBase")
     el.style.transition = "transform 0.3s ease";
     //el.style.transform = "scale(1.2)";
+    if(document.getElementById("fromMe_Slider").style.display === 'none') {
+        showFromMe(document.getElementById("carouselItem-1"))
+    }
 
     setTimeout(() => {
         el.classList.remove("dropToBase")
@@ -6069,6 +6122,7 @@ window.visualViewport.addEventListener("resize", adjustFooterPosition);
 window.visualViewport.addEventListener("scroll", adjustFooterPosition);
 
 function createPost(el, dontClear) {
+    haptics.trigger();
     document.getElementById("selectedPeople").innerHTML = ''
     if (!dontClear) {
         console.log("Clearing array")
@@ -6147,6 +6201,7 @@ function createPost(el, dontClear) {
 }
 
 function openEditProfile() {
+    haptics.trigger();
     document.getElementById("editProfile").classList.add("active")
     document.getElementById("app").style.transform = 'scale(0.95)'
     document.getElementById("gradColored").style.borderRadius = '20px'
@@ -6277,6 +6332,7 @@ function loadMoreUsers() {
 
 
 function openDiscovery(el) {
+    haptics.trigger();
     document.getElementById("navigation").classList.add("active")
     saveLastPage('discover')
     el.classList.add('active')
@@ -6553,7 +6609,7 @@ function openDiscovery(el) {
     }
 
 }
-function spawnItems(names, loadMore, oringinal, followingList) {
+function spawnItems(names, loadMore, oringinal, followingList, requestedList) {
 
     const fullNames = Object.keys(names.names);
     console.warn("FLNAMS:", names)
@@ -6603,7 +6659,7 @@ function spawnItems(names, loadMore, oringinal, followingList) {
                                     <p>${info.seksioni}${info.klasa !== 'none' ? info.klasa : ''}</p>
                                 </div>
                             </div>
-                            <div onclick="showProfileInfo('${info.emri}')" class="${followingList && followingList.includes(info.emri) ? 'editButton showProfileBtn" style="margin-right: 0px; white-space: nowrap;width:auto;background-color:#10101096;color:#fff;border: 2.5px solid #282828;"' : 'showProfileBtn"'}">${followingList && followingList.includes(info.emri) ? "Ακολουθείς" : "Προβολή"}</div>
+                            <div onclick="showProfileInfo('${info.emri}')" class="${followingList && followingList.includes(info.emri) || requestedList && requestedList.includes(info.emri) ? 'editButton showProfileBtn" style="margin-right: 0px; white-space: nowrap;width:auto;background-color:#10101096;color:#fff;border: 2.5px solid #282828;"' : 'showProfileBtn"'}">${followingList && followingList.includes(info.emri) ? "Ακολουθείς" : requestedList && requestedList.includes(info.emri) ? "Στάλθηκε Αίτημα" : "Προβολή"}</div>
                         </div>
                     </div>`;
                     //fetchAndSaveImage(info.emri, info.foto); // Store the image locally
@@ -7295,7 +7351,7 @@ function showProfileInfo(emri) {
                             </div>
                             <div class="postContent" style="height: auto;">
                                 <p><vox onclick="extMention('${pars.name}')" class="mention ${getGender(removeTonos(pars.name.split(" ")[0])) === "Female" ? "female" : "male"}">@${pars.name}</vox>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                    Τι κάνεις; Προσπάθησες να δεις τι έχει γράψει ο/η συμμαθητής/τριά σου; Πολύ sneaky… θα μπορούσες απλώς να τον/την ακολουθήσεις, αλλά όχι—εσύ αποφάσισες να γίνεις stalker! Τι περίμενες να βρεις; Μυστικά, αστεία, κάτι που δεν ήταν για σένα; Κάθε λέξη που διαβάζεις τώρα είναι σαν καθρέφτης της περιέργειάς σου και σε κάνει να σκεφτείς: ποιος παρατηρεί ποιον; Μπορεί να τον/την ειδοποιήσουμε ότι το έκανες αυτό… αλλά ποιος ξέρει, ίσως όχι. Οι ιστορίες που ακολουθούν είναι εδώ για να σε κάνουν να γελάσεις, να σκεφτείς λίγο και να περάσεις καλά.
                                 </p>
                             </div>
                             <vox class="cryptox-info">Cryptox Encrypted</vox>
@@ -7379,6 +7435,7 @@ function showProfileInfo(emri) {
 
 let search_loadedUsers = []
 function openSearch(el, inBackground) {
+    haptics.trigger();
     document.getElementById("navigation").classList.add("active")
     document.getElementById("search-in").style.display = 'none'
     saveLastPage('search')
@@ -7458,6 +7515,7 @@ function openSearch(el, inBackground) {
         .then(response => response.json())
         .then(sociale => {
             const following = sociale.following
+            const requested = sociale.requested
             fetch(`https://arc.evoxs.xyz/?metode=rekomandimet&emri=${parsed.name}&pin=${atob(parsed.pin)}`)
                 .then(response => response.json())
                 .then(names => {
@@ -7467,7 +7525,7 @@ function openSearch(el, inBackground) {
                         json.names[name] = {}
                     })
                     latestFollowing = following
-                    spawnItems(json, null, names, following);
+                    spawnItems(json, null, names, following, requested);
 
 
                 })
@@ -7490,6 +7548,7 @@ function openSearch(el, inBackground) {
 }
 
 function openHome(el) {
+    haptics.trigger();
     saveLastPage('home')
     el.classList.add('active')
     //el.style.transition = "transform 0.3s ease";
@@ -8163,6 +8222,7 @@ function EvalertNext(json) {
 }
 
 function showMedia(el) {
+    haptics.trigger();
     if (!localStorage.getItem("hasSeenMediaDesc")) {
         EvalertNext({
             title: "Πολυμέσα",
@@ -8239,6 +8299,7 @@ function showMedia(el) {
 }
 
 function showFromMe(el) {
+    haptics.trigger();
     document.getElementById("carouselItem-1").classList.remove("active")
     document.getElementById("carouselItem-2").classList.remove("active")
     document.getElementById("carouselItem-3").classList.remove("active")
@@ -8248,6 +8309,7 @@ function showFromMe(el) {
 }
 
 function showForyou() {
+    haptics.trigger();
     document.getElementById("comingSoon").style.display = 'none'
     document.getElementById("foryou-carousel").classList.add("active")
     document.getElementById("mentioned-carousel").classList.remove("active")
@@ -8258,6 +8320,7 @@ function showForyou() {
 }
 
 function showMentioned() {
+    haptics.trigger();
     document.getElementById("comingSoon").style.display = 'none'
     document.getElementById("foryou-carousel").classList.remove("active")
     document.getElementById("mentioned-carousel").classList.add("active")
@@ -8405,6 +8468,22 @@ function showMentioned() {
 
                 })
 
+                if(container.innerHTML === '') {
+                    document.getElementById("mentioned").innerHTML = `<div style="display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    align-items:center;
+                    width:100%;
+                    text-align: center;
+                    margin-top:15px;
+                    gap: 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1" width="40px" height="40px" viewBox="0 0 142.916 142.916" xml:space="preserve">
+		                <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
+                    </svg>
+                    <p>Δεν υπάρχουν καταχωρήσεις προς προβολή.</p>
+                    <span style="font-size: 14px;font-family: 'SF Normal';">Δοκιμάστε να ακολουθήσετε μερικούς συμμαθητές σας.</span>
+                    </div>`
+                }
 
 
 
@@ -8754,6 +8833,7 @@ function showUsersMedia(el) {
 }
 
 function openSettings() {
+    haptics.trigger();
     document.getElementById('settings-panel').classList.add('activated')
     const img = document.getElementById("account-settings-img")
     const emri = document.getElementById("account-settings-name")
@@ -9424,7 +9504,17 @@ function accountRecoveryBegin() {
                         }
                     }, 200)
                 } else {
-                    alert(res.message === "ECONNREFUSED" ? "Ο Διακομιστής Επαναφοράς Δεν Είναι Διαθέσιμος." : res.message)
+                    if(res.message !== "User doesn't have instagram") {
+                        alert(res.message === "ECONNREFUSED" ? "Ο Διακομιστής Επαναφοράς Δεν Είναι Διαθέσιμος." : res.message)
+                    } else {
+                        EvalertNext({
+                            "title": "Αποτυχία επαναφοράς",
+                            "description": "Δεν έχετε προσθέσει λογαριασμό Instagram.<br>Η διαδικασία επαναφοράς μέσω Email είναι προσωρινά ανενεργή.<br>Επικοινωνήστε με τους διαχειριστές.",
+                            "buttons": ["Επανεκκίνηση"],
+                            "buttonAction": ["window.location.reload()"],
+                            "addons": []
+                        })
+                    }
                 }
             }).catch(error => {
                 console.error("reset error", error)
@@ -9522,6 +9612,7 @@ function noticeSmall(icon, text, timeout) {
 }
 
 function switchToInnerPage(page) {
+    haptics.trigger();
     if (page === "1") {
         //const container = document.getElementById("notifications-container");
         //const notifications = Array.from(container.querySelectorAll(".notification-div"));

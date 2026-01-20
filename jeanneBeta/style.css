@@ -839,6 +839,11 @@ img {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    /* Prevents the gray "tap highlight" on mobile Safari/Chrome */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .pin-pad button.active {
@@ -1773,7 +1778,7 @@ img {
     padding-bottom: 0px;
 }
 
-.topActions .backArrow {
+.backArrow {
     padding: 10px;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -1786,6 +1791,11 @@ img {
     justify-content: center;
     align-items: center;
     transition: transform 0.1s ease-in-out;
+}
+
+.backArrow.b {
+    width: 25px;
+    height: 25px;
 }
 
 .topActions .backArrow.book {
