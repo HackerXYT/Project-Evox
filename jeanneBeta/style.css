@@ -2389,7 +2389,7 @@ img {
 #pinText {
     color: #bfbfbf;
     font-size: 1rem;
-
+    margin-bottom: 25px;
 }
 
 .devActions {
@@ -5396,6 +5396,19 @@ select:focus {
     gap: 5px;
     font-family: "SF Normal";
     color: #808080;
+}
+
+spanNormal {
+    font-family: "SF Normal";
+    font-size: 14px;
+    font-weight: normal;
+    color: #cfcfcf;
+}
+
+spanBold {
+    font-family: "SF";
+    font-size: 14px;
+    color: #ffff;
 }
 
 .iconA svg path {

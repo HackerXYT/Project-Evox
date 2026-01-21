@@ -1,4 +1,4 @@
-const appVersion = "2.1.0"
+const appVersion = "2.1.01"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -2710,6 +2710,7 @@ async function spawnRandom(redo, frontEndLoading) {
 
 
 
+let hasProfilesFrontShown = false;
 function downloadProfiles() {
     fetch('https://arc.evoxs.xyz/?metode=merrniEmrat')
         .then(response => response.json())
@@ -2750,9 +2751,11 @@ function downloadProfiles() {
 
                 //document.getElementById("downloaded").innerHTML = percentage + "%"
                 //console.log(percentage)
-                if (percentage === 100) {
+                if (percentage === 100 && hasProfilesFrontShown === false) {
+                    hasProfilesFrontShown = true
                     document.getElementById("downloadingFiles").style.display = "none"
                     document.getElementById("comingSoonInner").style.display = "flex"
+                    clearInterval(intmain)
                 }
                 if (percentage === 100 && runned === true && !localStorage.getItem("profilesDlOk")) {
                     localStorage.setItem("profilesDlOk", "200")
@@ -5427,6 +5430,9 @@ function loadSentByUser() {
 
 
 function openProfile(el) {
+    if(socialeSelectedInterval) {
+        clearInterval(socialeSelectedInterval)
+    }
     haptics.trigger();
     document.getElementById("media").style.display = 'none'
     document.getElementById("carouselItem-1").classList.add("active")
@@ -6332,6 +6338,9 @@ function loadMoreUsers() {
 
 
 function openDiscovery(el) {
+    if(socialeSelectedInterval) {
+        clearInterval(socialeSelectedInterval)
+    }
     haptics.trigger();
     document.getElementById("navigation").classList.add("active")
     saveLastPage('discover')
@@ -7016,7 +7025,7 @@ function activateShare(el) {
 }
 
 
-let socialeSelectedInterval;
+let socialeSelectedInterval = null;
 function showProfileInfo(emri) {
     lastActiveSearchUser = emri
     const container = document.getElementById("search-in");
@@ -7435,6 +7444,10 @@ function showProfileInfo(emri) {
 
 let search_loadedUsers = []
 function openSearch(el, inBackground) {
+    if(socialeSelectedInterval) {
+        clearInterval(socialeSelectedInterval)
+    }
+
     haptics.trigger();
     document.getElementById("navigation").classList.add("active")
     document.getElementById("search-in").style.display = 'none'
@@ -7551,6 +7564,9 @@ function openHome(el) {
     haptics.trigger();
     saveLastPage('home')
     el.classList.add('active')
+    if(socialeSelectedInterval) {
+        clearInterval(socialeSelectedInterval)
+    }
     //el.style.transition = "transform 0.3s ease";
     //el.style.transform = "scale(1.2)";
 
@@ -8174,6 +8190,14 @@ function Evalert(message) {
                 document.getElementById("cloudingNotice").innerHTML += `<div style="position: absolute;margin-right: 110px;z-index: 998;margin-bottom: 70px;">
                      <img style="width: 60px;height: 60px;border-radius: 50%;" src="../evox-epsilon-beta/evox-logo-apple.png">
                 </div>`
+            } else if (cloud === 'UNITE') {
+                document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon">
+                    <img src="appLogoV2-Branded.png">
+                </div>`
+            } else if(cloud === 'JEANNE-POS_MAIN') {
+                document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon">
+                    <img src="appLogoV2.png">
+                </div>`
             } else if (cloud === 'Jeanne') {
                 document.getElementById("cloudingNotice").innerHTML += `<div style="position: absolute;margin-left: 120px;z-index: 998;margin-bottom: 55px;">
                      <img style="width: 50px;height: 50px;border-radius: 50%;" src="appLogoV2.png">
@@ -8226,7 +8250,7 @@ function showMedia(el) {
     if (!localStorage.getItem("hasSeenMediaDesc")) {
         EvalertNext({
             title: "Πολυμέσα",
-            description: "Τα πολυμέσα σου περιέχουν εικόνες από όλο το δίκτυο όπου εμφανίζεται το πρόσωπό σου.<br>Αν βρεις μια εικόνα που δεν θέλεις να υπάρχει, μπορείς να τη διαγράψεις άμεσα.",
+            description: "<spanNormal>Τα πολυμέσα σου περιέχουν εικόνες από όλο το δίκτυο όπου εμφανίζεται το πρόσωπό σου.<br><br>Αν βρεις μια εικόνα που δεν θέλεις να υπάρχει, μπορείς να τη διαγράψεις άμεσα.</spanNormal>",
             buttons: ["Εντάξει"],
             buttonAction: ["localStorage.setItem('hasSeenMediaDesc', 'true')"],
             addons: [],
@@ -8310,25 +8334,30 @@ function showFromMe(el) {
 
 function showForyou() {
     haptics.trigger();
+    document.getElementById("homeRecommendInput").style.display = ''
+    document.getElementById("homeRecommendBorder").style.display = ''
     document.getElementById("comingSoon").style.display = 'none'
     document.getElementById("foryou-carousel").classList.add("active")
     document.getElementById("mentioned-carousel").classList.remove("active")
     document.getElementById("fixed-foryou").classList.add("active")
     document.getElementById("fixed-mentioned").classList.remove("active")
-    document.getElementById("foryou").style.display = null
+    // document.getElementById("foryou").style.display = null
+    document.getElementById("comingSoon").style.display = null
     document.getElementById("mentioned").classList.add("mentioned")
 }
 
 function showMentioned() {
     haptics.trigger();
-    document.getElementById("comingSoon").style.display = 'none'
-    document.getElementById("foryou-carousel").classList.remove("active")
-    document.getElementById("mentioned-carousel").classList.add("active")
-    document.getElementById("fixed-foryou").classList.remove("active")
-    document.getElementById("fixed-mentioned").classList.add("active")
+    document.getElementById("homeRecommendInput").style.display = 'none'
+    document.getElementById("homeRecommendBorder").style.display = 'none'
+    document.getElementById("comingSoon").style.display = 'none';
+    document.getElementById("foryou-carousel").classList.remove("active");
+    document.getElementById("mentioned-carousel").classList.add("active");
+    document.getElementById("fixed-foryou").classList.remove("active");
+    document.getElementById("fixed-mentioned").classList.add("active");
 
-    document.getElementById("foryou").style.display = 'none'
-    document.getElementById("mentioned").classList.remove("mentioned")
+    document.getElementById("foryou").style.display = 'none';
+    document.getElementById("mentioned").classList.remove("mentioned");
 
     const lc = localStorage.getItem("jeanDarc_accountData");
     if (!lc) return;
@@ -8336,14 +8365,15 @@ function showMentioned() {
     const pars = JSON.parse(lc);
     const pin = atob(pars.pin);
     hasCurrentSixLoaded = false;
-    const j = 6
-    let skel = ""
+    const j = 6;
+    let skel = "";
+
     for (let i = 0; i < j; i++) {
         skel += `<div class="postContainer skel loading" style="padding-bottom: 10px;padding-top: 10px;">
                         <div class="post extpost">
                             <div style="display: flex;flex-direction: row;">
                                 <div class="profilePicture">
-                                    <span style="background-color: #4c4c4c;width: 45px;height: 45px;border-radius: 50%;">
+                                    <span style="background-color: #4c4c4c;width: 45px;height: 45px;border-radius: 50%;"></span>
                                 </div>
                                 <div class="postInfo">
                                     <div class="userInfo">
@@ -8354,148 +8384,109 @@ function showMentioned() {
                                        <p class="skeleton"></p>
                                         <p style="margin-top: 5px;" class="skeleton"></p>
                                         <p style="margin-top: 5px;" class="skeleton"></p>
-                                        <p style="margin-top: 5px;" class="skeleton"></p>
-                                        <p style="margin-top: 5px;" class="skeleton"></p>
-                                        <p style="margin-top: 5px;" class="skeleton"></p>
-                                        <p style="margin-top: 5px;" class="skeleton"></p>
-                                        <p style="margin-top: 5px;" class="skeleton"></p>
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
-                    </div>`
+                    </div>`;
     }
-    document.getElementById("mentioned").innerHTML = skel
-    if (localStorage.getItem("jeanDarc_accountData")) {
-        fetch(`https://arc.evoxs.xyz/?metode=getFriendsPost&emri=${foundName}&pin=${atob(pars.pin)}`)
-            .then(response => response.json())
-            .then(friendsPosts => {
-                const container = document.getElementById("mentioned");
-                container.innerHTML = ""
-                let complete = {}
-                friendsPosts.forEach(friendIndex => {
-                    complete[friendIndex.Name] = []
-                    Object.entries(friendIndex).forEach(([nameOfPost, postValue]) => {
-                        if (nameOfPost === "Name" || nameOfPost === "likes" || nameOfPost === "cryptoxed" || nameOfPost === "saved" || nameOfPost === "length") {
-                            return;
-                        } else {
-                            complete[friendIndex.Name].push({
-                                "sentBy": nameOfPost,
-                                "contents": postValue,
-                                "isCryptoxed": friendIndex.cryptoxed.includes(nameOfPost),
-                                "likes": friendIndex.likes[nameOfPost] ? friendIndex.likes[nameOfPost] : null,
-                                "saved": friendIndex.saved.includes(nameOfPost)
-                            })
+    document.getElementById("mentioned").innerHTML = skel;
+
+    fetch(`https://arc.evoxs.xyz/?metode=getFriendsPost&emri=${foundName}&pin=${atob(pars.pin)}`)
+        .then(response => response.json())
+        .then(friendsPosts => {
+            const container = document.getElementById("mentioned");
+            container.innerHTML = "";
+
+            if(friendsPosts[0] && friendsPosts[0] === "Disabled") {
+                container.innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="30px" height="30px" viewBox="0 0 24 24">
+                        <path d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z"></path>
+                    </svg>
+                    <p>Οι δημοσιεύσεις των συμμαθητών που ακολουθείτε, έρχονται σύντομα.</p>
+                    <span style="font-size: 14px;font-family: 'SF Normal';">Μέχρι τότε ακολουθήσετε μερικούς συμμαθητές σας.</span>
+                </div>`;
+                return;
+            }
+
+
+            // 1. Check for empty state or error response
+            if (friendsPosts.length === 0 || (friendsPosts.length === 1 && friendsPosts[0].Name === 'EVOX_NOTFOUND')) {
+                container.innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="40px" height="40px" viewBox="0 0 142.916 142.916">
+                        <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4 c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842 c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608 L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841 C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226 c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856 c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801 C29.232,49.798,48.173,30.856,71.457,30.856z"/>
+                    </svg>
+                    <p>Δεν υπάρχουν καταχωρήσεις προς προβολή.</p>
+                    <span style="font-size: 14px;font-family: 'SF Normal';">Δοκιμάστε να ακολουθήσετε μερικούς συμμαθητές σας.</span>
+                </div>`;
+                return;
+            }
+
+            let stopLoading = 15;
+            let currentLoaded = 0;
+
+            // 2. Iterate through users in the response
+            friendsPosts.forEach(userGroup => {
+                // 3. Iterate through registrations for each user
+                userGroup.registrations.forEach(reg => {
+                    if (currentLoaded >= stopLoading) return;
+                    currentLoaded++;
+
+                    // Note: 'reg.writer' is the author, 'reg.mentioned' is the subject
+                    getImage(reg.writer).then(profileSrc => {
+                        let src = "appLogoV2-stable.png";
+                        if (profileSrc) {
+                            src = profileSrc.imageData;
                         }
+
+                        container.innerHTML += `
+                        <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                            <div class="post extpost">
+                                <div class="profilePicture">
+                                    <img src="${src}">
+                                </div>
+                                <div class="postInfo">
+                                    <div class="userInfo">
+                                        <p onclick="extMention('${reg.writer}')">${reg.writer}</p>
+                                        <span>6 μήνες</span>
+                                    </div>
+                                    <div class="postContent" style="height: auto;">
+                                        <p>
+                                            <vox onclick="extMention('${reg.mentioned}')" class="mention male">@${reg.mentioned}</vox>
+                                            ${reg.content}
+                                        </p>
+                                    </div>
+                                    <div class="icons">
+                                        <div onclick="focusOnIcon(this, 'likeBtn', '${reg.writer}', '${reg.mentioned}')" class="iconA">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                            <p style="display:none" class="pop-text">${reg.likes && reg.likes.count ? reg.likes.count : "0"}</p>
+                                        </div>
+                                        
+                                        <div onclick="focusOnIcon(this, 'shareButton')" class="iconA">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                                <path d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+
+                                        <div onclick="focusOnIcon(this, 'savePost', '${reg.writer}', '${reg.mentioned}')" class="iconA">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
                     });
-                })
-
-                console.log(complete, "Complete", friendsPosts)
-                if (friendsPosts.length === 0 || friendsPosts.length === 1 && friendsPosts[0].Name === 'EVOX_NOTFOUND') {
-                    document.getElementById("mentioned").innerHTML = `<div style="display:flex;
-                    flex-direction:column;
-                    justify-content:center;
-                    align-items:center;
-                    width:100%;
-                    text-align: center;
-                    margin-top:15px;
-                    gap: 5px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1" width="40px" height="40px" viewBox="0 0 142.916 142.916" xml:space="preserve">
-		                <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
-                    </svg>
-                    <p>Δεν υπάρχουν καταχωρήσεις προς προβολή.</p>
-                    <span style="font-size: 14px;font-family: 'SF Normal';">Δοκιμάστε να ακολουθήσετε μερικούς συμμαθητές σας.</span>
-                    </div>`
-                }
-                let stopLoading = 15
-                let currentLoaded = 0
-                Object.entries(complete).forEach(([nameOfMentioned, post]) => {
-
-                    post.forEach(post => {
-                        if (currentLoaded === stopLoading) return;
-                        currentLoaded++
-                        getImage(post.sentBy).then(profileSrc => {
-                            let src = "appLogoV2-stable.png"
-                            if (profileSrc) {
-                                src = profileSrc.imageData
-                            }
-                            container.innerHTML += `<div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
-                <div class="post extpost">
-                    <div class="profilePicture">
-                        <img src="${src}">
-                    </div>
-                    <div class="postInfo">
-                        <div class="userInfo">
-                            <p onclick="extMention('${post.sentBy}')">${post.sentBy}</p>
-                            <span>6 μήνες</span>
-                        </div>
-                        <div class="postContent" style="height: auto;">
-                            <p><vox onclick="extMention('${nameOfMentioned}')" class="mention male">@${nameOfMentioned}</vox>
-                                ${post.contents}
-                            </p>
-                        </div>
-                        <div class="mediaContainer">
-                        
-                        </div>
-                        
-                        <div class="icons">
-                    <div id="mwvjgm2gzmd2qmx" onclick="focusOnIcon(this, 'likeBtn', '${post.sentBy}', '${nameOfMentioned}')" class="iconA">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg><p style="display:none" class="pop-text">${post.likes && post.likes.count ? post.likes.count : "0"}</p>
-                    </div>
-                    
-                    <div onclick="focusOnIcon(this, 'shareButton')" class="iconA">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                            <path d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </div>
-                    <div onclick="focusOnIcon(this, 'savePost', '${post.sentBy}', '${nameOfMentioned}')" class="iconA">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-<path d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"></path>
-</svg><vox style="display:none"></vox>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-            </div>`
-                        })
-
-                        return;
-                        container.innerHTML += `<br>${post.sentBy}->${nameOfMentioned}: ${post.contents}<br>Cryptox: ${post.isCryptoxed}<br>Saved: ${post.saved}<br>Likes: ${JSON.stringify(post.likes, null, 2)}<br>`
-                    })
-
-                })
-
-                if(container.innerHTML === '') {
-                    document.getElementById("mentioned").innerHTML = `<div style="display:flex;
-                    flex-direction:column;
-                    justify-content:center;
-                    align-items:center;
-                    width:100%;
-                    text-align: center;
-                    margin-top:15px;
-                    gap: 5px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1" width="40px" height="40px" viewBox="0 0 142.916 142.916" xml:space="preserve">
-		                <path d="M32.901,114.799l-12.015,16.507c-2.375,3.265-1.656,7.835,1.608,10.21c1.301,0.945,2.807,1.4,4.295,1.4    c2.261,0,4.487-1.043,5.917-3.006l12.11-16.638c7.951,4.239,17.019,6.651,26.644,6.651c31.342,0,56.84-25.499,56.84-56.842    c0-15.979-6.636-30.427-17.283-40.764l15.074-20.709c2.375-3.265,1.655-7.834-1.607-10.21c-3.273-2.377-7.84-1.651-10.209,1.608    L99.313,23.562c-8.241-4.655-17.739-7.323-27.856-7.323c-31.343,0-56.842,25.499-56.842,56.841    C14.615,89.557,21.665,104.409,32.901,114.799z M113.682,73.08c0,23.284-18.94,42.226-42.226,42.226    c-6.407,0-12.461-1.477-17.905-4.039l48.729-66.951C109.331,51.864,113.682,61.964,113.682,73.08z M71.457,30.856    c6.901,0,13.403,1.698,19.159,4.646l-49.043,67.381c-7.623-7.643-12.344-18.181-12.344-29.801    C29.232,49.798,48.173,30.856,71.457,30.856z"/>
-                    </svg>
-                    <p>Δεν υπάρχουν καταχωρήσεις προς προβολή.</p>
-                    <span style="font-size: 14px;font-family: 'SF Normal';">Δοκιμάστε να ακολουθήσετε μερικούς συμμαθητές σας.</span>
-                    </div>`
-                }
-
-
-
-            }).catch(error => {
-                console.log('Error:', error);
-                document.getElementById("mentioned").innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="45px" height="45px" viewBox="0 0 24 24" fill="none">
-<path d="M5.67139 4.25705L19.7431 18.3287C21.1538 16.6049 22.0001 14.4013 22.0001 12C22.0001 6.47715 17.523 2 12.0001 2C9.59885 2 7.39526 2.84637 5.67139 4.25705Z" fill="#f54248"/>
-<path d="M4.25705 5.67126C2.84637 7.39514 2 9.59873 2 12C2 17.5228 6.47715 22 12 22C14.4013 22 16.6049 21.1536 18.3287 19.7429L4.25705 5.67126Z" fill="#f54248"/>
-</svg><p style="">Σφάλμα Δικαιωμάτων</p></div>`
+                });
             });
-    }
 
+        }).catch(error => {
+            console.log('Error:', error);
+            document.getElementById("mentioned").innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="45px" height="45px" viewBox="0 0 24 24" fill="none"><path d="M5.67139 4.25705L19.7431 18.3287C21.1538 16.6049 22.0001 14.4013 22.0001 12C22.0001 6.47715 17.523 2 12.0001 2C9.59885 2 7.39526 2.84637 5.67139 4.25705Z" fill="#f54248"/><path d="M4.25705 5.67126C2.84637 7.39514 2 9.59873 2 12C2 17.5228 6.47715 22 12 22C14.4013 22 16.6049 21.1536 18.3287 19.7429L4.25705 5.67126Z" fill="#f54248"/></svg><p>Σφάλμα Δικαιωμάτων</p></div>`;
+        });
 }
 
 let latestFollowing = null
@@ -9813,12 +9804,12 @@ async function InitializeBranded() {
 
             EvalertNext({
                 "title": "Ξεκλειδώθηκε νέα λειτουργία",
-                "description": "Έχεις πλέον πρόσβαση στο Evox Unite.",
-                "buttons": ["Εντάξει"],
-                "buttonAction": ["saveCookie('brandedApp', 'true')"],
+                "description": "<spanNormal>Έχετε πρόσβαση στο <spanBold>Evox Unite</spanBold>.<br><br><spanBold>Θέλετε να το ενεργοποιήσετε;</spanBold></spanNormal>",
+                "buttons": ["Ενεργοποιήση", "Να μην εμφανιστεί ξανά"],
+                "buttonAction": ["saveCookie('brandedApp', 'true')", "saveCookie('disableUnite', 'true')"],
                 "addons": [],
                 "clouds": true,
-                "clouds_data": ["SELF", "EVOX"]
+                "clouds_data": ["Jeanne", "UNITE", 'EVOX']
             })
 
         } else if (!getCookie("brandedApp")) {

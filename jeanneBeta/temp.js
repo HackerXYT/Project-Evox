@@ -214,3 +214,28 @@ function completeVerification() {
             console.error("Jeanne D'arc Database is offline.")
         });
 }
+
+function showInfoYearbook() {
+    EvalertNext({
+        title: "Πώς λειτουργεί η επετηρίδα;",
+        description: `<spanNormal>
+            Η επετηρίδα ξεκινά και περιμένει καταχωρήσεις από τους μαθητές.
+            <br><br>
+            Όταν <spanBold>οι περισσότεροι έχουν γράψει</spanBold>, θα μπορείτε να δείτε 
+            <spanBold>τι έχουν γράψει οι συμμαθητές σας</spanBold>, για <spanBold>εσάς</spanBold> ή για <spanBold>άλλους</spanBold>.
+            <br><br>
+            Για να δείτε <spanBold>τι έγραψαν οι φίλοι σας</spanBold>, πρέπει να 
+            <spanBold>τους ακολουθήσετε</spanBold> και να <spanBold>αποδεχτούν το αίτημά σας</spanBold>.
+            <br><br>
+            Για να δείτε <spanBold>τι έγραψαν άλλοι για ένα άτομο</spanBold>, χρειάζεται να 
+            <spanBold>ακολουθήσετε ξεχωριστά</spanBold> όσους το έχουν <spanBold>αναφέρει</spanBold>.
+        </spanNormal>
+
+        `,
+        buttons: ["Εντάξει"],
+        buttonAction: [],
+        addons: [],
+        "clouds": true,
+        "clouds_data": ["JEANNE-POS_MAIN"]
+    });
+}
