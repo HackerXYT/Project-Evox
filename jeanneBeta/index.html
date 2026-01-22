@@ -868,7 +868,7 @@
                         <path
                             d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z" />
                     </svg>
-                    <p>Οι καταχωρήσεις των συμμαθητών σου έρχονται σύντομα.</p>
+                    <p>Οι καταχωρήσεις των συμμαθητών σας έρχονται σύντομα.</p>
                     <span>Συλλέγουμε ακόμα όλες τις καταχωρήσεις για την επετηρίδα.</span>
                     <div onclick="showInfoYearbook()" class="buttonCarouseli" style="width: auto;">
                         Τι γίνεται μετά?
@@ -1859,7 +1859,7 @@
 
             </div>
             <div id="loadingIndicator" style="opacity: 0; text-align: center; padding: 10px;">
-                <div id="spinnerApple" class="spinner center">
+                <div id="spinnerAppleSearch" class="spinner center">
                     <div class="spinner-blade"></div>
                     <div class="spinner-blade"></div>
                     <div class="spinner-blade"></div>
@@ -1873,6 +1873,18 @@
                     <div class="spinner-blade"></div>
                     <div class="spinner-blade"></div>
                 </div>
+            </div>
+            <div id="endIndicator-search"
+                style="opacity: 0; text-align: center; padding: 10px;padding-bottom: 15%;display: flex;flex-direction: column;width: 100%;justify-content: center;align-items: center;gap:10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                        stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M7.75 12L10.58 14.83L16.25 9.17004" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                <p>Τα είδες όλα!</p>
+                <span style="font-size: 14px;
+    color: #888;">Έχεις δει όλους τους συμμαθητές σου.</span>
             </div>
             <!--</div>-->
         </div>
@@ -2310,160 +2322,198 @@
 
 
     </div>
-    <div class="popup-footer fade-in-slide-up" style="display: none;">
-        <select name="visibility" id="visibility">
-            <option value="normal">Ορατό στον δέκτη και διαχειριστές</option>
-            <option value="onlyreceiver">Ορατό μόνο στον δέκτη</option>
-            <option value="onlyadmin">Ορατό μόνο στους διαχειριστές</option>
-            <option value="advancedEncrpytion">Ορατό μόνο στον δέκτη [Cryptox]</option>
-        </select>
-        <div onclick="postNow(this)" id="postButton" class="postButton not-ready">
-            Επόμενο
-        </div>
-    </div>
-    <div class="PCCONTAINER">
-        <div id="createPost" class="applePopup">
-            <div class="topActionsPopup">
-                <div onclick="closePostCreate('frontend')" class="cancel">
-                    Ακύρωση
-                </div>
-                <div class="title-popup">
-                    Νέα καταχώρηση
-                </div>
-                <div class="moreActions">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                        <path d="M8 12H8.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 12H12.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M16 12H16.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path
-                            d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="#fff" stroke-width="2" />
-                    </svg>
 
-                </div>
-
-            </div>
-            <div class="border"></div>
-
-            <div class="postInput" id="postInput">
-                <div class="profilePicture-in" id="pfpIn">
-                    <img id="profilePicture-main" src="reloading-pfp.gif">
-                    <div class="line-x"></div>
-                    <div id="pfpIn-PFPs"
-                        style="display: flex;flex-direction: column;justify-content: center;gap: 10px;">
-                        <img id="profilePicture-small" class="small" src="reloading-pfp.gif">
+    <div class="PCCONTAINER_CREATE">
+        <div id="createPost" class="applePopup create">
+            <div class='popup-scroll-content'>
+                <div class="topActionsPopup">
+                    <div onclick="closePostCreate('frontend')" class="cancel">
+                        Ακύρωση
                     </div>
-                </div>
-                <div class="input-post">
-                    <p id="name-sur">Ονοματεπώνυμο</p>
-                    <div class="text-area-cont" style="position: relative;">
+                    <div class="title-popup">
+                        Νέα καταχώρηση
+                    </div>
+                    <div class="moreActions">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path d="M8 12H8.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 12H12.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M16 12H16.01" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="#fff" stroke-width="2" />
+                        </svg>
 
-                        <textarea id="input-textarea" placeholder="Τι νέο υπάρχει;"></textarea>
-                        <div id="floatingDiv" class="floating-div fade-in-slide-up">
-                            <div class="postContainer">
-                                <div class="post">
-                                    <div class="profilePicture">
-                                        <img src="https://arc.evoxs.xyz/foto/instagram/lilanda_adamidi.evox">
-                                    </div>
-                                    <div class="postInfo" style="flex-direction: row;">
-                                        <div class="userInfo">
-                                            <p>Λιλάντα Αδαμίδη
-                                                <svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg"
-                                                    width="20px" height="20px" viewBox="0 0 24 24" id="verified"
-                                                    class="icon glyph">
-                                                    <path
-                                                        d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
-                                                        style="fill:#179cf0"></path>
-                                                </svg>
-                                            </p>
+                    </div>
+
+                </div>
+                <div class="border"></div>
+
+                <div class="postInput" id="postInput">
+                    <div class="profilePicture-in" id="pfpIn">
+                        <img id="profilePicture-main" src="reloading-pfp.gif">
+                        <div class="line-x"></div>
+                        <div id="pfpIn-PFPs"
+                            style="display: flex;flex-direction: column;justify-content: center;gap: 10px;">
+                            <img id="profilePicture-small" class="small" src="reloading-pfp.gif">
+                        </div>
+                    </div>
+                    <div class="input-post">
+                        <p id="name-sur">Ονοματεπώνυμο</p>
+                        <div class="text-area-cont" style="position: relative;">
+
+                            <textarea id="input-textarea" placeholder="Τι νέο υπάρχει;"></textarea>
+                            <div id="floatingDiv" class="floating-div fade-in-slide-up">
+                                <div class="postContainer">
+                                    <div class="post">
+                                        <div class="profilePicture">
+                                            <img src="https://arc.evoxs.xyz/foto/instagram/lilanda_adamidi.evox">
+                                        </div>
+                                        <div class="postInfo" style="flex-direction: row;">
+                                            <div class="userInfo">
+                                                <p>Λιλάντα Αδαμίδη
+                                                    <svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg"
+                                                        width="20px" height="20px" viewBox="0 0 24 24" id="verified"
+                                                        class="icon glyph">
+                                                        <path
+                                                            d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
+                                                            style="fill:#179cf0"></path>
+                                                    </svg>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mediaContainer" id="evox-media-container">
-                        </div>
-
-                    </div>
-                    <input type="file" style="display: none;" id="evox-upload-box" accept="image/*,video/*" multiple
-                        onchange="processFile(null, 'upload')">
-
-                    <div class="icons">
-                        <div onclick="uploadFile();focusOnIcon(this)" class="iconA">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path
-                                    d="M2.58078 19.0112L2.56078 19.0312C2.29078 18.4413 2.12078 17.7713 2.05078 17.0312C2.12078 17.7613 2.31078 18.4212 2.58078 19.0112Z"
-                                    fill="#808080" />
-                                <path
-                                    d="M9.00109 10.3811C10.3155 10.3811 11.3811 9.31553 11.3811 8.00109C11.3811 6.68666 10.3155 5.62109 9.00109 5.62109C7.68666 5.62109 6.62109 6.68666 6.62109 8.00109C6.62109 9.31553 7.68666 10.3811 9.00109 10.3811Z"
-                                    fill="#808080" />
-                                <path
-                                    d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.19C2 17.28 2.19 18.23 2.56 19.03C3.42 20.93 5.26 22 7.81 22H16.19C19.83 22 22 19.83 22 16.19V13.9V7.81C22 4.17 19.83 2 16.19 2ZM20.37 12.5C19.59 11.83 18.33 11.83 17.55 12.5L13.39 16.07C12.61 16.74 11.35 16.74 10.57 16.07L10.23 15.79C9.52 15.17 8.39 15.11 7.59 15.65L3.85 18.16C3.63 17.6 3.5 16.95 3.5 16.19V7.81C3.5 4.99 4.99 3.5 7.81 3.5H16.19C19.01 3.5 20.5 4.99 20.5 7.81V12.61L20.37 12.5Z"
-                                    fill="#808080" />
-                            </svg>
-                        </div>
-                        <div onclick="focusOnIcon(this)" class="iconA" style="display: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M11.2383 2.79888C10.6243 2.88003 9.86602 3.0542 8.7874 3.30311L7.55922 3.58654C6.6482 3.79677 6.02082 3.94252 5.54162 4.10698C5.07899 4.26576 4.81727 4.42228 4.61978 4.61978C4.42228 4.81727 4.26576 5.07899 4.10698 5.54162C3.94252 6.02082 3.79677 6.6482 3.58654 7.55922L3.30311 8.7874C3.0542 9.86602 2.88003 10.6243 2.79888 11.2383C2.71982 11.8365 2.73805 12.2413 2.84358 12.6092C2.94911 12.9772 3.14817 13.3301 3.53226 13.7954C3.92651 14.2731 4.47607 14.8238 5.25882 15.6066L7.08845 17.4362C8.44794 18.7957 9.41533 19.7608 10.247 20.3954C11.0614 21.0167 11.6569 21.25 12.2623 21.25C12.8678 21.25 13.4633 21.0167 14.2776 20.3954C15.1093 19.7608 16.0767 18.7957 17.4362 17.4362C18.7957 16.0767 19.7608 15.1093 20.3954 14.2776C21.0167 13.4633 21.25 12.8678 21.25 12.2623C21.25 11.6569 21.0167 11.0614 20.3954 10.247C19.7608 9.41533 18.7957 8.44794 17.4362 7.08845L15.6066 5.25882C14.8238 4.47607 14.2731 3.92651 13.7954 3.53226C13.3301 3.14817 12.9772 2.94911 12.6092 2.84358C12.2413 2.73805 11.8365 2.71982 11.2383 2.79888ZM11.0418 1.31181C11.7591 1.21701 12.3881 1.21969 13.0227 1.4017C13.6574 1.58372 14.1922 1.91482 14.7502 2.37538C15.2897 2.82061 15.8905 3.4214 16.641 4.17197L18.5368 6.06774C19.8474 7.37835 20.8851 8.41598 21.5879 9.33714C22.311 10.2849 22.75 11.197 22.75 12.2623C22.75 13.3276 22.311 14.2397 21.5879 15.1875C20.8851 16.1087 19.8474 17.1463 18.5368 18.4569L18.4569 18.5368C17.1463 19.8474 16.1087 20.8851 15.1875 21.5879C14.2397 22.311 13.3276 22.75 12.2623 22.75C11.197 22.75 10.2849 22.311 9.33714 21.5879C8.41598 20.8851 7.37833 19.8474 6.06771 18.5368L4.17196 16.641C3.4214 15.8905 2.82061 15.2897 2.37538 14.7502C1.91482 14.1922 1.58372 13.6574 1.4017 13.0227C1.21969 12.3881 1.21701 11.7591 1.31181 11.0418C1.40345 10.3484 1.59451 9.52048 1.83319 8.48622L2.13385 7.18334C2.33302 6.32023 2.49543 5.61639 2.68821 5.05469C2.88955 4.46806 3.14313 3.9751 3.55912 3.55912C3.9751 3.14313 4.46806 2.88955 5.05469 2.68821C5.61639 2.49543 6.32023 2.33302 7.18335 2.13385L8.48622 1.83319C9.52047 1.59451 10.3484 1.40345 11.0418 1.31181ZM9.49094 7.99514C9.00278 7.50699 8.21133 7.50699 7.72317 7.99514C7.23502 8.4833 7.23502 9.27476 7.72317 9.76291C8.21133 10.2511 9.00278 10.2511 9.49094 9.76291C9.97909 9.27476 9.97909 8.4833 9.49094 7.99514ZM6.66251 6.93448C7.73645 5.86054 9.47766 5.86054 10.5516 6.93448C11.6255 8.00843 11.6255 9.74963 10.5516 10.8236C9.47766 11.8975 7.73645 11.8975 6.66251 10.8236C5.58857 9.74963 5.58857 8.00843 6.66251 6.93448ZM19.0511 10.9902C19.344 11.2831 19.344 11.7579 19.0511 12.0508L12.0721 19.0301C11.7792 19.323 11.3043 19.323 11.0114 19.0301C10.7185 18.7372 10.7185 18.2623 11.0114 17.9694L17.9904 10.9902C18.2833 10.6973 18.7582 10.6973 19.0511 10.9902Z"
-                                    fill="#808080" />
-                            </svg>
-                        </div>
-                        <div class="iconA" style="display: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path d="M11 16L13 8" stroke="#808080" stroke-width="2" stroke-linecap="round" />
-                                <path
-                                    d="M17 15L19.6961 12.3039V12.3039C19.8639 12.1361 19.8639 11.8639 19.6961 11.6961V11.6961L17 9"
-                                    stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path
-                                    d="M7 9L4.32151 11.6785V11.6785C4.14394 11.8561 4.14394 12.1439 4.32151 12.3215V12.3215L7 15"
-                                    stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="icons fade-in-slide-up" id="icons-possible"
-                        style="display: none; flex-direction: column;justify-content: center; gap: 0.5rem; padding: 0.75rem; background-color: rgb(53 53 53 / 66%); border-radius: 0.75rem;">
-                        <p style="font-size: 15px; font-weight: 300; color: #c4c4c4;">
-                            Γράφεις για <vo id="tontin-input">τον/την</vo>
-                            <vo id="name-input-possible" style="font-weight: 500;">;</vo>?
-                        </p>
-                        <span style="font-size: 12px; color: #999;">
-                            Χρησιμοποίησε <vo id="name-input-possible-2@" style="font-weight: 500;">@</vo>
-                            για αναφορά.
-                        </span>
-
-                        <div style="display: flex;width: 100%;align-items: center;gap:5px;">
-                            <div onclick="dismissRecommend()" class="editButton"
-                                style="width: 100%;margin-left: 0;margin-top: 5px;display: flex;justify-content: center;align-items: center;padding: 10px 15px;border-radius: 25px;">
-                                Απόρριψη
+                            <div class="mediaContainer" id="evox-media-container">
                             </div>
-                            <div data-activate="null" id="mention-recommend" onclick="setTagEXT(this)"
-                                class="postButton"
-                                style="width: 100%;margin-left: 0;margin-top: 5px;display: flex;justify-content: center;align-items: center;">
-                                Αναφορά
+
+                        </div>
+                        <input type="file" style="display: none;" id="evox-upload-box" accept="image/*,video/*" multiple
+                            onchange="processFile(null, 'upload')">
+
+                        <div class="icons">
+                            <div onclick="uploadFile();focusOnIcon(this)" onmousedown="event.preventDefault()"
+                                class="iconA">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M2.58078 19.0112L2.56078 19.0312C2.29078 18.4413 2.12078 17.7713 2.05078 17.0312C2.12078 17.7613 2.31078 18.4212 2.58078 19.0112Z"
+                                        fill="#808080" />
+                                    <path
+                                        d="M9.00109 10.3811C10.3155 10.3811 11.3811 9.31553 11.3811 8.00109C11.3811 6.68666 10.3155 5.62109 9.00109 5.62109C7.68666 5.62109 6.62109 6.68666 6.62109 8.00109C6.62109 9.31553 7.68666 10.3811 9.00109 10.3811Z"
+                                        fill="#808080" />
+                                    <path
+                                        d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.19C2 17.28 2.19 18.23 2.56 19.03C3.42 20.93 5.26 22 7.81 22H16.19C19.83 22 22 19.83 22 16.19V13.9V7.81C22 4.17 19.83 2 16.19 2ZM20.37 12.5C19.59 11.83 18.33 11.83 17.55 12.5L13.39 16.07C12.61 16.74 11.35 16.74 10.57 16.07L10.23 15.79C9.52 15.17 8.39 15.11 7.59 15.65L3.85 18.16C3.63 17.6 3.5 16.95 3.5 16.19V7.81C3.5 4.99 4.99 3.5 7.81 3.5H16.19C19.01 3.5 20.5 4.99 20.5 7.81V12.61L20.37 12.5Z"
+                                        fill="#808080" />
+                                </svg>
+                            </div>
+                            <div onclick="focusOnIcon(this)" class="iconA" style="display: none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M11.2383 2.79888C10.6243 2.88003 9.86602 3.0542 8.7874 3.30311L7.55922 3.58654C6.6482 3.79677 6.02082 3.94252 5.54162 4.10698C5.07899 4.26576 4.81727 4.42228 4.61978 4.61978C4.42228 4.81727 4.26576 5.07899 4.10698 5.54162C3.94252 6.02082 3.79677 6.6482 3.58654 7.55922L3.30311 8.7874C3.0542 9.86602 2.88003 10.6243 2.79888 11.2383C2.71982 11.8365 2.73805 12.2413 2.84358 12.6092C2.94911 12.9772 3.14817 13.3301 3.53226 13.7954C3.92651 14.2731 4.47607 14.8238 5.25882 15.6066L7.08845 17.4362C8.44794 18.7957 9.41533 19.7608 10.247 20.3954C11.0614 21.0167 11.6569 21.25 12.2623 21.25C12.8678 21.25 13.4633 21.0167 14.2776 20.3954C15.1093 19.7608 16.0767 18.7957 17.4362 17.4362C18.7957 16.0767 19.7608 15.1093 20.3954 14.2776C21.0167 13.4633 21.25 12.8678 21.25 12.2623C21.25 11.6569 21.0167 11.0614 20.3954 10.247C19.7608 9.41533 18.7957 8.44794 17.4362 7.08845L15.6066 5.25882C14.8238 4.47607 14.2731 3.92651 13.7954 3.53226C13.3301 3.14817 12.9772 2.94911 12.6092 2.84358C12.2413 2.73805 11.8365 2.71982 11.2383 2.79888ZM11.0418 1.31181C11.7591 1.21701 12.3881 1.21969 13.0227 1.4017C13.6574 1.58372 14.1922 1.91482 14.7502 2.37538C15.2897 2.82061 15.8905 3.4214 16.641 4.17197L18.5368 6.06774C19.8474 7.37835 20.8851 8.41598 21.5879 9.33714C22.311 10.2849 22.75 11.197 22.75 12.2623C22.75 13.3276 22.311 14.2397 21.5879 15.1875C20.8851 16.1087 19.8474 17.1463 18.5368 18.4569L18.4569 18.5368C17.1463 19.8474 16.1087 20.8851 15.1875 21.5879C14.2397 22.311 13.3276 22.75 12.2623 22.75C11.197 22.75 10.2849 22.311 9.33714 21.5879C8.41598 20.8851 7.37833 19.8474 6.06771 18.5368L4.17196 16.641C3.4214 15.8905 2.82061 15.2897 2.37538 14.7502C1.91482 14.1922 1.58372 13.6574 1.4017 13.0227C1.21969 12.3881 1.21701 11.7591 1.31181 11.0418C1.40345 10.3484 1.59451 9.52048 1.83319 8.48622L2.13385 7.18334C2.33302 6.32023 2.49543 5.61639 2.68821 5.05469C2.88955 4.46806 3.14313 3.9751 3.55912 3.55912C3.9751 3.14313 4.46806 2.88955 5.05469 2.68821C5.61639 2.49543 6.32023 2.33302 7.18335 2.13385L8.48622 1.83319C9.52047 1.59451 10.3484 1.40345 11.0418 1.31181ZM9.49094 7.99514C9.00278 7.50699 8.21133 7.50699 7.72317 7.99514C7.23502 8.4833 7.23502 9.27476 7.72317 9.76291C8.21133 10.2511 9.00278 10.2511 9.49094 9.76291C9.97909 9.27476 9.97909 8.4833 9.49094 7.99514ZM6.66251 6.93448C7.73645 5.86054 9.47766 5.86054 10.5516 6.93448C11.6255 8.00843 11.6255 9.74963 10.5516 10.8236C9.47766 11.8975 7.73645 11.8975 6.66251 10.8236C5.58857 9.74963 5.58857 8.00843 6.66251 6.93448ZM19.0511 10.9902C19.344 11.2831 19.344 11.7579 19.0511 12.0508L12.0721 19.0301C11.7792 19.323 11.3043 19.323 11.0114 19.0301C10.7185 18.7372 10.7185 18.2623 11.0114 17.9694L17.9904 10.9902C18.2833 10.6973 18.7582 10.6973 19.0511 10.9902Z"
+                                        fill="#808080" />
+                                </svg>
+                            </div>
+                            <div class="iconA" style="display: none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M11 16L13 8" stroke="#808080" stroke-width="2" stroke-linecap="round" />
+                                    <path
+                                        d="M17 15L19.6961 12.3039V12.3039C19.8639 12.1361 19.8639 11.8639 19.6961 11.6961V11.6961L17 9"
+                                        stroke="#808080" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7 9L4.32151 11.6785V11.6785C4.14394 11.8561 4.14394 12.1439 4.32151 12.3215V12.3215L7 15"
+                                        stroke="#808080" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
                             </div>
                         </div>
+                        <div class="icons fade-in-slide-up" id="icons-possible"
+                            style="display: none; flex-direction: column;justify-content: center; gap: 0.5rem; padding: 0.75rem; background-color: rgb(53 53 53 / 66%); border-radius: 0.75rem;">
+                            <p style="font-size: 15px; font-weight: 300; color: #c4c4c4;">
+                                Γράφεις για <vo id="tontin-input">τον/την</vo>
+                                <vo id="name-input-possible" style="font-weight: 500;">;</vo>?
+                            </p>
+                            <span style="font-size: 12px; color: #999;">
+                                Χρησιμοποίησε <vo id="name-input-possible-2@" style="font-weight: 500;">@</vo>
+                                για αναφορά.
+                            </span>
 
-                    </div>
-                    <div id="selectedPeople" class="selectedPeople">
+                            <div style="display: flex;width: 100%;align-items: center;gap:5px;">
+                                <div onclick="dismissRecommend()" onmousedown="event.preventDefault()"
+                                    class="editButton"
+                                    style="width: 100%;margin-left: 0;margin-top: 5px;display: flex;justify-content: center;align-items: center;padding: 10px 15px;border-radius: 25px;">
+                                    Απόρριψη
+                                </div>
+                                <div data-activate="null" id="mention-recommend" onmousedown="event.preventDefault()"
+                                    onclick="setTagEXT(this)" class="postButton"
+                                    style="width: 100%;margin-left: 0;margin-top: 5px;display: flex;justify-content: center;align-items: center;">
+                                    Αναφορά
+                                </div>
+                            </div>
 
-                    </div>
-                    <div onclick="return;addMore(this)" style="display: none;" class="addmore" id="addMore">
-                        Πρόσθεσε στην καταχώρηση
+                        </div>
+                        <div id="selectedPeople" class="selectedPeople">
+
+                        </div>
+                        <div onclick="return;addMore(this)" style="display: none;" class="addmore" id="addMore">
+                            Πρόσθεσε στην καταχώρηση
+                        </div>
                     </div>
                 </div>
             </div>
 
 
 
+            <div class="popup-footer fade-in-slide-up" style="display: flex;">
+                <div class="apple-custom-select" id="customSelectContainer">
+                    <div class="select-trigger" onmousedown="event.preventDefault()" onclick="toggleAppleMenu()">
+                        <span id="selectedLabel">Ορατό στον δέκτη...</span>
+                        <span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                                    fill="#f5f5f7" />
+                            </svg></span>
+                    </div>
 
+                    <ul class="apple-menu" id="appleMenu">
+                        <li class="menu-item" data-value="normal" onmousedown="event.preventDefault()"
+                            onclick="selectOption(this)">Ορατό στον δέκτη και
+                            διαχειριστές</li>
+                        <li class="menu-item" data-value="onlyreceiver" onmousedown="event.preventDefault()"
+                            onclick="selectOption(this)">Ορατό μόνο στον
+                            δέκτη</li>
+                        <li class="menu-item" data-value="onlyadmin" onmousedown="event.preventDefault()"
+                            onclick="selectOption(this)">Ορατό μόνο στους
+                            διαχειριστές</li>
+                        <hr class="apple-divider">
+                        <li class="menu-item crypto" data-value="advancedEncrpytion"
+                            onmousedown="event.preventDefault()" onclick="selectOption(this)">
+                            Ορατό μόνο στον δέκτη [Cryptox]
+                        </li>
+                    </ul>
+
+                    <select name="visibility" id="visibility" style="display: none;">
+                        <option value="normal">Ορατό στον δέκτη και διαχειριστές</option>
+                        <option value="onlyreceiver">Ορατό μόνο στον δέκτη</option>
+                        <option value="onlyadmin">Ορατό μόνο στους διαχειριστές</option>
+                        <option value="advancedEncrpytion">Ορατό μόνο στον δέκτη [Cryptox]</option>
+                    </select>
+                </div>
+
+                <div onclick="postNow(this)" id="postButton" class="postButton not-ready">
+                    Επόμενο
+                </div>
+            </div>
         </div>
+
     </div>
 
     <div id="image-viewer" class="slidingPanel">
@@ -2967,84 +3017,81 @@
         </div>
     </div>
 
-    <div class="PCCONTAINER">
-        <div id="editProfile" class="applePopup" style="padding: 0;">
-            <div class="topActionsPopup" style="padding: 10px 20px;">
-                <div onclick="closeEditProfile()" class="cancel">
-                    Ακύρωση
-                </div>
-                <div class="title-popup">
-                    Επεξεργασία προφίλ
-                </div>
-                <div class="moreActions">
-                    Τέλος
-
-                </div>
+    <div id="editProfile" class="applePopup" style="padding: 0;">
+        <div class="topActionsPopup" style="padding: 10px 20px;">
+            <div onclick="closeEditProfile()" class="cancel">
+                Ακύρωση
+            </div>
+            <div class="title-popup">
+                Επεξεργασία προφίλ
+            </div>
+            <div class="moreActions">
+                Τέλος
 
             </div>
-            <div class="border"></div>
-
-            <div class="borderboxcontainer">
-                <div class="borderbox">
-                    <div class="topHead">
-                        <div class="settings-cont">
-                            <p>Όνομα</p>
-                            <span id="emri-edit">placeholder</span>
-                        </div>
-                        <img onclick="changePfp()" class="icon-setting" id="pfp-edit" src="user.gif">
-                    </div>
-                    <div class="generalItem">
-                        <p>Τάξη</p>
-                        <span class="button-option" id="klasa-edit">placeholder</span>
-                    </div>
-                    <div id="instagramBlock-EditProfile" class="generalItem">
-                        <p>Instagram</p>
-                        <span class="button-option" id="instagram-account-username">placeholder</span>
-                    </div>
-                    <div class="generalItem" id="tags-item" style="border:none">
-                        <p>Πληροφορίες</p>
-                        <div style="margin-top: 5px; margin-bottom: 5px; width: 100%; justify-content: center; align-items: center; gap: 5px;"
-                            class="gridTag" id="tagsmk"></div>
-                    </div>
-
-                    <div class="generalItem" style="border:none;display: none;">
-                        <p>Δικαιώματα</p>
-                        <span style="display: flex;align-items: center;width: 100%;">
-                            Περίληψη AI
-                            <label class="toggle-switch">
-                                <input type="checkbox">
-                                <div class="toggle-switch-background">
-                                    <div class="toggle-switch-handle"></div>
-                                </div>
-                            </label>
-                        </span>
-
-                        <span style="display: flex;align-items: center;width: 100%;">
-                            Ειδοποιήσεις
-                            <label class="toggle-switch">
-                                <input type="checkbox">
-                                <div class="toggle-switch-background">
-                                    <div class="toggle-switch-handle"></div>
-                                </div>
-                            </label>
-                        </span>
-
-                        <span style="display: flex;align-items: center;width: 100%;">
-                            PIN Λογαριασμού
-                            <div style="margin-left:auto;width: auto;" onclick="changePinRedo()"
-                                class="buttonCarouseli">
-                                Αλλαγή
-                            </div>
-                        </span>
-
-                    </div>
-                </div>
-            </div>
-
-
-
 
         </div>
+        <div class="border"></div>
+
+        <div class="borderboxcontainer">
+            <div class="borderbox">
+                <div class="topHead">
+                    <div class="settings-cont">
+                        <p>Όνομα</p>
+                        <span id="emri-edit">placeholder</span>
+                    </div>
+                    <img onclick="changePfp()" class="icon-setting" id="pfp-edit" src="user.gif">
+                </div>
+                <div class="generalItem">
+                    <p>Τάξη</p>
+                    <span class="button-option" id="klasa-edit">placeholder</span>
+                </div>
+                <div id="instagramBlock-EditProfile" class="generalItem">
+                    <p>Instagram</p>
+                    <span class="button-option" id="instagram-account-username">placeholder</span>
+                </div>
+                <div class="generalItem" id="tags-item" style="border:none">
+                    <p>Πληροφορίες</p>
+                    <div style="margin-top: 5px; margin-bottom: 5px; width: 100%; justify-content: center; align-items: center; gap: 5px;"
+                        class="gridTag" id="tagsmk"></div>
+                </div>
+
+                <div class="generalItem" style="border:none;display: none;">
+                    <p>Δικαιώματα</p>
+                    <span style="display: flex;align-items: center;width: 100%;">
+                        Περίληψη AI
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <div class="toggle-switch-background">
+                                <div class="toggle-switch-handle"></div>
+                            </div>
+                        </label>
+                    </span>
+
+                    <span style="display: flex;align-items: center;width: 100%;">
+                        Ειδοποιήσεις
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <div class="toggle-switch-background">
+                                <div class="toggle-switch-handle"></div>
+                            </div>
+                        </label>
+                    </span>
+
+                    <span style="display: flex;align-items: center;width: 100%;">
+                        PIN Λογαριασμού
+                        <div style="margin-left:auto;width: auto;" onclick="changePinRedo()" class="buttonCarouseli">
+                            Αλλαγή
+                        </div>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 
     <div id="share-profile" class="popup"

@@ -4891,6 +4891,7 @@ input:-webkit-autofill:active {
     bottom: 0;
     left: 0;
     width: 100%;
+    /* Mobile: Full height */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -4900,24 +4901,51 @@ input:-webkit-autofill:active {
     z-index: 998;
     box-sizing: border-box;
     color: white;
-    transform: translateX(100vw);
-    transition: transform 0.35s ease, height 1s ease-in-out;
-    overflow-x: hidden;
+    transform: translateX(100%);
+    transition: transform 0.35s ease, height 0.35s ease, opacity 0.3s ease;
+    /* Ensure content scrolls inside the fixed height */
     overflow-y: auto;
+    overflow-x: hidden;
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
-    -ms-user-select: none;
     gap: 10px;
-    border-radius: 20px;
-}
-
-.slidingPanel.noPadding {
-    padding: 5px
 }
 
 .slidingPanel.activated {
     transform: translateX(0);
+}
+
+.slidingPanel.noPadding {
+    padding: 5px;
+}
+
+/* PC Responsive Adjustments */
+@media (min-width: 1024px) {
+    .slidingPanel {
+        top: 50%;
+        left: 50%;
+        bottom: auto;
+        width: 500px;
+
+        /* FIXED HEIGHT FOR PC */
+        height: 80% !important;
+        max-height: 90vh;
+        /* Safety fallback for small laptop screens */
+
+        border-radius: 20px;
+        border: 1px solid #333;
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0;
+        pointer-events: none;
+        padding-top: 25px !important;
+    }
+
+    .slidingPanel.activated {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .settings-row {
@@ -5058,56 +5086,91 @@ input:-webkit-autofill:active {
 .applePopup {
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* for Internet Explorer, Edge */
     position: fixed;
+    /* Mobile: Stick to bottom */
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 90%;
+    height: calc(99% - env(safe-area-inset-top));
     display: block;
-    padding: 30px;
-    align-items: center;
-    /* Change from 'visible' to 'auto' */
-    scroll-behavior: smooth;
+    padding: 10px;
+    touch-action: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
     background: #191919;
-    /* Semi-transparent black overlay */
     z-index: 998;
     box-sizing: border-box;
-    /* Include padding in the element's total width and height */
-    box-shadow: 0 0 10px rgba(20, 20, 20, 0.628);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     color: white;
-    opacity: 1;
-    /* Initially hidden */
-    /* Initially hidden */
-    transform: translateY(100vh);
-    /* Initially off-screen to the left */
-    transition: transform 0.3s ease-in-out, opacity 0.7s ease-in-out, visibility 0.7s ease-in-out, height 1s ease-in-out;
+
+    /* MOBILE ANIMATION: Slide up from bottom */
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
 
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
-    /* Transition for sliding effect, opacity, and visibility */
     overflow-x: hidden;
-
-    height: calc(99% - env(safe-area-inset-top));
-    padding: 10px;
-    touch-action: none;
-    /* Prevent unintended touch events */
     user-select: none;
-    /* Prevent accidental text selection */
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    overscroll-behavior-inline: none;
+    overscroll-behavior: none;
+
 }
 
-.scrolly {
-    overflow-y: auto;
+.applePopup.create {
+    touch-action: pan-y;
+    overflow-y: auto !important;
+    /* padding-bottom: 50vh !important; */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iOS */
+    height: calc(100dvh - env(safe-area-inset-top));
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: none;
 }
 
+
+/* Mobile Active State */
 .applePopup.active {
-    opacity: 1;
-    /* Show the popup */
-    /* Show the popup */
-    transform: translateX(0);
-    /* Slide the popup into view */
+    transform: translateY(0);
+}
+
+/* PC RESPONSIVE FIX */
+@media (min-width: 1024px) {
+    .applePopup {
+        /* 1. Reset Mobile Positioning */
+        bottom: auto;
+        left: 50%;
+        top: 50%;
+
+        /* 2. Set PC Dimensions */
+        width: 500px;
+        height: 80% !important;
+        border-radius: 2rem;
+        /* Round all corners on PC */
+
+        /* 3. PC ANIMATION: Start slightly lower and invisible */
+        /* This transform handles both the centering AND the animation */
+        transform: translate(-50%, -50%) scale(0.9);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .applePopup.active {
+        /* 4. Final PC State: Perfect Center */
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .popup-footer {
+        width: 500px !important;
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        bottom: 0 !important;
+    }
 }
 
 .topActionsPopup {
@@ -5298,6 +5361,7 @@ input:-webkit-autofill:active {
 .popup-footer {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     padding: 5px;
     text-align: center;
@@ -5306,8 +5370,7 @@ input:-webkit-autofill:active {
     color: #808080;
     padding-bottom: 20px;
     justify-content: space-around;
-    background-color: #191919c6;
-    backdrop-filter: blur(1px);
+    background-color: #191919;
     z-index: 9999;
     padding-left: 20px;
 }
@@ -5354,6 +5417,9 @@ select:focus {
     font-weight: bold;
     margin-right: 10px;
     transition: opacity 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .postButton.not-ready {
@@ -5816,11 +5882,11 @@ spanBold {
         width: 450px !important;
     }
 
-    .popup-footer {
+    /* .popup-footer {
         position: fixed;
         bottom: 0;
         width: 50%;
-        /* padding: 5px; */
+        removed padding: 5px; removed
         text-align: center;
         display: flex;
         flex-direction: row;
@@ -5831,16 +5897,8 @@ spanBold {
         backdrop-filter: blur(1px);
         z-index: 9999;
         padding-left: 20px !important;
-        /* padding-right: 50% !important; */
-    }
-
-    .applePopup {
-        position: relative;
-    }
-
-    .PCCONTAINER:has(.applePopup.active) {
-        display: flex;
-    }
+        removed padding-right: 50% !important; removed
+    } */
 
     .notice-main {
         width: 380px;
@@ -7374,4 +7432,156 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
+}
+
+.PCCONTAINER_CREATE {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+#createPost {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Or your popup height */
+    overflow: hidden !important;
+    /* The main container doesn't scroll anymore */
+}
+
+.popup-scroll-content {
+    height: 100%;
+    flex: 1;
+    /* This takes up all available space */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Only this part scrolls */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+}
+
+.popup-footer {
+    flex-shrink: 0;
+    /* Ensures the footer never gets squashed */
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Fix for iPhone "home bar" */
+}
+
+#createPost {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Use vh to ensure it's full screen */
+    overflow: hidden !important;
+
+    /* THE FIX: Use whichever is larger: the keyboard or the safe area */
+    padding-bottom: max(var(--kb-height, 0px), env(safe-area-inset-bottom));
+
+    /* Smooth out the transition on iOS */
+    transition: padding-bottom 0.1s ease-out;
+}
+
+.popup-footer {
+    flex-shrink: 0;
+    /* Remove any individual safe-area padding here, 
+       since the parent container is now handling it */
+    padding-bottom: 15px;
+}
+
+.apple-custom-select {
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    min-width: 240px;
+}
+
+.select-trigger {
+    background: #272727;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #f5f5f7;
+    transition: all 0.2s;
+}
+
+.select-trigger span {
+    color: #f5f5f7;
+    font-size: 12px;
+}
+
+.select-trigger:hover {
+    background: #272727;
+}
+
+/* The Popup Menu */
+.apple-menu {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    /* Forces it ABOVE the text */
+    left: 0;
+    width: 100%;
+    background: #272727c2;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    padding: 6px;
+    margin: 0;
+    list-style: none;
+    display: none;
+    /* Toggle via JS */
+    z-index: 999;
+}
+
+.menu-item {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #f5f5f7;
+    transition: background 0.15s;
+}
+
+.menu-item:hover {
+    background: #007AFF;
+    color: white;
+}
+
+.apple-divider {
+    border: 0;
+    border-top: 1px solid #f5f5f72f;
+    margin: 5px 0;
+}
+
+.crypto {
+    color: #007AFF;
+    font-weight: 500;
+}
+
+.crypto:hover {
+    color: white;
+}
+
+/* Animation */
+.show-menu {
+    display: block;
+    animation: applePop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes applePop {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }

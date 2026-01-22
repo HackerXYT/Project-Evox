@@ -1,4 +1,4 @@
-const appVersion = "2.1.01"
+const appVersion = "2.1.1"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -1109,6 +1109,15 @@ function connectWithIp() {
 
     }
 }
+
+const isPC = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+  // Look for common mobile platforms
+  const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+  
+  return !isMobile;
+};
 
 let ipLog;
 let iploginRecent = null
@@ -3982,13 +3991,15 @@ function closePostCreate(frontend) {
             document.getElementById("createPost").classList.remove("active");
 
         } else {
-            document.getElementById("createPost").style.transform = 'translateY(100vh)';
+            if(!isPC()){
+                document.getElementById("createPost").style.transform = 'translateY(100vh)';
+            }
             setTimeout(function () {
                 document.getElementById("createPost").classList.remove("active");
                 setTimeout(function () {
                     document.getElementById("createPost").style.transform = null;
                 }, 200)
-            }, 450)
+            }, !isPC() ? 450 : 0)
         }
     }
     if (frontend) {
@@ -4010,40 +4021,64 @@ function hideSocial() {
 }
 
 function grabberEvents(id) {
+    if (isPC()) return;
     const notice = document.getElementById(id);
-    let startY, currentY, isDragging = false, moved = false;
+    let startY, startX, currentY, isDragging = false, moved = false;
+    let isScrollingContent = false; // New flag to track if user is scrolling internal content
 
-    // Initialize event listeners for touch/mouse events
+    // Use { passive: false } to allow e.preventDefault()
     notice.addEventListener("mousedown", startDrag);
-    notice.addEventListener("touchstart", startDrag, { passive: true });
+    notice.addEventListener("touchstart", startDrag, { passive: false });
     notice.addEventListener("mousemove", drag);
-    notice.addEventListener("touchmove", drag, { passive: true });
+    notice.addEventListener("touchmove", drag, { passive: false });
     notice.addEventListener("mouseup", endDrag);
     notice.addEventListener("touchend", endDrag);
 
     function startDrag(e) {
-        if (notice.scrollTop > 0) {
-            // Prevent drag if the user has scrolled down
-            return;
-        }
+        const tag = e.target.tagName.toLowerCase();
+        if (tag === 'textarea' || tag === 'input' || tag === 'select') return;
 
-        startY = e.touches ? e.touches[0].clientY : e.clientY;
+        // Reset state
+        const touch = e.touches ? e.touches[0] : e;
+        startY = touch.clientY;
+        startX = touch.clientX;
         isDragging = true;
-        moved = false; // Reset movement flag
-        notice.style.transition = "none"; // Disable transitions for smooth dragging
+        moved = false;
+        isScrollingContent = false; 
+        
+        notice.style.transition = "none";
     }
 
     function drag(e) {
-        if (!isDragging) return;
+        if (!isDragging || isScrollingContent) return;
 
-        currentY = e.touches ? e.touches[0].clientY : e.clientY;
-        let deltaY = currentY - startY;
+        const touch = e.touches ? e.touches[0] : e;
+        let deltaY = touch.clientY - startY;
+        let deltaX = touch.clientX - startX;
 
-        if (Math.abs(deltaY) > 30) {
-            moved = true; // Only consider as dragging if movement exceeds 10px
+        // 1. Check for horizontal swipe (ignore if user is swiping sideways)
+        if (!moved && Math.abs(deltaX) > Math.abs(deltaY)) {
+            isDragging = false;
+            return;
         }
 
+        // 2. Check for Scroll Intent
+        // If the user moves UP, they are interacting with content. 
+        // We lock the drag so the modal doesn't jump if they then swipe down.
+        if (deltaY < 0 || notice.scrollTop > 0) {
+            isScrollingContent = true;
+            return;
+        }
+
+        // 3. Handle the Close Swipe
         if (deltaY > 0 && notice.scrollTop === 0) {
+            // Prevent browser pull-to-refresh or container scrolling
+            if (e.cancelable) e.preventDefault(); 
+            
+            moved = true;
+            currentY = touch.clientY;
+            
+            // Apply resistance/dampening (optional, here we use direct 1:1)
             notice.style.transform = `translateY(${deltaY}px)`;
         }
     }
@@ -4051,54 +4086,48 @@ function grabberEvents(id) {
     function endDrag() {
         if (!isDragging) return;
         isDragging = false;
-        notice.style.transition = "transform 0.3s ease";
+        
+        notice.style.transition = "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease";
 
-        if (!moved) {
-            // If the user tapped but didn't drag, don't close
-            notice.style.transform = ``;
-            return;
-        }
-
-        if (currentY - startY > 150 && notice.scrollTop === 0) {
+        // Must have moved a significant amount and be swiping down
+        const totalDelta = currentY - startY;
+        
+        if (moved && totalDelta > 150) {
             notice.style.transform = `translateY(100vh)`;
+            triggerCloseLogic(id, notice);
+        } else {
+            // Snap back if not dragged far enough
+            notice.style.transform = ``;
+        }
+    }
 
-            if (id === 'notice') {
-                document.body.style.overflow = null;
-                document.getElementById("app").style.transform = "";
-                document.getElementById("app").style.opacity = "1";
-            }
-
-            if (id === 'classChange') {
-                document.body.style.overflow = null;
-                document.getElementById("app").style.transform = "";
-                document.getElementById("app").style.opacity = "1";
+    // Extracted logic for cleaner code
+    function triggerCloseLogic(id, notice) {
+        if (id === 'notice' || id === 'classChange') {
+            document.body.style.overflow = null;
+            document.getElementById("app").style.transform = "";
+            document.getElementById("app").style.opacity = "1";
+            if(id === 'classChange') {
                 document.getElementById("profilePage").style.transform = "";
                 document.getElementById("profilePage").style.opacity = "1";
             }
-
-            if (id === 'createPost') {
-                closePostCreate();
-            }
-
-            if (id === 'editProfile') {
-                document.getElementById("editProfile").classList.remove("active")
-                document.getElementById("app").style.transform = 'scale(1)'
-                document.getElementById("gradColored").style.borderRadius = null
-                document.getElementById("gradColored").style.transform = 'scale(1)'
-                document.body.style.backgroundColor = null
-            }
-
-            if (id === 'share-profile') {
-                document.getElementById("share-profile").classList.remove("active");
-            }
-
-            notice.addEventListener("transitionend", () => {
-                notice.classList.remove("active");
-                notice.style.transform = ``;
-            }, { once: true });
-        } else {
-            notice.style.transform = ``; // Reset if not dismissed
         }
+        if (id === 'createPost') closePostCreate();
+        if (id === 'editProfile') {
+            document.getElementById("editProfile").classList.remove("active");
+            document.getElementById("app").style.transform = 'scale(1)';
+            document.getElementById("gradColored").style.borderRadius = null;
+            document.getElementById("gradColored").style.transform = 'scale(1)';
+            document.body.style.backgroundColor = null;
+        }
+        if (id === 'share-profile') {
+            document.getElementById("share-profile").classList.remove("active");
+        }
+
+        notice.addEventListener("transitionend", () => {
+            notice.classList.remove("active");
+            notice.style.transform = ``;
+        }, { once: true });
     }
 }
 
@@ -5550,7 +5579,7 @@ function setTag(emri, el) {
                             <div class="postInfo" style="flex-direction: row;">
                                 <div class="userInfo">
                                     <p>${el.querySelector(".post .postInfo .userInfo p").innerHTML}</p>
-                                    <span onclick="removeTag('${emri}')" style="margin-left: auto"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                    <span onmousedown="event.preventDefault()" onclick="removeTag('${emri}')" style="margin-left: auto"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM8.29289 8.29289C8.68342 7.90237 9.31658 7.90237 9.70711 8.29289L12 10.5858L14.2929 8.29289C14.6834 7.90237 15.3166 7.90237 15.7071 8.29289C16.0976 8.68342 16.0976 9.31658 15.7071 9.70711L13.4142 12L15.7071 14.2929C16.0976 14.6834 16.0976 15.3166 15.7071 15.7071C15.3166 16.0976 14.6834 16.0976 14.2929 15.7071L12 13.4142L9.70711 15.7071C9.31658 16.0976 8.68342 16.0976 8.29289 15.7071C7.90237 15.3166 7.90237 14.6834 8.29289 14.2929L10.5858 12L8.29289 9.70711C7.90237 9.31658 7.90237 8.68342 8.29289 8.29289Z" fill="#fff"/>
 </svg></span>
                                 </div>
@@ -5651,7 +5680,7 @@ function setTagEXT(el) {
                             <div class="postInfo" style="flex-direction: row;">
                                 <div class="userInfo">
                                     <p>${user}</p>
-                                    <span onclick="removeTag('${user}')" style="margin-left: auto"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                                    <span onmousedown="event.preventDefault()" onclick="removeTag('${user}')" style="margin-left: auto"><svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM8.29289 8.29289C8.68342 7.90237 9.31658 7.90237 9.70711 8.29289L12 10.5858L14.2929 8.29289C14.6834 7.90237 15.3166 7.90237 15.7071 8.29289C16.0976 8.68342 16.0976 9.31658 15.7071 9.70711L13.4142 12L15.7071 14.2929C16.0976 14.6834 16.0976 15.3166 15.7071 15.7071C15.3166 16.0976 14.6834 16.0976 14.2929 15.7071L12 13.4142L9.70711 15.7071C9.31658 16.0976 8.68342 16.0976 8.29289 15.7071C7.90237 15.3166 7.90237 14.6834 8.29289 14.2929L10.5858 12L8.29289 9.70711C7.90237 9.31658 7.90237 8.68342 8.29289 8.29289Z" fill="#fff"/>
 </svg></span>
                                 </div>
@@ -5710,6 +5739,10 @@ function setTagEXT(el) {
 
 function postNow(el) {
     //Work on dataIn
+    document.getElementById("input-textarea").value = ''
+    document.getElementById("selectedPeople").innerHTML = ''
+    console.log("Clearing array")
+    selectedPeople_ARRAY = []
     dataIn = {}
     if (!el.classList.contains("not-ready")) {
         closePostCreate('frontend')
@@ -5843,7 +5876,7 @@ document.getElementById('input-textarea').addEventListener('input', function () 
 
     }
 
-    if (this.value !== '') {
+    if (this.value !== '' && selectedPeople_ARRAY.length > 0) {
         document.getElementById("postButton").classList.remove("not-ready")
         document.getElementById("profilePicture-small").classList.add("ready")
         document.getElementById("addMore").classList.add("ready")
@@ -5909,6 +5942,9 @@ document.getElementById('input-textarea').addEventListener('input', function () 
 
                         const postContainer = document.createElement("div");
                         postContainer.classList.add("postContainer");
+                        postContainer.onmousedown = function (e) {
+                            e.preventDefault()
+                        }
                         postContainer.setAttribute("data-user", user); // Unique identifier
                         postContainer.onclick = function () {
                             setTag(user, this)
@@ -5991,14 +6027,14 @@ document.getElementById('input-textarea').addEventListener('input', function () 
     }
 });
 
-function openKeyboard() {
+function openKeyboard(focusTo) {
     let hiddenInput = document.getElementById("hidden-input");
     let textarea = document.getElementById("input-textarea");
 
     // Focus hidden input to trigger keyboard
     hiddenInput.focus();
 
-    setTimeout(() => {
+    setTimeout(() => {        
         // Transfer text from hidden input to textarea (in case Safari locks input focus)
         hiddenInput.addEventListener("input", () => {
             textarea.value = hiddenInput.value;
@@ -6030,6 +6066,23 @@ function adjustFooterPosition() {
         footer.style.bottom = "";
     }
 }
+
+window.visualViewport.addEventListener("resize", () => {
+    const footer = document.querySelector(".popup-footer");
+    const container = document.getElementById("createPost");
+    
+    if (window.visualViewport) {
+        const delta = window.innerHeight - window.visualViewport.height;
+
+        if (delta > 100) {
+            // Keyboard is OPEN: Push the whole flex container up
+            container.style.paddingBottom = `${delta}px`;
+        } else {
+            // Keyboard is CLOSED: Reset to normal
+            container.style.paddingBottom = "env(safe-area-inset-bottom)";
+        }
+    }
+});
 
 function addMore(el) {
     if (el.classList.contains("ready")) {
@@ -6127,13 +6180,37 @@ function addMore(el) {
 window.visualViewport.addEventListener("resize", adjustFooterPosition);
 window.visualViewport.addEventListener("scroll", adjustFooterPosition);
 
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const createPopup = document.getElementById('createPost');
+        
+        // Calculate the height of the keyboard/occluded area
+        const keyboardHeight = window.innerHeight - window.visualViewport.height;
+
+        if (keyboardHeight > 0) {
+            // Keyboard is open: Add exact padding to allow scrolling above it
+            createPopup.style.paddingBottom = `${keyboardHeight + 20}px`;
+        } else {
+            // Keyboard is closed: Reset padding
+            createPopup.style.paddingBottom = '20px';
+        }
+    });
+}
+const tx = document.getElementById('input-textarea');
+
+tx.addEventListener('input', function() {
+    // Reset height to shrink if text is deleted
+    this.style.height = 'auto'; 
+    // Set height to scrollHeight (the actual height of the text content)
+    this.style.height = (this.scrollHeight) + 'px';
+    
+    // Ensure the cursor stays in view
+    this.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+});
+
 function createPost(el, dontClear) {
     haptics.trigger();
-    document.getElementById("selectedPeople").innerHTML = ''
-    if (!dontClear) {
-        console.log("Clearing array")
-        selectedPeople_ARRAY = []
-    }
+    
 
 
     function setupPersonalInfo() {
@@ -6191,12 +6268,15 @@ function createPost(el, dontClear) {
             .then(() => {
                 console.log('Personal info setup successfully');
                 document.getElementById("createPost").classList.add("active")
-                document.getElementById("app").style.transform = 'scale(0.95)'
-                document.getElementById("gradColored").style.opacity = '0.8'
-                document.getElementById("gradColored").style.borderRadius = '20px'
-                document.getElementById("gradColored").style.transform = 'scale(0.9)'
-                document.getElementById("app").style.opacity = '0.8'
-                document.body.style.backgroundColor = '#000'
+                if(!isPC()) {
+                    document.getElementById("app").style.transform = 'scale(0.95)'
+                    document.getElementById("gradColored").style.opacity = '0.8'
+                    document.getElementById("gradColored").style.borderRadius = '20px'
+                    document.getElementById("gradColored").style.transform = 'scale(0.9)'
+                    document.getElementById("app").style.opacity = '0.8'
+                    document.body.style.backgroundColor = '#000'
+                }
+                
                 document.getElementById("createPostSvg").querySelector("path").style.fill = "#efefef93"
                 footer.style.display = 'flex'
             })
@@ -6209,10 +6289,14 @@ function createPost(el, dontClear) {
 function openEditProfile() {
     haptics.trigger();
     document.getElementById("editProfile").classList.add("active")
-    document.getElementById("app").style.transform = 'scale(0.95)'
-    document.getElementById("gradColored").style.borderRadius = '20px'
-    document.getElementById("gradColored").style.transform = 'scale(0.9)'
-    document.body.style.backgroundColor = '#000'
+    if(!isPC()) {
+        document.getElementById("app").style.transform = 'scale(0.95)'
+        document.getElementById("gradColored").style.borderRadius = '20px'
+        document.getElementById("gradColored").style.transform = 'scale(0.9)'
+        document.body.style.backgroundColor = '#000'
+    }
+    
+    
     informacion(foundName)
         .then(self => {
             if (!self.instagram) {
@@ -6286,55 +6370,68 @@ document.getElementById("home").addEventListener("scroll", function () {
         document.getElementById("status-bar-color-for-semiCarousel").style.display = 'none'
     }
 });
-
 let allUsersDiv = document.getElementById("search-discovery");
 let loadingIndicator = document.getElementById("loadingIndicator");
-let isLoading = false; // Prevent multiple triggers
+let isLoading = false;
 
-allUsersDiv.addEventListener("scroll", function () {
+allUsersDiv.addEventListener("scroll", async function () {
+    // 1. Exit if already loading OR if we reached the end of the list
     if (isLoading) return;
 
-    // Check if user scrolled to the bottom
-    if (allUsersDiv.scrollTop + allUsersDiv.clientHeight >= allUsersDiv.scrollHeight - 10) {
+    // 2. Improved threshold check
+    const scrollBottom = allUsersDiv.scrollHeight - allUsersDiv.scrollTop - allUsersDiv.clientHeight;
+    
+    if (scrollBottom < 20) { // Trigger when 20px from bottom
         isLoading = true;
-        loadingIndicator.classList.add("scaleUp")
+        
+        // Show UI
+        loadingIndicator.classList.add("scaleUp");
         loadingIndicator.style.opacity = "1";
 
-        setTimeout(() => {
-            loadMoreUsers();
+        try {
+            // 3. WAIT for the actual data to fetch
+            // Ensure loadMoreUsers is an async function that returns a Promise
+            await loadMoreUsers(); 
+        } catch (error) {
+            console.error("Failed to load users:", error);
+        } finally {
+            // 4. Only reset AFTER the fetch is complete
             isLoading = false;
             loadingIndicator.style.opacity = "0";
-            loadingIndicator.classList.remove("scaleUp")
-        }, 1500);
+            loadingIndicator.classList.remove("scaleUp");
+        }
     }
 });
 
 
 
-function loadMoreUsers() {
+async function loadMoreUsers() {
     const ac = localStorage.getItem("jeanDarc_accountData");
-    if (!ac) { return; }
-    const parsed = JSON.parse(ac)
-    fetch(`https://arc.evoxs.xyz/?metode=rekomandimet&emri=${parsed.name}&pin=${atob(parsed.pin)}&loaded=${JSON.stringify(search_loadedUsers)}`)
-        .then(response => response.json())
-        .then(names => {
+    if (!ac) return; 
 
-            let json = { names: {} }
-            names.forEach(name => {
-                json.names[name] = {}
-            })
-            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(parsed.pin)}`)
-                .then(response => response.json())
-                .then(sociale => {
-                    const following = sociale.following
-                    spawnItems(json, 'loadMore', names, following);
-                })
-                .catch(error => console.error("Jeanne D'arc Database is offline."));
+    const parsed = JSON.parse(ac);
+    const pin = atob(parsed.pin);
 
-        })
-        .catch(error => console.error("Jeanne D'arc Database is offline."));
+    try {
+        const namesResponse = await fetch(`https://arc.evoxs.xyz/?metode=rekomandimet&emri=${parsed.name}&pin=${pin}&loaded=${JSON.stringify(search_loadedUsers)}`);
+        const names = await namesResponse.json();
+
+        if (!names || names.length === 0) return;
+
+        let json = { names: {} };
+        names.forEach(name => { json.names[name] = {}; });
+
+        const socialResponse = await fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${pin}`);
+        const sociale = await socialResponse.json();
+
+        // CRITICAL: Await this call!
+        await spawnItems(json, 'loadMore', names, sociale.following, sociale.requested);
+
+    } catch (error) {
+        console.error("Database error:", error);
+        throw error;
+    }
 }
-
 
 
 function openDiscovery(el) {
@@ -6618,128 +6715,95 @@ function openDiscovery(el) {
     }
 
 }
-function spawnItems(names, loadMore, oringinal, followingList, requestedList) {
-
+async function spawnItems(names, loadMore, oringinal, followingList, requestedList) {
     const fullNames = Object.keys(names.names);
-    console.warn("FLNAMS:", names)
-    console.log("fn:", fullNames)
+    
+    // 1. Get existing cache or initialize empty object
     const informacion_local = localStorage.getItem("jeanne_informacion");
-    let informacion_2 = {};
+    let localCache = informacion_local ? JSON.parse(informacion_local) : {};
+    
+    let newInfoToCache = {}; // Temporary storage for new fetches
     let html = '';
-    let count = 0
-    let target = oringinal.length
-    console.log("spawning")
-    let fetchPromises = fullNames.map(name => {
-        return new Promise((resolve, reject) => {
-            if (search_loadedUsers.includes(name)) {
-                console.log("Included name", name, search_loadedUsers);
-                resolve(); // Resolve immediately if the name is already included
-                return;
+
+    // 2. Process all names in parallel and WAIT for them to finish
+    const fetchPromises = fullNames.map(async (name) => {
+        // Skip if already loaded or if it's the current user
+        if (search_loadedUsers.includes(name) || name === foundName) {
+            return;
+        }
+
+        try {
+            let info;
+            // Check cache first
+            if (localCache[name]) {
+                info = localCache[name];
+            } else {
+                // Fetch from DB if not in cache
+                info = await informacion(name);
+                newInfoToCache[name] = info; // Save for later storage update
             }
 
-            if (name === foundName) {
-                resolve(Promise.resolve()); // Resolve if it's the found name
-                return;
+            // Get the image (wait for getImage to resolve)
+            let src = info.foto;
+            const profileSrc = await getImage(info.emri);
+            if (profileSrc && profileSrc.imageData) {
+                src = profileSrc.imageData;
             }
 
-            async function spawn(info) {
-                let src = info.foto;
-                try {
-                    const profileSrc = await getImage(info.emri); // Wait for getImage to resolve
-                    //console.log(profileSrc);
-                    if (profileSrc) {
-                        src = profileSrc.imageData;
-                    } else {
-                        src = info.foto
-                    }
-
-                    html += `
-                    <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
-                        <div class="post extpost">
-                            <div class="profilePicture">
-                                <img src="${src}">
-                            </div>
-                            <div class="postInfo">
-                                <div class="userInfo">
-                                    <p onclick="extMention('${info.emri}')">${info.emri} 
-                                    ${info.seksioni === 'ΚΑΘ' ? '<svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" id="verified" class="icon glyph"><path d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z" style="fill:#179cf0"/></svg>' : ''}</p>
-                                </div>
-                                <div class="postContent">
-                                    <p>${info.seksioni}${info.klasa !== 'none' ? info.klasa : ''}</p>
-                                </div>
-                            </div>
-                            <div onclick="showProfileInfo('${info.emri}')" class="${followingList && followingList.includes(info.emri) || requestedList && requestedList.includes(info.emri) ? 'editButton showProfileBtn" style="margin-right: 0px; white-space: nowrap;width:auto;background-color:#10101096;color:#fff;border: 2.5px solid #282828;"' : 'showProfileBtn"'}">${followingList && followingList.includes(info.emri) ? "Ακολουθείς" : requestedList && requestedList.includes(info.emri) ? "Στάλθηκε Αίτημα" : "Προβολή"}</div>
+            // Append to the HTML string
+            html += `
+            <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                <div class="post extpost">
+                    <div class="profilePicture">
+                        <img src="${src}">
+                    </div>
+                    <div class="postInfo">
+                        <div class="userInfo">
+                            <p onclick="extMention('${info.emri}')">${info.emri} 
+                            ${info.seksioni === 'ΚΑΘ' ? '<svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" id="verified" class="icon glyph"><path d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z" style="fill:#179cf0"/></svg>' : ''}</p>
                         </div>
-                    </div>`;
-                    //fetchAndSaveImage(info.emri, info.foto); // Store the image locally
-
-                    // Check if count meets target, resolve the promise
-                    if (count >= target) {
-                        resolve();
-                    }
-
-                } catch (error) {
-                    console.error("Error fetching image:", error);
-                    reject(error); // Reject promise in case of error
-                }
-            }
-
-            if (informacion_local && informacion_local !== '{}') {
-                const localInfo = JSON.parse(informacion_local);
-                if (localInfo[name]) {
-                    spawn(localInfo[name]);
-                } else {
-                    console.log("No localInfo name")
-                    informacion(name)
-                        .then(info => {
-                            informacion_2[name] = info;
-                            spawn(info);
-                        })
-                        .catch(error => {
-                            console.error("Jeanne D'arc Database is offline:", error);
-                            reject(error); // Reject promise if fetch fails
-                        });
-                }
-            } else {
-                informacion(name)
-                    .then(info => {
-                        informacion_2[name] = info;
-                        spawn(info);
-                    })
-                    .catch(error => {
-                        console.error("Jeanne D'arc Database is offline:", error);
-                        reject(error); // Reject promise if fetch fails
-                    });
-
-            }
-
-            count++;
-        });
+                        <div class="postContent">
+                            <p>${info.seksioni}${info.klasa !== 'none' ? info.klasa : ''}</p>
+                        </div>
+                    </div>
+                    <div onclick="showProfileInfo('${info.emri}')" class="${((followingList && followingList.includes(info.emri)) || (requestedList && requestedList.includes(info.emri))) ? 'editButton showProfileBtn" style="margin-right: 0px; white-space: nowrap;width:auto;background-color:#10101096;color:#fff;border: 2.5px solid #282828;"' : 'showProfileBtn"'}">
+                        ${followingList && followingList.includes(info.emri) ? "Ακολουθείς" : requestedList && requestedList.includes(info.emri) ? "Στάλθηκε Αίτημα" : "Προβολή"}
+                    </div>
+                </div>
+            </div>`;
+        } catch (error) {
+            console.error("Error spawning user " + name + ":", error);
+        }
     });
 
+    // 3. Wait for all profile processing to complete
+    await Promise.all(fetchPromises);
 
-    Promise.all(fetchPromises).then(() => {
-        search_loadedUsers = [...search_loadedUsers, ...oringinal]
-        //console.log("HTML", html)
-        if (html !== '') {
-            //console.log("more", loadMore)
-            if (loadMore === "searched") {
-                console.log("searched!")
-                document.getElementById("searchedUsers").innerHTML = html;
-                return;
-            }
-            if (loadMore) {
-                document.getElementById("allUsers").innerHTML += html;
-            } else {
-                document.getElementById("allUsers").innerHTML = html;
-            }
+    // 4. Update the DOM
+    if (html !== '') {
+        search_loadedUsers = [...search_loadedUsers, ...oringinal];
+        
+        if (loadMore === "searched") {
+            document.getElementById("searchedUsers").innerHTML = html;
+        } else if (loadMore) {
+            document.getElementById("allUsers").innerHTML += html;
         } else {
-            console.log("html is empty")
+            document.getElementById("allUsers").innerHTML = html;
         }
-        if (Object.keys(informacion_2).length !== 0) {
-            localStorage.setItem("jeanne_informacion", JSON.stringify(informacion_2));
-        }
-    });
+    } else {
+        console.log("No new users to display.");
+        const endIndicatorSearch = document.getElementById("endIndicator-search");
+        endIndicatorSearch.classList.add("scaleUp")
+        endIndicatorSearch.style.opacity = "1";
+        document.getElementById("loadingIndicator").style.display = "none";
+
+    }
+
+    // 5. Merge new fetches into existing local storage (don't overwrite!)
+    if (Object.keys(newInfoToCache).length !== 0) {
+        const updatedCache = { ...localCache, ...newInfoToCache };
+        localStorage.setItem("jeanne_informacion", JSON.stringify(updatedCache));
+    }
 }
 
 let lastActiveSearchUser = null
@@ -7118,6 +7182,7 @@ function showProfileInfo(emri) {
     function loadSentByUser(emri, redo) {
         const j = 6
         let skel = ''
+        document.getElementById("socialRecommendation").style.display = 'none'
         for (let i = 0; i < j; i++) {
             skel += `<div class="postContainer skel loading" style="padding-bottom: 10px;padding-top: 10px;">
                             <div class="post extpost">
@@ -7160,52 +7225,68 @@ function showProfileInfo(emri) {
         const account_data = JSON.parse(account_data_lc)
 
         function runAndReloadSociale(insideInterval) {
+    fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(account_data.pin)}`)
+        .then(response => response.json())
+        .then(res => {
+            const recommendationEl = document.getElementById("socialRecommendation");
+            const isRequestedByTarget = res.requests.includes(emri);
 
-
-            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(account_data.pin)}`)
-                .then(response => response.json())
-                .then(res => {
-                    if (res.requested.includes(emri)) {
-                        console.log("EVXTESET Στάλθηκε")
-                        elementFollow.innerHTML = `Στάλθηκε Αίτημα`
-                        elementFollow.style.border = null;
-                        elementFollow.style.padding = null;
-                        elementFollow.classList.remove("showProfileBtn")
-
+            // 1. Handle Follow Button States
+            if (res.requested.includes(emri)) {
+                if (elementFollow.innerHTML !== `Στάλθηκε Αίτημα`) {
+                    elementFollow.innerHTML = `Στάλθηκε Αίτημα`;
+                    elementFollow.style.border = null;
+                    elementFollow.style.padding = null;
+                    elementFollow.classList.remove("showProfileBtn");
+                }
+            }
+            
+            if (res.following.includes(emri)) {
+                if (elementFollow.innerHTML !== `Ακολουθείς`) {
+                    elementFollow.innerHTML = `Ακολουθείς`;
+                    elementFollow.style.border = null;
+                    elementFollow.style.padding = null;
+                    elementFollow.classList.remove("showProfileBtn");
+                    
+                    if (document.getElementById("sentBySelectedUser").innerHTML.includes("9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.54")) {
+                        switchToHome_Search(document.getElementById("carouseli01"));
                     }
-                    if (res.following.includes(emri)) {
-                        console.log("EVXTESET Following")
-                        elementFollow.innerHTML = `Ακολουθείς`
-                        elementFollow.style.border = null;
-                        elementFollow.style.padding = null;
-                        elementFollow.classList.remove("showProfileBtn")
-                        if (document.getElementById("sentBySelectedUser").innerHTML.includes("9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.54")) {
-                            switchToHome_Search(document.getElementById("carouseli01"))
+                }
+            }
+
+            // 2. Fix for the #socialRecommendation flickering
+            if (isRequestedByTarget) {
+                // Only act if it's currently hidden or marked as fading out
+                if (recommendationEl.style.display === 'none' || recommendationEl.classList.contains("fade-out-slide-down")) {
+                    console.log("EVXTESET Request - Showing UI");
+                    recommendationEl.classList.remove("fade-out-slide-down");
+                    recommendationEl.style.display = 'flex'; // Explicitly set instead of null
+                    
+                    // Update content only when first showing to avoid layout shifts
+                    const genderPrefix = getGender(emri) === "Male" ? "Ο" : "Η";
+                    const genderSuffix = getGender(emri) === "Male" ? "ος" : "η";
+                    document.getElementById("editText-Req").innerHTML = `${genderPrefix} ${emri} σου έχει κάνει αίτημα ακολούθησης. Αν το δεχτείς, εκείν${genderSuffix} θα μπορεί να δει τις καταχωρήσεις και αποδοχές σου.`;
+                    
+                    recommendationEl.querySelector(".roundedReccomendationBox .bottomInfo .buttonsEdit")
+                        .querySelectorAll("div")[1].innerHTML = "Αποδοχή";
+                }
+            } else {
+                // Only act if it's currently visible
+                if (recommendationEl.style.display !== 'none' && !recommendationEl.classList.contains("fade-out-slide-down")) {
+                    console.log("EVXTESET No Request - Hiding UI");
+                    recommendationEl.classList.add("fade-out-slide-down");
+                    // Delay the display:none so the fade-out animation can actually play
+                    setTimeout(() => {
+                        if (!res.requests.includes(emri)) { // Double check status hasn't changed back
+                            recommendationEl.style.display = 'none';
                         }
-
-                    }
-                    if (res.requests.includes(emri)) {
-                        console.log("EVXTESET Request")
-                        document.getElementById("socialRecommendation").classList.remove("fade-out-slide-down")
-                        document.getElementById("socialRecommendation").style.display = null
-                        document.getElementById("socialRecommendation").querySelector(".roundedReccomendationBox").querySelector(".bottomInfo").querySelector(".buttonsEdit").querySelectorAll("div")[1].innerHTML = "Αποδοχή"
-
-                        document.getElementById("editText-Req").innerHTML = `${getGender(emri) === "Male" ? "Ο" : "Η"} ${emri} σου έχει κάνει αίτημα ακολούθησης. Αν το δεχτείς, εκείν${getGender(emri) === "Male" ? "ος" : "η"} θα μπορεί να
-                                δει τις καταχωρήσεις και αποδοχές σου.`
-                        if (!insideInterval) {
-                        }
-                    } else {
-
-                        document.getElementById("socialRecommendation").classList.add("fade-out-slide-down")
-                        setTimeout(function () {
-                            document.getElementById("socialRecommendation").style.display = 'none'
-                        }, 500)
-
-                    }
-                }).catch(error => {
-                    console.error("Follow error", error)
-                });
-        }
+                    }, 400); // Match this to your CSS transition duration
+                }
+            }
+        }).catch(error => {
+            console.error("Follow error", error);
+        });
+}
         socialeSelectedInterval = setInterval(function () {
             runAndReloadSociale("insideInterval")
         }, 2000)
@@ -7448,6 +7529,10 @@ function openSearch(el, inBackground) {
         clearInterval(socialeSelectedInterval)
     }
 
+    const endIndicatorSearch = document.getElementById("endIndicator-search");
+    endIndicatorSearch.classList.remove("scaleUp")
+    endIndicatorSearch.style.opacity = "0";
+    document.getElementById("loadingIndicator").style.display = "";
     haptics.trigger();
     document.getElementById("navigation").classList.add("active")
     document.getElementById("search-in").style.display = 'none'
@@ -8399,7 +8484,7 @@ function showMentioned() {
             container.innerHTML = "";
 
             if(friendsPosts[0] && friendsPosts[0] === "Disabled") {
-                container.innerHTML = `<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;margin-top:15px;gap: 5px;">
+                container.innerHTML = `<div style="margin-top:35px;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;gap: 5px;">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="30px" height="30px" viewBox="0 0 24 24">
                         <path d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z"></path>
                     </svg>
@@ -8672,42 +8757,62 @@ function selectAndAddTag() {
     el.setAttribute("data-activate", name);
     setTagEXT(el)
     createPost(null, 'dontClear');
-    openKeyboard()
+    openKeyboard(document.getElementById("input-textarea"))
 }
 function activeSlidingEvents(id) {
-    const swipeThreshold = 150;   // Distance required to trigger full action
-    const moveThreshold = 50;     // Distance required before starting to visually move the panel
+    const swipeThreshold = 150; 
+    const moveThreshold = 40; // Slightly lowered for better responsiveness once direction is confirmed
 
     const panel = document.getElementById(id);
     if (!panel) return;
 
     let touchStartX = 0;
-    let currentX = 0;
+    let touchStartY = 0;
     let isSwiping = false;
-    let hasMovedEnough = false;
+    let directionCaptured = false; // New flag to lock the intent (horizontal vs vertical)
 
     function onTouchStart(e) {
         touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY; // Capture starting Y
         isSwiping = true;
-        hasMovedEnough = false;
+        directionCaptured = false; 
     }
 
     function onTouchMove(e) {
         if (!isSwiping) return;
 
-        currentX = e.touches[0].clientX;
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        
         const deltaX = currentX - touchStartX;
+        const deltaY = currentY - touchStartY;
 
-        if (deltaX > 0 && panel.classList.contains('activated')) {
-            if (!hasMovedEnough && Math.abs(deltaX) >= moveThreshold) {
-                hasMovedEnough = true;
+        // 1. Direction Detection: Determine if user is swiping H or V
+        if (!directionCaptured) {
+            // If horizontal movement is greater than vertical movement
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // It's a horizontal swipe, prevent page scroll and lock in
+                directionCaptured = true;
+            } else if (Math.abs(deltaY) > 5) { 
+                // It's a vertical scroll, cancel the panel logic
+                isSwiping = false;
+                return;
             }
+        }
 
-            if (hasMovedEnough) {
+        // 2. Panel Movement Logic (only if we've confirmed horizontal intent)
+        if (directionCaptured && deltaX > 0 && panel.classList.contains('activated')) {
+            // Prevent the browser from scrolling vertically while sliding the panel
+            if (e.cancelable) e.preventDefault();
+
+            if (deltaX >= moveThreshold) {
                 if (deltaX < swipeThreshold) {
                     panel.style.transform = `translateX(${deltaX}px)`;
+                    panel.style.transition = 'none'; // Ensure smooth tracking
                 } else {
+                    // Trigger full action
                     panel.style.transform = '';
+                    panel.style.transition = '';
                     panel.classList.remove('activated');
                     isSwiping = false;
                 }
@@ -8720,17 +8825,19 @@ function activeSlidingEvents(id) {
 
         const deltaX = e.changedTouches[0].clientX - touchStartX;
 
-        if (hasMovedEnough && deltaX < swipeThreshold) {
+        panel.style.transition = 'transform 0.3s ease'; // Re-enable transition for snap-back
+        
+        if (deltaX < swipeThreshold) {
             panel.style.transform = '';
         }
 
         isSwiping = false;
-        hasMovedEnough = false;
+        directionCaptured = false;
     }
 
-    panel.addEventListener('touchstart', onTouchStart, false);
-    panel.addEventListener('touchmove', onTouchMove, false);
-    panel.addEventListener('touchend', onTouchEnd, false);
+    panel.addEventListener('touchstart', onTouchStart, { passive: true });
+    panel.addEventListener('touchmove', onTouchMove, { passive: false });
+    panel.addEventListener('touchend', onTouchEnd, { passive: true });
 }
 
 
@@ -10082,3 +10189,34 @@ document.addEventListener('touchend', function (e) {
     }
     lastTouch = now;
 }, { passive: false });
+
+function toggleAppleMenu() {
+    const menu = document.getElementById('appleMenu');
+    menu.classList.toggle('show-menu');
+}
+
+function selectOption(element) {
+    const val = element.getAttribute('data-value');
+    const label = element.innerText;
+    
+    // Update the hidden real select
+    const realSelect = document.getElementById('visibility');
+    realSelect.value = val;
+    
+    // Update the UI Trigger label
+    document.getElementById('selectedLabel').innerText = label;
+    
+    // Close menu
+    toggleAppleMenu();
+
+    // OPTIONAL: If you have a specific input ID, 
+    // you can force it to stay active:
+    // document.getElementById('your-input-id').focus();
+}
+
+// Close menu if user clicks anywhere else
+window.addEventListener('click', function(e) {
+    if (!document.getElementById('customSelectContainer').contains(e.target)) {
+        document.getElementById('appleMenu').classList.remove('show-menu');
+    }
+});
