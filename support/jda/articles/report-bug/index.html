@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Αναφορά Σφάλματος | Evox Support</title>
+    <link rel="stylesheet" href="../article-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- CSS για τη Φόρμα (Dark Mode / Apple Style) --- */
+
+        .report-form {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 1px solid var(--divider);
+        }
+
+        .report-form h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .report-form p {
+            font-size: 16px !important;
+            color: var(--text-secondary) !important;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+        }
+
+        /* --- Apple-Style Custom Select Styling --- */
+        .select-trigger {
+            background: #272727;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #f5f5f7;
+            transition: all 0.2s;
+        }
+
+        .select-trigger:hover {
+            background: #323232;
+        }
+
+        .apple-menu {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            background: #272727c2;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            padding: 6px;
+            margin: 0;
+            list-style: none;
+            display: none;
+            z-index: 999;
+            box-sizing: border-box;
+        }
+
+        .menu-item {
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #f5f5f7;
+            transition: background 0.15s;
+        }
+
+        .menu-item:hover {
+            background: #007AFF;
+            color: white;
+        }
+
+        .apple-divider {
+            border: 0;
+            border-top: 1px solid #f5f5f72f;
+            margin: 5px 0;
+        }
+
+        .crypto {
+            color: #007AFF;
+            font-weight: 500;
+        }
+
+        .show-menu {
+            display: block;
+            animation: applePop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes applePop {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .submit-btn {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #0077ed;
+            transform: scale(1.01);
+        }
+
+        @media (max-width: 734px) {
+            .report-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav-header">
+        <a href="../../index.html" class="back-link">
+            <i class="fa-solid fa-chevron-left"></i> Υποστήριξη
+        </a>
+    </nav>
+
+    <main class="article-container">
+        <header class="article-header">
+            <h1>Αναφορά Σφάλματος</h1>
+            <div class="meta-info">Τελευταία ενημέρωση: 23 Ιανουαρίου 2026</div>
+        </header>
+
+        <section class="content">
+            <p>Αντιμετωπίζετε κάποιο τεχνικό πρόβλημα με την εφαρμογή ή την ιστοσελίδα; Η αναφορά σας μας βοηθά να
+                βελτιώσουμε το Evox για όλους.</p>
+
+            <div class="image-placeholder">
+                <img src="image1.png">
+            </div>
+
+            <h2>Τι να συμπεριλάβετε</h2>
+            <ul>
+                <li>Μια σύντομη περιγραφή του <strong>τι συνέβη</strong>.</li>
+                <li>Τη <strong>συσκευή</strong> που χρησιμοποιούσατε (π.χ. iPhone, Android, PC).</li>
+                <li>Αν το σφάλμα εμφανίζεται <strong>συστηματικά</strong> ή συνέβη μία φορά.</li>
+            </ul>
+
+            <div class="report-form">
+                <h3>Φόρμα Αναφοράς Προβλήματος</h3>
+                <p>Παρακαλούμε δώστε μας όσο το δυνατόν περισσότερες λεπτομέρειες:</p>
+
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Όνομα</label>
+                        <input type="text" id="name" name="name" placeholder="Προαιρετικό">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email (Για ενημερώσεις που αφορούν την αναφορά)</label>
+                        <input type="text" id="email" name="email" placeholder="Προαιρετικό">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Κατηγορία Σφάλματος</label>
+                        <div class="apple-custom-select" id="customSelectContainer">
+                            <div class="select-trigger" onmousedown="event.preventDefault()"
+                                onclick="toggleAppleMenu()">
+                                <span id="selectedLabel">Επιλέξτε τύπο σφάλματος...</span>
+                                <span class="chevron">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                                            fill="#f5f5f7" />
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <ul class="apple-menu" id="appleMenu">
+                                <li class="menu-item" data-value="ui" onmousedown="event.preventDefault()"
+                                    onclick="selectOption(this)">Πρόβλημα στην Εμφάνιση (UI)</li>
+                                <li class="menu-item" data-value="login" onmousedown="event.preventDefault()"
+                                    onclick="selectOption(this)">Πρόβλημα Σύνδεσης</li>
+                                <li class="menu-item" data-value="crash" onmousedown="event.preventDefault()"
+                                    onclick="selectOption(this)">Η εφαρμογή κάνει επανεκκίνηση (Crash)</li>
+                                <hr class="apple-divider">
+                                <li class="menu-item crypto" data-value="security" onmousedown="event.preventDefault()"
+                                    onclick="selectOption(this)">
+                                    Κενό Ασφαλείας [Urgent]
+                                </li>
+                                <li class="menu-item crypto" data-value="other" onmousedown="event.preventDefault()"
+                                    onclick="selectOption(this)">
+                                    Άλλο
+                                </li>
+                            </ul>
+
+                            <select name="bug_type" id="visibility" style="display: none;">
+                                <option value="ui">Πρόβλημα στην Εμφάνιση (UI)</option>
+                                <option value="login">Πρόβλημα Σύνδεσης</option>
+                                <option value="crash">Η εφαρμογή κάνει επανεκκίνηση (Crash)</option>
+                                <option value="security">Κενό Ασφαλείας [Urgent]</option>
+                                <option value="other">Άλλο</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Συσκευή</label>
+                        <div class="apple-custom-select" id="customSelectContainer-device">
+                            <div class="select-trigger" onmousedown="event.preventDefault()"
+                                onclick="toggleAppleMenu_Device()">
+                                <span id="selectedLabel-device">Επιλέξτε τύπο συσκευής...</span>
+                                <span class="chevron">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"
+                                            fill="#f5f5f7" />
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <ul class="apple-menu" id="appleMenu-device">
+                                <li class="menu-item" data-value="iphone" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">iPhone</li>
+                                <li class="menu-item" data-value="android" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">Android</li>
+                                <li class="menu-item" data-value="ipad" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">iPad</li>
+                                <li class="menu-item" data-value="computer" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">
+                                    Υπολογιστής (Desktop)
+                                </li>
+                                <li class="menu-item" data-value="mac" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">
+                                    Macbook / iMac
+                                </li>
+                                <li class="menu-item" data-value="other" onmousedown="event.preventDefault()"
+                                    onclick="selectOption_device(this)">
+                                    Άλλη συσκευή
+                                </li>
+                            </ul>
+
+                            <select name="device_type" id="device_type" style="display: none;">
+                                <option value="iphone">iPhone</option>
+                                <option value="android">Android</option>
+                                <option value="ipad">iPad</option>
+                                <option value="computer">Υπολογιστής (Desktop)</option>
+                                <option value="mac">Macbook / iMac</option>
+                                <option value="other">Άλλη συσκευή</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="details">Περιγραφή Σφάλματος</label>
+                        <textarea id="details" name="details" rows="5"
+                            placeholder="Περιγράψτε τα βήματα για να αναπαράγουμε το σφάλμα..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Υποβολή Σφάλματος</button>
+                </form>
+            </div>
+
+            <p style="margin-top: 20px; font-size: 0.9em; color: #6b7280;">
+                <em>Ευχαριστούμε για τη βοήθεια! Η ομάδα ανάπτυξης θα εξετάσει την αναφορά σας το συντομότερο
+                    δυνατό.</em>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Evox Inc. • Προστασία Δεδομένων • Όροι Χρήσης</p>
+    </footer>
+
+    <script>
+        function toggleAppleMenu() {
+            const menu = document.getElementById('appleMenu');
+            menu.classList.toggle('show-menu');
+        }
+
+        function selectOption(element) {
+            const val = element.getAttribute('data-value');
+            const label = element.innerText;
+            const realSelect = document.getElementById('visibility');
+            realSelect.value = val;
+            document.getElementById('selectedLabel').innerText = label;
+            toggleAppleMenu();
+        }
+
+        window.addEventListener('click', function (e) {
+            if (!document.getElementById('customSelectContainer').contains(e.target)) {
+                document.getElementById('appleMenu').classList.remove('show-menu');
+            }
+        });
+
+        function toggleAppleMenu_Device() {
+            const menu = document.getElementById('appleMenu-device');
+            menu.classList.toggle('show-menu');
+        }
+
+        function selectOption_device(element) {
+            const val = element.getAttribute('data-value');
+            const label = element.innerText;
+            const realSelect = document.getElementById('device_type');
+            realSelect.value = val;
+            document.getElementById('selectedLabel-device').innerText = label;
+            toggleAppleMenu_Device();
+        }
+
+        window.addEventListener('click', function (e) {
+            if (!document.getElementById('customSelectContainer-device').contains(e.target)) {
+                document.getElementById('appleMenu-device').classList.remove('show-menu');
+            }
+        });
+    </script>
+</body>
+
+</html>
