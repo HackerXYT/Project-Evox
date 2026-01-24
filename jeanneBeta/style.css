@@ -4808,6 +4808,11 @@ input:-webkit-autofill:active {
     background-color: #ababab;
 }
 
+.showProfileBtn.remove {
+    background-color: #ff3838;
+    color: #fff;
+}
+
 .showProfileBtn:hover {
     background-color: #ababab;
 }

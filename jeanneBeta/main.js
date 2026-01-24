@@ -1,4 +1,5 @@
-const appVersion = "2.1.1"
+
+const appVersion = "2.1.2"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -5459,8 +5460,11 @@ function loadSentByUser() {
 
 
 function openProfile(el) {
-    if(socialeSelectedInterval) {
-        clearInterval(socialeSelectedInterval)
+    if(socialeSelectedInterval.length > 0) {
+        socialeSelectedInterval.forEach(interval => {
+            clearInterval(interval)
+        })
+        socialeSelectedInterval = [];
     }
     haptics.trigger();
     document.getElementById("media").style.display = 'none'
@@ -6435,8 +6439,11 @@ async function loadMoreUsers() {
 
 
 function openDiscovery(el) {
-    if(socialeSelectedInterval) {
-        clearInterval(socialeSelectedInterval)
+    if(socialeSelectedInterval.length > 0) {
+        socialeSelectedInterval.forEach(interval => {
+            clearInterval(interval)
+        })
+        socialeSelectedInterval = [];
     }
     haptics.trigger();
     document.getElementById("navigation").classList.add("active")
@@ -7089,7 +7096,7 @@ function activateShare(el) {
 }
 
 
-let socialeSelectedInterval = null;
+let socialeSelectedInterval = [];
 function showProfileInfo(emri) {
     lastActiveSearchUser = emri
     const container = document.getElementById("search-in");
@@ -7240,7 +7247,14 @@ function showProfileInfo(emri) {
                     elementFollow.classList.remove("showProfileBtn");
                 }
             }
-            
+
+             if (!res.requested.includes(emri) && elementFollow.innerHTML === `Στάλθηκε Αίτημα`) {
+                elementFollow.innerHTML = `Ακολούθησε`;
+                elementFollow.style.border = 'none';
+                elementFollow.style.padding = "6px 25px";
+                elementFollow.classList.add("showProfileBtn");
+             }
+
             if (res.following.includes(emri)) {
                 if (elementFollow.innerHTML !== `Ακολουθείς`) {
                     elementFollow.innerHTML = `Ακολουθείς`;
@@ -7287,9 +7301,10 @@ function showProfileInfo(emri) {
             console.error("Follow error", error);
         });
 }
-        socialeSelectedInterval = setInterval(function () {
-            runAndReloadSociale("insideInterval")
-        }, 2000)
+        const intervalId = setInterval(function () {
+            runAndReloadSociale("insideInterval");
+        }, 2000);
+        socialeSelectedInterval.push(intervalId);
         runAndReloadSociale()
 
         const pars = {
@@ -7525,8 +7540,13 @@ function showProfileInfo(emri) {
 
 let search_loadedUsers = []
 function openSearch(el, inBackground) {
-    if(socialeSelectedInterval) {
-        clearInterval(socialeSelectedInterval)
+    if(socialeSelectedInterval.length > 0) {
+        socialeSelectedInterval.forEach(interval => {
+            clearInterval(interval)
+        })
+        socialeSelectedInterval = [];
+    } else {
+        console.warn("Cannot clear not existant interval. socialeSelectedInterval", socialeSelectedInterval)
     }
 
     const endIndicatorSearch = document.getElementById("endIndicator-search");
@@ -7636,7 +7656,12 @@ function openSearch(el, inBackground) {
         .catch(error => console.error("Jeanne D'arc Database is offline? [SOCIALE]", error));
 
     try {
-        clearInterval(socialeSelectedInterval)
+        if(socialeSelectedInterval.length > 0) {
+        socialeSelectedInterval.forEach(interval => {
+            clearInterval(interval)
+        })
+        socialeSelectedInterval = [];
+    }
     } catch (error) {
         console.log("ClearInterval for sociale failed. skipping.")
     }
@@ -7649,8 +7674,11 @@ function openHome(el) {
     haptics.trigger();
     saveLastPage('home')
     el.classList.add('active')
-    if(socialeSelectedInterval) {
-        clearInterval(socialeSelectedInterval)
+    if(socialeSelectedInterval.length > 0) {
+        socialeSelectedInterval.forEach(interval => {
+            clearInterval(interval)
+        })
+        socialeSelectedInterval = [];
     }
     //el.style.transition = "transform 0.3s ease";
     //el.style.transform = "scale(1.2)";
@@ -9071,6 +9099,154 @@ function showLikedPosts() {
         });
 }
 
+function showFollowers() {
+    document.getElementById("followers-panel").classList.add("activated")
+     const account_data = localStorage.getItem("jeanDarc_accountData")
+    if (!account_data) {
+        console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
+        document.getElementById("followers-list").style.display = null
+        document.getElementById("followers-list").innerHTML = `<div style="display:flex;flex-direction:column;width:100%;align-items:center;gap:10px;justify-content:center;"><p style="text-align:center;color:#b83131;">Δεν υπάρχει λογαριασμός [EVX-OPERATION-BROKE]</p></div>`
+        return;
+    }
+    const pars = JSON.parse(account_data)
+    document.getElementById("followers-list").innerHTML = `<div id="followers_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
+            --track-upload: #4a4a4a;width: 25px;">
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="active-upload"></circle>
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="track-upload"></circle>
+            </svg><p style="text-align:center;">Γίνεται Φόρτωση..</p></div>`
+
+            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
+        .then(response => response.json())
+        .then(sociale => {
+            if (sociale.followers.length === 0) {
+                document.getElementById("followers-list").innerHTML = `<div id="followers_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24"
+                            fill="none">
+                            <g>
+                                <path
+                                    d="M17 20C17 18.3431 14.7614 17 12 17C9.23858 17 7 18.3431 7 20M21 17.0004C21 15.7702 19.7659 14.7129 18 14.25M3 17.0004C3 15.7702 4.2341 14.7129 6 14.25M18 10.2361C18.6137 9.68679 19 8.8885 19 8C19 6.34315 17.6569 5 16 5C15.2316 5 14.5308 5.28885 14 5.76389M6 10.2361C5.38625 9.68679 5 8.8885 5 8C5 6.34315 6.34315 5 8 5C8.76835 5 9.46924 5.28885 10 5.76389M12 14C10.3431 14 9 12.6569 9 11C9 9.34315 10.3431 8 12 8C13.6569 8 15 9.34315 15 11C15 12.6569 13.6569 14 12 14Z"
+                                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </g>
+                        </svg><p style="text-align:center;">Δεν σας ακολουθεί<br>κανένας χρήστης.</p></div>`
+                return;
+            }
+            sociale.followers.forEach((emri, i) => {
+                fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
+                .then(response => response.text())
+                .then(seksioniData => {
+                    if(i === 0) document.getElementById("followers-list").innerHTML = ''
+                    if (seksioniData !== "Nuk u gjet") {
+                        seksioniData = JSON.parse(seksioniData)
+                        getImage(emri).then(profileSrc => {
+                            document.getElementById("followers-list").innerHTML += `
+                            <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                                <div class="post extpost">
+                                    <div class="profilePicture">
+                                        <img src="${profileSrc.imageData}">
+                                    </div>
+                                    <div class="postInfo">
+                                        <div class="userInfo">
+                                            <p onclick="extMention('${emri}')">${emri}
+                                            </p>
+                                        </div>
+                                    <div class="postContent">
+                                        <p>${seksioniData.seksioni}${seksioniData.klasa !== 'none' ? seksioniData.klasa : ""}</p>
+                                    </div>
+                                </div>
+                                <div onclick="showProfileInfo('${emri}')" class="showProfileBtn remove">
+                                    Αφαίρεση
+                                </div>
+                                </div>
+                            </div>`
+                        })
+                        }
+                    }).catch(error => {
+                        console.log('Error:', error);
+                    });
+                })
+            }).catch(error => {
+
+            console.log('Error:', error);
+        });
+}
+
+function showFollowing() {
+    document.getElementById("following-panel").classList.add("activated")
+     const account_data = localStorage.getItem("jeanDarc_accountData")
+    if (!account_data) {
+        console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
+        document.getElementById("following-list").style.display = null
+        document.getElementById("following-list").innerHTML = `<div style="display:flex;flex-direction:column;width:100%;align-items:center;gap:10px;justify-content:center;"><p style="text-align:center;color:#b83131;">Δεν υπάρχει λογαριασμός [EVX-OPERATION-BROKE]</p></div>`
+        return;
+    }
+    const pars = JSON.parse(account_data)
+    document.getElementById("following-list").innerHTML = `<div id="following_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
+            --track-upload: #4a4a4a;width: 25px;">
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="active-upload"></circle>
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="track-upload"></circle>
+            </svg><p style="text-align:center;">Γίνεται Φόρτωση..</p></div>`
+
+            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
+        .then(response => response.json())
+        .then(sociale => {
+            if (sociale.following.length === 0) {
+                document.getElementById("following-list").innerHTML = `<div id="following_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24"
+                            fill="none">
+                            <g>
+                                <path
+                                    d="M21 19.9999C21 18.2583 19.3304 16.7767 17 16.2275M15 20C15 17.7909 12.3137 16 9 16C5.68629 16 3 17.7909 3 20M15 13C17.2091 13 19 11.2091 19 9C19 6.79086 17.2091 5 15 5M9 13C6.79086 13 5 11.2091 5 9C5 6.79086 6.79086 5 9 5C11.2091 5 13 6.79086 13 9C13 11.2091 11.2091 13 9 13Z"
+                                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </g>
+                        </svg>
+                <p style="text-align:center;">Δεν ακολουθείτε<br>κανέναν χρήστη.</p></div>`
+                return;
+            }
+            
+            sociale.following.forEach((emri, i) => {
+            fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
+                .then(response => response.text())
+                .then(seksioniData => {
+                    if(i === 0) document.getElementById("following-list").innerHTML = ''
+                    if (seksioniData !== "Nuk u gjet") {
+                        seksioniData = JSON.parse(seksioniData)
+                        getImage(emri).then(profileSrc => {
+                            document.getElementById("following-list").innerHTML += `
+                            <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                                <div class="post extpost">
+                                    <div class="profilePicture">
+                                        <img src="${profileSrc.imageData}">
+                                    </div>
+                                    <div class="postInfo">
+                                        <div class="userInfo">
+                                            <p onclick="extMention('${emri}')">${emri}
+                                            </p>
+                                        </div>
+                                    <div class="postContent">
+                                        <p>${seksioniData.seksioni}${seksioniData.klasa !== 'none' ? seksioniData.klasa : ""}</p>
+                                    </div>
+                                </div>
+                                <div onclick="showProfileInfo('${emri}')" class="showProfileBtn remove">
+                                    Αφαίρεση
+                                </div>
+                                </div>
+                            </div>`
+                        })
+                        }
+                    }).catch(error => {
+                        console.log('Error:', error);
+                    });
+                })
+
+            }).catch(error => {
+                console.log('Error:', error);
+            });
+}
+
 function showSavedPosts() {
     document.getElementById("savedPosts-panel").classList.add("activated")
     document.getElementById("unabletoshow-saved").style.display = 'none'
@@ -9463,6 +9639,47 @@ function acceptRequest(el) {
                         document.getElementById("socialRecommendation").classList.add("fade-out-slide-down")
                         setTimeout(function () {
                             document.getElementById("socialRecommendation").style.display = 'none'
+                            el.innerHTML = `Αποδοχή`
+                        }, 500)
+                    }, 1200)
+                }
+            }).catch(error => {
+                console.error("Follow error", error)
+            });
+    }
+}
+
+function rejectRequest(el) {
+    const svg = document.getElementById("plugIn-icon")
+    if (svg) {
+        el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
+            --track-upload: #4a4a4a;width: 15px;">
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="active-upload"></circle>
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="track-upload"></circle>
+            </svg>`
+
+        const account_data = localStorage.getItem("jeanDarc_accountData")
+        if (!account_data) {
+            console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
+            return;
+        }
+        const pars = JSON.parse(account_data)
+        fetch(`https://arc.evoxs.xyz/?metode=rejectRequest&emri=${foundName}&pin=${atob(pars.pin)}&id=${document.getElementById("userName-search").innerText}`)
+            .then(response => response.json())
+            .then(res => {
+                if (res.evxCode === 205 || res.evxCode === 210 || res.evxCode === 204) {
+                    svg.querySelectorAll("path")[0].style.transition = "transform 0.5s ease"
+                    svg.querySelectorAll("path")[0].style.transform = "translate(3.5px, -3.5px)"
+
+                    svg.querySelectorAll("path")[1].style.transition = "transform 0.5s ease"
+                    svg.querySelectorAll("path")[1].style.transform = "translate(-3.5px, 3.5px)"
+                    setTimeout(function () {
+                        document.getElementById("socialRecommendation").classList.add("fade-out-slide-down")
+                        setTimeout(function () {
+                            document.getElementById("socialRecommendation").style.display = 'none'
+                            el.innerHTML = `Απόρριψη`
                         }, 500)
                     }, 1200)
                 }
