@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.3"
+const appVersion = "2.1.31"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -1346,7 +1346,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (num < 1) {
                     sessionStorage.removeItem('spammingDetected')
                     sessionStorage.removeItem("countdown")
-                    window.location.reload()
+                    alert("Μπορείτε πλέον να ξαναφορτώσετε την σελίδα.")
                 }
             }, 1000)
         })
@@ -4344,6 +4344,10 @@ function goBackToLogin() {
             input.style.width = null;
             $("#loginContainer").fadeIn("fast", function () {
             })
+            $("#loginByName").fadeOut("fast")
+            $("#topLeftBack").fadeOut("fast")
+            $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName, #setupInstagram, #ipLoginSection').fadeIn(function () {
+                                                        });
             //document.getElementById("evoxContainer").classList.add("active")
             document.getElementById("welcome").classList.remove("fade-out-slide-down")
         })
@@ -4444,6 +4448,7 @@ let boxUpDefaultHeight;
 function nameLogin() {
     document.getElementById("topLeftBack").classList.add("active")
     $("#appInfo").fadeOut("fast")
+    $("#topLeftBack").fadeIn("fast")
     $("#textDialog").fadeOut("fast", function () {
         const boxUp = document.getElementById("boxUp");
         const currentHeight = boxUp.offsetHeight + 'px';
@@ -4464,6 +4469,7 @@ function emailLogin() {
     document.getElementById("topLeftBack").classList.add("active")
     $("#appInfo").fadeOut("fast")
     $("#textDialog").fadeOut("fast", function () {
+        $("#topLeftBack").fadeIn("fast")
         const boxUp = document.getElementById("boxUp");
         const currentHeight = boxUp.offsetHeight + 'px';
         boxUpDefaultHeight = currentHeight
@@ -4479,9 +4485,47 @@ function emailLogin() {
     })
 }
 
+function searchByEmailComplete(el) {
+    const input = document.getElementById("voxEmail")
+    if (input.value === '') { return; }
+    el.classList.add("loading")
+    fetch(`https://arc.evoxs.xyz/?metode=byEmail&email=${input.value}`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.message === 'Found') {
+                const emri = data.emri
+                console.log(emri)
+                document.getElementById("loadText").innerText = 'Επεξεργασία..'
+                $("#tasks").fadeIn("fast", function () {
+                    goBackToMain()
+                    setTimeout(function () {
+                        nameLogin()
+                        document.getElementById("voxName").value = emri
+                        searchByNameComplete()
+                    
+                        setTimeout(function () {
+                            document.getElementById("boxUp").style.height = null
+                        }, 800)
+                    }, 50)
+                
+                })
+                el.classList.remove("error")
+            } else {
+                el.classList.add("error")
+                setTimeout(function() {
+                    el.classList.remove("error")
+                }, 2000)
+            }
+            el.classList.remove("loading")
+        }).catch(error => {
+
+        });
+}
+
 function help() {
     document.getElementById("topLeftBack").classList.add("active")
     $("#appInfo").fadeOut("fast")
+    $("#topLeftBack").fadeIn("fast")
     $("#textDialog").fadeOut("fast", function () {
         const boxUp = document.getElementById("boxUp");
         const currentHeight = boxUp.offsetHeight + 'px';
@@ -4503,6 +4547,7 @@ function ipLogin() {
 
     document.getElementById("topLeftBack").classList.add("active")
     $("#appInfo").fadeOut("fast")
+    $("#topLeftBack").fadeIn("fast")
     $("#textDialog").fadeOut("fast", function () {
         $("#hexa").fadeIn("fast")
         const boxUp = document.getElementById("boxUp");

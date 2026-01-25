@@ -111,6 +111,33 @@ body {
     overflow: hidden;
 }
 
+body.static_gradient {
+    background-image:
+        /* 1. The "Siri" Pink/Purple Bubble (Bottom Left) */
+        radial-gradient(circle 800px at 20% 80%,
+            rgba(255, 45, 85, 0.15) 0%,
+            /* iOS Pink */
+            rgba(88, 86, 214, 0.1) 40%,
+            /* iOS Indigo */
+            transparent 80%),
+        /* 2. The "MacBook" Teal Glow (Top Right) */
+        radial-gradient(circle 600px at 85% 15%,
+            rgba(0, 199, 190, 0.12) 0%,
+            /* Apple Teal */
+            transparent 70%),
+        /* 3. The Central Softening Glow (Slightly Offset) */
+        radial-gradient(circle 500px at 50% 50%,
+            rgba(255, 255, 255, 0.03) 0%,
+            /* Subtle white "sheen" */
+            transparent 100%);
+
+    /* This is the "secret sauce" for the Apple look */
+    backdrop-filter: saturate(180%) blur(20px);
+
+    /* Critical for that "soft" look */
+    background-blend-mode: screen;
+}
+
 body {
     overflow: hidden !important;
     /* padding-top: env(safe-area-inset-top) !important; Removed for viewport fit = fit */
@@ -7614,4 +7641,37 @@ body {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+}
+
+#searchForEmail.loading .iconSearch {
+    display: none;
+}
+
+#searchForEmail.loading .loading-svg {
+    display: block;
+}
+
+#searchForEmail .loading-svg {
+    display: none;
+}
+
+#searchForEmail.error voxDefault.defaultText {
+    display: none;
+}
+
+#searchForEmail.error voxDefault.errorText {
+    display: block;
+}
+
+
+#searchForEmail.error .iconSearch {
+    display: none;
+}
+
+#searchForEmail.error .loading-svg {
+    display: none;
+}
+
+#searchForEmail voxDefault.errorText {
+    display: none;
 }

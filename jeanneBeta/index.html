@@ -329,7 +329,12 @@
             <p>Συσκευή: <span id="deviceInfo"></span></p>
             <p>Έκδοση: <span id="version3">1.9.97</span></p>
             <p>Δοκιμαστική λειτουργία: <span>Ενεργή [BETA]</span></p>
-            <p>Επανεκκίνηση: <span onclick="window.location.reload()">Τώρα</span></p>
+            <p class="optionButton" style="width: auto;margin-top: 10px;" onclick="window.location.reload()">
+                Επανεκκίνηση</p>
+            <p class="optionButton" style="width: auto;margin-top: 10px;"
+                onclick="window.location.href = '../support/jda/'">
+                Κέντρο Υποστήριξης
+            </p>
         </div>
         <div class="welcome" id="welcome">
             <div onclick="goBackToMain()" class="topLeftBack" id="topLeftBack">
@@ -480,17 +485,30 @@
                                 </svg>
                             </vo>
 
-                            <input id="voxEmail" type="name" placeholder="Διεύθυνση email">
+                            <input id="voxEmail" type="email" style="width: 100%;" placeholder="Διεύθυνση email">
                             <!-- oninput="searchByName()"-->
                             <vox class="mirror-text"></vox>
                         </div>
-                        <div id="searchForEmail" class="optionButton focus svgOnRight">
-                            <!-- onclick="searchByEmailComplete()"-->
-                            Αναζήτηση<svg xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px"
-                                viewBox="0 0 24 24" fill="none">
+                        <div id="searchForEmail" onclick="searchByEmailComplete(this)"
+                            class="optionButton focus svgOnRight">
+
+                            <voxDefault class="defaultText">Αναζήτηση</voxDefault>
+                            <voxDefault class="errorText">Το Email δεν βρέθηκε</voxDefault><svg class="iconSearch"
+                                xmlns="http://www.w3.org/2000/svg" width="17.5px" height="17.5px" viewBox="0 0 24 24"
+                                fill="none">
                                 <path
                                     d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
                                     stroke="#8880eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <svg class="loading-svg" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+                                width="17.5px" height="17.5px" style="enable-background:new 0 0 50 50;"
+                                xml:space="preserve">
+                                <path fill="#8880eb"
+                                    d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                                    <animateTransform attributeType="XML" attributeName="transform" type="rotate"
+                                        from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                                </path>
                             </svg>
                         </div>
                     </div>
@@ -558,7 +576,7 @@
                     </div>
                 </div>
                 <p>Ας ξεκινήσουμε</p>
-                <span>Συνδεθείτε παρακάτω για να διαχειριστείτε τον λογαριασμό σας.</span>
+                <span>Παρακαλούμε επιλέξτε τον τρόπο σύνδεσης στον λογαριασμό σας της Jeanne d’Arc</span>
                 <div class="buttonsLogin">
                     <div onclick="nameLogin()" class="optionButton focus">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24"
