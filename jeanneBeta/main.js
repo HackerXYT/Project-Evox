@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.2"
+const appVersion = "2.1.3"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -800,10 +800,74 @@ function focusOnIcon(el, act, writer, receiver) { //focusOnIcon(this, 'likeBtn',
     }, 200);
 }
 
-
+function openEmailFromUserView() {
+    openProfile(document.getElementById("profile-switch"))
+    openSettings()
+    showChangeEmailPanel()
+}
 
 function uploadFile() {
     document.getElementById('evox-upload-box').click();
+}
+
+function reportMediaRemoval(serverMediaId, uploadedBy) {
+    fetch(`https://arc.evoxs.xyz/?metode=reportMediaRemoval&emri=${foundName}&pin=${atob(JSON.parse(localStorage.getItem('jeanDarc_accountData')).pin)}&id=${serverMediaId}&uploadedBy=${uploadedBy}`)
+        .then(response => response.json())
+        .then(res => {
+            const msg = res.message
+            if(msg === 'Complete') {
+                EvalertNext({
+                        title: "Επιτυχία!",
+                        description: "Η αναφορά σας υποβλήθηκε με επιτυχία.<br>Θα επικοινωνήσουμε μαζί σας σύντομα μέσω Email, για να λάβουμε περαιτέρω πληροφορίες.",
+                        buttons: ["Εντάξει", "Αλλαγή Email"],
+                        buttonAction: [``, `openEmailFromUserView()`],
+                        addons: [],
+                        "clouds": false,
+                        "clouds_data": []
+                    });
+            }
+        })
+        .catch(error => {
+            console.error("Arc is offline. warning")
+            console.log('Error:', error);
+        });
+}
+
+function removeMediaUploaded(serverMediaId) {
+    fetch(`https://arc.evoxs.xyz/?metode=removeMedia&emri=${foundName}&pin=${atob(JSON.parse(localStorage.getItem('jeanDarc_accountData')).pin)}&id=${serverMediaId}`)
+        .then(response => response.json())
+        .then(res => {
+            const msg = res.message
+            if(msg === 'Complete') {
+                showMedia(document.getElementById("carouselItem-3"))
+            }
+        })
+        .catch(error => {
+            console.error("Arc is offline. warning")
+            console.log('Error:', error);
+        });
+}
+function removeMedia(elId, mediaId, removeEl, el2) {
+    console.log("remove media")
+    const localId = mediaId
+    const mediaPreviewEl = document.getElementById(elId);
+    const serverMediaId = removeEl.getAttribute('data-id')
+    console.log(serverMediaId, mediaPreviewEl, localId)
+    document.getElementById(!el2 ? `file-media-${mediaId}`: `file-${mediaId}`).style.display = ''
+    fetch(`https://arc.evoxs.xyz/?metode=removeMedia&emri=${foundName}&pin=${atob(JSON.parse(localStorage.getItem('jeanDarc_accountData')).pin)}&id=${serverMediaId}`)
+        .then(response => response.json())
+        .then(res => {
+            const msg = res.message
+            if(msg === 'Complete') {
+                document.getElementById(!el2 ? `file-media-${mediaId}`: `file-${mediaId}`).style.display = 'none'
+                mediaPreviewEl.remove();
+                uploadedFiles = uploadedFiles.filter(item => item.name !== serverMediaId);
+            }
+        })
+        .catch(error => {
+            console.error("Arc is offline. warning")
+            console.log('Error:', error);
+        });
 }
 
 let uploadedFiles = [];
@@ -843,17 +907,23 @@ function processFile(event, type) {
             .join('');
 
         if (file.type.startsWith('image/')) {
-            container.innerHTML += `<div id="file-${randomString}" class="media" style="width: 95%; height: 360px;">
+            container.innerHTML += `<div id="file-${randomString}" class="media" style="width: 75%; height: 360px;">
                                 <div id="file-media-${randomString}" class="loadIndicator">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
-                                </div><img src="${URL.createObjectURL(file)}" style="width: 95%; height: 360px;">${afterData}`;
+                                </div>
+                                <div onclick="removeMedia('file-${randomString}', '${randomString}', this)" id="mediaRemove-${randomString}" class="removeMedia">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="25px" height="25px" viewBox="-3.5 0 19 19" class="cf-icon-svg"><path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z"/></svg>
+                                </div><img src="${URL.createObjectURL(file)}" style="width: 100%; height: 360px;">${afterData}`;
         } else if (file.type.startsWith('video/')) {
-            container.innerHTML += `<div id="file-${randomString}" class="media" style="width: 95%; height: 360px;">
+            container.innerHTML += `<div id="file-${randomString}" class="media" style="width: 75%; height: 360px;">
                                 <div id="file-media-${randomString}" class="loadIndicator">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
-                                </div><video src="${URL.createObjectURL(file)}" style="width: 95%; height: 360px;" controls autoplay loop playsinline></video>${afterData}`;
+                                </div>
+                                <div onclick="removeMedia('file-${randomString}', '${randomString}', this)" id="mediaRemove-${randomString}" class="removeMedia">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="25px" height="25px" viewBox="-3.5 0 19 19" class="cf-icon-svg"><path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z"/></svg>
+                                </div><video src="${URL.createObjectURL(file)}" style="width: 100%; height: 360px;" controls autoplay loop playsinline></video>${afterData}`;
         } else {
             return;
         }
@@ -888,6 +958,8 @@ function processFile(event, type) {
                         name: data.file,
                         type: data.fileType
                     })
+
+                    document.getElementById(`mediaRemove-${randomString}`).setAttribute('data-id', data.file)
                 })
                 .catch(error => {
                     console.error("Media upload error:", error);
@@ -5331,7 +5403,7 @@ function loadSentByUser() {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                 })
 
                 const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
@@ -5626,13 +5698,14 @@ function setTag(emri, el) {
                     let media = ''
                     const acc = account_data
                     let hasMedia = false
+                    let lclids = []
                     postFiles.forEach(async (file) => {
                         const randomString = [...Array(15)]
                             .map(() => Math.random().toString(36)[2])
                             .join('');
                         hasMedia = true
                         media += `<div id="file-${randomString}" class="media" style="width: 95%; height: 360px;">
-                        <div class="topRight">
+                        <div data-id="${file.id}" class="topRight">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path d="M3 6.38597C3 5.90152 3.34538 5.50879 3.77143 5.50879L6.43567 5.50832C6.96502 5.49306 7.43202 5.11033 7.61214 4.54412C7.61688 4.52923 7.62232 4.51087 7.64185 4.44424L7.75665 4.05256C7.8269 3.81241 7.8881 3.60318 7.97375 3.41617C8.31209 2.67736 8.93808 2.16432 9.66147 2.03297C9.84457 1.99972 10.0385 1.99986 10.2611 2.00002H13.7391C13.9617 1.99986 14.1556 1.99972 14.3387 2.03297C15.0621 2.16432 15.6881 2.67736 16.0264 3.41617C16.1121 3.60318 16.1733 3.81241 16.2435 4.05256L16.3583 4.44424C16.3778 4.51087 16.3833 4.52923 16.388 4.54412C16.5682 5.11033 17.1278 5.49353 17.6571 5.50879H20.2286C20.6546 5.50879 21 5.90152 21 6.38597C21 6.87043 20.6546 7.26316 20.2286 7.26316H3.77143C3.34538 7.26316 3 6.87043 3 6.38597Z" fill="#FFF"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.42543 11.4815C9.83759 11.4381 10.2051 11.7547 10.2463 12.1885L10.7463 17.4517C10.7875 17.8855 10.4868 18.2724 10.0747 18.3158C9.66253 18.3592 9.29499 18.0426 9.25378 17.6088L8.75378 12.3456C8.71256 11.9118 9.01327 11.5249 9.42543 11.4815Z" fill="#FFF"/>
@@ -5640,12 +5713,22 @@ function setTag(emri, el) {
 <path d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12405C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001Z" fill="#FFF"/>
 <script xmlns=""/><script xmlns=""/></svg>
                         </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                        lclids.push(randomString)
+                        
                     })
 
                     const container = document.getElementById('evox-media-container');
                     if (hasMedia) {
                         container.innerHTML += media
+                        lclids.forEach(id => {
+                            const element = document.getElementById(`file-${id}`);
+                            if (element) {
+                                element.querySelector(".topRight").onclick = function() {
+                                    removeMedia(`file-${id}`, `${id}`, this, true);
+                                };
+                            }
+                        })
                     }
                     document.getElementById("input-textarea").value += cleanText
                     const event = new Event('input', { bubbles: true });
@@ -5742,97 +5825,116 @@ function setTagEXT(el) {
 }
 
 function postNow(el) {
-    //Work on dataIn
-    document.getElementById("input-textarea").value = ''
-    document.getElementById("selectedPeople").innerHTML = ''
-    console.log("Clearing array")
-    selectedPeople_ARRAY = []
-    dataIn = {}
-    if (!el.classList.contains("not-ready")) {
-        closePostCreate('frontend')
-        document.getElementById("icon-checkmark").style.display = 'none'
-        document.getElementById("icon-error").style.display = 'none'
-        document.getElementById("icon-spinner").style.display = null;
-        document.getElementById("notice-text").innerText = 'Γίνεται μεταφόρτωση..'
-        document.getElementById("notice-main").classList.add("active")
-        selectedPeople_ARRAY.forEach(person => {
-            let files = ''
-            uploadedFiles.forEach(file => {
-                files += `%img:server(${file.server}):mediaId(${file.name}):mediaType(${file.type})%`
-            })
-            let tags = ''
-            selectedPeople_ARRAY.filter(item => item !== person).forEach(tag => {
-                tags += `@${tag} `
-            })
-            dataIn[person] = `${tags}${document.getElementById("input-textarea").value}${files}`
-            dataIn[`${person}-question`] = 'Τι νέο υπάρχει;'
-        })
-        console.log("PostData:", dataIn)
-        const userData = JSON.parse(localStorage.getItem("jeanDarc_accountData"));
-        const selectElement = document.getElementById("visibility");
-        const selectedValue = selectElement.value;
-        console.warn("Selected Visibility:", selectedValue);
-
-        const payload = {
-            metode: "vleresimet",
-            emri: foundName || userData.name,
-            pin: userData.pin,
-            parashtresat: JSON.stringify(dataIn),
-            visibility: selectedValue,
-        };
-
-        fetch("https://arc.evoxs.xyz/saveRatings", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        })
-            .then(response => response.text())
-            .then(data => {
-                if (data === "Kontrolloni json!") {
-                    document.getElementById("icon-error").style.display = null
-                    document.getElementById("icon-checkmark").style.display = 'none';
-                    document.getElementById("icon-spinner").style.display = 'none';
-                    document.getElementById("notice-text").innerText = 'Τα δεδομένα δεν είναι σωστά δομημένα.'
-                    setTimeout(function () {
-                        alert("Αποτυχία σύνδεσης με τον διακομιστή. Οι καταχωρήσεις σας αποθηκεύτηκαν στην συσκευή σας. Δοκιμάστε αργότερα ή επανεκκινήστε την εφαρμογή.");
-                        document.getElementById("notice-main").classList.remove("active")
-                    }, 10000)
-
-                    console.error("JSON error:", data, dataIn);
-                } else {
-                    const res = JSON.parse(data);
-                    console.log("Success", res);
-                    document.getElementById("icon-checkmark").style.display = null
-                    document.getElementById("icon-spinner").style.display = 'none';
-                    document.getElementById("notice-text").innerText = 'Επιτυχία!'
-                    setTimeout(function () {
-                        document.getElementById("notice-main").classList.remove("active")
-                    }, 4000)
-                    uploadedFiles = []
-                    document.getElementById("evox-media-container").innerHTML = ''
-
-                }
-            })
-            .catch(error => {
-                localStorage.setItem("jeanneBackup", JSON.stringify(dataIn));
-                if (!hasLoginFailed) {
-                    document.getElementById("icon-error").style.display = null
-                    document.getElementById("icon-checkmark").style.display = 'none';
-                    document.getElementById("icon-spinner").style.display = 'none';
-                    document.getElementById("notice-text").innerText = 'Αποτυχία. Επανεκκινήστε την εφαρμογή.'
-                    setTimeout(function () {
-                        alert("Αποτυχία σύνδεσης με τον διακομιστή. Οι καταχωρήσεις σας αποθηκεύτηκαν στην συσκευή σας. Δοκιμάστε αργότερα ή επανεκκινήστε την εφαρμογή.");
-                        document.getElementById("notice-main").classList.remove("active")
-                    }, 10000)
-
-                    //
-                }
-                console.error("Jeanne D'arc Database is offline.");
-                console.log("Error:", error);
-            });
-    } else {
-        alert("Το περιεχόμενο είναι κενό")
+    // 1. Check if ready
+    if (el.classList.contains("not-ready")) {
+        alert("Το περιεχόμενο είναι κενό");
+        return;
     }
+    
+    tx.style.height = 'auto'; 
+    // 2. Capture Inputs BEFORE clearing them
+    const textarea = document.getElementById("input-textarea");
+    const textContent = textarea.value.trim();
+    const visibility = document.getElementById("visibility") ? document.getElementById("visibility").value : "normal";
+    
+    // Check if we actually have people selected
+    if (selectedPeople_ARRAY.length === 0) {
+        alert("Παρακαλώ επιλέξτε τουλάχιστον ένα άτομο.");
+        return;
+    }
+
+    // 3. Prepare UI for loading
+    closePostCreate('frontend');
+    const noticeMain = document.getElementById("notice-main");
+    const noticeText = document.getElementById("notice-text");
+    const iconCheck = document.getElementById("icon-checkmark");
+    const iconError = document.getElementById("icon-error");
+    const iconSpinner = document.getElementById("icon-spinner");
+
+    iconCheck.style.display = 'none';
+    iconError.style.display = 'none';
+    iconSpinner.style.display = 'block';
+    noticeText.innerText = 'Γίνεται μεταφόρτωση...';
+    noticeMain.classList.add("active");
+
+    // 4. Build the data object
+    let dataIn = {};
+    
+    // Construct the "files" string once
+    let filesString = '';
+    if (typeof uploadedFiles !== 'undefined') {
+        uploadedFiles.forEach(file => {
+            filesString += `%img:server(${file.server}):mediaId(${file.name}):mediaType(${file.type})%`;
+        });
+    }
+
+    selectedPeople_ARRAY.forEach(person => {
+        // Create tags for others mentioned in this specific post
+        let tags = selectedPeople_ARRAY
+            .filter(item => item !== person)
+            .map(tag => `@${tag}`)
+            .join(' ');
+            
+        if (tags) tags += ' '; // Add space after tags
+
+        dataIn[person] = `${tags}${textContent}${filesString}`;
+        dataIn[`${person}-question`] = 'Τι νέο υπάρχει;';
+    });
+
+    // 5. Construct Payload
+    const userData = JSON.parse(localStorage.getItem("jeanDarc_accountData")) || {};
+    const payload = {
+        metode: "vleresimet",
+        emri: (typeof foundName !== 'undefined' && foundName) ? foundName : userData.name,
+        pin: userData.pin,
+        parashtresat: JSON.stringify(dataIn), // Backend expects stringified JSON
+        visibility: visibility,
+    };
+
+    // 6. Execute Request
+    fetch("https://arc.evoxs.xyz/saveRatings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    })
+    .then(async (response) => {
+        const result = await response.json(); // Backend sends JSON array of actions
+        
+        if (!response.ok) throw new Error(result.error || "Server Error");
+
+        // SUCCESS STATE
+        console.log("Success:", result);
+        iconCheck.style.display = 'block';
+        iconSpinner.style.display = 'none';
+        noticeText.innerText = 'Επιτυχία!';
+
+        // Clear Data only after success
+        textarea.value = '';
+        document.getElementById("selectedPeople").innerHTML = '';
+        selectedPeople_ARRAY = [];
+        if (document.getElementById("evox-media-container")) {
+            document.getElementById("evox-media-container").innerHTML = '';
+        }
+        uploadedFiles = [];
+
+        setTimeout(() => {
+            noticeMain.classList.remove("active");
+        }, 4000);
+    })
+    .catch(error => {
+        // ERROR STATE
+        console.error("Database Error:", error);
+        localStorage.setItem("jeanneBackup", JSON.stringify(dataIn));
+        
+        iconError.style.display = 'block';
+        iconSpinner.style.display = 'none';
+        noticeText.innerText = 'Αποτυχία. Τα δεδομένα αποθηκεύτηκαν τοπικά.';
+        
+        setTimeout(() => {
+            alert("Αποτυχία σύνδεσης. Δοκιμάστε αργότερα ή επανεκκινήστε την εφαρμογή.");
+            noticeMain.classList.remove("active");
+        }, 6000);
+    });
 }
 
 function removeTag(emri) {
@@ -6930,12 +7032,12 @@ function loadSentToUser(emri, redo) {
                 let hasMedia = false
                 postFiles.forEach(async (file) => {
                     hasMedia = true
-                    media += `<div class="media" style="width: 95%; height: 360px;">
+                    media += `<div class="media" style="width: 100%; height: 360px;max-width: 500px;">
                                 <div style="display:none" class="loadIndicator">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${key}/${file.id}/all` : `https://arc.evoxs.xyz/?metode=getFile&emri=${key}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${key}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${key}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                 })
 
                 const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
@@ -7368,7 +7470,7 @@ function showProfileInfo(emri) {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${emri}/${file.id}/all` : `https://arc.evoxs.xyz/?metode=getFile&emri=${emri}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${emri}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${emri}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                     })
 
                     const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
@@ -8293,6 +8395,11 @@ function Evalert(message) {
                     <img src="${profileSrc.imageData}">
                 </div>`
                 })
+            } else if (cloud.includes('CUSTOM_MAIN')) {
+                const url = cloud.match(/\[(.*?)\]/)[1];
+                    document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon" style="width: auto;height: 250px;max-width:100%;">
+                     <img style="width: auto;height: 100%;object-fit:cover;border-radius: 20px;max-width: 240px;" src="${url}">
+                </div>`
             } else if (cloud === 'SELF' && foundName) {
                 getImage(foundName).then(profileSrc => {
                     document.getElementById("cloudingNotice").innerHTML += `<div style="position: absolute;margin-left: 120px;z-index: 998;margin-bottom: 55px;">
@@ -8358,8 +8465,24 @@ function EvalertNext(json) {
     enqueueNotification(json);
 }
 
+// Keep these variables outside the function scope so they persist between calls
+let mediaAbortController = null;
+let currentMediaRequestId = 0;
+
 function showMedia(el) {
+    // 1. Cancel the previous fetch request if it's still running
+    if (mediaAbortController) {
+        mediaAbortController.abort();
+    }
+    mediaAbortController = new AbortController();
+    const { signal } = mediaAbortController;
+
+    // 2. Increment the Request ID for this specific call
+    const requestId = ++currentMediaRequestId;
+
     haptics.trigger();
+
+    // Check for description alert
     if (!localStorage.getItem("hasSeenMediaDesc")) {
         EvalertNext({
             title: "Πολυμέσα",
@@ -8371,67 +8494,98 @@ function showMedia(el) {
             "clouds_data": ["SELF"]
         });
     }
-    document.getElementById("carouselItem-1").classList.remove("active")
-    document.getElementById("carouselItem-2").classList.remove("active")
-    document.getElementById("carouselItem-3").classList.remove("active")
-    el.classList.add('active')
-    document.getElementById("fromMe_Slider").style.display = 'none'
-    document.getElementById("media").style.display = 'flex'
-    const account_data = localStorage.getItem("jeanDarc_accountData")
+
+    // UI Reset
+    document.getElementById("carouselItem-1").classList.remove("active");
+    document.getElementById("carouselItem-2").classList.remove("active");
+    document.getElementById("carouselItem-3").classList.remove("active");
+    el.classList.add('active');
+
+    document.getElementById("fromMe_Slider").style.display = 'none';
+    document.getElementById("media").style.display = 'flex';
+
+    const account_data = localStorage.getItem("jeanDarc_accountData");
     if (!account_data) { return; }
-    const pars = JSON.parse(account_data)
-    document.getElementById("allMedia").classList.add("centerIt")
-    document.getElementById("allMedia").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="width: 25px;--active-upload: #ffffff;
-            --track-upload: #4a4a4a;">
-                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
-                    class="active-upload"></circle>
-                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
-                    class="track-upload"></circle>
-            </svg>
-            <p>Γίνεται λήψη των πολυμέσων σου.</p>`
-    fetch(`https://arc.evoxs.xyz/?metode=getMedia&emri=${foundName}&pin=${atob(pars.pin)}`)
+    const pars = JSON.parse(account_data);
+
+    const container = document.getElementById("allMedia");
+    container.classList.add("centerIt");
+    
+    // Show Loader
+    container.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="width: 25px;--active-upload: #ffffff; --track-upload: #4a4a4a;">
+            <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle>
+            <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle>
+        </svg>
+        <p>Γίνεται λήψη των πολυμέσων σου.</p>`;
+
+    fetch(`https://arc.evoxs.xyz/?metode=getMedia&emri=${foundName}&pin=${atob(pars.pin)}`, { signal })
         .then(response => response.json())
         .then(mediaFiles => {
+            // 3. If a newer request has started since this fetch finished, STOP here.
+            if (requestId !== currentMediaRequestId) return;
 
-            const container = document.getElementById("allMedia");
-            let cn = 0
+            let cn = 0;
+            
+            // Clear loader immediately before processing images
+            container.innerHTML = '';
+            container.classList.remove("centerIt");
+
+            if (mediaFiles.length === 0) {
+                container.innerHTML = `
+                <div style="display: flex;flex-direction: column;align-items: center;justify-content: center;gap: 15px;width: 100%;height: 100%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="40px" height="40px" viewBox="0 0 24 24">
+                        <path d="M19.5,4H10a1,1,0,0,0,0,2H19.5a1,1,0,0,1,1,1v6.76l-1.88-1.88a3,3,0,0,0-1.14-.71,1,1,0,1,0-.64,1.9.82.82,0,0,1,.36.23l3.31,3.29a.66.66,0,0,0,0,.15.83.83,0,0,0,0,.15,1.18,1.18,0,0,0,.13.18.48.48,0,0,0,.09.11.9.9,0,0,0,.2.14.6.6,0,0,0,.11.06.91.91,0,0,0,.37.08,1,1,0,0,0,1-1V7A3,3,0,0,0,19.5,4ZM3.21,2.29A1,1,0,0,0,1.79,3.71L3.18,5.1A3,3,0,0,0,2.5,7V17a3,3,0,0,0,3,3H18.09l1.7,1.71a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42ZM4.5,7a1,1,0,0,1,.12-.46L7.34,9.25a3,3,0,0,0-1,.63L4.5,11.76Zm1,11a1,1,0,0,1-1-1V14.58l3.3-3.29a1,1,0,0,1,1.4,0L15.91,18Z"/>
+                    </svg>
+                    <p>Η συλλογή σας είναι άδεια.</p>
+                    </div>`;
+                return;
+            }
 
             mediaFiles.forEach(media => {
-                const img = new Image();
+                const wrapper = document.createElement('div');
+                wrapper.className = 'image-wrapper';
 
+                const img = new Image();
                 img.className = 'fade-in-slide-up';
-                img.src = `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${media}/1`;
+                img.src = `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${media}/1?v=${getRandomNumber()}`;
 
                 img.onload = () => {
-                    container.appendChild(img);
-                    cn++
-                    if (cn === 1) {
-                        container.innerHTML = ''
-                        container.classList.remove("centerIt");
-                    }
+                    // 4. Double-check the Request ID inside the onload.
+                    // If the user clicked again while the image was downloading, do nothing.
+                    if (requestId !== currentMediaRequestId) return;
+
+                    wrapper.appendChild(img);
+                    container.appendChild(wrapper);
                 };
 
                 img.onclick = function () {
-                    window.location.href = `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${media}/all`;
-                }
+                    EvalertNext({
+                        title: "Τι θα θέλατε να κάνετε;",
+                        description: "<spanNormal>Μπορείτε να επιλέξετε να αφαιρέσετε την εικόνα από τη συλλογή πολυμέσων σας ή να την προβάλετε σε πλήρες μέγεθος.</spanNormal>",
+                        buttons: ["Διαγραφή πολυμέσου", "Προβολή πλήρους μεγέθους", "Ακύρωση"],
+                        buttonAction: [`removeMediaUploaded('${media}')`, `window.open('https://cdn.evoxs.xyz/jeannedarc/${foundName}/${media}/all?v=${getRandomNumber()}', '_blank');`],
+                        addons: [],
+                        "clouds": true,
+                        "clouds_data": [`CUSTOM_MAIN[${img.src}]`]
+                    });
+                };
 
                 img.onerror = () => {
+                    if (requestId !== currentMediaRequestId) return;
                     img.className = 'broken';
-                    img.src = 'https://cdn.evoxs.xyz/jeannedarc/404/404.png/1'
-                    container.appendChild(img);
+                    img.src = `https://cdn.evoxs.xyz/jeannedarc/404/404.png/1?v=${getRandomNumber()}`;
+                    wrapper.appendChild(img);
+                    container.appendChild(wrapper);
                 };
             });
 
-            if (mediaFiles.length === 0) {
-                document.getElementById("allMedia").innerHTML = ` <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="40px" height="40px" viewBox="0 0 24 24" data-name="Layer 1"><path d="M19.5,4H10a1,1,0,0,0,0,2H19.5a1,1,0,0,1,1,1v6.76l-1.88-1.88a3,3,0,0,0-1.14-.71,1,1,0,1,0-.64,1.9.82.82,0,0,1,.36.23l3.31,3.29a.66.66,0,0,0,0,.15.83.83,0,0,0,0,.15,1.18,1.18,0,0,0,.13.18.48.48,0,0,0,.09.11.9.9,0,0,0,.2.14.6.6,0,0,0,.11.06.91.91,0,0,0,.37.08,1,1,0,0,0,1-1V7A3,3,0,0,0,19.5,4ZM3.21,2.29A1,1,0,0,0,1.79,3.71L3.18,5.1A3,3,0,0,0,2.5,7V17a3,3,0,0,0,3,3H18.09l1.7,1.71a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42ZM4.5,7a1,1,0,0,1,.12-.46L7.34,9.25a3,3,0,0,0-1,.63L4.5,11.76Zm1,11a1,1,0,0,1-1-1V14.58l3.3-3.29a1,1,0,0,1,1.4,0L15.91,18Z"/></svg>
-            <p>Η συλλογή σου είναι άδεια.</p>`
-            }
-
-
-
-
         }).catch(error => {
-            console.log('Error:', error);
+            if (error.name === 'AbortError') {
+                console.log('Fetch aborted: A newer request took priority.');
+            } else {
+                console.error('Error:', error);
+            }
         });
 }
 
@@ -8915,33 +9069,56 @@ function showUsersMedia(el) {
 
             mediaFiles.forEach(media => {
 
+                // 1. Create the new parent (e.g., a <div>)
+                const parentDiv = document.createElement('div');
+                parentDiv.className = 'image-wrapper'; // You can style this in CSS
+
                 const img = new Image();
-
                 img.className = 'fade-in-slide-up';
-                img.src = `https://cdn.evoxs.xyz/jeannedarc/${selectedUser}/${media}/1`;
+                img.src = `https://cdn.evoxs.xyz/jeannedarc/${selectedUser}/${media}/1?v=${getRandomNumber()}`;
+
                 img.onload = () => {
-
-                    cn++
-
+                    cn++;
+                
+                    // Clear the main container only on the first image load
                     if (cn === 1) {
-                        container.innerHTML = ''
+                        container.innerHTML = '';
                         container.classList.remove("centerIt");
                     }
-                    container.appendChild(img);
-
+                
+                    // 2. Put the image inside the parent
+                    parentDiv.appendChild(img);
+                
+                    // 3. Put the parent inside the main container
+                    container.appendChild(parentDiv);
                 };
 
                 img.onclick = function () {
-                    document.getElementById("image-viewer").classList.add("activated")
-                    document.getElementById("image-viewer-img").src = ""
-                    document.getElementById("image-viewer-img").src = img.src
-                    //window.location.href = `https://cdn.evoxs.xyz/jeannedarc/${selectedUser}/${media}/all`;
-                }
+                    EvalertNext({
+                        title: "Τι θα θέλατε να κάνετε;",
+                        description: "<spanNormal>Μπορείτε να επιλέξετε να αφαιρέσετε την εικόνα από τη συλλογή πολυμέσων σας ή να την προβάλετε σε πλήρες μέγεθος.</spanNormal>",
+                        buttons: ["Αναφορά πολυμέσου", "Προβολή πλήρους μεγέθους", "Ακύρωση"],
+                        buttonAction: [`reportMediaRemoval('${media}', '${selectedUser}')`, `window.open('https://cdn.evoxs.xyz/jeannedarc/${selectedUser}/${media}/all?v=${getRandomNumber()}', '_blank');`],
+                        addons: [],
+                        "clouds": true,
+                        "clouds_data": [`CUSTOM_MAIN[${img.src}]`]
+                    });
+                    return;
+                    const viewer = document.getElementById("image-viewer");
+                    const viewerImg = document.getElementById("image-viewer-img");
+
+                    viewer.classList.add("activated");
+                    viewerImg.src = ""; 
+                    viewerImg.src = img.src;
+                };
 
                 img.onerror = () => {
                     img.className = 'broken';
-                    img.src = 'https://cdn.evoxs.xyz/jeannedarc/404/404.png/1'
-                    container.appendChild(img);
+                    img.src = `https://cdn.evoxs.xyz/jeannedarc/404/404.png/1?v=${getRandomNumber()}`;
+
+                    // Ensure it still gets wrapped even if it fails to load properly
+                    parentDiv.appendChild(img);
+                    container.appendChild(parentDiv);
                 };
             });
 
