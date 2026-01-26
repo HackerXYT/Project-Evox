@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.31"
+const appVersion = "2.1.32"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -9213,7 +9213,31 @@ function closeSettings() {
 
 function showChangeEmailPanel() {
     document.getElementById("changeEmail-panel").classList.add("activated")
-    //To do
+    const account = localStorage.getItem("jeanDarc_accountData")
+    if (!account) {
+        alert("Account Not Found")
+        return;
+    }
+    const par = JSON.parse(account)
+    const pin = atob(par.pin)
+    fetch(`https://arc.evoxs.xyz/?pin=${pin}&emri=${foundName}&metode=getEmail`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.message === 'Granted') {
+                document.getElementById("voxmail-settings-current").value = data.email
+            } else {
+                document.getElementById("voxmail-settings-current").value = 'Δεν υπάρχει Email'
+            }
+        }).catch(error => {
+            console.error("Jeanne D'arc Database is offline.")
+            EvalertNext({
+                    "title": "Αποτυχία φόρτωσης Email",
+                    "description": "Ο διακομιστής έχει υπερφορτωθεί και το Email δε μπόρεσε να φορτωθεί.",
+                    "buttons": ["Πίσω"],
+                    "buttonAction": ["document.getElementById('changeEmail-panel').classList.remove('activated')"],
+                    "addons": []
+                })
+        });
 }
 
 function showLikedPosts() {
