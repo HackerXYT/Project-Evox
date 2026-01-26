@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jeanne-cache-v46';
+const CACHE_NAME = 'jeanne-cache-v47';
 const STATIC_ASSETS = [
   '/jeanneBeta/',
   '/jeanneBeta/index.html',
@@ -43,10 +43,16 @@ self.addEventListener('fetch', event => {
   if (url.pathname.endsWith('main.js')) {
     event.respondWith(
       fetch(event.request).then(networkResponse => {
-        return caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        });
+        let clone;
+        if (networkResponse.status !== 206) {
+          clone = networkResponse.clone();
+        }
+        if (clone) {
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, clone);
+          });
+        }
+        return networkResponse;
       }).catch(() => caches.match(event.request))
     );
     return;
@@ -57,10 +63,16 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       caches.match(event.request).then(cachedResponse =>
         cachedResponse || fetch(event.request).then(networkResponse => {
-          return caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
+          let clone;
+          if (networkResponse.status !== 206) {
+            clone = networkResponse.clone();
+          }
+          if (clone) {
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, clone);
+            });
+          }
+          return networkResponse;
         })
       )
     );

@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.32"
+const appVersion = "2.1.33"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -815,16 +815,16 @@ function reportMediaRemoval(serverMediaId, uploadedBy) {
         .then(response => response.json())
         .then(res => {
             const msg = res.message
-            if(msg === 'Complete') {
+            if (msg === 'Complete') {
                 EvalertNext({
-                        title: "Επιτυχία!",
-                        description: "Η αναφορά σας υποβλήθηκε με επιτυχία.<br>Θα επικοινωνήσουμε μαζί σας σύντομα μέσω Email, για να λάβουμε περαιτέρω πληροφορίες.",
-                        buttons: ["Εντάξει", "Αλλαγή Email"],
-                        buttonAction: [``, `openEmailFromUserView()`],
-                        addons: [],
-                        "clouds": false,
-                        "clouds_data": []
-                    });
+                    title: "Επιτυχία!",
+                    description: "Η αναφορά σας υποβλήθηκε με επιτυχία.<br>Θα επικοινωνήσουμε μαζί σας σύντομα μέσω Email, για να λάβουμε περαιτέρω πληροφορίες.",
+                    buttons: ["Εντάξει", "Αλλαγή Email"],
+                    buttonAction: [``, `openEmailFromUserView()`],
+                    addons: [],
+                    "clouds": false,
+                    "clouds_data": []
+                });
             }
         })
         .catch(error => {
@@ -838,7 +838,7 @@ function removeMediaUploaded(serverMediaId) {
         .then(response => response.json())
         .then(res => {
             const msg = res.message
-            if(msg === 'Complete') {
+            if (msg === 'Complete') {
                 showMedia(document.getElementById("carouselItem-3"))
             }
         })
@@ -853,13 +853,13 @@ function removeMedia(elId, mediaId, removeEl, el2) {
     const mediaPreviewEl = document.getElementById(elId);
     const serverMediaId = removeEl.getAttribute('data-id')
     console.log(serverMediaId, mediaPreviewEl, localId)
-    document.getElementById(!el2 ? `file-media-${mediaId}`: `file-${mediaId}`).style.display = ''
+    document.getElementById(!el2 ? `file-media-${mediaId}` : `file-${mediaId}`).style.display = ''
     fetch(`https://arc.evoxs.xyz/?metode=removeMedia&emri=${foundName}&pin=${atob(JSON.parse(localStorage.getItem('jeanDarc_accountData')).pin)}&id=${serverMediaId}`)
         .then(response => response.json())
         .then(res => {
             const msg = res.message
-            if(msg === 'Complete') {
-                document.getElementById(!el2 ? `file-media-${mediaId}`: `file-${mediaId}`).style.display = 'none'
+            if (msg === 'Complete') {
+                document.getElementById(!el2 ? `file-media-${mediaId}` : `file-${mediaId}`).style.display = 'none'
                 mediaPreviewEl.remove();
                 uploadedFiles = uploadedFiles.filter(item => item.name !== serverMediaId);
             }
@@ -1184,12 +1184,12 @@ function connectWithIp() {
 }
 
 const isPC = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  
-  // Look for common mobile platforms
-  const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-  
-  return !isMobile;
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Look for common mobile platforms
+    const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+
+    return !isMobile;
 };
 
 let ipLog;
@@ -1683,7 +1683,7 @@ function clickPIN(element) {
                                         loginHasEmail = status.hasEmail === true
                                         if (status.hasInstagram === false) {
                                             //Show add instagram dialog
-                                            setTimeout(function() {
+                                            setTimeout(function () {
                                                 document.getElementById("tasks").classList.add("fade-out-slide-down")
                                                 setTimeout(function () {
                                                     document.getElementById("tasks").style.display = 'none'
@@ -1712,9 +1712,9 @@ function clickPIN(element) {
 
                                                 }, 300)
                                             }, 2500)
-                                            
 
-                                        } else if(loginHasEmail === false) {
+
+                                        } else if (loginHasEmail === false) {
                                             document.getElementById("tasks").classList.add("fade-out-slide-down")
                                             setTimeout(function () {
                                                 document.getElementById("tasks").style.display = 'none'
@@ -4064,7 +4064,7 @@ function closePostCreate(frontend) {
             document.getElementById("createPost").classList.remove("active");
 
         } else {
-            if(!isPC()){
+            if (!isPC()) {
                 document.getElementById("createPost").style.transform = 'translateY(100vh)';
             }
             setTimeout(function () {
@@ -4117,8 +4117,8 @@ function grabberEvents(id) {
         startX = touch.clientX;
         isDragging = true;
         moved = false;
-        isScrollingContent = false; 
-        
+        isScrollingContent = false;
+
         notice.style.transition = "none";
     }
 
@@ -4146,11 +4146,11 @@ function grabberEvents(id) {
         // 3. Handle the Close Swipe
         if (deltaY > 0 && notice.scrollTop === 0) {
             // Prevent browser pull-to-refresh or container scrolling
-            if (e.cancelable) e.preventDefault(); 
-            
+            if (e.cancelable) e.preventDefault();
+
             moved = true;
             currentY = touch.clientY;
-            
+
             // Apply resistance/dampening (optional, here we use direct 1:1)
             notice.style.transform = `translateY(${deltaY}px)`;
         }
@@ -4159,12 +4159,12 @@ function grabberEvents(id) {
     function endDrag() {
         if (!isDragging) return;
         isDragging = false;
-        
+
         notice.style.transition = "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease";
 
         // Must have moved a significant amount and be swiping down
         const totalDelta = currentY - startY;
-        
+
         if (moved && totalDelta > 150) {
             notice.style.transform = `translateY(100vh)`;
             triggerCloseLogic(id, notice);
@@ -4180,7 +4180,7 @@ function grabberEvents(id) {
             document.body.style.overflow = null;
             document.getElementById("app").style.transform = "";
             document.getElementById("app").style.opacity = "1";
-            if(id === 'classChange') {
+            if (id === 'classChange') {
                 document.getElementById("profilePage").style.transform = "";
                 document.getElementById("profilePage").style.opacity = "1";
             }
@@ -4347,7 +4347,7 @@ function goBackToLogin() {
             $("#loginByName").fadeOut("fast")
             $("#topLeftBack").fadeOut("fast")
             $('#boxUp').children().not('.loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName, #setupInstagram, #ipLoginSection').fadeIn(function () {
-                                                        });
+            });
             //document.getElementById("evoxContainer").classList.add("active")
             document.getElementById("welcome").classList.remove("fade-out-slide-down")
         })
@@ -4492,7 +4492,7 @@ function searchByEmailComplete(el) {
     fetch(`https://arc.evoxs.xyz/?metode=byEmail&email=${input.value}`)
         .then(response => response.json())
         .then(data => {
-            if(data.message === 'Found') {
+            if (data.message === 'Found') {
                 const emri = data.emri
                 console.log(emri)
                 document.getElementById("loadText").innerText = 'Επεξεργασία..'
@@ -4502,17 +4502,17 @@ function searchByEmailComplete(el) {
                         nameLogin()
                         document.getElementById("voxName").value = emri
                         searchByNameComplete()
-                    
+
                         setTimeout(function () {
                             document.getElementById("boxUp").style.height = null
                         }, 800)
                     }, 50)
-                
+
                 })
                 el.classList.remove("error")
             } else {
                 el.classList.add("error")
-                setTimeout(function() {
+                setTimeout(function () {
                     el.classList.remove("error")
                 }, 2000)
             }
@@ -5517,8 +5517,8 @@ function loadSentByUser() {
                 finalHtml += item.ready;
             })
             document.getElementById("sentByUser").innerHTML = finalHtml;
-            if(finalHtml === '') {
-                 document.getElementById("sentByUser").innerHTML = `<div style="display:flex;
+            if (finalHtml === '') {
+                document.getElementById("sentByUser").innerHTML = `<div style="display:flex;
                     flex-direction:column;
                     justify-content:center;
                     align-items:center;
@@ -5577,7 +5577,7 @@ function loadSentByUser() {
 
 
 function openProfile(el) {
-    if(socialeSelectedInterval.length > 0) {
+    if (socialeSelectedInterval.length > 0) {
         socialeSelectedInterval.forEach(interval => {
             clearInterval(interval)
         })
@@ -5593,7 +5593,7 @@ function openProfile(el) {
     el.classList.add("dropToBase")
     el.style.transition = "transform 0.3s ease";
     //el.style.transform = "scale(1.2)";
-    if(document.getElementById("fromMe_Slider").style.display === 'none') {
+    if (document.getElementById("fromMe_Slider").style.display === 'none') {
         showFromMe(document.getElementById("carouselItem-1"))
     }
 
@@ -5760,7 +5760,7 @@ function setTag(emri, el) {
                         </div>
                                 <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                         lclids.push(randomString)
-                        
+
                     })
 
                     const container = document.getElementById('evox-media-container');
@@ -5769,7 +5769,7 @@ function setTag(emri, el) {
                         lclids.forEach(id => {
                             const element = document.getElementById(`file-${id}`);
                             if (element) {
-                                element.querySelector(".topRight").onclick = function() {
+                                element.querySelector(".topRight").onclick = function () {
                                     removeMedia(`file-${id}`, `${id}`, this, true);
                                 };
                             }
@@ -5875,13 +5875,13 @@ function postNow(el) {
         alert("Το περιεχόμενο είναι κενό");
         return;
     }
-    
-    tx.style.height = 'auto'; 
+
+    tx.style.height = 'auto';
     // 2. Capture Inputs BEFORE clearing them
     const textarea = document.getElementById("input-textarea");
     const textContent = textarea.value.trim();
     const visibility = document.getElementById("visibility") ? document.getElementById("visibility").value : "normal";
-    
+
     // Check if we actually have people selected
     if (selectedPeople_ARRAY.length === 0) {
         alert("Παρακαλώ επιλέξτε τουλάχιστον ένα άτομο.");
@@ -5904,7 +5904,7 @@ function postNow(el) {
 
     // 4. Build the data object
     let dataIn = {};
-    
+
     // Construct the "files" string once
     let filesString = '';
     if (typeof uploadedFiles !== 'undefined') {
@@ -5919,7 +5919,7 @@ function postNow(el) {
             .filter(item => item !== person)
             .map(tag => `@${tag}`)
             .join(' ');
-            
+
         if (tags) tags += ' '; // Add space after tags
 
         dataIn[person] = `${tags}${textContent}${filesString}`;
@@ -5942,44 +5942,44 @@ function postNow(el) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     })
-    .then(async (response) => {
-        const result = await response.json(); // Backend sends JSON array of actions
-        
-        if (!response.ok) throw new Error(result.error || "Server Error");
+        .then(async (response) => {
+            const result = await response.json(); // Backend sends JSON array of actions
 
-        // SUCCESS STATE
-        console.log("Success:", result);
-        iconCheck.style.display = 'block';
-        iconSpinner.style.display = 'none';
-        noticeText.innerText = 'Επιτυχία!';
+            if (!response.ok) throw new Error(result.error || "Server Error");
 
-        // Clear Data only after success
-        textarea.value = '';
-        document.getElementById("selectedPeople").innerHTML = '';
-        selectedPeople_ARRAY = [];
-        if (document.getElementById("evox-media-container")) {
-            document.getElementById("evox-media-container").innerHTML = '';
-        }
-        uploadedFiles = [];
+            // SUCCESS STATE
+            console.log("Success:", result);
+            iconCheck.style.display = 'block';
+            iconSpinner.style.display = 'none';
+            noticeText.innerText = 'Επιτυχία!';
 
-        setTimeout(() => {
-            noticeMain.classList.remove("active");
-        }, 4000);
-    })
-    .catch(error => {
-        // ERROR STATE
-        console.error("Database Error:", error);
-        localStorage.setItem("jeanneBackup", JSON.stringify(dataIn));
-        
-        iconError.style.display = 'block';
-        iconSpinner.style.display = 'none';
-        noticeText.innerText = 'Αποτυχία. Τα δεδομένα αποθηκεύτηκαν τοπικά.';
-        
-        setTimeout(() => {
-            alert("Αποτυχία σύνδεσης. Δοκιμάστε αργότερα ή επανεκκινήστε την εφαρμογή.");
-            noticeMain.classList.remove("active");
-        }, 6000);
-    });
+            // Clear Data only after success
+            textarea.value = '';
+            document.getElementById("selectedPeople").innerHTML = '';
+            selectedPeople_ARRAY = [];
+            if (document.getElementById("evox-media-container")) {
+                document.getElementById("evox-media-container").innerHTML = '';
+            }
+            uploadedFiles = [];
+
+            setTimeout(() => {
+                noticeMain.classList.remove("active");
+            }, 4000);
+        })
+        .catch(error => {
+            // ERROR STATE
+            console.error("Database Error:", error);
+            localStorage.setItem("jeanneBackup", JSON.stringify(dataIn));
+
+            iconError.style.display = 'block';
+            iconSpinner.style.display = 'none';
+            noticeText.innerText = 'Αποτυχία. Τα δεδομένα αποθηκεύτηκαν τοπικά.';
+
+            setTimeout(() => {
+                alert("Αποτυχία σύνδεσης. Δοκιμάστε αργότερα ή επανεκκινήστε την εφαρμογή.");
+                noticeMain.classList.remove("active");
+            }, 6000);
+        });
 }
 
 function removeTag(emri) {
@@ -6185,7 +6185,7 @@ function openKeyboard(focusTo) {
     // Focus hidden input to trigger keyboard
     hiddenInput.focus();
 
-    setTimeout(() => {        
+    setTimeout(() => {
         // Transfer text from hidden input to textarea (in case Safari locks input focus)
         hiddenInput.addEventListener("input", () => {
             textarea.value = hiddenInput.value;
@@ -6221,7 +6221,7 @@ function adjustFooterPosition() {
 window.visualViewport.addEventListener("resize", () => {
     const footer = document.querySelector(".popup-footer");
     const container = document.getElementById("createPost");
-    
+
     if (window.visualViewport) {
         const delta = window.innerHeight - window.visualViewport.height;
 
@@ -6334,7 +6334,7 @@ window.visualViewport.addEventListener("scroll", adjustFooterPosition);
 if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => {
         const createPopup = document.getElementById('createPost');
-        
+
         // Calculate the height of the keyboard/occluded area
         const keyboardHeight = window.innerHeight - window.visualViewport.height;
 
@@ -6349,19 +6349,19 @@ if (window.visualViewport) {
 }
 const tx = document.getElementById('input-textarea');
 
-tx.addEventListener('input', function() {
+tx.addEventListener('input', function () {
     // Reset height to shrink if text is deleted
-    this.style.height = 'auto'; 
+    this.style.height = 'auto';
     // Set height to scrollHeight (the actual height of the text content)
     this.style.height = (this.scrollHeight) + 'px';
-    
+
     // Ensure the cursor stays in view
     this.scrollIntoView({ behavior: 'instant', block: 'nearest' });
 });
 
 function createPost(el, dontClear) {
     haptics.trigger();
-    
+
 
 
     function setupPersonalInfo() {
@@ -6419,7 +6419,7 @@ function createPost(el, dontClear) {
             .then(() => {
                 console.log('Personal info setup successfully');
                 document.getElementById("createPost").classList.add("active")
-                if(!isPC()) {
+                if (!isPC()) {
                     document.getElementById("app").style.transform = 'scale(0.95)'
                     document.getElementById("gradColored").style.opacity = '0.8'
                     document.getElementById("gradColored").style.borderRadius = '20px'
@@ -6427,7 +6427,7 @@ function createPost(el, dontClear) {
                     document.getElementById("app").style.opacity = '0.8'
                     document.body.style.backgroundColor = '#000'
                 }
-                
+
                 document.getElementById("createPostSvg").querySelector("path").style.fill = "#efefef93"
                 footer.style.display = 'flex'
             })
@@ -6440,14 +6440,14 @@ function createPost(el, dontClear) {
 function openEditProfile() {
     haptics.trigger();
     document.getElementById("editProfile").classList.add("active")
-    if(!isPC()) {
+    if (!isPC()) {
         document.getElementById("app").style.transform = 'scale(0.95)'
         document.getElementById("gradColored").style.borderRadius = '20px'
         document.getElementById("gradColored").style.transform = 'scale(0.9)'
         document.body.style.backgroundColor = '#000'
     }
-    
-    
+
+
     informacion(foundName)
         .then(self => {
             if (!self.instagram) {
@@ -6531,10 +6531,10 @@ allUsersDiv.addEventListener("scroll", async function () {
 
     // 2. Improved threshold check
     const scrollBottom = allUsersDiv.scrollHeight - allUsersDiv.scrollTop - allUsersDiv.clientHeight;
-    
+
     if (scrollBottom < 20) { // Trigger when 20px from bottom
         isLoading = true;
-        
+
         // Show UI
         loadingIndicator.classList.add("scaleUp");
         loadingIndicator.style.opacity = "1";
@@ -6542,7 +6542,7 @@ allUsersDiv.addEventListener("scroll", async function () {
         try {
             // 3. WAIT for the actual data to fetch
             // Ensure loadMoreUsers is an async function that returns a Promise
-            await loadMoreUsers(); 
+            await loadMoreUsers();
         } catch (error) {
             console.error("Failed to load users:", error);
         } finally {
@@ -6558,7 +6558,7 @@ allUsersDiv.addEventListener("scroll", async function () {
 
 async function loadMoreUsers() {
     const ac = localStorage.getItem("jeanDarc_accountData");
-    if (!ac) return; 
+    if (!ac) return;
 
     const parsed = JSON.parse(ac);
     const pin = atob(parsed.pin);
@@ -6586,7 +6586,7 @@ async function loadMoreUsers() {
 
 
 function openDiscovery(el) {
-    if(socialeSelectedInterval.length > 0) {
+    if (socialeSelectedInterval.length > 0) {
         socialeSelectedInterval.forEach(interval => {
             clearInterval(interval)
         })
@@ -6871,11 +6871,11 @@ function openDiscovery(el) {
 }
 async function spawnItems(names, loadMore, oringinal, followingList, requestedList) {
     const fullNames = Object.keys(names.names);
-    
+
     // 1. Get existing cache or initialize empty object
     const informacion_local = localStorage.getItem("jeanne_informacion");
     let localCache = informacion_local ? JSON.parse(informacion_local) : {};
-    
+
     let newInfoToCache = {}; // Temporary storage for new fetches
     let html = '';
 
@@ -6936,7 +6936,7 @@ async function spawnItems(names, loadMore, oringinal, followingList, requestedLi
     // 4. Update the DOM
     if (html !== '') {
         search_loadedUsers = [...search_loadedUsers, ...oringinal];
-        
+
         if (loadMore === "searched") {
             document.getElementById("searchedUsers").innerHTML = html;
         } else if (loadMore) {
@@ -7379,75 +7379,75 @@ function showProfileInfo(emri) {
         const account_data = JSON.parse(account_data_lc)
 
         function runAndReloadSociale(insideInterval) {
-    fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(account_data.pin)}`)
-        .then(response => response.json())
-        .then(res => {
-            const recommendationEl = document.getElementById("socialRecommendation");
-            const isRequestedByTarget = res.requests.includes(emri);
+            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(account_data.pin)}`)
+                .then(response => response.json())
+                .then(res => {
+                    const recommendationEl = document.getElementById("socialRecommendation");
+                    const isRequestedByTarget = res.requests.includes(emri);
 
-            // 1. Handle Follow Button States
-            if (res.requested.includes(emri)) {
-                if (elementFollow.innerHTML !== `Στάλθηκε Αίτημα`) {
-                    elementFollow.innerHTML = `Στάλθηκε Αίτημα`;
-                    elementFollow.style.border = null;
-                    elementFollow.style.padding = null;
-                    elementFollow.classList.remove("showProfileBtn");
-                }
-            }
-
-             if (!res.requested.includes(emri) && elementFollow.innerHTML === `Στάλθηκε Αίτημα`) {
-                elementFollow.innerHTML = `Ακολούθησε`;
-                elementFollow.style.border = 'none';
-                elementFollow.style.padding = "6px 25px";
-                elementFollow.classList.add("showProfileBtn");
-             }
-
-            if (res.following.includes(emri)) {
-                if (elementFollow.innerHTML !== `Ακολουθείς`) {
-                    elementFollow.innerHTML = `Ακολουθείς`;
-                    elementFollow.style.border = null;
-                    elementFollow.style.padding = null;
-                    elementFollow.classList.remove("showProfileBtn");
-                    
-                    if (document.getElementById("sentBySelectedUser").innerHTML.includes("9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.54")) {
-                        switchToHome_Search(document.getElementById("carouseli01"));
-                    }
-                }
-            }
-
-            // 2. Fix for the #socialRecommendation flickering
-            if (isRequestedByTarget) {
-                // Only act if it's currently hidden or marked as fading out
-                if (recommendationEl.style.display === 'none' || recommendationEl.classList.contains("fade-out-slide-down")) {
-                    console.log("EVXTESET Request - Showing UI");
-                    recommendationEl.classList.remove("fade-out-slide-down");
-                    recommendationEl.style.display = 'flex'; // Explicitly set instead of null
-                    
-                    // Update content only when first showing to avoid layout shifts
-                    const genderPrefix = getGender(emri) === "Male" ? "Ο" : "Η";
-                    const genderSuffix = getGender(emri) === "Male" ? "ος" : "η";
-                    document.getElementById("editText-Req").innerHTML = `${genderPrefix} ${emri} σου έχει κάνει αίτημα ακολούθησης. Αν το δεχτείς, εκείν${genderSuffix} θα μπορεί να δει τις καταχωρήσεις και αποδοχές σου.`;
-                    
-                    recommendationEl.querySelector(".roundedReccomendationBox .bottomInfo .buttonsEdit")
-                        .querySelectorAll("div")[1].innerHTML = "Αποδοχή";
-                }
-            } else {
-                // Only act if it's currently visible
-                if (recommendationEl.style.display !== 'none' && !recommendationEl.classList.contains("fade-out-slide-down")) {
-                    console.log("EVXTESET No Request - Hiding UI");
-                    recommendationEl.classList.add("fade-out-slide-down");
-                    // Delay the display:none so the fade-out animation can actually play
-                    setTimeout(() => {
-                        if (!res.requests.includes(emri)) { // Double check status hasn't changed back
-                            recommendationEl.style.display = 'none';
+                    // 1. Handle Follow Button States
+                    if (res.requested.includes(emri)) {
+                        if (elementFollow.innerHTML !== `Στάλθηκε Αίτημα`) {
+                            elementFollow.innerHTML = `Στάλθηκε Αίτημα`;
+                            elementFollow.style.border = null;
+                            elementFollow.style.padding = null;
+                            elementFollow.classList.remove("showProfileBtn");
                         }
-                    }, 400); // Match this to your CSS transition duration
-                }
-            }
-        }).catch(error => {
-            console.error("Follow error", error);
-        });
-}
+                    }
+
+                    if (!res.requested.includes(emri) && elementFollow.innerHTML === `Στάλθηκε Αίτημα`) {
+                        elementFollow.innerHTML = `Ακολούθησε`;
+                        elementFollow.style.border = 'none';
+                        elementFollow.style.padding = "6px 25px";
+                        elementFollow.classList.add("showProfileBtn");
+                    }
+
+                    if (res.following.includes(emri)) {
+                        if (elementFollow.innerHTML !== `Ακολουθείς`) {
+                            elementFollow.innerHTML = `Ακολουθείς`;
+                            elementFollow.style.border = null;
+                            elementFollow.style.padding = null;
+                            elementFollow.classList.remove("showProfileBtn");
+
+                            if (document.getElementById("sentBySelectedUser").innerHTML.includes("9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.54")) {
+                                switchToHome_Search(document.getElementById("carouseli01"));
+                            }
+                        }
+                    }
+
+                    // 2. Fix for the #socialRecommendation flickering
+                    if (isRequestedByTarget) {
+                        // Only act if it's currently hidden or marked as fading out
+                        if (recommendationEl.style.display === 'none' || recommendationEl.classList.contains("fade-out-slide-down")) {
+                            console.log("EVXTESET Request - Showing UI");
+                            recommendationEl.classList.remove("fade-out-slide-down");
+                            recommendationEl.style.display = 'flex'; // Explicitly set instead of null
+
+                            // Update content only when first showing to avoid layout shifts
+                            const genderPrefix = getGender(emri) === "Male" ? "Ο" : "Η";
+                            const genderSuffix = getGender(emri) === "Male" ? "ος" : "η";
+                            document.getElementById("editText-Req").innerHTML = `${genderPrefix} ${emri} σου έχει κάνει αίτημα ακολούθησης. Αν το δεχτείς, εκείν${genderSuffix} θα μπορεί να δει τις καταχωρήσεις και αποδοχές σου.`;
+
+                            recommendationEl.querySelector(".roundedReccomendationBox .bottomInfo .buttonsEdit")
+                                .querySelectorAll("div")[1].innerHTML = "Αποδοχή";
+                        }
+                    } else {
+                        // Only act if it's currently visible
+                        if (recommendationEl.style.display !== 'none' && !recommendationEl.classList.contains("fade-out-slide-down")) {
+                            console.log("EVXTESET No Request - Hiding UI");
+                            recommendationEl.classList.add("fade-out-slide-down");
+                            // Delay the display:none so the fade-out animation can actually play
+                            setTimeout(() => {
+                                if (!res.requests.includes(emri)) { // Double check status hasn't changed back
+                                    recommendationEl.style.display = 'none';
+                                }
+                            }, 400); // Match this to your CSS transition duration
+                        }
+                    }
+                }).catch(error => {
+                    console.error("Follow error", error);
+                });
+        }
         const intervalId = setInterval(function () {
             runAndReloadSociale("insideInterval");
         }, 2000);
@@ -7687,7 +7687,7 @@ function showProfileInfo(emri) {
 
 let search_loadedUsers = []
 function openSearch(el, inBackground) {
-    if(socialeSelectedInterval.length > 0) {
+    if (socialeSelectedInterval.length > 0) {
         socialeSelectedInterval.forEach(interval => {
             clearInterval(interval)
         })
@@ -7803,12 +7803,12 @@ function openSearch(el, inBackground) {
         .catch(error => console.error("Jeanne D'arc Database is offline? [SOCIALE]", error));
 
     try {
-        if(socialeSelectedInterval.length > 0) {
-        socialeSelectedInterval.forEach(interval => {
-            clearInterval(interval)
-        })
-        socialeSelectedInterval = [];
-    }
+        if (socialeSelectedInterval.length > 0) {
+            socialeSelectedInterval.forEach(interval => {
+                clearInterval(interval)
+            })
+            socialeSelectedInterval = [];
+        }
     } catch (error) {
         console.log("ClearInterval for sociale failed. skipping.")
     }
@@ -7821,7 +7821,7 @@ function openHome(el) {
     haptics.trigger();
     saveLastPage('home')
     el.classList.add('active')
-    if(socialeSelectedInterval.length > 0) {
+    if (socialeSelectedInterval.length > 0) {
         socialeSelectedInterval.forEach(interval => {
             clearInterval(interval)
         })
@@ -8442,7 +8442,7 @@ function Evalert(message) {
                 })
             } else if (cloud.includes('CUSTOM_MAIN')) {
                 const url = cloud.match(/\[(.*?)\]/)[1];
-                    document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon" style="width: auto;height: 250px;max-width:100%;">
+                document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon" style="width: auto;height: 250px;max-width:100%;">
                      <img style="width: auto;height: 100%;object-fit:cover;border-radius: 20px;max-width: 240px;" src="${url}">
                 </div>`
             } else if (cloud === 'SELF' && foundName) {
@@ -8459,7 +8459,7 @@ function Evalert(message) {
                 document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon">
                     <img src="appLogoV2-Branded.png">
                 </div>`
-            } else if(cloud === 'JEANNE-POS_MAIN') {
+            } else if (cloud === 'JEANNE-POS_MAIN') {
                 document.getElementById("cloudingNotice").innerHTML += `<div class="mainIcon">
                     <img src="appLogoV2.png">
                 </div>`
@@ -8555,7 +8555,7 @@ function showMedia(el) {
 
     const container = document.getElementById("allMedia");
     container.classList.add("centerIt");
-    
+
     // Show Loader
     container.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="width: 25px;--active-upload: #ffffff; --track-upload: #4a4a4a;">
@@ -8571,7 +8571,7 @@ function showMedia(el) {
             if (requestId !== currentMediaRequestId) return;
 
             let cn = 0;
-            
+
             // Clear loader immediately before processing images
             container.innerHTML = '';
             container.classList.remove("centerIt");
@@ -8710,7 +8710,7 @@ function showMentioned() {
             const container = document.getElementById("mentioned");
             container.innerHTML = "";
 
-            if(friendsPosts[0] && friendsPosts[0] === "Disabled") {
+            if (friendsPosts[0] && friendsPosts[0] === "Disabled") {
                 container.innerHTML = `<div style="margin-top:35px;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;text-align: center;gap: 5px;">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="30px" height="30px" viewBox="0 0 24 24">
                         <path d="M24,12a1,1,0,0,1-2,0A10.011,10.011,0,0,0,12,2a1,1,0,0,1,0-2A12.013,12.013,0,0,1,24,12Zm-8,1a1,1,0,0,0,0-2H13.723A2,2,0,0,0,13,10.277V7a1,1,0,0,0-2,0v3.277A1.994,1.994,0,1,0,13.723,13ZM1.827,6.784a1,1,0,1,0,1,1A1,1,0,0,0,1.827,6.784ZM2,12a1,1,0,1,0-1,1A1,1,0,0,0,2,12ZM12,22a1,1,0,1,0,1,1A1,1,0,0,0,12,22ZM4.221,3.207a1,1,0,1,0,1,1A1,1,0,0,0,4.221,3.207ZM7.779.841a1,1,0,1,0,1,1A1,1,0,0,0,7.779.841ZM1.827,15.216a1,1,0,1,0,1,1A1,1,0,0,0,1.827,15.216Zm2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,4.221,18.793Zm3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,7.779,21.159Zm14.394-5.943a1,1,0,1,0,1,1A1,1,0,0,0,22.173,15.216Zm-2.394,3.577a1,1,0,1,0,1,1A1,1,0,0,0,19.779,18.793Zm-3.558,2.366a1,1,0,1,0,1,1A1,1,0,0,0,16.221,21.159Z"></path>
@@ -8987,7 +8987,7 @@ function selectAndAddTag() {
     openKeyboard(document.getElementById("input-textarea"))
 }
 function activeSlidingEvents(id) {
-    const swipeThreshold = 150; 
+    const swipeThreshold = 150;
     const moveThreshold = 40; // Slightly lowered for better responsiveness once direction is confirmed
 
     const panel = document.getElementById(id);
@@ -9002,7 +9002,7 @@ function activeSlidingEvents(id) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY; // Capture starting Y
         isSwiping = true;
-        directionCaptured = false; 
+        directionCaptured = false;
     }
 
     function onTouchMove(e) {
@@ -9010,7 +9010,7 @@ function activeSlidingEvents(id) {
 
         const currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
-        
+
         const deltaX = currentX - touchStartX;
         const deltaY = currentY - touchStartY;
 
@@ -9020,7 +9020,7 @@ function activeSlidingEvents(id) {
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 // It's a horizontal swipe, prevent page scroll and lock in
                 directionCaptured = true;
-            } else if (Math.abs(deltaY) > 5) { 
+            } else if (Math.abs(deltaY) > 5) {
                 // It's a vertical scroll, cancel the panel logic
                 isSwiping = false;
                 return;
@@ -9053,7 +9053,7 @@ function activeSlidingEvents(id) {
         const deltaX = e.changedTouches[0].clientX - touchStartX;
 
         panel.style.transition = 'transform 0.3s ease'; // Re-enable transition for snap-back
-        
+
         if (deltaX < swipeThreshold) {
             panel.style.transform = '';
         }
@@ -9124,16 +9124,16 @@ function showUsersMedia(el) {
 
                 img.onload = () => {
                     cn++;
-                
+
                     // Clear the main container only on the first image load
                     if (cn === 1) {
                         container.innerHTML = '';
                         container.classList.remove("centerIt");
                     }
-                
+
                     // 2. Put the image inside the parent
                     parentDiv.appendChild(img);
-                
+
                     // 3. Put the parent inside the main container
                     container.appendChild(parentDiv);
                 };
@@ -9153,7 +9153,7 @@ function showUsersMedia(el) {
                     const viewerImg = document.getElementById("image-viewer-img");
 
                     viewer.classList.add("activated");
-                    viewerImg.src = ""; 
+                    viewerImg.src = "";
                     viewerImg.src = img.src;
                 };
 
@@ -9223,7 +9223,7 @@ function showChangeEmailPanel() {
     fetch(`https://arc.evoxs.xyz/?pin=${pin}&emri=${foundName}&metode=getEmail`)
         .then(response => response.json())
         .then(data => {
-            if(data.message === 'Granted') {
+            if (data.message === 'Granted') {
                 document.getElementById("voxmail-settings-current").value = data.email
             } else {
                 document.getElementById("voxmail-settings-current").value = 'Δεν υπάρχει Email'
@@ -9231,12 +9231,12 @@ function showChangeEmailPanel() {
         }).catch(error => {
             console.error("Jeanne D'arc Database is offline.")
             EvalertNext({
-                    "title": "Αποτυχία φόρτωσης Email",
-                    "description": "Ο διακομιστής έχει υπερφορτωθεί και το Email δε μπόρεσε να φορτωθεί.",
-                    "buttons": ["Πίσω"],
-                    "buttonAction": ["document.getElementById('changeEmail-panel').classList.remove('activated')"],
-                    "addons": []
-                })
+                "title": "Αποτυχία φόρτωσης Email",
+                "description": "Ο διακομιστής έχει υπερφορτωθεί και το Email δε μπόρεσε να φορτωθεί.",
+                "buttons": ["Πίσω"],
+                "buttonAction": ["document.getElementById('changeEmail-panel').classList.remove('activated')"],
+                "addons": []
+            })
         });
 }
 
@@ -9347,7 +9347,7 @@ function showLikedPosts() {
 
 function showFollowers() {
     document.getElementById("followers-panel").classList.add("activated")
-     const account_data = localStorage.getItem("jeanDarc_accountData")
+    const account_data = localStorage.getItem("jeanDarc_accountData")
     if (!account_data) {
         console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
         document.getElementById("followers-list").style.display = null
@@ -9363,7 +9363,7 @@ function showFollowers() {
                     class="track-upload"></circle>
             </svg><p style="text-align:center;">Γίνεται Φόρτωση..</p></div>`
 
-            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
+    fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
         .then(response => response.json())
         .then(sociale => {
             if (sociale.followers.length === 0) {
@@ -9380,13 +9380,13 @@ function showFollowers() {
             }
             sociale.followers.forEach((emri, i) => {
                 fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
-                .then(response => response.text())
-                .then(seksioniData => {
-                    if(i === 0) document.getElementById("followers-list").innerHTML = ''
-                    if (seksioniData !== "Nuk u gjet") {
-                        seksioniData = JSON.parse(seksioniData)
-                        getImage(emri).then(profileSrc => {
-                            document.getElementById("followers-list").innerHTML += `
+                    .then(response => response.text())
+                    .then(seksioniData => {
+                        if (i === 0) document.getElementById("followers-list").innerHTML = ''
+                        if (seksioniData !== "Nuk u gjet") {
+                            seksioniData = JSON.parse(seksioniData)
+                            getImage(emri).then(profileSrc => {
+                                document.getElementById("followers-list").innerHTML += `
                             <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
                                 <div class="post extpost">
                                     <div class="profilePicture">
@@ -9406,13 +9406,13 @@ function showFollowers() {
                                 </div>
                                 </div>
                             </div>`
-                        })
+                            })
                         }
                     }).catch(error => {
                         console.log('Error:', error);
                     });
-                })
-            }).catch(error => {
+            })
+        }).catch(error => {
 
             console.log('Error:', error);
         });
@@ -9420,7 +9420,7 @@ function showFollowers() {
 
 function showFollowing() {
     document.getElementById("following-panel").classList.add("activated")
-     const account_data = localStorage.getItem("jeanDarc_accountData")
+    const account_data = localStorage.getItem("jeanDarc_accountData")
     if (!account_data) {
         console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
         document.getElementById("following-list").style.display = null
@@ -9436,7 +9436,7 @@ function showFollowing() {
                     class="track-upload"></circle>
             </svg><p style="text-align:center;">Γίνεται Φόρτωση..</p></div>`
 
-            fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
+    fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
         .then(response => response.json())
         .then(sociale => {
             if (sociale.following.length === 0) {
@@ -9452,16 +9452,16 @@ function showFollowing() {
                 <p style="text-align:center;">Δεν ακολουθείτε<br>κανέναν χρήστη.</p></div>`
                 return;
             }
-            
+
             sociale.following.forEach((emri, i) => {
-            fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
-                .then(response => response.text())
-                .then(seksioniData => {
-                    if(i === 0) document.getElementById("following-list").innerHTML = ''
-                    if (seksioniData !== "Nuk u gjet") {
-                        seksioniData = JSON.parse(seksioniData)
-                        getImage(emri).then(profileSrc => {
-                            document.getElementById("following-list").innerHTML += `
+                fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
+                    .then(response => response.text())
+                    .then(seksioniData => {
+                        if (i === 0) document.getElementById("following-list").innerHTML = ''
+                        if (seksioniData !== "Nuk u gjet") {
+                            seksioniData = JSON.parse(seksioniData)
+                            getImage(emri).then(profileSrc => {
+                                document.getElementById("following-list").innerHTML += `
                             <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
                                 <div class="post extpost">
                                     <div class="profilePicture">
@@ -9481,16 +9481,16 @@ function showFollowing() {
                                 </div>
                                 </div>
                             </div>`
-                        })
+                            })
                         }
                     }).catch(error => {
                         console.log('Error:', error);
                     });
-                })
+            })
 
-            }).catch(error => {
-                console.log('Error:', error);
-            });
+        }).catch(error => {
+            console.log('Error:', error);
+        });
 }
 
 function showSavedPosts() {
@@ -10065,7 +10065,7 @@ function accountRecoveryBegin() {
                         }
                     }, 200)
                 } else {
-                    if(res.message !== "User doesn't have instagram") {
+                    if (res.message !== "User doesn't have instagram") {
                         alert(res.message === "ECONNREFUSED" ? "Ο Διακομιστής Επαναφοράς Δεν Είναι Διαθέσιμος." : res.message)
                     } else {
                         EvalertNext({
@@ -10661,14 +10661,14 @@ function toggleAppleMenu() {
 function selectOption(element) {
     const val = element.getAttribute('data-value');
     const label = element.innerText;
-    
+
     // Update the hidden real select
     const realSelect = document.getElementById('visibility');
     realSelect.value = val;
-    
+
     // Update the UI Trigger label
     document.getElementById('selectedLabel').innerText = label;
-    
+
     // Close menu
     toggleAppleMenu();
 
@@ -10678,7 +10678,7 @@ function selectOption(element) {
 }
 
 // Close menu if user clicks anywhere else
-window.addEventListener('click', function(e) {
+window.addEventListener('click', function (e) {
     if (!document.getElementById('customSelectContainer').contains(e.target)) {
         document.getElementById('appleMenu').classList.remove('show-menu');
     }

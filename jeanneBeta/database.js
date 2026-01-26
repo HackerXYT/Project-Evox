@@ -19,7 +19,7 @@ function openDB() {
 }
 
 async function saveImage(id, imageData) {
-    const existing = await getImage(id); // Separate transaction for reading
+    const existing = await getImage(id, true); // Separate transaction for reading, with DONTMAKENEWAJAX=true to prevent update loop
 
     if (existing && existing.imageData === imageData) {
         //console.log('Image already exists and is the same, skipping update.');
