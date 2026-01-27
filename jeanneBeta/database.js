@@ -42,7 +42,7 @@ async function saveImage(id, imageData) {
 }
 
 
-async function getImage(id, DONTMAKENEWAJAX) {
+async function getImage(id, DONTMAKENEWAJAX, waitUntilNew) {
     if (id === undefined || id === null) {
         console.warn('No ID specified, fetching new image data directly.');
         if (!DONTMAKENEWAJAX) {
@@ -67,7 +67,9 @@ async function getImage(id, DONTMAKENEWAJAX) {
 
         request.onsuccess = () => {
             const result = request.result;
-            resolve(result);
+            if (!waitUntilNew) {
+                resolve(result)
+            }
 
             if (!DONTMAKENEWAJAX) {
                 fetch(`https://arc.evoxs.xyz/?metode=hasChanged&emri=${encodeURIComponent(id)}`)
@@ -77,7 +79,11 @@ async function getImage(id, DONTMAKENEWAJAX) {
                             // image is current
                         } else {
                             console.warn('Updating image for ID:', id);
+                            localStorage.removeItem(`ProfileSrc_${id}`)
                             getEvoxProfile(id).then(profileSrc => {
+                                if (waitUntilNew) {
+                                    resolve({ imageData: profileSrc });
+                                }
                                 fetchAndSaveImage(id, profileSrc);
                             });
                         }
@@ -119,7 +125,7 @@ async function clearDatabase() {
 
 async function fetchAndSaveImage(id, imageUrl) {
     try {
-        const response = await fetch(imageUrl);
+        const response = await fetch(`${imageUrl}?v=${generateRandomString()}`);
         //console.log("Fetch Image",response)
         if (!response.ok) {
             return;

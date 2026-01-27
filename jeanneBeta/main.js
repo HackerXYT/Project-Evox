@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.33"
+const appVersion = "2.1.4"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -2030,6 +2030,7 @@ function autoLogin() {
         if (localStorage.getItem("isJeanneFloridaReady") && localStorage.getItem("floridaEndpoints")) {
             document.getElementById("florida-main").checked = true //May delete later [PROVIDES STABILITY]
             const auth = JSON.parse(localStorage.getItem("floridaEndpoints")).keys.auth
+            pin = atob(JSON.parse(val).pin)
             fetch(`https://arc.evoxs.xyz/?metode=verifyIntegrityFlorida&emri=${JSON.parse(val).name}&pin=${atob(JSON.parse(val).pin)}&id=${auth}`)
                 .then(response => response.json())
                 .then(verification => {
@@ -3946,7 +3947,7 @@ async function getEvoxProfile(name) {
     if (name === null) { return; }
     //console.log("Getting pfp for", name);
     async function rn() {
-        const response = await fetch(`https://arc.evoxs.xyz/?metode=fotoMerrni&emri=${name}`);
+        const response = await fetch(`https://arc.evoxs.xyz/?metode=fotoMerrni&emri=${name}&v=${generateRandomString()}`);
         const data = await response.text();
 
         //console.log(data);
@@ -3988,6 +3989,7 @@ async function getEvoxProfile(name) {
         }
     }
     try {
+
         if (localStorage.getItem(`ProfileSrc_${name}`)) {
             return localStorage.getItem(`ProfileSrc_${name}`);
         } else {
@@ -3998,6 +4000,151 @@ async function getEvoxProfile(name) {
         console.error("Jeanne D'arc Database is offline.");
         console.log('Error:', error);
         return null;
+    }
+}
+
+function openChangeInstagram(ext) {
+    if (ext) {
+
+    }
+    document.getElementById("voxInstagram-settings-new").setAttribute("placeholder", myInfo.instagram || "Instagram Username")
+    document.getElementById('changeInstagram-panel').classList.add('activated');
+}
+
+function cancelChangeInstagram(keepOld) {
+    document.getElementById("changeInstagramWait").style.opacity = '0'
+    if (!keepOld) {
+        document.getElementById("voxInstagram-settings-new").value = ''
+    }
+    setTimeout(function () {
+        document.getElementById("changeInstagramWait").style.display = 'none'
+    }, 350)
+}
+
+let flickeringImagesInterval = null
+function triggerChangeInstagram() {
+    document.getElementById("cancelChangeInstagram").style.display = 'none'
+    document.getElementById("instagram-loaded-text").innerHTML = `Γίνεται λήψη της νέας εικόνας προφίλ..`
+    document.getElementById("changeInstagramWait").style.display = 'flex'
+    const input = document.getElementById("voxInstagram-settings-new").value;
+    const agreed = document.getElementById("instagram-checkbox-1").checked
+    setTimeout(function () {
+        if (input === '' || !agreed) return;
+        document.getElementById("changeInstagramWait").style.opacity = '1'
+    }, 200)
+    const img = document.getElementById("randomPfpLoading");
+    document.getElementById("instapfpload-svg").style.opacity = '1'
+    img.style.opacity = '1'
+    img.style.width = '';
+    img.style.height = '';
+    img.style.filter = '';
+    img.src = 'appLogoV2.png'
+    if (input === '' || !agreed) {
+        cancelChangeInstagram(!agreed)
+        return;
+    }
+    function start() {
+        changeInstagram(input)
+            .then(code => {
+                console.log("Instagram Found", code)
+                if (code.code === '200') {
+                    img.src = `https://arc.evoxs.xyz/foto/instagram/${input}.evox?v=${generateRandomString()}`;
+                    setTimeout(() => {
+                        img.style.filter = 'blur(0px)';
+                    }, 1000)
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    document.getElementById("instapfpload-svg").style.opacity = '0'
+                    document.getElementById("instagram-loaded-text").innerHTML = `Επιτυχία`
+
+                    getImage(foundName, null, true).then(profileSrc => {
+                        setTimeout(function () {
+                            document.getElementById("selfPfp").src = profileSrc.imageData
+                            showProfile(null)
+                            openSettings()
+                            openChangeInstagram()
+                            cancelChangeInstagram()
+                        }, 3000)
+
+                    })
+                } else if (code.code === '404') {
+                    img.style.opacity = '0'
+                    document.getElementById("instapfpload-svg").style.opacity = '0'
+                    document.getElementById("cancelChangeInstagram").style.display = 'flex'
+                    document.getElementById("instagram-loaded-text").innerHTML = `Ο λογαριασμός @${input} δεν βρέθηκε.<br>Εάν ο λογαριασμός σας είναι επαληθευμένος (verified), το Evox δεν μπορεί να ανακτήσει την εικόνα προφίλ σας.`
+                }
+                clearInterval(flickeringImagesInterval)
+                flickeringImagesInterval = null
+
+            });
+    }
+
+    if (namesData) {
+        const fullNames = Object.keys(namesData.names);
+        const profilePicturesArray = [];
+
+        Promise.all(
+            fullNames.map(name =>
+                getImage(name, 'DONTMAKENEWAJAX')
+            )
+        ).then(results => {
+            results.forEach(profileSrc => {
+                if (profileSrc?.imageData) {
+                    profilePicturesArray.push(profileSrc.imageData);
+                }
+            });
+
+            let currentIndex = 0;
+
+
+            flickeringImagesInterval = setInterval(() => {
+                img.src = profilePicturesArray[currentIndex];
+                currentIndex++;
+
+                // if end reached → start again
+                if (currentIndex >= profilePicturesArray.length) {
+                    currentIndex = 0;
+                }
+            }, 200);
+
+            start()
+            console.log("Done");
+            console.log(profilePicturesArray);
+        });
+    } else {
+        //hide flickering animation
+        start()
+    }
+
+}
+
+async function changeInstagram(newUsername) {
+    const ac = localStorage.getItem("jeanDarc_accountData");
+    if (!ac) return { code: '401' };
+
+    const parsed = JSON.parse(ac);
+    const pin = atob(parsed.pin);
+    if (!newUsername) return { code: '400' };
+
+    try {
+        const response = await fetch(
+            `https://arc.evoxs.xyz/?pin=${pin}&emri=${foundName}&metode=addInstagram&instagram=${newUsername}&optionType=completeAfterDownload`
+        );
+
+        const status = await response.json();
+
+        if (status.message === 'InstagramOK') {
+            myInfo.instagram = newUsername;
+            return { code: '200', url: status.directUrl };
+        } else if (status.message === 'Instagram404') {
+            return { code: '404' }
+        } else if (status.message === 'InstagramError') {
+            return { code: '500' }
+        } else {
+            return { code: '401' };
+        }
+    } catch (error) {
+        return { code: '503' };
     }
 }
 
@@ -5448,7 +5595,7 @@ function loadSentByUser() {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}&v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                 })
 
                 const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
@@ -5758,7 +5905,7 @@ function setTag(emri, el) {
 <path d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12405C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001Z" fill="#FFF"/>
 <script xmlns=""/><script xmlns=""/></svg>
                         </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${foundName}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}&v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                         lclids.push(randomString)
 
                     })
@@ -6455,8 +6602,8 @@ function openEditProfile() {
             } else {
                 document.getElementById("instagramBlock-EditProfile").style.display = null
             }
-            document.getElementById("instagram-account-username").innerHTML = self.instagram + `<div style="margin-left:auto;width: auto;" onclick="openInstagram('${self.instagram}')" class="buttonCarouseli">
-                                    Εμφάνιση
+            document.getElementById("instagram-account-username").innerHTML = '@' + self.instagram + `<div style="margin-left:auto;width: auto;" onclick="openChangeInstagram()" class="buttonCarouseli">
+                                    Αλλαγή
                                 </div>`
             console.log(self)
             document.getElementById("emri-edit").innerText = self.emri
@@ -7082,7 +7229,7 @@ function loadSentToUser(emri, redo) {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${key}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${key}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${key}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${key}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}&v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                 })
 
                 const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
@@ -7515,7 +7662,7 @@ function showProfileInfo(emri) {
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload">
                                         <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="active-upload"></circle><circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360" class="track-upload"></circle></svg>
                                 </div>
-                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${emri}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${emri}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}?v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
+                                <${file.type === 'image' ? "img" : file.type === 'video' ? "video" : "img"} src="${file.server.includes("Jeanne") ? `https://cdn.evoxs.xyz/jeannedarc/${emri}/${file.id}/all?v=${getRandomNumber()}` : `https://arc.evoxs.xyz/?metode=getFile&emri=${emri}&requestor=${foundName}&pin=${btoa(acc.pin)}&id=${file.id}&v=${getRandomNumber()}`}" style="width: 95%; height: 360px;" ${file.type === 'video' ? "controls autoplay muted loop playsinline" : ""}>${file.type === 'video' ? "</video>" : ""}</div>`
                     })
 
                     const cleaned = cleanText.trim().replace(/@(\w+\s\w+)/g, (match, name) => `<vox onclick="extMention('${name}')" class="mention ${getGender(removeTonos(name.split(" ")[0])) === "Female" ? "female" : "male"}">@${name}</vox>`);
