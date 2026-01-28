@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jeanne-cache-v48';
+const CACHE_NAME = 'jeanne-cache-v49';
 const STATIC_ASSETS = [
   '/jeanneBeta/',
   '/jeanneBeta/index.html',
