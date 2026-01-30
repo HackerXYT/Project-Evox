@@ -1938,6 +1938,7 @@
                 <div class="userRow">
                     <div class="userCollumn">
                         <p id="userName-search">Ανάκτηση..</p>
+                        <span id="follows-you" style="color: #b1b1b1;margin-bottom: 5px;">Σας ακολουθεί</span>
                         <span id="instausername-search"></span>
                         <div class="classPreview">
                             <div class="classIcons" id="classIcons-search">
@@ -2627,6 +2628,23 @@
                     </svg>
                 </div>
 
+                <div onclick="showRequests()" class="section-a-button">
+                    <div class="title-button-section">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M20 18L14 18M17 15V21M4 21C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                stroke="#e8e8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Αιτήματα
+                    </div> <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="20px"
+                        height="20px" viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                            fill="#fff" />
+                    </svg>
+                </div>
+
                 <div onclick="showSavedPosts()" class="section-a-button">
                     <div class="title-button-section"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
                             viewBox="0 0 24 24" fill="none">
@@ -3162,6 +3180,56 @@
             </div>
             <div class="fade-in-slide-up"
                 style="display: flex;align-items: flex-start; width: 100%; gap: 10px;margin-bottom: 35px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                    style="flex-shrink: 0;">
+                    <path
+                        d="M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12Z"
+                        stroke="#838383" stroke-width="2" />
+                    <path d="M12 8L12 12.5" stroke="#838383" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path
+                        d="M13 15.5C13 16.0523 12.5523 16.5 12 16.5C11.4477 16.5 11 16.0523 11 15.5C11 14.9477 11.4477 14.5 12 14.5C12.5523 14.5 13 14.9477 13 15.5Z"
+                        fill="#838383" />
+                </svg>
+
+                <p style="font-size: 14px; font-weight: lighter; color: #838383; margin: 0;">
+                    Οι χρήστες που ακολουθείτε, σας έχουν επιτρέψει την προβολή των καταχωρήσεών τους.<br>Η πρόσβαση
+                    αυτή
+                    μπορεί
+                    να αλλάξει ανά πάσα στιγμή, σε περίπτωση που σας αφαιρέσουν από τη λίστα των ακολούθων τους.<br>Δεν
+                    θα
+                    λάβετε ειδοποίηση σε περίπτωση τέτοιων αλλαγών.
+                </p>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div id="requests-panel" class="slidingPanel">
+        <div class="settings-row">
+
+
+            <vox style="gap: 10px;" onclick="document.getElementById('requests-panel').classList.remove('activated')">
+                <div class="arrowBG">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                            fill="#fff" />
+                    </svg>
+                </div>
+                Ρυθμίσεις
+            </vox>
+
+        </div>
+        <div class="settings-section">
+            <p class="section-title">Αιτήματα ακολούθησης</p>
+            <div class="section-buttons fade-in-slide-up" id="requests-list">
+                <!--Post Spawning-->
+            </div>
+            <div class="fade-in-slide-up"
+                style="display: flex;align-items: flex-start; width: 100%; gap: 10px;margin-bottom: 35px;display: none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
                     style="flex-shrink: 0;">
                     <path
