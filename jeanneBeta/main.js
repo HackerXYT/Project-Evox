@@ -4006,7 +4006,8 @@ async function getEvoxProfile(name) {
 
 function openChangeInstagram(ext) {
     if (ext) {
-
+        closeEditProfile()
+        openSettings()
     }
     document.getElementById("voxInstagram-settings-new").setAttribute("placeholder", myInfo.instagram || "Instagram Username")
     document.getElementById('changeInstagram-panel').classList.add('activated');
@@ -6603,7 +6604,7 @@ function openEditProfile() {
             } else {
                 document.getElementById("instagramBlock-EditProfile").style.display = null
             }
-            document.getElementById("instagram-account-username").innerHTML = '@' + self.instagram + `<div style="margin-left:auto;width: auto;" onclick="openChangeInstagram()" class="buttonCarouseli">
+            document.getElementById("instagram-account-username").innerHTML = '@' + self.instagram + `<div style="margin-left:auto;width: auto;" onclick="openChangeInstagram(true)" class="buttonCarouseli">
                                     Αλλαγή
                                 </div>`
             console.log(self)
@@ -10958,4 +10959,26 @@ window.addEventListener('click', function (e) {
     if (!document.getElementById('customSelectContainer').contains(e.target)) {
         document.getElementById('appleMenu').classList.remove('show-menu');
     }
+    if (!document.getElementById('customSelectContainerMoreOptionsPost').contains(e.target)) {
+        document.getElementById('postMoreOptions').classList.remove('show-menu');
+    }
 });
+function togglePostMoreOptions() {
+    const menu = document.getElementById('postMoreOptions');
+    menu.classList.toggle('show-menu');
+}
+
+function selectMoreOptionsPost(element) {
+    const val = element.getAttribute('data-value');
+    const label = element.innerText;
+
+    // Update the hidden real select
+
+
+    // Close menu
+    togglePostMoreOptions();
+
+    // OPTIONAL: If you have a specific input ID, 
+    // you can force it to stay active:
+    // document.getElementById('your-input-id').focus();
+}
