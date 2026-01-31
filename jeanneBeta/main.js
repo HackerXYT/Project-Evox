@@ -1111,39 +1111,35 @@ function storiesSpawned() {
         story.style.background = `linear-gradient(to right top, ${color1}, ${color2})`;
     });
 }
+const reloadThreshold = 3; // Allow 3 loads
+const timeWindow = 5000;    // Within 5 seconds
 
-const reloadThreshold = 2;
-const timeWindow = 5000;
-
-let reloadCount = sessionStorage.getItem('reloadCount') ? parseInt(sessionStorage.getItem('reloadCount')) : 0;
-let lastReloadTime = sessionStorage.getItem('lastReloadTime') ? parseInt(sessionStorage.getItem('lastReloadTime')) : Date.now();
+// 1. Get state from storage immediately
+let reloadCount = parseInt(sessionStorage.getItem('reloadCount')) || 0;
+let lastReloadTime = parseInt(sessionStorage.getItem('lastReloadTime')) || Date.now();
 let spammingDetected = sessionStorage.getItem('spammingDetected') === 'true';
 
-if (spammingDetected) {
-    //alert("Spamming reload was already detected earlier.");
+const currentTime = Date.now();
+
+// 2. Check if the reload happened within the window
+if (currentTime - lastReloadTime < timeWindow) {
+    reloadCount++;
 } else {
-    window.onbeforeunload = function () {
-        const currentTime = Date.now();
-
-        if (currentTime - lastReloadTime < timeWindow) {
-            reloadCount++;
-        } else {
-            reloadCount = 1;
-        }
-
-        sessionStorage.setItem('reloadCount', reloadCount);
-        sessionStorage.setItem('lastReloadTime', currentTime);
-
-        if (reloadCount > reloadThreshold) {
-            console.log("Spamming reload detected!");
-            sessionStorage.setItem('spammingDetected', 'true');
-            //return false;
-        }
-
-        return undefined;
-    };
+    reloadCount = 1; // Reset if they waited long enough
 }
 
+// 3. Update storage
+sessionStorage.setItem('reloadCount', reloadCount);
+sessionStorage.setItem('lastReloadTime', currentTime);
+
+// 4. Trigger detection
+if (reloadCount >= reloadThreshold || spammingDetected) {
+    sessionStorage.setItem('spammingDetected', 'true');
+    console.error("Spamming reload detected! Action blocked.");
+
+    // Optional: Redirect or clear body to stop interaction
+    // document.body.innerHTML = "<h1>Access Temporarily Blocked</h1>";
+}
 function continueToLogin(ev) {
     ev.preventDefault();
     ev.stopPropagation();
@@ -1325,7 +1321,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         //})
 
-    } else if (spammingDetected === 'REMOVEFORSTABLE') {
+    } else if (spammingDetected === true) {
         //$("#tasks").fadeOut("fast", function () {
         $("#loginContainer").fadeOut("fast", function () {
             $("#hexa").fadeOut('fast')
@@ -1346,7 +1342,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (num < 1) {
                     sessionStorage.removeItem('spammingDetected')
                     sessionStorage.removeItem("countdown")
-                    alert("Μπορείτε πλέον να ξαναφορτώσετε την σελίδα.")
+                    window.location.reload()
                 }
             }, 1000)
         })
