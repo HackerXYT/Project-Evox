@@ -1,4 +1,3 @@
-/* --- RESET & VARIABLES --- */
 :root {
   --bg-body: #000000;
   --bg-card: #1c1c1e;
@@ -6,12 +5,36 @@
   --text-main: #f5f5f7;
   --text-muted: #86868b;
   --accent-blue: #2997ff;
+  --accent-purple: #bf5af2;
+  --accent-green: #30d158;
+  --accent-orange: #ff9f0a;
+  --accent-red: #ff453a;
   --radius-l: 24px;
   --radius-m: 12px;
-  --font-stack:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  --font-stack: 'SF', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --nav-height: 60px;
+}
+
+/* --- CLEANED FONT-FACE --- */
+@font-face {
+  font-family: 'SF';
+  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYREGULAR.OTF') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF';
+  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYMEDIUM.OTF') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF';
+  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYBOLD.OTF') format('opentype');
+  font-weight: 700;
+  font-style: normal;
 }
 
 * {
@@ -42,7 +65,7 @@ a:hover {
   opacity: 0.8;
 }
 
-/* --- NAVIGATION (Glassmorphism) --- */
+/* --- NAVIGATION --- */
 nav {
   position: fixed;
   top: 0;
@@ -63,11 +86,23 @@ nav {
   font-weight: 600;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-logo img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+
 }
 
 .nav-links {
   display: flex;
   gap: 24px;
+  align-items: center;
 }
 
 .nav-links a {
@@ -105,16 +140,69 @@ nav {
   margin: 0 auto;
 }
 
-/* --- BENTO GRID --- */
+/* --- SEGMENTED CONTROL (Apple Style) --- */
+.header-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.segmented-control {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px;
+  border-radius: 14px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.segmented-control::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- BENTO GRID & CARDS --- */
 .grid-container {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
-  padding: 20px;
+  padding: 40px 20px;
   flex-grow: 1;
-  /* Pushes footer down */
+}
+
+#projectGrid {
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  will-change: opacity, transform;
+}
+
+#projectGrid.switching {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
 }
 
 .card {
@@ -123,20 +211,22 @@ nav {
   padding: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: auto;
-  transition:
-    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-    background-color 0.3s;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, border-color 0.3s;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  opacity: 0;
-  /* For animation */
-  animation: slideUp 0.8s ease-out forwards;
+  animation: cardEntrance 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Staggered animation delay for cards */
+.card:hover {
+  transform: scale(1.02);
+  background-color: var(--bg-card-hover);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Staggered Entrance Delays (Optional - if using JS to set inline styles) */
 .card:nth-child(1) {
   animation-delay: 0.1s;
 }
@@ -149,16 +239,9 @@ nav {
   animation-delay: 0.3s;
 }
 
-.card:hover {
-  transform: scale(1.02);
-  background-color: var(--bg-card-hover);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Card Visuals */
+/* Card Content & Visuals */
 .card-visual {
-  height: 100%;
+  height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,32 +256,15 @@ nav {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Card Content */
 .card-content {
   flex-grow: 1;
 }
 
-.badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 4px 8px;
-  border-radius: 6px;
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-muted);
-}
-
-.badge.beta {
-  color: #bf5af2;
-  background: rgba(191, 90, 242, 0.15);
-}
-
-.badge.stable {
-  color: #30d158;
-  background: rgba(48, 209, 88, 0.15);
 }
 
 .card h2 {
@@ -213,20 +279,80 @@ nav {
   line-height: 1.4;
 }
 
-/* Launch Button */
-.btn-launch {
-  margin-top: 24px;
+/* Badges & Labels */
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.badge.beta {
+  color: var(--accent-purple);
+  background: rgba(191, 90, 242, 0.15);
+}
+
+.badge.stable {
+  color: var(--accent-green);
+  background: rgba(48, 209, 88, 0.15);
+}
+
+.badge.ongoing {
+  color: var(--accent-blue);
+  background: rgba(41, 151, 255, 0.15);
+}
+
+.badge.abandoned {
+  color: var(--text-muted);
+  background: rgba(142, 142, 147, 0.15);
+}
+
+.warning-label,
+.warning-tag {
+  font-size: 0.65rem;
+  color: var(--accent-orange);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.project-year,
+.year-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Launch Buttons */
+.card-footer,
+.card-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 14px;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.btn-launch {
+  flex-grow: 1;
+  max-width: 140px;
+  margin-right: 15px;
+  padding: 12px;
   background: #fff;
   color: #000;
   border-radius: var(--radius-m);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: transform 0.2s;
+  text-align: center;
+  transition: transform 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .btn-launch:hover {
@@ -234,8 +360,33 @@ nav {
   opacity: 0.9;
 }
 
-.btn-launch svg {
-  margin-left: 8px;
+.btn-launch.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.btn-launch.disabled {
+  background: #3a3a3c;
+  color: #8e8e93;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- SPECIAL STATES --- */
+.card.abandoned {
+  opacity: 0.8;
+  filter: grayscale(0.4);
+}
+
+.card.abandoned:hover {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.card.abandoned .btn-launch {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* --- FOOTER --- */
@@ -276,15 +427,15 @@ footer {
   }
 }
 
-@keyframes slideUp {
+@keyframes cardEntrance {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: scale(0.98) translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -296,143 +447,548 @@ footer {
 
   .grid-container {
     grid-template-columns: 1fr;
+    padding: 20px;
   }
 
   nav {
     padding: 0 20px;
   }
+
+  .btn-launch {
+    max-width: none;
+  }
 }
 
-/* --- SEGMENTED CONTROL (Apple Style) --- */
-.header-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
+/* --- SMOOTH SCROLLING --- */
+html {
+  scroll-behavior: smooth;
 }
 
-.segmented-control {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 3px;
-  border-radius: 12px;
-  display: flex;
-  gap: 2px;
+/* --- ABOUT SECTION --- */
+.about-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 20px;
+  animation: fadeIn 1.2s ease-out;
 }
 
-.tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  padding: 8px 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border-radius: 9px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.about-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-.tab-btn:hover {
+.about-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+}
+
+.about-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-l);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.about-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
   color: var(--text-main);
 }
 
-.tab-btn.active {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.about-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-/* --- NEW BADGE COLORS --- */
-.badge.ongoing {
-  color: var(--accent-blue);
-  background: rgba(41, 151, 255, 0.15);
+/* Specific Bento Layouts */
+.about-card.tall {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
 }
 
-.badge.abandoned {
-  color: #ff453a;
-  background: rgba(255, 69, 58, 0.15);
-}
-
-/* --- BUTTON VARIANTS --- */
-.btn-launch.disabled {
-  background: #3a3a3c;
-  color: #8e8e93;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.btn-launch.secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-/* Card visibility fix for JS */
-.card {
-  display: flex; /* Ensure display flex is the default for JS toggling */
-}
-
-.card-header-row {
+.about-card.wide {
+  grid-column: span 2;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 }
 
-.warning-label {
-  font-size: 0.65rem;
-  color: #ff9f0a;
+.about-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.about-visual.vision-gradient {
+  flex-grow: 1;
+  margin-top: 20px;
+  border-radius: 12px;
+  /* background: linear-gradient(135deg, #2997ff 0%, #bf5af2 100%); */
+  opacity: 1;
+}
+
+.stats-row {
+  display: flex;
+  gap: 30px;
+  margin-left: 40px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
   text-transform: uppercase;
 }
 
-.card-footer {
+/* Mobile About Section */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-card.wide {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .about-card.wide,
+  .about-card.tall {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .stats-row {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* --- CONTACT SECTION --- */
+.contact-section {
+  max-width: 800px;
+  /* Narrower for better readability */
+  margin: 100px auto;
+  padding: 0 20px;
+  animation: fadeIn 1.4s ease-out;
+}
+
+.contact-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-l);
+  padding: 80px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-m);
+  padding: 14px 16px;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.1);
+}
+
+/* Custom styling for select dropdown */
+select option {
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    padding: 30px 20px;
+  }
+}
+
+/* --- CUSTOM DROPDOWN --- */
+.custom-select {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.select-trigger {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-m);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.custom-select:hover .select-trigger {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.custom-select.active .select-trigger {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.1);
+}
+
+.select-options {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.custom-select.active .select-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.option {
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.option.selected {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.select-trigger svg {
+  transition: transform 0.3s ease;
+}
+
+.custom-select.active .select-trigger svg {
+  transform: rotate(0deg);
+}
+
+[id] {
+  /* Sets the scroll position to stop 60px (nav height) + 20px (extra breathing room) above the element */
+  scroll-margin-top: calc(var(--nav-height) + 20px);
+}
+
+/* Ensure smooth scrolling is enabled on the whole document */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Specific overrides for the navbar version of the custom select */
+#langCustomSelect {
+  width: 80px;
+  /* Smaller for nav */
+  margin-left: 15px;
+}
+
+#langCustomSelect .select-trigger {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#langCustomSelect .select-options {
+  background: #1c1c1e;
+  width: 150px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* ADD THESE LINES */
+  left: auto;
+  /* Reset any left alignment */
+  right: 0;
+  /* Anchor to the right edge of the trigger */
+}
+
+#langCustomSelect .option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  color: white;
+}
+
+#langCustomSelect .option vox {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 24px;
+  justify-content: center;
 }
 
-.project-year {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-/* Adjust launch button to not take full width if year is present */
-.btn-launch {
-  flex-grow: 1;
-  margin-right: 15px;
-  max-width: 140px;
-}
-
-/* Gray out abandoned cards slightly until hover */
-.card.abandoned {
-  opacity: 0.8;
-  filter: grayscale(0.4);
-}
-
-.card.abandoned:hover {
-  opacity: 1;
-  filter: grayscale(0);
-}
-
-/* Secondary style for abandoned buttons */
-.card.abandoned .btn-launch {
+#langCustomSelect .option:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+}
+
+.custom-select {
+  position: relative;
+  user-select: none;
+}
+
+.select-options {
+  display: none;
+  /* Hidden by default */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #1c1c1e;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  margin-top: 8px;
+  z-index: 1000;
+  min-width: 100px;
+  overflow: hidden;
 }
 
-.badge.abandoned {
-  color: #8e8e93;
-  background: rgba(142, 142, 147, 0.15);
+/* This is what makes it open */
+.custom-select.active .select-options {
+  display: block;
 }
 
-/* Release Type Styling */
-.badge:contains("BETA") {
-  color: #bf5af2;
-  background: rgba(191, 90, 242, 0.15);
+.option {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s;
 }
 
-.badge:contains("STABLE") {
-  color: #30d158;
-  background: rgba(48, 209, 88, 0.15);
+.option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 768px) {
+  :root {
+    --radius-l: 18px;
+    /* Slightly smaller radius for mobile */
+  }
+
+  /* Navigation: Allow wrapping or hide links */
+  nav {
+    padding: 0 15px;
+    height: auto;
+    min-height: var(--nav-height);
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Center items on very small screens */
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .nav-logo {
+    margin-bottom: 5px;
+  }
+
+  .nav-links {
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 5px;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+  }
+
+  #langCustomSelect {
+    margin-left: 5px;
+    width: 70px;
+  }
+
+  /* Hero adjustments */
+  .hero {
+    margin-top: calc(var(--nav-height) + 40px);
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    padding: 0 10px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+
+  /* Segmented Control: Make it scrollable and touch-friendly */
+  .segmented-control {
+    width: 90%;
+    margin: 0 auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+    flex: 1;
+    /* Stretch buttons to fill space */
+    text-align: center;
+  }
+
+  /* Grid Adjustments */
+  .grid-container {
+    grid-template-columns: 1fr;
+    /* Force single column */
+    padding: 20px 15px;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .btn-launch {
+    max-width: none;
+    /* Full width buttons on mobile */
+    width: 100%;
+  }
+
+  /* About Section Bento Fix */
+  .about-grid {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-card.wide,
+  .about-card.tall {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .about-card.wide {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-row {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  /* Contact Form */
+  .contact-card {
+    padding: 24px 16px;
+    margin: 0 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    /* Stack First/Last Name */
+  }
+}
+
+/* --- EXTRA SMALL DEVICES (iPhone SE / Fold) --- */
+@media (max-width: 380px) {
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .nav-links {
+    gap: 8px;
+  }
+
+  .nav-links a {
+    font-size: 0.7rem;
+  }
 }

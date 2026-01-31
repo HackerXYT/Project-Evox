@@ -1,814 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Evox &#x2022; Index</title>
-    <link rel="stylesheet" href="./evox-index.css">
-    <meta name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="icon" type="image/png"
-      href="./evox-epsilon-beta/epsilon-transparent.png">
-    <link rel="apple-touch-icon" sizes="180x180"
-      href="./evox-epsilon-beta/evox-logo-apple-simple.png">
-    <link rel="apple-touch-icon" sizes="152x152"
-      href="./evox-epsilon-beta/evox-logo-apple-simple.png">
-    <link rel="apple-touch-icon" sizes="120x120"
-      href="./evox-epsilon-beta/evox-logo-apple-simple.png">
-    <link rel="apple-touch-icon" sizes="76x76"
-      href="./evox-epsilon-beta/evox-logo-apple-simple.png">
-    <link rel="apple-touch-icon-precomposed"
-      href="./evox-epsilon-beta/evox-logo-apple-simple.png">
-    <link rel="manifest" href="index.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <!-- Apple splash screen images -->
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-2732.png"
-      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2732-2048.png"
-      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2388.png"
-      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2388-1668.png"
-      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1536-2048.png"
-      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-1536.png"
-      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2224.png"
-      media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2224-1668.png"
-      media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1620-2160.png"
-      media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2160-1620.png"
-      media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1290-2796.png"
-      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2796-1290.png"
-      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1179-2556.png"
-      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2556-1179.png"
-      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1284-2778.png"
-      media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2778-1284.png"
-      media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1170-2532.png"
-      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2532-1170.png"
-      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1125-2436.png"
-      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2436-1125.png"
-      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2688.png"
-      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2688-1242.png"
-      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-828-1792.png"
-      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1792-828.png"
-      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2208.png"
-      media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2208-1242.png"
-      media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-750-1334.png"
-      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1334-750.png"
-      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-640-1136.png"
-      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1136-640.png"
-      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <!-- Apple splash screen images dark mode-->
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-2732.png"
-      media="(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2732-2048.png"
-      media="(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2388.png"
-      media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2388-1668.png"
-      media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1536-2048.png"
-      media="(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-1536.png"
-      media="(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2224.png"
-      media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2224-1668.png"
-      media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1620-2160.png"
-      media="(prefers-color-scheme: dark) and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2160-1620.png"
-      media="(prefers-color-scheme: dark) and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1290-2796.png"
-      media="(prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2796-1290.png"
-      media="(prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1179-2556.png"
-      media="(prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2556-1179.png"
-      media="(prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1284-2778.png"
-      media="(prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2778-1284.png"
-      media="(prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1170-2532.png"
-      media="(prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2532-1170.png"
-      media="(prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1125-2436.png"
-      media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2436-1125.png"
-      media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2688.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2688-1242.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-828-1792.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1792-828.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2208.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-2208-1242.png"
-      media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-750-1334.png"
-      media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1334-750.png"
-      media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-640-1136.png"
-      media="(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image"
-      href="https://evoxs.xyz/indexSplashScreens/apple-splash-1136-640.png"
-      media="(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evox Experience</title>
+  <link rel="stylesheet" href="./evox-index/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="icon" type="image/png" href="./evox-epsilon-beta/epsilon-transparent.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./evox-epsilon-beta/evox-logo-apple-simple.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./evox-epsilon-beta/evox-logo-apple-simple.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./evox-epsilon-beta/evox-logo-apple-simple.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./evox-epsilon-beta/evox-logo-apple-simple.png">
+  <link rel="apple-touch-icon-precomposed" href="./evox-epsilon-beta/evox-logo-apple-simple.png">
+  <link rel="manifest" href="index.json">
+  <meta property="og:title" content="Evox" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://evoxs.xyz/" />
+  <meta property="og:image" content="https://evoxs.xyz/evox-epsilon-beta/evox-logo-apple-simple.png" />
+  <meta property="og:description"
+    content="Step into the Evox Application Hub, a unified ecosystem bridging productivity, community, and security. From the Epsilon Nexus chat to OASA transit tracking, explore a seamless digital environment designed for the future.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Apple splash screen images -->
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-2732.png"
+    media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2732-2048.png"
+    media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2388.png"
+    media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2388-1668.png"
+    media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1536-2048.png"
+    media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-1536.png"
+    media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2224.png"
+    media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2224-1668.png"
+    media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1620-2160.png"
+    media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2160-1620.png"
+    media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1290-2796.png"
+    media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2796-1290.png"
+    media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1179-2556.png"
+    media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2556-1179.png"
+    media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1284-2778.png"
+    media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2778-1284.png"
+    media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1170-2532.png"
+    media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2532-1170.png"
+    media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1125-2436.png"
+    media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2436-1125.png"
+    media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2688.png"
+    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2688-1242.png"
+    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-828-1792.png"
+    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1792-828.png"
+    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2208.png"
+    media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2208-1242.png"
+    media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-750-1334.png"
+    media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1334-750.png"
+    media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-640-1136.png"
+    media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1136-640.png"
+    media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <!-- Apple splash screen images dark mode-->
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-2732.png"
+    media="(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2732-2048.png"
+    media="(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2388.png"
+    media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2388-1668.png"
+    media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1536-2048.png"
+    media="(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2048-1536.png"
+    media="(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1668-2224.png"
+    media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2224-1668.png"
+    media="(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1620-2160.png"
+    media="(prefers-color-scheme: dark) and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2160-1620.png"
+    media="(prefers-color-scheme: dark) and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1290-2796.png"
+    media="(prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2796-1290.png"
+    media="(prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1179-2556.png"
+    media="(prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2556-1179.png"
+    media="(prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1284-2778.png"
+    media="(prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2778-1284.png"
+    media="(prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1170-2532.png"
+    media="(prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2532-1170.png"
+    media="(prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1125-2436.png"
+    media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2436-1125.png"
+    media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2688.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2688-1242.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-828-1792.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1792-828.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1242-2208.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-2208-1242.png"
+    media="(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-750-1334.png"
+    media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1334-750.png"
+    media="(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-640-1136.png"
+    media="(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="https://evoxs.xyz/indexSplashScreens/apple-splash-1136-640.png"
+    media="(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+</head>
 
-  <body>
-    <div id="head1" class="head">
-      <p id="headerText" style="margin-bottom: 10px;">Welcome to the Evox
-        experience</p>
-      <span>Choose an Evox Project:</span>
-    </div>
-    <div class="head2" id="head2" style="display: none;">
-      <div class="row">
-        <div class="collumn" id="collumnMobile">
-          <vox>Welcome</vox>
-          <span id="name">Loading..</span>
+<body>
+
+  <nav>
+    <div class="nav-logo"><img src="./evox-epsilon-beta/EvoxEPSILON.png">Evox Projects</div>
+    <div class="nav-links">
+      <a href="#projectGrid" data-i18n="nav_hub">Application Hub</a>
+      <a href="#about" data-i18n="nav_about">About Evox</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+      <div class="custom-select" id="langCustomSelect">
+        <div class="select-trigger">
+          <span id="langSelectValue">EN</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+            <path d="M1 1L5 5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </div>
-        <div class="collumn right">
-          <img id="me" src="indexLoading.gif">
-        </div>
-      </div>
-    </div>
-    <section class="section dark">
-      <ul class="card-list">
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./evox-epsilon-beta/epsilon-assets/apple-splash-dark-2360-1640.png"
-                alt="People working on computers in a modern office" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">BETA</div>
-                  <h3 class="title">Epsilon Nexus</h3>
-                </div>
-                <p class="desc">
-                  Manage Evox apps, friends, and chats securely with the new
-                  Evox Epsilon Nexus. Enjoy a modern, optimized
-                  interface designed for speed and enhanced security, delivering
-                  the best user experience yet.
-                </p>
-              </div>
-
-              <div class="controls">
-                <a href="./evox-epsilon-beta/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./jeanne/splashScreens/apple-splash-2160-1620.png"
-                width="300" height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">STABLE - ONGOING</div>
-                  <h3 class="title">Jeanne D'arc</h3>
-                </div>
-                <p class="desc">
-                  School Management App [<a class="href"
-                    href="https://en.wikipedia.org/wiki/Progressive_web_app"
-                    target="_blank">PWA</a>]
-                  <br>Connect with friends and classmates, share your thoughts,
-                  and discover what they think of you with Jeanne D'Arc's
-                  yearbook app.
-                  <br><span style="color: #48a3ff">Συνδέσου με τους φίλους και
-                    συμμαθητές σου, μοιράσου τις σκέψεις σου και ανακάλυψε τι
-                    σκέφτονται για εσένα με την επετηρίδα της Jeanne
-                    D'Arc.</span>
-                </p>
-              </div>
-              <div class="controls">
-                <a href="./jeanne/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="./oasaMobile/spoiler.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">STABLE</div>
-                  <h3 class="title">OASA</h3>
-                </div>
-                <p class="desc">
-                  A reimagined OASA Mobile app, now allowing you to access
-                  timetables offline and receive notifications
-                  when your bus arrives at a transition point.
-                </p>
-              </div>
-
-              <div class="controls">
-                <a href="./oasaMobile/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="./evox-epsilon/nexusBeta.png"
-                alt="Skyscraper in fog" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">BETA</div>
-                  <h3 class="title">Epsilon</h3>
-                </div>
-                <p class="desc">
-                  A new way of interacting with the Evox community, featuring
-                  enhanced connectivity and newly added
-                  features for a richer user experience.
-                </p>
-              </div>
-
-              <div class="controls">
-                <a href="./evox-epsilon/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./t50-gateway-alpha/t50gatewayalpha.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">STABLE</div>
-                  <h3 class="title">Evox Gateway</h3>
-                </div>
-                <p class="desc">
-                  Also known as T50 gateway, Evox gateway is an all-in-one
-                  solution for streamlined organization and
-                  secure communication
-                </p>
-              </div>
-
-              <div class="controls">
-                <a href="./t50-gateway-alpha/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </li>
-
-      </ul>
-      <h3
-        style="text-align: center;padding-left: 15px;padding-right: 15px;">
-        Ongoing Projects</h3>
-      <ul class="card-list">
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./jeanneBeta/splashScreens/apple-splash-2160-1620.png"
-                width="300" height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">BETA - ONGOING</div>
-                  <h3 class="title">Jeanne Beta</h3>
-                  <div class="category"
-                    style="color: rgb(244, 154, 52); font-weight: bold;">Access
-                    limited to specific users</div>
-                </div>
-                <p class="desc">
-                  The Jeanne D'Arc app, now with a refined design, enhanced
-                  features, and a focus on delivering the smoothest user
-                  experience yet.<br><span
-                    style="color: rgb(244, 52, 52); font-weight: bold;">Warning:</span>
-                  Early access to BETA with your account may cause unexpected
-                  issues or complete instability.
-                </p>
-
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./jeanneBeta/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2025</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./oasaResign/splashScreens/apple-splash-2208-1242.png"
-                width="300" height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">BETA - ONGOING</div>
-                  <h3 class="title">OASA</h3>
-                </div>
-                <p class="desc">
-                  A refreshed version of the original Evox OASA Mobile app, now
-                  featuring interactive maps, location-based information,
-                  real-time bus tracking, and an enhanced Evox Florida
-                  notifications system.
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./oasaResign/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2025</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./uniwa/index-splash.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ALPHA - ONGOING</div>
-                  <h3 class="title">EduVox</h3>
-                </div>
-                <p class="desc">
-                  Το <strong>EduVox</strong> προσφέρει άμεση πρόσβαση σε
-                  <strong>μαθήματα, ανακοινώσεις
-                    και εργασίες</strong> σε ένα γρήγορο και απλό περιβάλλον.
-                  Η σύνδεση γίνεται μέσω το <a class="href"
-                    href="https://moodledev.io/docs/4.4/apis"
-                    target="_blank">API της
-                    πλατφόρμας Moodle</a> του
-                  πανεπιστημίου σας.<br>Η επεξεργασία των δεδομένων σας
-                  πραγματοποιείται αυτόματα από το Evox, χωρίς
-                  να αποθηκεύονται προσωπικά δεδομένα στους διακομιστές μας.
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./uniwa/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2026</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image"
-                src="./AIT/splash/apple-splash-2208-1242.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ALPHA</div>
-                  <h3 class="title">AIT</h3>
-                </div>
-                <p class="desc">
-                  Chat smarter with Evox AIT — your personal AI assistant. Start
-                  and manage conversations seamlessly in a sleek, fast, and
-                  secure environment built for clarity and control.
-                  <br><span
-                    style="color: rgb(244, 52, 52); font-weight: bold;">Warning:</span>
-                  ALPHA Projects are intended for developer use only. During
-                  testing, you may encounter issues that could severely impact
-                  the stability of your Evox account.
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./AIT/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2025</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="./tascoDeluxeSpoiler.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ONGOING</div>
-                  <h3 class="title">Tasco Deluxe</h3>
-                </div>
-                <p class="desc">
-                  Only accessible via Epsilon Nexus.
-                </p>
-              </div>
-            </div>
-          </div>
-        </li>
-
-      </ul>
-
-      <h3
-        style="text-align: center;padding-left: 15px;padding-right: 15px;">
-        Abandoned Projects</h3>
-      <ul class="card-list">
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="t50-app-thumbnail.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ABANDONED</div>
-                  <h3 class="title">T50</h3>
-                </div>
-                <p class="desc">
-                  The T50 App was one of Evox's earliest projects. Originally
-                  named Evox App, it was later rebranded as T50 App and
-                  eventually became T50 Gateway, which continues to operate
-                  today.
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./evox-app/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2021</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="chatvia-thumbnail.png" width="300"
-                height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ABANDONED</div>
-                  <h3 class="title">ChatVia</h3>
-                </div>
-                <p class="desc">
-                  ChatVia, the first Evox© project, was a simple real-time chat
-                  application powered by <a class="href"
-                    href="https://socket.io/" target="_blank">Socket.io</a>. It
-                  was later succeeded by SecureLine®, which introduced more
-                  secure communication methods within the Evox© ecosystem.
-                  Today, SecureLine® is integrated into the Evox Epsilon Nexus,
-                  enhancing safe data exchange.
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="./evox-app/ChatVia/" class="button-link primary">
-                  Launch
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2020</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="twentyonecore-thumbnail.png"
-                width="300" height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ABANDONED</div>
-                  <h3 class="title">TwentyoneCore</h3>
-                </div>
-                <p class="desc">
-                  Predating the creation of Evox©, TwentyoneCore was designed as
-                  a secure, reliable, and efficient platform for file and
-                  database management. It was eventually discontinued in favor
-                  of Evox©, which remains active today.
-                  <br><span style="color: rgb(255, 255, 153);">Since
-                    TwentyoneCore is not part of the Evox© ecosystem, accessing
-                    it will require switching domains.</span>
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="https://twentyonecore.evoxs.xyz/"
-                  class="button-link primary">
-                  Access
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2020</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <div class="visual">
-              <img class="card-image" src="hackerxsite-thumbnail.png"
-                width="300" height="180" />
-            </div>
-            <div class="content">
-              <div class="meta">
-                <div class="card-header">
-                  <div class="category">ABANDONED</div>
-                  <h3 class="title">HackerX Site</h3>
-                </div>
-                <p class="desc">
-                  HackerX Site was a dynamic platform providing the latest
-                  updates, tutorials, and community-driven content on gaming and
-                  development, <br>focused on the YouTube channel:
-                  'H A C K E R X'. It was eventually discontinued in favor of
-                  the Evox© ecosystem.
-                  <br><span style="color: rgb(255, 255, 153);">As the HackerX
-                    Site is a part of Twentyonecore and not within the Evox©
-                    ecosystem, accessing it will require switching
-                    domains.</span>
-                </p>
-              </div>
-              <div class="controls"
-                style="width: 100%;display: flex;align-items: center;">
-                <a href="https://twentyonecore.evoxs.xyz/index2.html"
-                  class="button-link primary">
-                  Access
-                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.1667 1.6665L16.5 4.99984M16.5 4.99984L13.1667 8.33317M16.5 4.99984L1.5 4.99984"
-                      stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
-                <span style="margin-left: auto;color: #808080;">2019</span>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-    </section>
-    <div class="mobileContainer">
-      <div class="warning" id="warning">
-        <div class="topRow">
-          <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-              viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 15H12.01M12 12V9M4.98207 19H19.0179C20.5615 19 21.5233 17.3256 20.7455 15.9923L13.7276 3.96153C12.9558 2.63852 11.0442 2.63852 10.2724 3.96153L3.25452 15.9923C2.47675 17.3256 3.43849 19 4.98207 19Z"
-                stroke-width="2.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="text">
-            Warning
-          </div>
-          <div onclick="dismiss(this)" class="dismiss">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" width="15px"
-              height="15px"
-              viewBox="0 0 28 28" version="1.1">
-              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g fill="#fff" fill-rule="nonzero">
-                  <path
-                    d="M3.14905434,3.3874012 L3.26256313,3.26256313 C3.90577961,2.61934665 4.92513114,2.58151039 5.6125988,3.14905434 L5.73743687,3.26256313 L14,11.525 L22.2625631,3.26256313 C22.9459806,2.57914562 24.0540194,2.57914562 24.7374369,3.26256313 C25.4208544,3.94598064 25.4208544,5.05401936 24.7374369,5.73743687 L16.475,14 L24.7374369,22.2625631 C25.3806533,22.9057796 25.4184896,23.9251311 24.8509457,24.6125988 L24.7374369,24.7374369 C24.0942204,25.3806533 23.0748689,25.4184896 22.3874012,24.8509457 L22.2625631,24.7374369 L14,16.475 L5.73743687,24.7374369 C5.05401936,25.4208544 3.94598064,25.4208544 3.26256313,24.7374369 C2.57914562,24.0540194 2.57914562,22.9459806 3.26256313,22.2625631 L11.525,14 L3.26256313,5.73743687 C2.61934665,5.09422039 2.58151039,4.07486886 3.14905434,3.3874012 L3.26256313,3.26256313 L3.14905434,3.3874012 Z">
-                  </path>
+        <div class="select-options">
+          <div class="option" data-value="en">
+            <vox>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 -4 28 28" fill="none">
+                <g clip-path="url(#clip0_503_3486)">
+                  <rect width="28" height="20" rx="2" fill="white" />
+                  <mask id="mask0_503_3486" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="28"
+                    height="20">
+                    <rect width="28" height="20" rx="2" fill="white" />
+                  </mask>
+                  <g mask="url(#mask0_503_3486)">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M28 0H0V1.33333H28V0ZM28 2.66667H0V4H28V2.66667ZM0 5.33333H28V6.66667H0V5.33333ZM28 8H0V9.33333H28V8ZM0 10.6667H28V12H0V10.6667ZM28 13.3333H0V14.6667H28V13.3333ZM0 16H28V17.3333H0V16ZM28 18.6667H0V20H28V18.6667Z"
+                      fill="#D02F44" />
+                    <rect width="12" height="9.33333" fill="#46467F" />
+                    <g filter="url(#filter0_d_503_3486)">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M2.66665 1.99999C2.66665 2.36818 2.36817 2.66666 1.99998 2.66666C1.63179 2.66666 1.33331 2.36818 1.33331 1.99999C1.33331 1.63181 1.63179 1.33333 1.99998 1.33333C2.36817 1.33333 2.66665 1.63181 2.66665 1.99999ZM5.33331 1.99999C5.33331 2.36818 5.03484 2.66666 4.66665 2.66666C4.29846 2.66666 3.99998 2.36818 3.99998 1.99999C3.99998 1.63181 4.29846 1.33333 4.66665 1.33333C5.03484 1.33333 5.33331 1.63181 5.33331 1.99999ZM7.33331 2.66666C7.7015 2.66666 7.99998 2.36818 7.99998 1.99999C7.99998 1.63181 7.7015 1.33333 7.33331 1.33333C6.96512 1.33333 6.66665 1.63181 6.66665 1.99999C6.66665 2.36818 6.96512 2.66666 7.33331 2.66666ZM10.6666 1.99999C10.6666 2.36818 10.3682 2.66666 9.99998 2.66666C9.63179 2.66666 9.33331 2.36818 9.33331 1.99999C9.33331 1.63181 9.63179 1.33333 9.99998 1.33333C10.3682 1.33333 10.6666 1.63181 10.6666 1.99999ZM3.33331 3.99999C3.7015 3.99999 3.99998 3.70152 3.99998 3.33333C3.99998 2.96514 3.7015 2.66666 3.33331 2.66666C2.96512 2.66666 2.66665 2.96514 2.66665 3.33333C2.66665 3.70152 2.96512 3.99999 3.33331 3.99999ZM6.66665 3.33333C6.66665 3.70152 6.36817 3.99999 5.99998 3.99999C5.63179 3.99999 5.33331 3.70152 5.33331 3.33333C5.33331 2.96514 5.63179 2.66666 5.99998 2.66666C6.36817 2.66666 6.66665 2.96514 6.66665 3.33333ZM8.66665 3.99999C9.03484 3.99999 9.33331 3.70152 9.33331 3.33333C9.33331 2.96514 9.03484 2.66666 8.66665 2.66666C8.29846 2.66666 7.99998 2.96514 7.99998 3.33333C7.99998 3.70152 8.29846 3.99999 8.66665 3.99999ZM10.6666 4.66666C10.6666 5.03485 10.3682 5.33333 9.99998 5.33333C9.63179 5.33333 9.33331 5.03485 9.33331 4.66666C9.33331 4.29847 9.63179 3.99999 9.99998 3.99999C10.3682 3.99999 10.6666 4.29847 10.6666 4.66666ZM7.33331 5.33333C7.7015 5.33333 7.99998 5.03485 7.99998 4.66666C7.99998 4.29847 7.7015 3.99999 7.33331 3.99999C6.96512 3.99999 6.66665 4.29847 6.66665 4.66666C6.66665 5.03485 6.96512 5.33333 7.33331 5.33333ZM5.33331 4.66666C5.33331 5.03485 5.03484 5.33333 4.66665 5.33333C4.29846 5.33333 3.99998 5.03485 3.99998 4.66666C3.99998 4.29847 4.29846 3.99999 4.66665 3.99999C5.03484 3.99999 5.33331 4.29847 5.33331 4.66666ZM1.99998 5.33333C2.36817 5.33333 2.66665 5.03485 2.66665 4.66666C2.66665 4.29847 2.36817 3.99999 1.99998 3.99999C1.63179 3.99999 1.33331 4.29847 1.33331 4.66666C1.33331 5.03485 1.63179 5.33333 1.99998 5.33333ZM3.99998 5.99999C3.99998 6.36819 3.7015 6.66666 3.33331 6.66666C2.96512 6.66666 2.66665 6.36819 2.66665 5.99999C2.66665 5.6318 2.96512 5.33333 3.33331 5.33333C3.7015 5.33333 3.99998 5.6318 3.99998 5.99999ZM5.99998 6.66666C6.36817 6.66666 6.66665 6.36819 6.66665 5.99999C6.66665 5.6318 6.36817 5.33333 5.99998 5.33333C5.63179 5.33333 5.33331 5.6318 5.33331 5.99999C5.33331 6.36819 5.63179 6.66666 5.99998 6.66666ZM9.33331 5.99999C9.33331 6.36819 9.03484 6.66666 8.66665 6.66666C8.29846 6.66666 7.99998 6.36819 7.99998 5.99999C7.99998 5.6318 8.29846 5.33333 8.66665 5.33333C9.03484 5.33333 9.33331 5.6318 9.33331 5.99999ZM9.99998 8C10.3682 8 10.6666 7.70152 10.6666 7.33333C10.6666 6.96514 10.3682 6.66666 9.99998 6.66666C9.63179 6.66666 9.33331 6.96514 9.33331 7.33333C9.33331 7.70152 9.63179 8 9.99998 8ZM7.99998 7.33333C7.99998 7.70152 7.7015 8 7.33331 8C6.96512 8 6.66665 7.70152 6.66665 7.33333C6.66665 6.96514 6.96512 6.66666 7.33331 6.66666C7.7015 6.66666 7.99998 6.96514 7.99998 7.33333ZM4.66665 8C5.03484 8 5.33331 7.70152 5.33331 7.33333C5.33331 6.96514 5.03484 6.66666 4.66665 6.66666C4.29846 6.66666 3.99998 6.96514 3.99998 7.33333C3.99998 7.70152 4.29846 8 4.66665 8ZM2.66665 7.33333C2.66665 7.70152 2.36817 8 1.99998 8C1.63179 8 1.33331 7.70152 1.33331 7.33333C1.33331 6.96514 1.63179 6.66666 1.99998 6.66666C2.36817 6.66666 2.66665 6.96514 2.66665 7.33333Z"
+                        fill="url(#paint0_linear_503_3486)" />
+                    </g>
+                  </g>
                 </g>
-              </g>
-            </svg>
+                <defs>
+                  <filter id="filter0_d_503_3486" x="1.33331" y="1.33333" width="9.33331" height="7.66667"
+                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha" />
+                    <feOffset dy="1" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_503_3486" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_503_3486" result="shape" />
+                  </filter>
+                  <linearGradient id="paint0_linear_503_3486" x1="1.33331" y1="1.33333" x2="1.33331" y2="7.99999"
+                    gradientUnits="userSpaceOnUse">
+                    <stop stop-color="white" />
+                    <stop offset="1" stop-color="#F0F0F0" />
+                  </linearGradient>
+                  <clipPath id="clip0_503_3486">
+                    <rect width="28" height="20" rx="2" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </vox> English
+          </div>
+          <div class="option" data-value="el">
+            <vox><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px"
+                height="20px" viewBox="0 0 36 36" aria-hidden="true" role="img" class="iconify iconify--twemoji"
+                preserveAspectRatio="xMidYMid meet">
+                <path fill="#0D5EB0" d="M4 31h28a3.98 3.98 0 0 0 1.935-.5H2.065A3.98 3.98 0 0 0 4 31z" />
+                <path fill="#EEE"
+                  d="M8.5 19.5H0V22h36v-2.5H14zM0 27c0 .17.014.336.035.5h35.931c.02-.164.034-.33.034-.5v-2H0v2zm14-13h22v2.5H14zm0-5.5V11h22V9c0-.17-.014-.336-.035-.5H14z" />
+                <path fill="#0D5EB0"
+                  d="M14 11h22v3H14zM0 22h36v3H0zm2.065 8.5h31.87a4.002 4.002 0 0 0 2.031-3H.035a3.998 3.998 0 0 0 2.03 3zM0 14h5.5v5.5H0zm14 2.5V14H8.5v5.5H36v-3zm19.935-11A3.98 3.98 0 0 0 32 5H4A4.002 4.002 0 0 0 .034 8.5C.014 8.664 0 8.83 0 9v2h5.5V5.5h3V11H14V8.5h21.965a3.998 3.998 0 0 0-2.03-3z" />
+                <path fill="#EEE" d="M8.5 11V5h-3v6H0v3h5.5v5.5h3V14H14v-3z" />
+              </svg>
+            </vox> Greek
           </div>
         </div>
-        <div class="info" id="infoTxt">
-          Your connection is not secure!<br>Local connections are available.
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1 data-i18n="hero_title">Choose your experience.</h1>
+    <p data-i18n="hero_subtitle">A unified ecosystem for productivity and connection.</p>
+
+    <div class="header-actions">
+      <div class="segmented-control">
+        <button class="tab-btn active" onclick="filterProjects('latest', this)" data-i18n="tab_latest">Latest</button>
+        <button class="tab-btn" onclick="filterProjects('stable', this)" data-i18n="tab_stable">Stable</button>
+        <button class="tab-btn" onclick="filterProjects('beta', this)" data-i18n="tab_beta">Beta</button>
+        <button class="tab-btn" onclick="filterProjects('abandoned', this)" data-i18n="tab_abandoned">Abandoned</button>
+        <button class="tab-btn" onclick="filterProjects('all', this)" data-i18n="tab_all">All</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="grid-container" id="projectGrid">
+    <article class="card" data-status="active">
+      <div class="card-visual">
+        <img src="./evox-epsilon-beta/epsilon-assets/apple-splash-dark-2360-1640.png" alt="Epsilon Nexus"
+          class="app-icon">
+      </div>
+      <div class="card-content">
+        <span class="badge beta" data-i18n="badge_beta">Beta</span>
+        <h2>Epsilon Nexus</h2>
+        <p data-i18n="card_epsilon_desc">Manage apps, friends, and chats securely with an interface designed for
+          speed.</p>
+      </div>
+      <a href="#" class="btn-launch">
+        <span data-i18n="btn_launch">Launch App</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 11L11 1M11 1H3.5M11 1V8.5" stroke="black" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+    </article>
+
+    <article class="card" data-status="active">
+      <div class="card-visual">
+        <img src="./jeanneBeta/splashScreens/apple-splash-2160-1620.png" alt="Jeanne D'Arc" class="app-icon">
+      </div>
+      <div class="card-content">
+        <span class="badge ongoing" data-i18n="badge_ongoing">Ongoing</span>
+        <h2>Jeanne D'Arc</h2>
+        <p data-i18n="card_jeanne_desc">Next-gen yearbook features currently under development.</p>
+      </div>
+      <a href="#" class="btn-launch disabled" data-i18n="btn_soon">Coming Soon</a>
+    </article>
+
+    <article class="card" data-status="active">
+      <div class="card-visual">
+        <img src="./oasaResign/splashScreens/apple-splash-2208-1242.png" alt="OASA" class="app-icon">
+      </div>
+      <div class="card-content">
+        <span class="badge abandoned" data-i18n="badge_abandoned">Abandoned</span>
+        <h2>Legacy OASA</h2>
+        <p data-i18n="card_oasa_desc">An older iteration of the OASA mobile experience. Project moved to
+          archive.</p>
+      </div>
+      <a href="#" class="btn-launch secondary" data-i18n="btn_archive">View Archive</a>
+    </article>
+  </main>
+
+  <section id="about" class="about-section">
+    <div class="about-header">
+      <span class="badge ongoing" data-i18n="badge_story">Our Story</span>
+      <h2 data-i18n="about_title">Designed for the future.</h2>
+      <p data-i18n="about_subtitle">Evox is more than a suite of apps, it’s a unified ecosystem built to bridge
+        the gap between community, productivity, and security.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card tall">
+        <h3 data-i18n="vision_title">The Vision</h3>
+        <p data-i18n="vision_desc">From the early days of ChatVia in 2020 to the advanced Epsilon Nexus of 2026,
+          our goal has remained the same: to create a seamless digital environment where security doesn't
+          compromise speed.</p>
+        <div class="about-visual vision-gradient">
+          <img src="./evox-index/old-image.png">
         </div>
-        <div class="bottomRow">
-          <div id="child1" onclick="switchSrv(this)" class="buttonCta">
-            Switch
+      </div>
+
+      <div class="about-card">
+        <h3 data-i18n="security_title">Security First</h3>
+        <p data-i18n="security_desc">With Cryptox® integration and local-first data processing, your information
+          stays where it belongs: with you.</p>
+      </div>
+
+      <div class="about-card">
+        <h3 data-i18n="evolution_title">Evolution</h3>
+        <p data-i18n="evolution_desc">What started as a simple real-time chat has evolved into school management
+          systems, transit tools, and AI assistants.</p>
+      </div>
+
+      <div class="about-card wide">
+        <div class="about-content">
+          <h3 data-i18n="community_title">Built for the Community</h3>
+          <p data-i18n="community_desc">Every Evox project is a response to a community need. Whether it's
+            managing yearbooks with Jeanne D'Arc or navigating the city with OASA, we build for the users
+            who drive us forward.</p>
+        </div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-num">6+</span>
+            <span class="stat-label" data-i18n="stat_years">Years</span>
           </div>
-          <div onclick="redirect(this)" id="child2" class="buttonCta redirect">
-            Redirect
+          <div class="stat-item">
+            <span class="stat-num">10+</span>
+            <span class="stat-label" data-i18n="stat_projects">Projects</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">2026</span>
+            <span class="stat-label" data-i18n="stat_era">Nexus Era</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="contact-card">
+      <div class="contact-header">
+        <span class="badge stable" data-i18n="badge_touch">Get in Touch</span>
+        <h2 data-i18n="contact_title">Have a question or feedback?</h2>
+        <p data-i18n="contact_subtitle">Our team is here to help you get the most out of the Evox ecosystem.</p>
+      </div>
+
+      <form class="contact-form" id="evoxContactForm">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="name" data-i18n="label_name">Full Name</label>
+            <input type="text" id="name" data-i18n-placeholder="placeholder_name" placeholder="John Doe" required>
+          </div>
+          <div class="input-group">
+            <label for="email" data-i18n="label_email">Email Address</label>
+            <input type="email" id="email" data-i18n-placeholder="placeholder_email" placeholder="john@evox.com"
+              required>
           </div>
         </div>
 
-      </div>
+        <div class="input-group">
+          <label data-i18n="label_inquiry">Inquiry Type</label>
+          <div class="custom-select" id="customSelect">
+            <div class="select-trigger">
+              <span id="selectValue" data-i18n="opt_support">Technical Support</span>
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                <path d="M1 1L5 5L9 1" stroke="#86868b" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="select-options">
+              <div class="option" data-value="support" data-i18n="opt_support">Technical Support</div>
+              <div class="option" data-value="feedback" data-i18n="opt_feedback">Product Feedback</div>
+              <div class="option" data-value="partnership" data-i18n="opt_partnership">Partnership</div>
+              <div class="option" data-value="other" data-i18n="opt_other">Other</div>
+            </div>
+          </div>
+          <input type="hidden" name="subject" id="subjectHidden" value="support">
+        </div>
+
+        <div class="input-group">
+          <label for="message" data-i18n="label_message">Message</label>
+          <textarea id="message" rows="5" data-i18n-placeholder="placeholder_message" placeholder="How can we help?"
+            required></textarea>
+        </div>
+
+        <button type="submit" class="btn-launch" style="max-width: 100%; margin-right: 0;">
+          <span data-i18n="btn_send">Send Message</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z"
+              stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </form>
     </div>
-  </body>
-  <script src="evox-index.js"></script>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="./privacy" data-i18n="foot_privacy">Privacy Policy</a>
+      <a href="./support" data-i18n="foot_support">Support</a>
+    </div>
+    <div class="copyright" data-i18n="foot_copy">© 2026 Evox Systems. All rights reserved.</div>
+  </footer>
+
+  <script src="./evox-index/script.js"></script>
+  <script src="./evox-index/lang.js"></script>
+</body>
 
 </html>
