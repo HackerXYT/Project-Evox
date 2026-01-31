@@ -1,5 +1,5 @@
 
-const appVersion = "2.1.41"
+const appVersion = "2.1.5"
 const ELEMENTS_CURRENT_VERSIONING = 4
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
     document.getElementById(`version${i + 1}`).innerText = `${i + 1 !== 2 ? appVersion : `v${appVersion}`}`
@@ -676,7 +676,8 @@ function findFullNames(input, removeFoundName) {
 
 let focusedIconsDictionary = {};
 
-function focusOnIcon(el, act, writer, receiver) { //focusOnIcon(this, 'likeBtn', '${post.emri}', '${post.marresi}')
+function focusOnIcon(el, act, writer, receiver, blockActions) { //focusOnIcon(this, 'likeBtn', '${post.emri}', '${post.marresi}')
+    if (blockActions) return;
     const work = el.querySelectorAll("svg path");
 
     // If previously focused, restore original fills
@@ -7239,7 +7240,7 @@ function loadSentToUser(emri, redo) {
                     focusedIconsDictionary[randomString] = ["none"]
                 }
 
-                let block = false;
+                let block = null;
                 if (value === "{evx:access_denied:401}") {
                     semicount++
                     block = true;
@@ -7268,18 +7269,18 @@ function loadSentToUser(emri, redo) {
                                 </div>
                                 ${sentbyuser.cryptoxed && sentbyuser.cryptoxed.includes(key) ? `<vox onclick="showInfoAboutCryptox('${key}', '${pars.name}')" class="cryptox-info">Cryptox Encrypted</vox>` : ''}
                                 <div class="icons">
-                    <div ${sentbyuser.likes[key] && sentbyuser.likes[key].liked.includes(foundName) ? `data-focus-key='${randomString}'` : ""}  onclick="focusOnIcon(this, 'likeBtn', '${key}', '${pars.name}')" class="iconA">
+                    <div ${sentbyuser.likes[key] && sentbyuser.likes[key].liked.includes(foundName) ? `data-focus-key='${randomString}'` : ""}  onclick="focusOnIcon(this, 'likeBtn', '${key}', '${pars.name}', ${block})" class="iconA">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
                             <path ${sentbyuser.likes[key] && sentbyuser.likes[key].liked.includes(foundName) ? "fill='#dedede'" : ""} fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg> ${sentbyuser.likes[key] ? sentbyuser.likes[key].count ? `<p class='pop-text'>${sentbyuser.likes[key].count}</p>` : "<p style='display:none' class='pop-text'></p>" : "<p style='display:none' class='pop-text'></p>"}
                     </div>
                     
-                    <div onclick="focusOnIcon(this, 'shareButton')" class="iconA">
+                    <div onclick="focusOnIcon(this, 'shareButton', null, ${block})" class="iconA">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
                             <path d="M10.3009 13.6949L20.102 3.89742M10.5795 14.1355L12.8019 18.5804C13.339 19.6545 13.6075 20.1916 13.9458 20.3356C14.2394 20.4606 14.575 20.4379 14.8492 20.2747C15.1651 20.0866 15.3591 19.5183 15.7472 18.3818L19.9463 6.08434C20.2845 5.09409 20.4535 4.59896 20.3378 4.27142C20.2371 3.98648 20.013 3.76234 19.7281 3.66167C19.4005 3.54595 18.9054 3.71502 17.9151 4.05315L5.61763 8.2523C4.48114 8.64037 3.91289 8.83441 3.72478 9.15032C3.56153 9.42447 3.53891 9.76007 3.66389 10.0536C3.80791 10.3919 4.34498 10.6605 5.41912 11.1975L9.86397 13.42C10.041 13.5085 10.1295 13.5527 10.2061 13.6118C10.2742 13.6643 10.3352 13.7253 10.3876 13.7933C10.4468 13.87 10.491 13.9585 10.5795 14.1355Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div onclick="focusOnIcon(this, 'savePost', '${key}', '${pars.name}')" class="iconA">
+                    <div onclick="focusOnIcon(this, 'savePost', '${key}', '${pars.name}', ${block})" class="iconA">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="${sentbyuser.saved.includes(`${key}:${pars.name}`) ? '#fff' : 'none'}">
 <path d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
 </svg><vox style="display:none"></vox>
@@ -7389,6 +7390,7 @@ function activateShare(el) {
 
 let socialeSelectedInterval = [];
 function showProfileInfo(emri) {
+    document.getElementById("follows-you").innerText = ''
     lastActiveSearchUser = emri
     const container = document.getElementById("search-in");
     const prevContainer = document.getElementById("search-discovery")
@@ -7529,6 +7531,9 @@ function showProfileInfo(emri) {
                     const recommendationEl = document.getElementById("socialRecommendation");
                     const isRequestedByTarget = res.requests.includes(emri);
 
+                    if (res.followers.includes(emri)) {
+                        document.getElementById("follows-you").innerText = 'Σας ακολουθεί'
+                    }
                     // 1. Handle Follow Button States
                     if (res.requested.includes(emri)) {
                         if (elementFollow.innerHTML !== `Στάλθηκε Αίτημα`) {
@@ -8284,11 +8289,22 @@ function unregisterSW() {
 
 }
 
-function extMention(emri) {
+function extMention(emri, closePanels) {
     if (emri === foundName) {
         console.log("Is self user")
         openProfile(document.getElementById("profile-switch"))
         return;
+    }
+    if (closePanels) {
+        function helper(id) {
+            document.getElementById(id).classList.remove("activated")
+        }
+        helper('requests-panel')
+        helper('following-panel')
+        helper('savedPosts-panel')
+        helper('followers-panel')
+        helper('likedPosts-panel')
+        helper('settings-panel')
     }
     console.log("Mentioned:", emri)
     openSearch(document.getElementById("search-switch"))
@@ -9440,7 +9456,7 @@ function showLikedPosts() {
                                 </div>
                                 <div class="postContent">
                                     <p>
-                                    <vox onclick="extMention('${postData.emri}')" class="mention ${getGender(removeTonos(postData.emri.split(" ")[0])) === "Female" ? "female" : "male"}">@${postData.marresi}</vox><br>
+                                    <vox onclick="extMention('${postData.emri}', true)" class="mention ${getGender(removeTonos(postData.emri.split(" ")[0])) === "Female" ? "female" : "male"}">@${postData.marresi}</vox><br>
                                     ${postData.vleresim}
                                     </p>
                                 </div>
@@ -9485,6 +9501,38 @@ function showLikedPosts() {
 
             })
         }).catch(error => {
+            console.log('Error:', error);
+        });
+}
+
+function removeFollower(user, el) {
+    const account_data = localStorage.getItem("jeanDarc_accountData")
+    if (!account_data) {
+        console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
+        document.getElementById("followers-list").style.display = null
+        document.getElementById("followers-list").innerHTML = `<div style="display:flex;flex-direction:column;width:100%;align-items:center;gap:10px;justify-content:center;"><p style="text-align:center;color:#b83131;">Δεν υπάρχει λογαριασμός [EVX-OPERATION-BROKE]</p></div>`
+        return;
+    }
+    const pars = JSON.parse(account_data)
+    el.style.pointerEvents = 'none'
+    fetch(`https://arc.evoxs.xyz/?metode=removeFollower&emri=${foundName}&pin=${atob(pars.pin)}&id=${user}`)
+        .then(response => response.json())
+        .then(res => {
+            if (res.message.includes('Success')) {
+                showFollowers()
+            } else {
+                document.getElementById("icon-checkmark").style.display = 'none'
+                document.getElementById("icon-error").style.display = ""
+                document.getElementById("icon-spinner").style.display = "none";
+                document.getElementById("notice-text").innerText = `Αποτυχία. Αναφέρετε το σφάλμα.`
+                document.getElementById("notice-main").classList.add("active")
+                setTimeout(function () {
+
+                    document.getElementById("notice-main").classList.remove("active")
+                }, 2500)
+            }
+        }).catch(error => {
+
             console.log('Error:', error);
         });
 }
@@ -9538,14 +9586,14 @@ function showFollowers() {
                                     </div>
                                     <div class="postInfo">
                                         <div class="userInfo">
-                                            <p onclick="extMention('${emri}')">${emri}
+                                            <p onclick="extMention('${emri}', true)">${emri}
                                             </p>
                                         </div>
                                     <div class="postContent">
                                         <p>${seksioniData.seksioni}${seksioniData.klasa !== 'none' ? seksioniData.klasa : ""}</p>
                                     </div>
                                 </div>
-                                <div onclick="showProfileInfo('${emri}')" class="showProfileBtn remove">
+                                <div onclick="removeFollower('${emri}', this)" class="showProfileBtn remove">
                                     Αφαίρεση
                                 </div>
                                 </div>
@@ -9558,6 +9606,76 @@ function showFollowers() {
             })
         }).catch(error => {
 
+            console.log('Error:', error);
+        });
+}
+
+function showRequests() {
+    document.getElementById("requests-panel").classList.add("activated")
+    const account_data = localStorage.getItem("jeanDarc_accountData")
+    if (!account_data) {
+        console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?")
+        document.getElementById("requests-list").style.display = null
+        document.getElementById("requests-list").innerHTML = `<div style="display:flex;flex-direction:column;width:100%;align-items:center;gap:10px;justify-content:center;"><p style="text-align:center;color:#b83131;">Δεν υπάρχει λογαριασμός [EVX-OPERATION-BROKE]</p></div>`
+        return;
+    }
+    const pars = JSON.parse(account_data)
+    document.getElementById("requests-list").innerHTML = `<div id="requests_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
+            --track-upload: #4a4a4a;width: 25px;">
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="active-upload"></circle>
+                <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
+                    class="track-upload"></circle>
+            </svg><p style="text-align:center;">Γίνεται Φόρτωση..</p></div>`
+
+    fetch(`https://arc.evoxs.xyz/?metode=getSocialeInfo&emri=${foundName}&pin=${atob(pars.pin)}`)
+        .then(response => response.json())
+        .then(sociale => {
+            if (sociale.requests.length === 0) {
+                document.getElementById("requests-list").innerHTML = `<div id="requests_loadingindicator" style="display:flex;flex-direction:column;width:100%;align-items:center;gap:5px;justify-content:center;margin-top: 15px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 18L14 18M17 15V21M4 21C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                <p style="text-align:center;">Δεν έχετε<br>κανένα αίτημα.</p></div>`
+                return;
+            }
+
+            sociale.requests.forEach((emri, i) => {
+                fetch(`https://arc.evoxs.xyz/?metode=klasaMerr&emri=${foundName}`)
+                    .then(response => response.text())
+                    .then(seksioniData => {
+                        if (i === 0) document.getElementById("requests-list").innerHTML = ''
+                        if (seksioniData !== "Nuk u gjet") {
+                            seksioniData = JSON.parse(seksioniData)
+                            getImage(emri).then(profileSrc => {
+                                document.getElementById("requests-list").innerHTML += `
+                            <div class="postContainer" style="padding-bottom: 10px;padding-top: 10px;">
+                                <div class="post extpost">
+                                    <div class="profilePicture">
+                                        <img src="${profileSrc.imageData}">
+                                    </div>
+                                    <div class="postInfo">
+                                        <div class="userInfo">
+                                            <p onclick="extMention('${emri}', true)">${emri}
+                                            </p>
+                                        </div>
+                                    <div class="postContent">
+                                        <p>${seksioniData.seksioni}${seksioniData.klasa !== 'none' ? seksioniData.klasa : ""}</p>
+                                    </div>
+                                </div>
+                                <div onclick="acceptRequest(this,'${emri}', true)" class="showProfileBtn">
+                                    Αποδοχή
+                                </div>
+                                </div>
+                            </div>`
+                            })
+                        }
+                    }).catch(error => {
+                        console.log('Error:', error);
+                    });
+            })
+
+        }).catch(error => {
             console.log('Error:', error);
         });
 }
@@ -9613,14 +9731,14 @@ function showFollowing() {
                                     </div>
                                     <div class="postInfo">
                                         <div class="userInfo">
-                                            <p onclick="extMention('${emri}')">${emri}
+                                            <p onclick="extMention('${emri}', true)">${emri}
                                             </p>
                                         </div>
                                     <div class="postContent">
                                         <p>${seksioniData.seksioni}${seksioniData.klasa !== 'none' ? seksioniData.klasa : ""}</p>
                                     </div>
                                 </div>
-                                <div onclick="showProfileInfo('${emri}')" class="showProfileBtn remove">
+                                <div onclick="unfollowUser('${emri}', this, true)" class="showProfileBtn remove">
                                     Αφαίρεση
                                 </div>
                                 </div>
@@ -9692,7 +9810,7 @@ function showSavedPosts() {
                                 </div>
                                 <div class="postContent">
                                     <p>
-                                    <vox onclick="extMention('${postData.emri}')" class="mention ${getGender(removeTonos(postData.emri.split(" ")[0])) === "Female" ? "female" : "male"}">@${postData.marresi}</vox><br>
+                                    <vox onclick="extMention('${postData.emri}', true)" class="mention ${getGender(removeTonos(postData.emri.split(" ")[0])) === "Female" ? "female" : "male"}">@${postData.marresi}</vox><br>
                                     ${postData.vleresim}
                                     </p>
                                 </div>
@@ -9999,9 +10117,9 @@ function followUser(el) {
 }
 
 
-function acceptRequest(el) {
+function acceptRequest(el, customName, ext) {
     const svg = document.getElementById("plugIn-icon")
-    if (svg) {
+    if (svg || ext) {
         el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
             --track-upload: #4a4a4a;width: 15px;">
                 <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
@@ -10016,22 +10134,27 @@ function acceptRequest(el) {
             return;
         }
         const pars = JSON.parse(account_data)
-        fetch(`https://arc.evoxs.xyz/?metode=acceptRequest&emri=${foundName}&pin=${atob(pars.pin)}&id=${document.getElementById("userName-search").innerText}`)
+        fetch(`https://arc.evoxs.xyz/?metode=acceptRequest&emri=${foundName}&pin=${atob(pars.pin)}&id=${customName ? customName : document.getElementById("userName-search").innerText}`)
             .then(response => response.json())
             .then(res => {
                 if (res.evxCode === 205 || res.evxCode === 210 || res.evxCode === 204) {
-                    svg.querySelectorAll("path")[0].style.transition = "transform 0.5s ease"
-                    svg.querySelectorAll("path")[0].style.transform = "translate(3.5px, -3.5px)"
+                    if (!ext) {
+                        svg.querySelectorAll("path")[0].style.transition = "transform 0.5s ease"
+                        svg.querySelectorAll("path")[0].style.transform = "translate(3.5px, -3.5px)"
 
-                    svg.querySelectorAll("path")[1].style.transition = "transform 0.5s ease"
-                    svg.querySelectorAll("path")[1].style.transform = "translate(-3.5px, 3.5px)"
-                    setTimeout(function () {
-                        document.getElementById("socialRecommendation").classList.add("fade-out-slide-down")
+                        svg.querySelectorAll("path")[1].style.transition = "transform 0.5s ease"
+                        svg.querySelectorAll("path")[1].style.transform = "translate(-3.5px, 3.5px)"
                         setTimeout(function () {
-                            document.getElementById("socialRecommendation").style.display = 'none'
-                            el.innerHTML = `Αποδοχή`
-                        }, 500)
-                    }, 1200)
+                            document.getElementById("socialRecommendation").classList.add("fade-out-slide-down")
+                            setTimeout(function () {
+                                document.getElementById("socialRecommendation").style.display = 'none'
+                                el.innerHTML = `Αποδοχή`
+                            }, 500)
+                        }, 1200)
+                    } else {
+                        showRequests()
+                    }
+
                 }
             }).catch(error => {
                 console.error("Follow error", error)
@@ -10079,7 +10202,7 @@ function rejectRequest(el) {
     }
 }
 
-function unfollowUser(userEmri, el) {
+function unfollowUser(userEmri, el, ext) {
     el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" class="loader-upload" style="--active-upload: #ffffff;
             --track-upload: #4a4a4a;width: 15px;">
                 <circle r="176" cy="192" cx="192" stroke-width="32" fill="transparent" pathLength="360"
@@ -10097,13 +10220,19 @@ function unfollowUser(userEmri, el) {
         .then(response => response.json())
         .then(res => {
             if (res.evxCode === 205 || res.evxCode === 210 || res.evxCode === 204) {
-                const elementFollow = document.getElementById("followUser")
-                elementFollow.style.border = "none";
-                elementFollow.style.padding = "6px 25px"
-                elementFollow.innerHTML = "Ακολούθησε"
-                elementFollow.classList.add("showProfileBtn")
-                evalertclose()
-                switchToHome_Search(document.getElementById("carouseli01"))
+                if (!ext) {
+                    const elementFollow = document.getElementById("followUser")
+                    elementFollow.style.border = "none";
+                    elementFollow.style.padding = "6px 25px"
+                    elementFollow.innerHTML = "Ακολούθησε"
+                    elementFollow.classList.add("showProfileBtn")
+                    evalertclose()
+                    switchToHome_Search(document.getElementById("carouseli01"))
+                } else {
+                    showFollowing()
+                }
+
+
             } else {
                 evalertclose()
                 EvalertNext({
