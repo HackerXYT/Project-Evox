@@ -11,28 +11,33 @@
   --accent-red: #ff453a;
   --radius-l: 24px;
   --radius-m: 12px;
-  --font-stack: 'SF', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-stack:
+    "SF", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   --nav-height: 60px;
 }
 
 /* --- CLEANED FONT-FACE --- */
 @font-face {
-  font-family: 'SF';
-  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYREGULAR.OTF') format('opentype');
+  font-family: "SF";
+  src: url("/jeanneBeta/evox-fonts/source/SFPRODISPLAYREGULAR.OTF")
+    format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'SF';
-  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYMEDIUM.OTF') format('opentype');
+  font-family: "SF";
+  src: url("/jeanneBeta/evox-fonts/source/SFPRODISPLAYMEDIUM.OTF")
+    format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'SF';
-  src: url('/jeanneBeta/evox-fonts/source/SFPRODISPLAYBOLD.OTF') format('opentype');
+  font-family: "SF";
+  src: url("/jeanneBeta/evox-fonts/source/SFPRODISPLAYBOLD.OTF")
+    format("opentype");
   font-weight: 700;
   font-style: normal;
 }
@@ -96,7 +101,6 @@ nav {
   width: 30px;
   height: 30px;
   object-fit: cover;
-
 }
 
 .nav-links {
@@ -195,7 +199,9 @@ nav {
 }
 
 #projectGrid {
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.2s ease-out;
   will-change: opacity, transform;
 }
 
@@ -212,7 +218,11 @@ nav {
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, border-color 0.3s;
+  min-height: 521px;
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 0.3s,
+    border-color 0.3s;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -348,7 +358,9 @@ nav {
   font-weight: 600;
   font-size: 0.9rem;
   text-align: center;
-  transition: transform 0.2s, opacity 0.2s;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
