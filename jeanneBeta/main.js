@@ -1,4 +1,5 @@
 const appVersion = "2.1.52";
+
 const ELEMENTS_CURRENT_VERSIONING = 4;
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
   document.getElementById(`version${i + 1}`).innerText =
@@ -2637,6 +2638,7 @@ function attach() {
   }
   document.body.style.backgroundColor = "#101010"; //'rgb(5,2,16)'
   //return;
+
   document.getElementById("splashLogo").style.transform = "scale(50)";
   document.getElementById("splashLogo").style.opacity = "0";
   setTimeout(function () {
