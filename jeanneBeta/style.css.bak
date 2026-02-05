@@ -79,6 +79,13 @@
   font-family: "SF";
 }
 
+:root {
+  --color-theme: #298ef2;
+  --color-theme: #fff;
+  --color-theme-light: rgb(102, 179, 255);
+  --color-theme-select: #298ef255;
+}
+
 .app {
   font-family: "SF";
 }
@@ -91,7 +98,7 @@ body {
 
   padding: 0;
   margin: 0;
-  color: rgb(var(--font-color));
+  color: #fff;
   background: rgb(6, 2, 19);
   background-color: rgb(16, 16, 16);
   display: flex;
@@ -177,7 +184,7 @@ body::-webkit-scrollbar {
       /* Glow effect from the bottom */ rgba(44, 40, 10, 0.435),
       /* Slightly lighter purple with lower opacity */ rgba(0, 0, 0, 0) 50%
     ),
-    rgb(var(--font-color-inverted));
+    #000;
   /* Base background color */
 
   /* Apply a blur filter to soften the edges of the "light" */
@@ -262,7 +269,7 @@ body::-webkit-scrollbar {
 
 .appInfo:hover,
 .appInfo:active {
-  background-color: rgb(var(--font-color));
+  background-color: #fff;
 }
 
 .appInfo svg path {
@@ -289,17 +296,16 @@ body::-webkit-scrollbar {
 
 .infoContainer p {
   margin: 0;
-  text-align: center;
   margin-bottom: 5px;
 }
 
 .infoContainer p span {
-  color: var(--descriptive-color-2);
+  color: #cfcfcfa2;
   font-size: 16px;
 }
 
 .infoContainer span {
-  color: var(--descriptive-color-2);
+  color: #cfcfcfa2;
   font-size: 14px;
   margin-bottom: 10px;
 }
@@ -417,7 +423,7 @@ vo input {
   box-sizing: border-box;
   padding: 15px 20px;
   /* Adjust padding for consistency */
-  color: rgb(var(--font-color));
+  color: #ffffff;
   /* Change text color for contrast */
   font-size: 18px;
   outline: none;
@@ -528,7 +534,7 @@ vo input::placeholder {
   animation-timing-function: linear;
   height: 20px;
   width: 20px;
-  border: 4.5px solid rgb(var(--font-color));
+  border: 4.5px solid #ffffff;
   border-right-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -567,13 +573,13 @@ vo input::placeholder {
 .welcome .textDialog p {
   font-size: 20px;
   margin-bottom: 5px;
-  color: var(--descriptive-color-2);
+  color: #cfcfcfa2;
 }
 
 .welcome .textDialog h2 {
   font-size: 26px;
   margin-bottom: 5px;
-  background: var(--linearText);
+  background: linear-gradient(to right, #f1a97ced, #d7ba5d, #be8d35, #ff7d00ad);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
@@ -594,32 +600,12 @@ vo input::placeholder {
   margin: 0;
 }
 
-body.lightMode img.dark {
-  display: none;
-}
-img.light {
-  display: none;
-}
-body.lightMode img.light {
-  display: block;
-}
-
-body.lightMode img.darkFlex {
-  display: none;
-}
-img.lightFlex {
-  display: none;
-}
-body.lightMode img.lightFlex {
-  display: flex;
-}
-
 .welcome .boxUp {
   position: fixed;
   bottom: 0;
   width: 95%;
   padding: 25px;
-  background-color: var(--welcomeBoxUp);
+  background-color: #1e1e1e96;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   display: flex;
@@ -636,13 +622,13 @@ body.lightMode img.lightFlex {
 
 .welcome .boxUp p {
   font-size: 19px;
-  color: rgb(var(--font-color));
+  color: #fff;
   margin-bottom: 10px;
 }
 
 .welcome .boxUp span {
   font-size: 14px;
-  color: var(--descriptive-color-2);
+  color: #cfcfcfa2;
   margin-bottom: 10px;
 }
 
@@ -659,7 +645,7 @@ body.lightMode img.lightFlex {
   border-radius: 10px;
   margin-top: 10px;
   transition: all 0.5s ease-in-out;
-  background-color: var(--inv-btn-bg);
+  background-color: #2323238a;
   border: 1px solid #2d2d2d98;
   display: flex;
   justify-content: center;
@@ -668,8 +654,8 @@ body.lightMode img.lightFlex {
 }
 
 .optionButton.focus {
-  background-color: var(--optionButtonfocus);
-  border: 2px solid #8780eb9e;
+  background-color: #282733;
+  border: 1px solid #8780eb9e;
   color: #8880eb;
 }
 
@@ -687,7 +673,7 @@ body.lightMode img.lightFlex {
 .optionButton.focus:active {
   background-color: #333344;
   border: 1px solid #6666cc;
-  color: rgb(var(--font-color));
+  color: #ffffff;
 }
 
 .horizontalButtons {
@@ -704,7 +690,7 @@ body.lightMode img.lightFlex {
   border-radius: 10px;
   margin-top: 10px;
   transition: all 0.5s ease-in-out;
-  background-color: var(--inv-btn-bg);
+  background-color: #2323238a;
   border: 1px solid #2d2d2d98;
   display: flex;
   justify-content: center;
@@ -800,7 +786,7 @@ img {
   /* Ensure the image covers the circle without stretching */
   overflow: hidden;
   /* Hide any overflow outside the circle */
-  /* border: 2px solid rgb(var(--font-color));    Optional: Add a border around the circle */
+  /* border: 2px solid #fff;    Optional: Add a border around the circle */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   /* Optional: Add a shadow for some depth */
   flex-shrink: 0;
@@ -823,7 +809,7 @@ img {
   width: 100%;
   height: 100vh;
   background-color: transparent;
-  backdrop-filter: blur(25px) brightness(0.9);
+  backdrop-filter: blur(25px) brightness(0.7);
   -webkit-backdrop-filter: blur(15px);
   z-index: 999;
 }
@@ -874,7 +860,7 @@ img {
   font-size: 24px;
   background-color: #4a4a4a52;
   border: none;
-  color: rgb(var(--font-color));
+  color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
   backdrop-filter: blur(10px);
@@ -892,7 +878,7 @@ img {
 
 .pin-pad button.active {
   background-color: #ffffff4a;
-  color: rgb(var(--font-color));
+  color: #fff;
   animation: focusOnAction 0.3s ease-in-out;
 }
 
@@ -911,8 +897,8 @@ img {
 }
 
 .delete-button {
-  background-color: rgb(var(--font-color-inverted));
-  color: rgb(var(--font-color));
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .version {
@@ -922,10 +908,6 @@ img {
   margin-bottom: 15px;
   font-size: 12px;
   color: #6c757d;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .pin-pad .invisible-button {
@@ -1074,6 +1056,7 @@ img {
 .app .topBar .pfp img {
   width: 45px;
   height: 45px;
+  display: flex;
   justify-content: center;
   object-fit: cover;
   margin-right: 15px;
@@ -1094,7 +1077,7 @@ img {
   /*20px*/
   height: 30px;
   /*20px*/
-  fill: rgb(var(--font-color));
+  fill: white;
   /* Ensures the SVG fill is white */
   filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7))
     drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
@@ -1276,7 +1259,7 @@ img {
   transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: bold;
-  color: rgb(var(--font-color));
+  color: #ffffff;
   font-size: 18px;
   font-weight: bold;
   color: #e2e2e2;
@@ -1316,7 +1299,7 @@ img {
   position: relative;
   display: flex;
   flex-direction: column-reverse;
-  background: rgb(var(--font-color-inverted));
+  background: #000;
   /* Fallback background */
   border-radius: 20px;
   width: 100%;
@@ -1622,7 +1605,7 @@ img {
     opacity 0.7s ease-in-out,
     visibility 0.7s ease-in-out,
     height 1s ease-in-out;
-  transform: translateY(150vh);
+  transform: translateY(100vh);
   z-index: 9999;
 }
 
@@ -1669,7 +1652,7 @@ img {
     opacity 0.3s ease-in-out,
     visibility 0.7s ease-in-out,
     height 1s ease-in-out;
-  transform: translateY(150vh);
+  transform: translateY(100vh);
   overscroll-behavior: none;
   /* Ensure it doesn’t move */
 }
@@ -1735,7 +1718,7 @@ img {
   border-radius: 15px;
   width: 65px;
   height: 50px;
-  background-color: var(--create-bg);
+  background-color: #1e1e1edf;
 }
 
 .navigation .bar .item.active {
@@ -1757,7 +1740,7 @@ img {
 }
 
 .navigation .bar .item svg path {
-  fill: var(--bar-text-color);
+  fill: #efefef93;
   transition: 0.3s ease-in-out;
 }
 
@@ -1840,8 +1823,8 @@ img {
   padding: 10px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  background-color: rgba(var(--back-arrow-bg), 0.46);
-  border: 1px solid rgba(var(--back-arrow-border), 0.46);
+  background-color: #1c1c1c;
+  border: 1px solid #0b0b0b;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -1849,10 +1832,6 @@ img {
   justify-content: center;
   align-items: center;
   transition: transform 0.1s ease-in-out;
-}
-
-.backArrow.fixDark {
-  border: 1px solid rgba(var(--back-arrow-border), 0.46);
 }
 
 .backArrow.b {
@@ -1863,14 +1842,14 @@ img {
 .topActions .backArrow.book {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  background-color: rgba(var(--back-arrow-bg), 0.46);
-  border: 1px solid rgba(var(--back-arrow-border), 0.46);
+  background-color: #1c1c1c75;
+  border: 1px solid #1c1c1c75;
 }
 
 .topActions .topMoreOpt {
   margin-left: auto;
   padding: 10px;
-  background-color: rgb(var(--font-color-inverted));
+  background-color: #000;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -1925,7 +1904,7 @@ img {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: rgb(var(--font-color));
+  color: white;
   margin-top: 10px;
   border-radius: 8px;
   justify-content: left;
@@ -2047,7 +2026,7 @@ img {
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  /*border: 4px solid rgb(var(--font-color-inverted));;*/
+  /*border: 4px solid black;*/
   display: block;
   position: relative;
   flex-shrink: 0;
@@ -2149,7 +2128,7 @@ img {
   align-items: center;
   justify-content: center;
   /* Semi-transparent background */
-  color: rgb(var(--font-color));
+  color: white;
   font-size: 14px;
   z-index: 9999;
   pointer-events: none;
@@ -2171,7 +2150,7 @@ img {
   text-align: left;
   margin-bottom: 10px;
   font-size: 12px;
-  color: var(--descriptive-color);
+  color: #b1b1b1;
   font-weight: lighter;
 }
 
@@ -2268,7 +2247,7 @@ img {
 }
 
 .buttons .social {
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -2285,7 +2264,7 @@ img {
   justify-content: center;
   align-items: center;
   padding: 7px;
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -2314,7 +2293,7 @@ img {
   position: absolute;
   left: 25px;
   padding: 10px;
-  background-color: rgb(var(--font-color-inverted));
+  background-color: #000;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -2332,7 +2311,7 @@ img {
   background-color: transparent;
   width: 100%;
   height: 250px;
-  border: 1px solid rgb(var(--font-color-inverted));
+  border: 1px solid black;
   /* Add for visibility */
 }
 
@@ -2451,7 +2430,7 @@ img {
 }
 
 #pinText {
-  color: var(--pinText);
+  color: #bfbfbf;
   font-size: 1rem;
   margin-bottom: 25px;
 }
@@ -2788,7 +2767,7 @@ img {
 }
 
 .staticBg {
-  --fade-color: rgb(var(--font-color-inverted));
+  --fade-color: #000000;
 
   background:
     radial-gradient(
@@ -3073,7 +3052,7 @@ img {
   border-radius: 10px;
   margin-top: 10px;
   transition: all 0.5s ease-in-out;
-  background-color: var(--inv-btn-bg);
+  background-color: #2323238a;
   border: 1px solid #2d2d2d98;
   display: flex;
   justify-content: left;
@@ -3113,7 +3092,7 @@ img {
   padding-right: 0px;
   font-size: 16px;
   margin: 0;
-  color: rgb(var(--font-color)) !important;
+  color: #fff !important;
   filter: none;
   white-space: nowrap;
   overflow: hidden;
@@ -3150,7 +3129,7 @@ img {
 
 .topLeftBack:hover,
 .topLeftBack:active {
-  background-color: rgb(var(--font-color));
+  background-color: #fff;
 }
 
 .topLeftBack svg path {
@@ -3167,7 +3146,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-  -webkit-text-fill-color: rgb(var(--font-color)) !important;
+  -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -3197,7 +3176,7 @@ input:-webkit-autofill:active {
   -webkit-backdrop-filter: blur(5px);
   border-radius: 15px;
   transition: all 0.5s ease-in-out;
-  background-color: var(--inv-btn-bg);
+  background-color: #2323238a;
   border: 1px solid #2d2d2d98;
   justify-content: left;
 }
@@ -3243,7 +3222,7 @@ input:-webkit-autofill:active {
   padding: 0 24px;
   /* px-6 */
   background-color: #5044e4;
-  color: rgb(var(--font-color));
+  color: #ffffff;
   font-weight: 500;
   /* font-medium */
   border: none;
@@ -3387,10 +3366,10 @@ input:-webkit-autofill:active {
   -webkit-backdrop-filter: blur(5px);
   border-radius: 15px;
   transition: all 0.2s ease-in-out;
-  background-color: rgba(var(--back-arrow-bg), 0.46);
+  background-color: #1c1c1c75;
   /*232323f0*/
   /*border: 2px solid #7c7c7c39;*/
-  border: 2px solid rgba(var(--back-arrow-border), 0.46);
+  border: 2px solid #1c1c1c75;
 }
 
 .aStudent.seen {
@@ -3457,10 +3436,10 @@ input:-webkit-autofill:active {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgba(var(--back-arrow-bg), 0.46);
+  background-color: #1c1c1c75;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: rgb(var(--font-color));
+  color: #fff;
   font-size: 16px;
   display: flex;
   justify-content: center;
@@ -3553,7 +3532,7 @@ input:-webkit-autofill:active {
   border: none;
   border-radius: 25px;
   background-color: transparent;
-  color: rgb(var(--font-color));
+  color: #fff;
   font-size: 16px;
   line-height: 1.5;
   resize: vertical;
@@ -3661,7 +3640,7 @@ input:-webkit-autofill:active {
   width: 100%;
   padding: 20px;
   border-radius: 15px;
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
 
   display: flex;
   overflow: hidden;
@@ -3691,7 +3670,7 @@ input:-webkit-autofill:active {
 }
 
 .remaining-indicator {
-  background: var(--remaining-indicator);
+  background: #303030;
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 12px;
@@ -3759,7 +3738,7 @@ input:-webkit-autofill:active {
   width: 100%;
   padding: 20px;
   border-radius: 15px;
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
   display: flex;
 
   align-items: center;
@@ -3782,7 +3761,7 @@ input:-webkit-autofill:active {
 
 .smallto {
   font-size: 13px;
-  color: var(--smallto);
+  color: #ffffff8f;
 }
 
 .notice-box {
@@ -3844,7 +3823,7 @@ input:-webkit-autofill:active {
 .notice-box .buttonOk {
   width: 100%;
   border-radius: 10px;
-  background-color: rgb(var(--font-color));
+  background-color: #fff;
   color: #f84a00;
   padding: 10px;
   display: flex;
@@ -3856,7 +3835,7 @@ input:-webkit-autofill:active {
 
 .notice-box .buttonOk:active {
   background-color: #f84a00;
-  color: rgb(var(--font-color));
+  color: #fff;
 }
 
 .cntfix p {
@@ -4206,7 +4185,7 @@ input:-webkit-autofill:active {
 .typewriter {
   --blue: #5c86ff;
   --blue-dark: #275efe;
-  --key: rgb(var(--font-color));
+  --key: #fff;
   --paper: #eef0fd;
   --text: #d3d4ec;
   --tool: #fbc56c;
@@ -4608,7 +4587,7 @@ input:-webkit-autofill:active {
   width: 100%;
   padding: 20px;
   border-radius: 15px;
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
   display: flex;
   overflow: hidden;
   backdrop-filter: blur(5px);
@@ -4653,7 +4632,7 @@ input:-webkit-autofill:active {
 
 .summary .aclass span {
   margin-top: 5px;
-  color: var(--aclass-span-color);
+  color: #ffffffa5;
   font-size: 14px;
   text-align: center;
   padding: 0px 10px;
@@ -4689,17 +4668,13 @@ input:-webkit-autofill:active {
 }
 
 .sparkle {
-  fill: var(--sparkle-fill);
+  fill: #aaaaaa;
   transition: all 800ms ease;
-}
-
-.sparkle.onDark {
-  fill: #e8e8e8;
 }
 
 .aitext {
   margin-top: 0px !important;
-  color: var(--sparkle-fill);
+  color: #aaaaaa;
   font-size: 16px !important;
 }
 
@@ -4714,18 +4689,18 @@ input:-webkit-autofill:active {
 }
 
 .aibtn:hover .aitext {
-  color: rgb(var(--font-color));
+  color: white;
 }
 
 .aibtn:hover .sparkle {
-  fill: rgb(var(--font-color));
+  fill: white;
   transform: scale(1.2);
 }
 
 .btn-shine {
   position: relative;
   padding: 12px 48px;
-  color: rgb(var(--font-color));
+  color: #fff;
   background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #868686 20%);
   background-size: 200% 100%;
   background-position: -100%;
@@ -4798,7 +4773,7 @@ input:-webkit-autofill:active {
 
 .editButton {
   width: 100%;
-  background-color: var(--edit-btn-bg);
+  background-color: #10101096;
   padding: 6px 25px;
   border-radius: 10px;
   border: 2.5px solid #282828;
@@ -4813,7 +4788,7 @@ input:-webkit-autofill:active {
   padding: 5px 0;
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid var(--semiCarousel-border);
+  border-bottom: 1px solid #565656;
   /* Main border */
   position: relative;
   transition: border 0.3s ease;
@@ -4838,7 +4813,7 @@ input:-webkit-autofill:active {
 }
 
 .carouselItem.active {
-  color: rgb(var(--font-color));
+  color: #fff;
   font-weight: bold;
 }
 
@@ -4851,7 +4826,7 @@ input:-webkit-autofill:active {
   width: 95%;
   /* Increase this to make the line wider */
   height: 2px;
-  background-color: rgb(var(--font-color));
+  background-color: #fff;
   transform: translateX(-50%);
   transition: width 0.2s ease-in-out;
   /* Smooth effect when switching tabs */
@@ -4885,7 +4860,7 @@ input:-webkit-autofill:active {
   width: 100%;
   height: auto;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--postContainer-border-bottom);
+  border-bottom: 1px solid #1a1a1a;
   /* Main border */
 }
 
@@ -4946,7 +4921,7 @@ input:-webkit-autofill:active {
 }
 
 .postInfo .userInfo span {
-  color: var(--descriptive-color);
+  color: #b1b1b1;
   font-size: 12px;
 }
 
@@ -4959,7 +4934,7 @@ input:-webkit-autofill:active {
 
 .postInfo .postContent p {
   font-size: 13px;
-  color: var(--descriptive-color);
+  color: #b1b1b1;
   word-break: break-word;
   overflow-wrap: anywhere;
   white-space: normal;
@@ -5003,8 +4978,8 @@ input:-webkit-autofill:active {
 }
 
 .search-container-2.showTop .search-box {
-  background-color: var(--tracker-card-bg);
-  box-shadow: 0 0 10px var(--tracker-card-bg);
+  background-color: #1e1e1e;
+  box-shadow: 0 0 10px #1e1e1e;
 }
 
 .search-container-2 {
@@ -5020,7 +4995,7 @@ input:-webkit-autofill:active {
   border: none;
   outline: none;
   background-color: #4f4f4f5e;
-  color: rgb(var(--font-color));
+  color: white;
   font-size: 16px;
   align-items: center;
   width: 98%;
@@ -5041,8 +5016,8 @@ input:-webkit-autofill:active {
 }
 
 .showProfileBtn {
-  background-color: rgb(var(--font-color));
-  color: rgb(var(--font-color-inverted));
+  background-color: #ffffff;
+  color: #000;
   padding: 15px 25px;
   height: 30px;
   font-weight: bold;
@@ -5063,11 +5038,11 @@ input:-webkit-autofill:active {
 
 .showProfileBtn.remove {
   background-color: #ff3838;
-  color: rgb(var(--font-color));
+  color: #fff;
 }
 
 .showProfileBtn:hover {
-  background-color: var(--showProfile-hover);
+  background-color: #ababab;
 }
 
 .disable-scroll-snap {
@@ -5078,7 +5053,7 @@ input:-webkit-autofill:active {
 
 /* Skeleton Loader Styles */
 .skeleton {
-  background-color: var(--skeleton-bg);
+  background-color: #c9c9c9;
   border-radius: 4px;
   animation: loading 1.5s infinite ease-in-out;
 }
@@ -5088,12 +5063,7 @@ input:-webkit-autofill:active {
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-linear) 25%,
-    var(--skeleton-middle-linear) 50%,
-    var(--skeleton-linear) 75%
-  );
+  background: linear-gradient(90deg, #4c4c4c 25%, #1c1c1c 50%, #4c4c4c 75%);
   /*1b1b1b*/
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -5109,15 +5079,15 @@ input:-webkit-autofill:active {
 
 @keyframes loading {
   0% {
-    background-color: var(--skeleton-middle-linear);
+    background-color: #1b1b1b;
   }
 
   50% {
-    background-color: var(--skeleton-middle-linear);
+    background-color: #1b1b1b;
   }
 
   100% {
-    background-color: var(--skeleton-middle-linear);
+    background-color: #1b1b1b;
   }
 }
 
@@ -5129,7 +5099,7 @@ input:-webkit-autofill:active {
 }
 
 .profilePicture.skeleton {
-  background-color: rgb(var(--font-color-inverted));
+  background-color: #000;
 }
 
 .postInfo .userInfo p.skeleton {
@@ -5163,7 +5133,7 @@ input:-webkit-autofill:active {
   background: rgb(16, 16, 16);
   z-index: 998;
   box-sizing: border-box;
-  color: var(--color-theme);
+  color: white;
   transform: translateX(100%);
   transition:
     transform 0.35s ease,
@@ -5176,10 +5146,6 @@ input:-webkit-autofill:active {
   user-select: none;
   -webkit-user-select: none;
   gap: 10px;
-}
-
-body.lightMode .slidingPanel {
-  background: rgb(185, 185, 185);
 }
 
 .slidingPanel.activated {
@@ -5256,13 +5222,13 @@ body.lightMode .slidingPanel {
 }
 
 .account-preview-settings p {
-  color: rgb(var(--font-color));
+  color: #fff;
 }
 
 .account-preview-settings span {
   font-size: 14.5px;
   font-weight: lighter;
-  color: var(--color-text-settings);
+  color: #838383;
 }
 
 .settings-section {
@@ -5281,7 +5247,7 @@ body.lightMode .slidingPanel {
 .section-title {
   font-size: 14px;
   font-weight: lighter;
-  color: var(--color-text-settings);
+  color: #838383;
 }
 
 .section-buttons {
@@ -5308,7 +5274,7 @@ body.lightMode .slidingPanel {
 }
 
 .section-a-button.withbg {
-  background-color: var(--section-a);
+  background-color: #212121;
   transition: border 0.3s ease;
 }
 
@@ -5339,17 +5305,12 @@ body.lightMode .slidingPanel {
   box-sizing: content-box;
 }
 
-.title-button-section.fix svg,
-.title-button-section.fix img {
-  background-color: var(--tile-button-section-bg);
-}
-
 .section-buttons.squared .section-a-button .title-button-section svg {
   border-radius: 15px;
 }
 
 .hint-option {
-  color: var(--color-text-settings);
+  color: #838383;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -5371,14 +5332,14 @@ body.lightMode .slidingPanel {
   touch-action: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  background: var(--applePopup-bg);
+  background: #191919;
   z-index: 998;
   box-sizing: border-box;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  color: rgb(var(--font-color));
+  color: white;
 
   /* MOBILE ANIMATION: Slide up from bottom */
-  transform: translateY(150%);
+  transform: translateY(100%);
   transition:
     transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
     opacity 0.4s ease;
@@ -5462,7 +5423,7 @@ body.lightMode .slidingPanel {
 }
 
 .border {
-  border-bottom: 1px solid var(--border-general);
+  border-bottom: 1px solid #2c2c2c;
   width: 120%;
   margin-left: -20px;
 }
@@ -5588,7 +5549,7 @@ body.lightMode .slidingPanel {
 .extpost .icons div svg path,
 .extpost .postInfo .icons div svg path {
   stroke-width: 1;
-  stroke: rgb(var(--font-color));
+  stroke: #ffffff;
 }
 
 .extpost .icons div:nth-child(1) svg,
@@ -5600,7 +5561,7 @@ body.lightMode .slidingPanel {
 .extpost .icons div:nth-child(2) svg path,
 .extpost .postInfo .icons div:nth-child(2) svg path {
   stroke-width: 1;
-  stroke: rgb(var(--font-color));
+  stroke: #fff;
   fill: none;
 }
 
@@ -5629,7 +5590,7 @@ body.lightMode .slidingPanel {
 }
 
 .addmore.ready {
-  color: rgb(var(--font-color));
+  color: #ffffff;
 }
 
 #createPostSvg path {
@@ -5648,7 +5609,7 @@ body.lightMode .slidingPanel {
   color: #808080;
   padding-bottom: 20px;
   justify-content: space-around;
-  background-color: var(--applePopup-bg);
+  background-color: #191919;
   z-index: 9999;
   padding-left: 20px;
 }
@@ -5687,8 +5648,8 @@ select:focus {
 
 .postButton {
   margin-left: auto;
-  color: var(--applePopup-bg);
-  background-color: rgb(var(--font-color));
+  color: #191919;
+  background-color: #fff;
   padding: 10px 15px;
   border-radius: 25px;
   font-size: 15px;
@@ -5752,7 +5713,7 @@ spanNormal {
 spanBold {
   font-family: "SF";
   font-size: 14px;
-  color: rgb(var(--font-color));
+  color: #ffff;
 }
 
 .iconA svg path {
@@ -5915,8 +5876,8 @@ spanBold {
 .buttonCarouseli {
   width: 100%;
   height: auto;
-  background-color: rgb(var(--font-color));
-  color: rgb(var(--font-color-inverted));
+  background-color: #fff;
+  color: #000;
   font-weight: bold;
   padding: 6px 25px;
   border-radius: 8px;
@@ -6022,10 +5983,6 @@ spanBold {
     border-right: #1b1b1b 1px solid;
   }
 
-  body.lightMode .navigation .bar {
-    border-right: #bdbdbd 1px solid;
-  }
-
   .navigation .bar .item {
     padding: 10px;
     border-radius: 50px;
@@ -6044,18 +6001,18 @@ spanBold {
   }
 
   .navigation .bar .item.active span {
-    color: rgb(var(--font-color)) !important;
+    color: #fff !important;
   }
 
   .navigation .bar .item span {
-    color: var(--bar-text-color) !important;
+    color: #efefef93 !important;
   }
 
   .navigation .bar .item.create {
     border-radius: 15px;
     width: 55px;
     height: 40px;
-    background-color: var(--create-bg);
+    background-color: #1e1e1edf;
   }
 
   .navigation .bar .item svg {
@@ -6100,19 +6057,6 @@ spanBold {
 
   #assetImg {
     margin-top: 10px;
-  }
-
-  body #assetImg.dark {
-    display: block !important;
-  }
-  body #assetImg.light {
-    display: none !important;
-  }
-  body.lightMode #assetImg.dark {
-    display: none !important;
-  }
-
-  body.lightMode #assetImg.light {
     display: block !important;
   }
 
@@ -6402,7 +6346,7 @@ spanBold {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, var(--evox-notice-opacity));
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 9999;
   transition:
     opacity 0.3s ease,
@@ -6413,7 +6357,7 @@ spanBold {
 .evox-notice .popnotice {
   width: 320px;
   height: auto;
-  background-color: var(--notice-bg);
+  background-color: #1414144d;
   backdrop-filter: blur(15px);
   display: flex;
   flex-direction: column;
@@ -6465,7 +6409,6 @@ spanBold {
   background-color: #3c404694;
   border-radius: 50px;
   transition: background-color 0.5s ease;
-  color: rgb(var(--font-color-inverted));
 }
 
 .buttonsPIN div:active,
@@ -6720,13 +6663,13 @@ spanBold {
 }
 
 #PINdots span.active {
-  background-color: rgb(var(--font-color));
+  background-color: #ffffff;
   width: 10px;
   height: 10px;
 }
 
 #PINdots span {
-  background-color: var(--pinDots);
+  background-color: #ffffff9a;
   width: 5px;
   height: 5px;
   transition: all 0.2s ease-in-out;
@@ -6768,7 +6711,7 @@ spanBold {
   width: 100%;
   height: 100%;
   padding: 20px;
-  background-color: var(--popup-bg);
+  background-color: #121212;
 }
 
 .borderboxcontainer .borderbox {
@@ -6812,7 +6755,7 @@ spanBold {
 
 .generalItem span {
   margin-top: 5px;
-  color: rgb(var(--font-color));
+  color: #fff;
   font-weight: 200;
 }
 
@@ -6825,13 +6768,13 @@ spanBold {
 
 #tagsmk .anInfo {
   border-radius: 30px;
-  background-color: var(--tags-bg);
+  background-color: #1d1d1d;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 5px 10px;
-  color: rgb(var(--font-color));
+  color: #fff;
   font-weight: normal;
   box-sizing: border-box;
   width: 100%;
@@ -6848,7 +6791,7 @@ spanBold {
 }
 
 .anInfo span {
-  color: white;
+  color: #fff;
 }
 
 .topHead .settings-cont {
@@ -6875,7 +6818,7 @@ spanBold {
 
 .settings-cont span {
   margin-top: 5px;
-  color: rgb(var(--font-color));
+  color: #fff;
   font-weight: 200;
 }
 
@@ -6938,7 +6881,7 @@ spanBold {
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background-color: rgba(var(--back-arrow-bg), 0.46);
+  background-color: #0b0b0b;
   display: none;
 }
 
@@ -6968,12 +6911,12 @@ spanBold {
   height: 25px;
   border-radius: 20px;
   box-shadow: inset 0 0 0 2px #ccc;
-  background-color: var(--popup-bg);
+  background-color: #121212;
   transition: background-color 0.3s ease-in-out;
 }
 
 .toggle-switch-background.settings-bg {
-  background-color: var(--applePopup-bg);
+  background-color: #191919;
 }
 
 .toggle-switch-handle {
@@ -6981,7 +6924,6 @@ spanBold {
   width: 25px;
   height: 25px;
   background-color: #fff;
-  /* Dont make me variable*/
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
@@ -6995,7 +6937,7 @@ spanBold {
   font-size: 12px;
   font-weight: bold;
   color: #aaa;
-  text-shadow: 1px 1px rgb(var(--font-color));
+  text-shadow: 1px 1px #fff;
   transition: color 0.3s ease-in-out;
 }
 
@@ -7092,7 +7034,7 @@ spanBold {
   transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: bold;
-  color: rgb(var(--font-color));
+  color: #ffffff;
   font-family: sans-serif;
 }
 
@@ -7124,7 +7066,7 @@ spanBold {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px var(--section-a) solid;
+  border: 1px #212121 solid;
   background-color: #101010;
   height: auto;
   border-radius: 15px;
@@ -7165,7 +7107,7 @@ spanBold {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgb(var(--font-color));
+  color: white;
   animation: popIn2 0.5s ease forwards;
 }
 
@@ -7319,7 +7261,7 @@ spanBold {
 
 .bottomInfo p {
   font-size: 15px;
-  color: rgb(var(--font-color));
+  color: #fff;
   font-weight: bold;
 }
 
@@ -7429,7 +7371,7 @@ spanBold {
   flex-direction: row;
   text-align: center;
   background-color: #eadf6b;
-  color: rgb(var(--font-color-inverted));
+  color: #000;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -7467,7 +7409,7 @@ spanBold {
   align-items: center;
   width: 100%;
   padding: 10px 5px;
-  background-color: var(--activity-buttons-bg-nonactive);
+  background-color: #101010;
   border-radius: 25px;
   border: 1.5px solid #222222;
   transition:
@@ -7476,7 +7418,7 @@ spanBold {
 }
 
 .switchInnerPages .pageBTN.active {
-  background-color: var(--activity-buttons-bg);
+  background-color: #1e1e1e;
   border: 1.5px solid #262626;
 }
 
@@ -7540,11 +7482,11 @@ spanBold {
 
 .notifications-container .notification-div .notification-content p {
   font-size: 14px;
-  color: var(--descriptive-color-2);
+  color: #cfcfcfa2;
 }
 
 .notifications-container .notification-div .notification-content p vox {
-  color: var(--notification-title);
+  color: #cfcfcfce;
 }
 
 .notifications-container .notification-div .notification-content p vox.male {
@@ -7573,7 +7515,7 @@ spanBold {
 .ai-emotions-slider div.main {
   display: flex;
   flex-direction: column;
-  background-color: var(--tracker-card-bg);
+  background-color: #1e1e1e;
   width: 100%;
   padding: 20px;
   border-radius: 15px;
@@ -7608,7 +7550,7 @@ spanBold {
 
 .ai-emotions-slider div.main div.rowUp p {
   font-size: 20px;
-  color: rgb(var(--font-color));
+  color: #fff;
 }
 
 .ai-emotions-slider div.main div.rowUp span {
@@ -7620,7 +7562,7 @@ spanBold {
   margin-left: auto;
   width: 30px;
   height: 30px;
-  border: 1px solid rgb(var(--font-color));
+  border: 1px solid #fff;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -7737,7 +7679,7 @@ body {
 }
 
 .digitInputs .digit input {
-  color: rgb(var(--font-color));
+  color: #ffffff;
   border: none;
   outline: none;
   background-color: transparent;
@@ -7898,7 +7840,7 @@ body {
 
 .menu-item:hover {
   background: #007aff;
-  color: rgb(var(--font-color));
+  color: white;
 }
 
 /* Animation */
@@ -7953,7 +7895,7 @@ body {
 
 /*Instagram Icon*/
 .st0 {
-  fill: rgb(var(--font-color));
+  fill: #ffffff;
 }
 
 .st1 {
@@ -7990,7 +7932,7 @@ body {
 
 .st9 {
   fill: none;
-  stroke: rgb(var(--font-color-inverted));
+  stroke: #000000;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -8001,7 +7943,7 @@ body {
   fill-rule: evenodd;
   clip-rule: evenodd;
   fill: none;
-  stroke: rgb(var(--font-color-inverted));
+  stroke: #000000;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -8284,14 +8226,14 @@ body {
 
 .st77 {
   fill: none;
-  stroke: rgb(var(--font-color-inverted));
+  stroke: #000000;
   stroke-width: 3;
   stroke-miterlimit: 10;
 }
 
 .st78 {
   fill: none;
-  stroke: rgb(var(--font-color));
+  stroke: #ffffff;
   stroke-miterlimit: 10;
 }
 
@@ -8636,25 +8578,21 @@ body {
     filter 0.3s ease;
 }
 
-body.lightMode {
-  background-color: rgb(207 207 207) !important;
+.pfp-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
 }
 
-body.lightMode .navigation .bar {
-  background-color: rgb(185, 185, 185) !important;
-  border-top: 1px solid #bdbdbd;
+.icon-setting {
+  display: block;
 }
 
-.exampleElement {
-  background-color: #000000;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  position: fixed;
-  z-index: 999999;
-  box-shadow:
-    0px 0px 15px 2px #1e1e1ed9,
-    -3px -3px 6px #000000b0,
-    3px 3px 6px #000000b0;
-  transform: translateY(150%);
+.edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 13px;
+  height: 13px;
+  fill: white;
 }

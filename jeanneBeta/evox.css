@@ -24,7 +24,7 @@
   --create-bg: #1e1e1edf;
   --descriptive-color: #b1b1b1;
   --descriptive-color-2: #cfcfcfa2;
-  --back-arrow-border: 181, 181, 181;
+  --back-arrow-border: 69, 68, 68;
   --back-arrow-bg: 28, 28, 28;
   /* RGB of #1c1c1c */
   --edit-btn-bg: #10101096;
@@ -41,6 +41,32 @@
   --svg-fill: #dedede;
   --popup-bg: #121212;
   --notice-bg: #1414144d;
+  --optionButtonfocus: #282733;
+  --welcomeBoxUp: #1e1e1e96;
+  --linearText: linear-gradient(
+    to right,
+    #f1a97ced,
+    #d7ba5d,
+    #be8d35,
+    #ff7d00ad
+  );
+  --pinText: #bfbfbf;
+  --pinDots: #ffffff9a;
+  --evox-notice-opacity: 0.8;
+  --skeleton-linear: #4c4c4c;
+  --skeleton-bg: #c9c9c9;
+  --skeleton-middle-linear: #1c1c1c;
+  --tracker-card-bg: #1e1e1e;
+  --smallto: #ffffff8f;
+  --aclass-span-color: #ffffffa5;
+  --sparkle-fill: #aaaaaa;
+  --remaining-indicator: #303030;
+  --postContainer-border-bottom: #1a1a1a;
+  --semiCarousel-border: #565656;
+  --border-general: #2c2c2c;
+  --tile-button-section-bg: #343434;
+  --tags-bg: #1d1d1d;
+  --showProfile-hover: #ababab;
 }
 
 body.lightMode {
@@ -69,7 +95,32 @@ body.lightMode {
   --svg-fill: #2b2b2b;
   --popup-bg: #c9c9c9;
   --notice-bg: #ffffff6b;
-
+  --optionButtonfocus: #e3e3e3a3;
+  --welcomeBoxUp: #94949499;
+  --linearText: linear-gradient(
+    to right,
+    #f28642ed,
+    #c19301,
+    #bd8520ab,
+    #e07107ad
+  );
+  --pinText: #1d1d1d;
+  --pinDots: #0000009a;
+  --evox-notice-opacity: 0.6;
+  --skeleton-linear: #e4e4e4;
+  --skeleton-bg: #c9c9c9;
+  --skeleton-middle-linear: #cecece;
+  --tracker-card-bg: #e6e6e6;
+  --smallto: #0000008f;
+  --aclass-span-color: #000000a5;
+  --sparkle-fill: #3a3a3a;
+  --remaining-indicator: #ffffffa3;
+  --postContainer-border-bottom: #a5a5a5;
+  --semiCarousel-border: var(--postContainer-border-bottom);
+  --border-general: var(--postContainer-border-bottom);
+  --tile-button-section-bg: #bfbfbf;
+  --tags-bg: #a4a4a4;
+  --showProfile-hover: #484747;
 }
 
 html,
@@ -190,13 +241,13 @@ input {
   gap: 0.75rem;
 }
 
-#links-container>a {
+#links-container > a {
   color: rgb(255 255 255 / 80%);
   font-size: 0.75rem;
   text-decoration: none;
 }
 
-#links-container>a:is(:hover, :focus) {
+#links-container > a:is(:hover, :focus) {
   text-decoration: underline;
 }
 
@@ -221,13 +272,13 @@ input {
   bottom: 0rem;
   background-color: transparent;
   margin-right: 3.52%;
-  margin-bottom: 2.70%;
+  margin-bottom: 2.7%;
   padding: 0rem;
   border: none;
   border-radius: 100%;
 }
 
-#user-menu-button>img {
+#user-menu-button > img {
   display: flex;
   height: 100%;
   border-radius: inherit;
@@ -239,21 +290,21 @@ input {
   margin-top: 0.2rem;
 }
 
-#search-input-container>input,
-#search-container>button {
+#search-input-container > input,
+#search-container > button {
   background-color: rgb(var(--theme-medium));
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
   border: none;
 }
 
-#search-container>button {
+#search-container > button {
   width: 3.5rem;
   border-radius: 0.2rem;
   cursor: pointer;
 }
 
-#search-container>#image-button {
+#search-container > #image-button {
   border-bottom-right-radius: 0.5rem;
 }
 
@@ -266,7 +317,6 @@ input {
   align-items: center;
 }
 
-
 #search-input-container {
   width: 100%;
   display: flex;
@@ -278,8 +328,8 @@ input {
   transition: background-color 0.4s ease-in-out;
 }
 
-#search-input-container>input,
-#search-container>button {
+#search-input-container > input,
+#search-container > button {
   background-color: rgb(255 255 255 / 10%);
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -287,7 +337,7 @@ input {
 }
 
 #search-input-container:has(input:focus),
-#search-container>button:focus {
+#search-container > button:focus {
   background-color: rgba(255, 255, 255, 0.088);
 }
 
@@ -302,7 +352,7 @@ input {
   border-bottom-left-radius: 0.2rem;
 }
 
-#search-container>button {
+#search-container > button {
   background-color: rgb(255 255 255 / 10%);
   color: rgb(255 255 255 / 80%);
   font-size: 1rem;
@@ -315,7 +365,7 @@ input {
   justify-content: center;
 }
 
-#search-container>#image-button {
+#search-container > #image-button {
   border-bottom-right-radius: 0.5rem;
 }
 
@@ -329,14 +379,12 @@ input {
   border-bottom-left-radius: 0.5rem;
 }
 
-
-#search-input-container>img {
+#search-input-container > img {
   height: 1.5rem;
-  margin: var(--isOldDevice)
+  margin: var(--isOldDevice);
 }
 
-
-#search-input-container>input {
+#search-input-container > input {
   width: 100%;
   height: 3.25rem;
   background-color: transparent;
@@ -354,7 +402,7 @@ input {
   margin: 1.3rem 0rem;
 }
 
-#apps-container>a {
+#apps-container > a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -364,7 +412,7 @@ input {
   text-decoration: none;
 }
 
-#apps-container>a>i {
+#apps-container > a > i {
   height: 2rem;
   width: 2rem;
   flex-shrink: 0;
@@ -377,10 +425,9 @@ input {
   /*font-family: "Noto Sans", sans-serif;*/
   font-weight: bold;
   text-shadow: rgba(0, 0, 0, 0.341) 0px 2px 5px;
-
 }
 
-#apps-container>a>.label {
+#apps-container > a > .label {
   margin-left: var(--isOldDevice);
   width: calc(100% - 2.5rem);
   display: flex;
@@ -389,64 +436,63 @@ input {
   overflow: hidden;
 }
 
-#apps-container>a>.label> :is(.name, .url) {
+#apps-container > a > .label > :is(.name, .url) {
   width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-#apps-container>a>.label>.name {
+#apps-container > a > .label > .name {
   font-size: 0.8rem;
 }
 
-#apps-container>a>.label>.url {
+#apps-container > a > .label > .url {
   font-size: 0.7rem;
   color: rgb(255 255 255 / 50%);
 }
 
-#apps-container>a:is(:hover, :focus) {
+#apps-container > a:is(:hover, :focus) {
   background-color: rgba(255, 255, 255, 0.088);
 }
 
-#apps-container>a:first-child {
+#apps-container > a:first-child {
   border-top-left-radius: 0.5rem;
 }
 
-#apps-container>a:nth-child(2) {
+#apps-container > a:nth-child(2) {
   color: rgb(255, 0, 0);
   border-top-right-radius: 0.5rem;
 }
 
-#apps-container>a:nth-child(3) {
+#apps-container > a:nth-child(3) {
   color: rgb(28, 204, 91);
   /*border-bottom-left-radius: 0.5rem;*/
 }
 
-#apps-container>a:nth-child(4) {
+#apps-container > a:nth-child(4) {
   color: rgb(28, 147, 228);
   /*border-bottom-right-radius: 0.5rem;*/
 }
 
-#apps-container>a:nth-child(5) {
+#apps-container > a:nth-child(5) {
   border-bottom-left-radius: 0.5rem;
   color: rgb(242, 85, 90);
 }
 
-#apps-container>a:nth-child(6) {
+#apps-container > a:nth-child(6) {
   border-bottom-right-radius: 0.5rem;
   color: rgb(242, 85, 90);
 }
 
-#apps-container>a:nth-child(7) {
+#apps-container > a:nth-child(7) {
   border-bottom-left-radius: 0.5rem;
 }
 
-#apps-container>a:last-child {
+#apps-container > a:last-child {
   color: rgb(15, 118, 14);
   border-bottom-right-radius: 0.5rem;
 }
-
 
 #custom-container {
   display: grid;
@@ -460,7 +506,7 @@ input {
   grid-template-columns: repeat(2, 50%);
 }
 
-#custom-container:has(> a:nth-child(n+4))>a:last-child:nth-child(odd) {
+#custom-container:has(> a:nth-child(n + 4)) > a:last-child:nth-child(odd) {
   grid-column: span 2;
   /* Make it span both columns (single column style) */
 }
@@ -469,7 +515,7 @@ input {
   border-radius: 1rem;
 }
 
-#custom-container>a {
+#custom-container > a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -479,7 +525,7 @@ input {
   text-decoration: none;
 }
 
-#custom-container>a>i {
+#custom-container > a > i {
   height: 2rem;
   width: 2rem;
   flex-shrink: 0;
@@ -492,10 +538,9 @@ input {
   /*font-family: "Noto Sans", sans-serif;*/
   font-weight: bold;
   text-shadow: rgba(0, 0, 0, 0.341) 0px 2px 5px;
-
 }
 
-#custom-container>a>.label {
+#custom-container > a > .label {
   margin-left: var(--isOldDevice);
   width: calc(100% - 2.5rem);
   display: flex;
@@ -504,18 +549,18 @@ input {
   overflow: hidden;
 }
 
-#custom-container>a>.label> :is(.name, .url) {
+#custom-container > a > .label > :is(.name, .url) {
   width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-#custom-container>a>.label>.name {
+#custom-container > a > .label > .name {
   font-size: 0.8rem;
 }
 
-#custom-container>a>.label>.url {
+#custom-container > a > .label > .url {
   font-size: 0.7rem;
   color: rgb(255 255 255 / 50%);
   display: flex;
@@ -523,7 +568,7 @@ input {
   align-items: center;
 }
 
-#custom-container>a:is(:hover, :focus) {
+#custom-container > a:is(:hover, :focus) {
   background-color: rgba(255, 255, 255, 0.088);
 }
 
@@ -539,7 +584,7 @@ input {
   border-radius: 0.5rem;
 }
 
-#discover-toggles>button {
+#discover-toggles > button {
   flex-grow: 1;
   background-color: transparent;
   padding: 0.75rem;
@@ -550,13 +595,13 @@ input {
   cursor: pointer;
 }
 
-#discover-toggles>button:first-child {
+#discover-toggles > button:first-child {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   background-color: rgb(255 255 255 / 10%);
 }
 
-#discover-toggles>button:last-child {
+#discover-toggles > button:last-child {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
@@ -570,7 +615,7 @@ input {
   border-radius: 0.5rem;
 }
 
-#discover-toggles2>button {
+#discover-toggles2 > button {
   flex-grow: 1;
   background-color: transparent;
   padding: 0.75rem;
@@ -581,13 +626,13 @@ input {
   cursor: pointer;
 }
 
-#discover-toggles2>button:first-child {
+#discover-toggles2 > button:first-child {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   background-color: rgb(255 255 255 / 10%);
 }
 
-#discover-toggles2>button:last-child {
+#discover-toggles2 > button:last-child {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
@@ -607,7 +652,7 @@ input {
   text-decoration: none;
 }
 
-.discover-card>img {
+.discover-card > img {
   width: 100%;
   aspect-ratio: 1.6 / 1;
   object-fit: cover;
@@ -616,7 +661,7 @@ input {
   border-bottom-right-radius: 0.25rem;
 }
 
-.discover-card>.discover-card-info {
+.discover-card > .discover-card-info {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -627,17 +672,16 @@ input {
   border-top-right-radius: 0.25rem;
 }
 
-.discover-card>.discover-card-info>.title {
+.discover-card > .discover-card-info > .title {
   font-size: 0.8rem;
 }
 
-.discover-card>.discover-card-info>.desc {
+.discover-card > .discover-card-info > .desc {
   font-size: 0.7rem;
   color: rgb(255 255 255 / 50%);
 }
 
-@media(max-width: 500px) {
-
+@media (max-width: 500px) {
   #phone {
     height: 100vh;
     display: flex;
@@ -693,7 +737,11 @@ input {
   /* Initially hidden */
   transform: translateY(120%);
   /* Initially off-screen to the left */
-  transition: transform 0.9s ease-in-out, opacity 0.7s ease-in-out, visibility 0.7s ease-in-out, height 1s ease-in-out;
+  transition:
+    transform 0.9s ease-in-out,
+    opacity 0.7s ease-in-out,
+    visibility 0.7s ease-in-out,
+    height 1s ease-in-out;
 
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
@@ -755,7 +803,6 @@ input {
   text-align: center;
 }
 
-
 .evoxBased .timeBox {
   width: 95%;
   text-align: left;
@@ -770,7 +817,11 @@ input {
   border-radius: 0;
   height: 65px;
   /* Initial height with px */
-  transition: height 0.9s ease-in-out, transform 0.6s ease, opacity 0.7s ease-in-out, background-color 0.7s ease-in-out;
+  transition:
+    height 0.9s ease-in-out,
+    transform 0.6s ease,
+    opacity 0.7s ease-in-out,
+    background-color 0.7s ease-in-out;
 }
 
 .evoxBased .timeBox span {
@@ -779,12 +830,17 @@ input {
 }
 
 .evoxBased .timeBox div {
-  transition: height 0.7s ease-in-out, transform 0.6s ease, opacity 0.7s ease-in-out;
+  transition:
+    height 0.7s ease-in-out,
+    transform 0.6s ease,
+    opacity 0.7s ease-in-out;
 }
 
 .evoxBased .timeBox img {
   vertical-align: middle;
-  transition: transform 0.6s ease, opacity 0.7s ease-in-out;
+  transition:
+    transform 0.6s ease,
+    opacity 0.7s ease-in-out;
 }
 
 .evoxBased .timeBox:first-child {
@@ -796,8 +852,6 @@ input {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-
-
 
 .parentBack {
   display: flex;
@@ -836,7 +890,6 @@ input {
   border-radius: 1rem;
   transition: background-color 1s ease-out;
   z-index: 999;
-
 }
 
 .grabbable::before {
@@ -947,12 +1000,10 @@ input {
   margin-right: 10px;
 }
 
-
 .buttonsContainer .option:first-child {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
-
 
 .buttonsContainer .option:last-child {
   border-bottom-left-radius: 1rem;
@@ -1016,7 +1067,6 @@ input {
 #newUser p {
   margin-top: 10px;
 }
-
 
 #case2 h1 {
   font-size: 2rem;
@@ -1156,7 +1206,6 @@ input {
 }
 
 .sliding {
-
   /*font-family: "SF";*/
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1183,13 +1232,15 @@ input {
   /* Initially hidden */
   transform: translateX(100%);
   /* Initially off-screen to the left */
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   /* Adjusting content height to fill the viewport */
 }
-
 
 .sliding.active {
   opacity: 1;
@@ -1201,7 +1252,6 @@ input {
 }
 
 .simple-ontop {
-
   /*font-family: "SF";*/
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1226,7 +1276,10 @@ input {
   opacity: 0;
   /* Initially hidden */
   /* Initially off-screen to the left */
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   /* Adjusting content height to fill the viewport */
@@ -1248,7 +1301,6 @@ input {
   margin-right: 0;
   /* Adjust the spacing between icon and text */
 }
-
 
 .updateAvailable button {
   border: 0;
@@ -1320,7 +1372,10 @@ input {
   border-radius: 15px;
   height: auto;
   /*font-family: "SF";*/
-  transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    background-color 0.2s ease-out,
+    color 0.2s ease-out;
 }
 
 .actionButton.online {
@@ -1338,7 +1393,10 @@ input {
   border-radius: 15px;
   height: auto;
   /*font-family: "SF";*/
-  transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    background-color 0.2s ease-out,
+    color 0.2s ease-out;
 }
 
 .actionButton.online.active {
@@ -1376,7 +1434,9 @@ input {
   border: none;
   text-align: center;
   box-shadow: none;
-  transition: background-color 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+  transition:
+    background-color 0.5s ease-in-out,
+    border-radius 0.5s ease-in-out;
 }
 
 .declineButton:hover {
@@ -1423,7 +1483,6 @@ input {
   color: #8b8b8b;
 }
 
-
 #floridaCont p {
   margin-top: 10px;
   color: gray;
@@ -1448,12 +1507,10 @@ input {
   margin-right: 10px;
 }
 
-
 .pendingCont .pending:first-child {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
-
 
 .pendingCont .pending:last-child {
   border-bottom-left-radius: 1rem;
@@ -1479,7 +1536,11 @@ input {
   opacity: 1;
   visibility: hidden;
   transform: translateY(100%);
-  transition: transform 0.7s ease, opacity 0.7s ease-in-out, visibility 0.7s ease-in-out, height 0.5s ease-in-out;
+  transition:
+    transform 0.7s ease,
+    opacity 0.7s ease-in-out,
+    visibility 0.7s ease-in-out,
+    height 0.5s ease-in-out;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   overflow-x: hidden;
@@ -1596,7 +1657,10 @@ input {
   /* Or relative, depending on your layout */
   margin-left: -5px;
   /* Adjust the initial position */
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+  transition:
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out,
+    margin-left 0.5s ease-in-out;
 }
 
 .enlarged .optionsBoxMsg {
@@ -1651,7 +1715,7 @@ input {
   background-color: rgb(255 255 255 / 6%);
 }
 
-.bottomButtonsSline.changeColors>*:first-child {
+.bottomButtonsSline.changeColors > *:first-child {
   margin-right: 10px;
   /* Adjust as needed */
 }
@@ -1665,7 +1729,9 @@ input {
 
 .bottomButtonsSline a svg {
   vertical-align: middle;
-  transition: transform 0.2s ease-in-out, margin-left 0.7s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    margin-left 0.7s ease-in-out;
 }
 
 #downloading-icon-big {
@@ -1674,25 +1740,29 @@ input {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  transition: transform 0.2s ease-in-out, margin-left 0.7s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    margin-left 0.7s ease-in-out;
 }
 
-
 #downloading-icon-big svg #arrowDownload {
-  transition: transform 0.5s ease-in-out, opacity 0.2s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.2s ease-in-out;
 }
 
 #downloading-icon-big svg #boxDownload {
-  transition: transform 0.5s ease-in-out, opacity 0.2s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.2s ease-in-out;
 }
 
 #downloading-icon-big.active svg #arrowDownload {
-  animation: downloadAnimBig 1.5s infinite
+  animation: downloadAnimBig 1.5s infinite;
 }
 
-
 #downloading-icon-big.active svg #boxDownload {
-  animation: downloadBoxMove 1.5s infinite
+  animation: downloadBoxMove 1.5s infinite;
 }
 
 @keyframes downloadBoxMove {
@@ -1705,13 +1775,11 @@ input {
     transform: scale(1);
   }
 
-
   100% {
     transform: scale(1.01);
     opacity: 1;
   }
 }
-
 
 @keyframes downloadAnimBig {
   0% {

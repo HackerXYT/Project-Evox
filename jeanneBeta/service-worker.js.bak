@@ -1,4 +1,4 @@
-const CACHE_NAME = "jeanne-cache-v51";
+const CACHE_NAME = "jeanne-cache-v50";
 const STATIC_ASSETS = [
   "/jeanneBeta/",
   "/jeanneBeta/index.html",
@@ -9,37 +9,10 @@ const STATIC_ASSETS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    (async () => {
-      const clients = await self.clients.matchAll();
-
-      // Tell UI caching started
-      clients.forEach((client) => {
-        client.postMessage({ type: "CACHE_START" });
-      });
-
-      const cache = await caches.open(CACHE_NAME);
-
-      for (let i = 0; i < STATIC_ASSETS.length; i++) {
-        await cache.add(STATIC_ASSETS[i]);
-
-        // Send progress
-        const progress = Math.round(((i + 1) / STATIC_ASSETS.length) * 100);
-
-        clients.forEach((client) => {
-          client.postMessage({
-            type: "CACHE_PROGRESS",
-            progress,
-          });
-        });
-      }
-
-      // Tell UI caching finished
-      clients.forEach((client) => {
-        client.postMessage({ type: "CACHE_DONE" });
-      });
-
-      await self.skipWaiting();
-    })(),
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting()),
   );
 });
 
