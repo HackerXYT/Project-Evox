@@ -1,0 +1,136 @@
+/* =========================================
+   DESKTOP / TABLET RESPONSIVE OVERRIDES
+   ========================================= */
+
+@media screen and (min-width: 900px) {
+
+    /* 1. Reset Body to center the "App" */
+    body {
+        padding: 40px;
+        align-items: center;
+        background-color: #d8d8d8;
+        /* Slightly darker to make card pop */
+    }
+
+    /* 2. Transform Phone Frame into Dashboard Card */
+    .phone-frame {
+        max-width: 960px;
+        height: auto;
+        min-height: 600px;
+        margin: 0 auto;
+        border-radius: 40px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+
+        /* Switch to Grid Layout */
+        display: grid;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "header header"
+            "visuals controls";
+        overflow: hidden;
+        /* Clips children to border radius */
+    }
+
+    /* 3. Hide Mobile-specific elements */
+    .status-bar {
+        display: none;
+    }
+
+    /* 4. Header spans full width */
+    .header {
+        grid-area: header;
+        padding: 25px 40px;
+        background-color: var(--bg-color);
+        z-index: 10;
+    }
+
+    /* 5. Left Panel: Visuals (Dial + Image) */
+    .top-section {
+        grid-area: visuals;
+        flex-direction: column;
+        /* Stack Dial and Image vertically */
+        height: 100%;
+        padding: 0 40px 40px 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+    /* Adjust elements inside Left Panel */
+    .temp-control {
+        width: 100%;
+    }
+
+    .dial-wrapper {
+        transform: scale(1.2);
+        /* Make dial slightly bigger on desktop */
+        margin-bottom: 10px;
+    }
+
+    .ac-image-container {
+        width: 100%;
+        height: 250px;
+        /* Fixed height for image area */
+    }
+
+    .ac-placeholder {
+        height: 100%;
+        left: 0;
+    }
+
+    /* 6. Right Panel: Controls */
+    .controls-container {
+        grid-area: controls;
+        height: 100%;
+        border-radius: 0;
+        /* Remove mobile border radius */
+        padding: 40px;
+        justify-content: center;
+        background: #f0f0f0;
+        border-radius: 40px;
+        /* Slight contrast from left panel */
+    }
+
+    .temp-buttons {
+        margin-top: 20px;
+    }
+
+    /* 7. Tweaking Controls for wider space */
+    .mode-grid {
+        gap: 20px;
+    }
+
+    .power-card {
+        padding: 25px;
+    }
+
+    /* 8. Fix Popup/Modal behavior for Desktop */
+    .popup {
+        width: 400px;
+        height: auto;
+        min-height: 500px;
+        max-height: 80vh;
+
+        /* Center on screen */
+        left: 50%;
+        top: 50%;
+        bottom: auto;
+
+        /* Reset mobile transform logic and use centering */
+        transform: translate(-50%, 150vh);
+        border-radius: 20px;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+    }
+
+    .popup.active {
+        transform: translate(-50%, -50%);
+    }
+
+    /* 9. Loading Screen Desktop Fix */
+    .loadingIndicator {
+        position: absolute;
+        /* Contain within the card if desired, or keep fixed for full screen */
+        border-radius: 40px;
+    }
+}
