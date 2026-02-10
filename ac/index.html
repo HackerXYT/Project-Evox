@@ -14,8 +14,6 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=fit" />
     <link rel="apple-touch-icon" href="main.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="main.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="main.png">
     <link rel="stylesheet" href="styles.css" />
     <meta name="mobile-web-app-capable" content="yes" />
     <!-- Apple splash screen images -->
@@ -84,6 +82,41 @@
 
 <body>
 
+    <div id="timePopup" class="popup">
+        <div class="apple-picker-wrapper">
+            <label id="ac-schedule-label" class="field-label">-</label>
+            <div class="display-box" id="display-container">
+                <input type="text" id="display" value="Select Date & Time" readonly>
+                <span class="chevron"></span>
+            </div>
+
+            <div id="picker-container" class="picker-card">
+                <div class="input-group">
+                    <small>DATE</small>
+                    <input type="date" id="date-input">
+                </div>
+                <div class="input-group">
+                    <small>TIME</small>
+                    <input type="time" id="time-input">
+                </div>
+                <button id="confirm-btn">Done</button>
+            </div>
+        </div>
+        <div class="spinner" id="spinner2" style="opacity: 0;transition: opacity 0.3s ease;">
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+            <div class="spinner-blade"></div>
+        </div>
+    </div>
     <div id="loadIt" class="loadingIndicator">
         <p id="connectText">Connecting To Evox..</p>
         <div onclick="goEpsilon()" class="generalBtn" style="margin-top: 20px;display: none;" id="goEpsilon">
@@ -162,8 +195,8 @@
                         stroke-linejoin="round" />
                 </svg></div>
             <div class="header-title">
-                <h2>Air Conditioner (AC)</h2>
-                <p>Inventor Life</p>
+                <h2>Evox Home AC Control</h2>
+                <p>Inventor Life - via ESP32</p>
             </div>
         </div>
 
@@ -214,6 +247,20 @@
                         <h3>Power</h3>
                         <p>Main Room</p>
                     </div>
+                </div>
+                <div class="spinner" id="spinner" style="opacity: 0;transition: opacity 0.3s ease;">
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
+                    <div class="spinner-blade"></div>
                 </div>
                 <div class="toggle-switch" onclick="switchPower()">
                     <div class="toggle-knob" id="toggleKnob"></div>
@@ -300,19 +347,35 @@
 
             <div>
                 <div class="section-title">Schedule Turn Off</div>
-                <div class="schedule-scroll">
+                <div class="schedule-scroll turn-off-by" id="turn-off-by">
                     <div class="time-chip active" onclick="selectTime(this)">Off</div>
                     <div class="time-chip" onclick="selectTime(this)">13:00</div>
                     <div class="time-chip" onclick="selectTime(this)">14:00</div>
                     <div class="time-chip" onclick="selectTime(this)">15:00</div>
-                    <div class="add-btn"><svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
-                            viewBox="0 0 24 24" fill="none">
+                    <div class="add-btn" onclick="openSchedule(this)"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="15px" height="15px" viewBox="0 0 24 24" fill="none">
                             <path d="M4 12H20M12 4V20" stroke="#000" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"></path>
                         </svg></div>
                 </div>
             </div>
 
+            <div>
+                <div class="section-title">Schedule Turn On</div>
+                <div class="schedule-scroll turn-on-by" id="turn-on-by">
+                    <div class="time-chip active" onclick="selectTime(this)">Off</div>
+                    <div class="time-chip" onclick="selectTime(this)">13:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">14:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">15:00</div>
+                    <div class="add-btn" onclick="openSchedule(this)"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="15px" height="15px" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 12H20M12 4V20" stroke="#000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg></div>
+                </div>
+            </div>
+
+            <div style="height: 50px;"></div>
         </div>
     </div>
 

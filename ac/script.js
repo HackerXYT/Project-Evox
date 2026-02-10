@@ -40,12 +40,104 @@ function selectMode(element) {
     element.classList.add('active');
 }
 
+function getNextOccurrence(targetTime) {
+    const now = new Date();
+    const [hours, minutes] = targetTime.split(':').map(Number);
+
+    // Create a date object for "today" at the target time
+    let target = new Date(now);
+    target.setHours(hours, minutes, 0, 0);
+
+    // If the target time has already passed today, move to tomorrow
+    if (target <= now) {
+        target.setDate(target.getDate() + 1);
+    }
+
+    // Format: DD-MM-YYYY/HH:mm
+    const day = String(target.getDate()).padStart(2, '0');
+    const month = String(target.getMonth() + 1).padStart(2, '0');
+    const year = target.getFullYear();
+    const hh = String(target.getHours()).padStart(2, '0');
+    const mm = String(target.getMinutes()).padStart(2, '0');
+
+    return `${day}-${month}-${year}/${hh}:${mm}`;
+}
+
+function processSchedule(action, time, custom, device = 'ac') {
+    const nextClosest = !custom ? getNextOccurrence(time) : time
+    console.log(`Scheduling ${device} to turn ${action} at ${nextClosest}`);
+    const info = {
+        date: nextClosest,
+        device,
+        type: action
+    }
+    fetch(`https://data.evoxs.xyz/house?email=${storage.email}&password=${atob(storage.pswd)}&username=${storage.username}&method=ac-login-action&action=${JSON.stringify(info)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parses JSON response into native JavaScript objects
+        })
+        .then(data => {
+            console.log(data)
+            if (data.message === "Success") {
+                console.log("Done")
+                if (custom) {
+                    document.getElementById("spinner2").style.opacity = "0";
+                    document.getElementById("timePopup").classList.remove("active");
+                }
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
 // Time Selection Logic
 function selectTime(element) {
-    document.querySelectorAll('.time-chip').forEach(chip => {
-        chip.classList.remove('active');
-    });
+    if (element.parentElement.classList.contains('turn-off-by')) {
+        document.querySelectorAll('.schedule-scroll.turn-off-by .time-chip').forEach(chip => {
+            chip.classList.remove('active');
+        });
+        if (element.innerText === "Off") {
+            removeAllActions('off')
+        } else {
+            processSchedule('off', element.innerText);
+        }
+
+    } else if (element.parentElement.classList.contains('turn-on-by')) {
+        document.querySelectorAll('.schedule-scroll.turn-on-by .time-chip').forEach(chip => {
+            chip.classList.remove('active');
+        });
+        if (element.innerText === "Off") {
+            removeAllActions('on')
+        } else {
+            processSchedule('on', element.innerText);
+        }
+    }
+
     element.classList.add('active');
+
+}
+
+function removeAllActions(type) {
+    fetch(`https://data.evoxs.xyz/house?email=${storage.email}&password=${atob(storage.pswd)}&username=${storage.username}&method=ac-login-removeActions&action=${type}`)
+
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parses JSON response into native JavaScript objects
+        })
+        .then(data => {
+            console.log(data)
+            if (data.message === "Success") {
+                console.log("All actions removed")
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
 
 // Simple Slider Logic (Click to jump)
@@ -126,8 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById("loadIt").style.display = "none"
                     }, 550);
 
-                    status()
-                    setInterval(status, 15000)
+                    getStatus()
+                    setInterval(getStatus, 3000)
+                    getActiveSchedules()
+                    setInterval(getActiveSchedules, 3000)
                 } else {
                     console.log("Access Denied");
                     document.getElementById("loaderAnim").style.display = "none"
@@ -148,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function status() {
+function getStatus() {
     fetch(`https://data.evoxs.xyz/house?email=${storage.email}&password=${atob(storage.pswd)}&username=${storage.username}&method=ac-login-status`)
         .then(response => {
             if (!response.ok) {
@@ -158,13 +252,78 @@ function status() {
         })
         .then(data => {
             console.log(data)
-            if (isPowerOn === false && data.message === "ON") {
-                togglePower("on")
-                isPowerOn = true
-            } else {
-                isPowerOn = false
-                togglePower("off")
+            if (data.message === "ON" && !isPowerOn) {
+                togglePower("on");
+                isPowerOn = true;
             }
+            // 2. If the API says OFF but our local state is ON -> Turn it OFF
+            else if (data.message === "OFF" && isPowerOn) {
+                togglePower("off");
+                isPowerOn = false;
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+function getActiveSchedules() {
+    fetch(`https://data.evoxs.xyz/house?email=${storage.email}&password=${atob(storage.pswd)}&username=${storage.username}&method=ac-login-getActiveActions`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parses JSON response into native JavaScript objects
+        })
+        .then(data => {
+            console.log(data)
+            if (data.message !== "Failed to read actions") {
+                document.getElementById("turn-off-by").innerHTML = `<div class="time-chip active" onclick="selectTime(this)">Off</div>
+                    <div class="time-chip" onclick="selectTime(this)">13:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">14:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">15:00</div>
+                    <div class="add-btn" onclick="openSchedule(this)"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="15px" height="15px" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 12H20M12 4V20" stroke="#000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg></div>`
+                document.getElementById("turn-on-by").innerHTML = `<div class="time-chip active" onclick="selectTime(this)">Off</div>
+                    <div class="time-chip" onclick="selectTime(this)">13:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">14:00</div>
+                    <div class="time-chip" onclick="selectTime(this)">15:00</div>
+                    <div class="add-btn" onclick="openSchedule(this)"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="15px" height="15px" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 12H20M12 4V20" stroke="#000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg></div>`
+                Object.entries(data.message).forEach(([time, details]) => {
+                    if (details.device !== "ac") return; // Only process AC schedules for now
+                    if (details.action === 'off') {
+
+                        const chips = Array.from(document.querySelectorAll('#turn-off-by .time-chip'));
+                        const offChip = chips.find(el => el.textContent.trim() === 'Off');
+                        if (offChip) {
+                            offChip.remove();
+                        }
+                        document.getElementById("turn-off-by").innerHTML = `<div class="time-chip active" onclick="selectTime(this)">Off</div>
+                    <div class="time-chip active">${time}</div>` + document.getElementById("turn-off-by").innerHTML
+                    } else if (details.action === 'on') {
+
+                        const chips = Array.from(document.querySelectorAll('#turn-on-by .time-chip'));
+                        const offChip = chips.find(el => el.textContent.trim() === 'Off');
+                        if (offChip) {
+                            offChip.remove();
+                        }
+                        document.getElementById("turn-on-by").innerHTML = `<div class="time-chip active" onclick="selectTime(this)">Off</div>
+                    <div class="time-chip active">${time}</div>` + document.getElementById("turn-on-by").innerHTML
+                    }
+                    console.log(`Scheduled Action: Turn ${details.action} the ${details.device} at ${time}`);
+                })
+                console.log("Active schedules:", data.message);
+            } else {
+                console.log("No active schedules or failed to retrieve.");
+            }
+
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -177,7 +336,7 @@ function goEpsilon() {
 }
 
 function switchPower() {
-
+    document.getElementById("spinner").style.opacity = "1";
     fetch(`https://data.evoxs.xyz/house?email=${storage.email}&password=${atob(storage.pswd)}&username=${storage.username}&method=ac-login-toggle`)
         .then(response => {
             if (!response.ok) {
@@ -186,6 +345,7 @@ function switchPower() {
             return response.json(); // Parses JSON response into native JavaScript objects
         })
         .then(data => {
+            document.getElementById("spinner").style.opacity = "0";
             console.log(data)
             if (isPowerOn === true) {
                 togglePower("off")
@@ -197,4 +357,54 @@ function switchPower() {
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
+}
+
+const displayBox = document.getElementById('display-container');
+const pickerContainer = document.getElementById('picker-container');
+const displayInput = document.getElementById('display');
+const confirmBtn = document.getElementById('confirm-btn');
+
+displayBox.addEventListener('click', () => {
+    pickerContainer.classList.toggle('hidden');
+});
+
+const dateInput = document.getElementById('date-input');
+const timeInput = document.getElementById('time-input');
+
+confirmBtn.addEventListener('click', () => {
+    const dateValue = document.getElementById('date-input').value; // Expected YYYY-MM-DD
+    const timeValue = document.getElementById('time-input').value; // Expected HH:mm
+
+    if (dateValue && timeValue) {
+        // 1. Parse the date components
+        const [year, month, day] = dateValue.split('-');
+
+        // 2. Construct the custom string: DD-MM-YYYY/HH:mm
+        const customFormat = `${day}-${month}-${year}/${timeValue}`;
+
+        // 3. Update the display
+        displayInput.value = customFormat;
+
+        pickerContainer.classList.add('hidden');
+        document.getElementById("spinner2").style.opacity = "1";
+
+        const onOff = document.getElementById("ac-schedule-label").innerText === "Turn On By".toUpperCase() ? "on" : "off";
+
+        // Use the new customFormat or stick to timeValue depending on what processSchedule expects
+        processSchedule(onOff, customFormat, true);
+    }
+});
+
+const timePopup = document.getElementById('timePopup');
+function openSchedule(el) {
+    if (el.parentElement.classList.contains('turn-on-by')) {
+        document.getElementById("ac-schedule-label").innerText = "Turn On By";
+    } else if (el.parentElement.classList.contains('turn-off-by')) {
+        document.getElementById("ac-schedule-label").innerText = "Turn Off By";
+
+    } else {
+        return;
+    }
+    timePopup.classList.add('active');
+
 }
