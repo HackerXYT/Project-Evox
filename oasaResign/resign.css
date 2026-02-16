@@ -3649,11 +3649,15 @@ select:focus {
 .color-picker {
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 3 columns of equal width */
-  gap: 20px; /* spacing between items */
-  width: max-content; /* make the grid shrink to fit its content */
+  grid-template-columns: repeat(4, 1fr);
+  /* 3 columns of equal width */
+  gap: 20px;
+  /* spacing between items */
+  width: max-content;
+  /* make the grid shrink to fit its content */
   margin-left: auto;
-  margin-right: auto; /* center the grid horizontally */
+  margin-right: auto;
+  /* center the grid horizontally */
 }
 
 
@@ -4460,4 +4464,100 @@ button.uploadBugMedia svg {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.2s;
+}
+
+.busGuessNotice {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom);
+  margin-bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  /* start slightly smaller */
+  width: 95%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #121212ab;
+  border-radius: 20px;
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 9999;
+
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  /* prevent clicks when hidden */
+  transition: transform 0.2s cubic-bezier(0.25, 1.5, 0.5, 1),
+    opacity 0.4s cubic-bezier(0.25, 1.5, 0.5, 1);
+}
+
+/* When active, pop in */
+.busGuessNotice.active {
+  opacity: 1;
+  pointer-events: auto;
+  /* allow interaction */
+  transform: translateX(-50%) scale(1);
+  /* scale up to normal size */
+}
+
+.busGuessNotice .titleTxt {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+
+}
+
+.busGuessNotice .descriptionTxt {
+  font-size: 14px;
+  color: #e4e4e4;
+  text-align: center;
+}
+
+.busGuessNotice .buttonsIn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.busGuessNotice .buttonsIn .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 14px;
+  font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  border-radius: 27px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+.busGuessNotice .buttonsIn .btn.focus {
+  background-color: #e4e4e4;
+  color: #121212;
+  border: 1px solid #e4e4e4;
+}
+
+.busGuessNotice .image {
+  width: 60%;
+  height: auto;
+
+}
+
+.busGuessNotice .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

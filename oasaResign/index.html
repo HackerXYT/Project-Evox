@@ -1567,7 +1567,7 @@
                             <span class="description">Για να επιστρέψετε, σύρετε το δάχτυλό σας από αριστερά προς τα
                                 δεξιά.</span>
                             <div class="color-picker" id="color-picker">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -4988,6 +4988,22 @@
             </div>-->
     </div>
 
+    <div class="notice-card" id="notice-card-general">
+        <span class="title" id="notice-card-general-title"><lord-icon src="https://cdn.lordicon.com/zdfcfvwu.json"
+                trigger="loop" delay="2000" colors="primary:#fff,secondary:#b4b4b4" style="width:25px;height:25px">
+            </lord-icon> Η παρακολούθηση ενεργοποιήθηκε!</span>
+        <p class="description" id="notice-card-general-description">Μπορείτε να δείτε την πορεία του λεωφορείου
+            από την αρχική οθόνη.</p>
+        <!--<div class="notice_actions">
+                <button class="pref">
+                    Manage your preferences
+                </button>
+                <button class="accept">
+                    Accept
+                </button>
+            </div>-->
+    </div>
+
     <div class="slidingPopupBottom" id="slidingPopup">
         <div class="slidedown"></div>
         <div class="slideBtns" id="moreBusOptions">
@@ -5026,6 +5042,19 @@
                         fill="#fff"></path>
                 </svg>
             </div>
+
+            <div class="button" id="requestIntelliBtn">
+                <div onclick="requestBusIntelligence()" class="globalFlexRowAlignCenter">
+                    <img src="oasa+-standalone.png" width="20px" height='20px' />
+                    <p>Αίτημα OASA+</p>
+                </div>
+                <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                    viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"
+                        fill="#fff"></path>
+                </svg>
+            </div>
         </div>
     </div>
     <div id="safe-area-probe" style="
@@ -5042,6 +5071,34 @@
                 d="M4.6 15c-.9-2.6-.6-4.6-.5-5.4 2.4-1.5 5.3-2 8-1.3.7-.3 1.5-.5 2.3-.6-.1-.3-.2-.5-.3-.8h2l1.2-3.2-.9-.4-1 2.6h-1.8C13 4.8 12.1 4 11.1 3.4l2.1-2.1-.7-.7L10.1 3c-.7 0-1.5 0-2.3.1L5.4.7l-.7.7 2.1 2.1C5.7 4.1 4.9 4.9 4.3 6H2.5l-1-2.6-.9.4L1.8 7h2C3.3 8.3 3 9.6 3 11H1v1h2c0 1 .2 2 .5 3H1.8L.6 18.3l.9.3 1-2.7h1.4c.4.8 2.1 4.5 5.8 3.9-.3-.2-.5-.5-.7-.8-2.9 0-4.4-3.5-4.4-4zM9 3.9c2 0 3.7 1.6 4.4 3.8-2.9-1-6.2-.8-9 .6.7-2.6 2.5-4.4 4.6-4.4zm14.8 19.2l-4.3-4.3c2.1-2.5 1.8-6.3-.7-8.4s-6.3-1.8-8.4.7-1.8 6.3.7 8.4c2.2 1.9 5.4 1.9 7.7 0l4.3 4.3c.2.2.5.2.7 0 .2-.2.2-.5 0-.7zm-8.8-3c-2.8 0-5.1-2.3-5.1-5.1s2.3-5.1 5.1-5.1 5.1 2.3 5.1 5.1-2.3 5.1-5.1 5.1z" />
             <path fill="none" d="M0 0h24v24H0z" />
         </svg>
+    </div>
+
+    <div id="busGuessNotice" class="busGuessNotice">
+
+        <div class="image">
+            <img src="oasa+.png">
+        </div>
+        <div class="titleTxt">
+            Λειτουργία OASA+
+        </div>
+
+        <div class="descriptionTxt">
+            Δείτε εκτιμώμενους χρόνους άφιξης λεωφορείων σε στάσεις, ακόμη και όταν αυτά δεν κινούνται.
+        </div>
+        <div class="descriptionTxt">
+            Με την προσθήκη, ο διακομιστής θα αρχίσει να συλλέγει δεδομένα για το επιλεγμένο λεωφορείο και την ώρα της
+            ημέρας. Μετά από 24 ώρες θα μπορείτε να βλέπετε εκτιμώμενη θέση και χρόνο άφιξης, ακόμη κι αν το λεωφορείο
+            δεν έχει ξεκινήσει.
+        </div>
+
+        <div class="buttonsIn">
+            <div onclick="document.getElementById('busGuessNotice').classList.remove('active')" class="btn">
+                Παράλειψη
+            </div>
+            <div id="addBusGuess" onclick="addGuessIntelli(this)" class="btn focus">
+                Προσθήκη -
+            </div>
+        </div>
     </div>
 
 </body>

@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.05";
+const currentVersion = "2.3.3";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -1618,6 +1618,8 @@ function processInfo(evoxId, type, addMore, comego) {
                   };
                   keepForVerticalStations = intelligenceInfo;
 
+
+
                   fetch(
                     `${serverIP}oasa?intelligence=${JSON.stringify(
                       intelligenceInfo
@@ -1626,109 +1628,150 @@ function processInfo(evoxId, type, addMore, comego) {
                   )
                     .then((response) => response.json())
                     .then((arrivals) => {
-                      latestHorizontalIntelligence = arrivals;
-                      console.log("Intelligence Results:", arrivals);
+                      function then(intelligence) {
+                        const intelligenceUnknown = !intelligence || intelligence && intelligence.message && intelligence.message === 'Requested bus not found / saved'
+                        document.getElementById("requestIntelliBtn").style.display = 'none'
+                        if (intelligenceUnknown) {
+                          document.getElementById("requestIntelliBtn").style.display = 'flex'
+                        }
+                        console.warn('OI2-B-OUTER', intelligence, intelligenceUnknown)
+                        latestHorizontalIntelligence = arrivals;
+                        console.log("Intelligence Results:", arrivals);
 
-                      arrivals.sort(
-                        (a, b) => a.RouteStopOrder - b.RouteStopOrder
-                      );
-                      const leastTime = arrivals
-                        .filter(
-                          (item) => item.time !== false && item.time !== null
-                        )
-                        .sort((a, b) => a.time - b.time);
-
-                      if (leastTime[0]) {
-                        const targets = document.querySelectorAll(
-                          `[id="global-station-${leastTime[0].StopCode}"]`
+                        arrivals.sort(
+                          (a, b) => a.RouteStopOrder - b.RouteStopOrder
                         );
-                        targets.forEach((stopa) => {
-                          stopa.classList.add("minimum");
-                        });
-                        //document.getElementById("stationsSpawnInner").innerHTML = `<div class="item minimum">
-                        //                        <div class="stationName">Ζωντανή τοποθεσία</div>
-                        //                        <div class="info">
-                        //                            <div class="text">
-                        //                                <span>${capitalizeWords(leastTime[0].StopDescr)}</span>
-                        //                                <span id="station-minimum">σε ${leastTime[0].time} λεπτά</span>
-                        //                            </div>
-                        //                        </div>
-                        //                        <div class="fav-actions">
-                        //                            <div class="button-action">
-                        //                                <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="20px"
-                        //                                    height="20px" viewBox="-1 0 19 19" class="cf-icon-svg">
-                        //                                    <path
-                        //                                        d="M16.417 9.6A7.917 7.917 0 1 1 8.5 1.683 7.917 7.917 0 0 1 16.417 9.6zm-5.431 2.113H8.309l1.519-1.353q.223-.203.43-.412a2.974 2.974 0 0 0 .371-.449 2.105 2.105 0 0 0 .255-.523 2.037 2.037 0 0 0 .093-.635 1.89 1.89 0 0 0-.2-.889 1.853 1.853 0 0 0-.532-.63 2.295 2.295 0 0 0-.76-.37 3.226 3.226 0 0 0-.88-.12 2.854 2.854 0 0 0-.912.144 2.373 2.373 0 0 0-.764.42 2.31 2.31 0 0 0-.55.666 2.34 2.34 0 0 0-.274.89l1.491.204a1.234 1.234 0 0 1 .292-.717.893.893 0 0 1 1.227-.056.76.76 0 0 1 .222.568 1.002 1.002 0 0 1-.148.536 2.42 2.42 0 0 1-.389.472L6.244 11.77v1.295h4.742z">
-                        //                                    </path>
-                        //                                </svg>
-                        //                            </div>
-                        //                        </div>
-                        //                    </div>
-                        //                    ${document.getElementById("stationsSpawnInner").innerHTML}
-                        //`;
-                      }
-                      const promise = new Promise((resolve) => {
-                        arrivals.forEach((stop, index) => {
+                        const leastTime = arrivals
+                          .filter(
+                            (item) => item.time !== false && item.time !== null
+                          )
+                          .sort((a, b) => a.time - b.time);
+
+                        if (leastTime[0]) {
                           const targets = document.querySelectorAll(
-                            `[id="station-${stop.StopCode}"]`
+                            `[id="global-station-${leastTime[0].StopCode}"]`
                           );
+                          targets.forEach((stopa) => {
+                            stopa.classList.add("minimum");
+                          });
+                          //document.getElementById("stationsSpawnInner").innerHTML = `<div class="item minimum">
+                          //                        <div class="stationName">Ζωντανή τοποθεσία</div>
+                          //                        <div class="info">
+                          //                            <div class="text">
+                          //                                <span>${capitalizeWords(leastTime[0].StopDescr)}</span>
+                          //                                <span id="station-minimum">σε ${leastTime[0].time} λεπτά</span>
+                          //                            </div>
+                          //                        </div>
+                          //                        <div class="fav-actions">
+                          //                            <div class="button-action">
+                          //                                <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="20px"
+                          //                                    height="20px" viewBox="-1 0 19 19" class="cf-icon-svg">
+                          //                                    <path
+                          //                                        d="M16.417 9.6A7.917 7.917 0 1 1 8.5 1.683 7.917 7.917 0 0 1 16.417 9.6zm-5.431 2.113H8.309l1.519-1.353q.223-.203.43-.412a2.974 2.974 0 0 0 .371-.449 2.105 2.105 0 0 0 .255-.523 2.037 2.037 0 0 0 .093-.635 1.89 1.89 0 0 0-.2-.889 1.853 1.853 0 0 0-.532-.63 2.295 2.295 0 0 0-.76-.37 3.226 3.226 0 0 0-.88-.12 2.854 2.854 0 0 0-.912.144 2.373 2.373 0 0 0-.764.42 2.31 2.31 0 0 0-.55.666 2.34 2.34 0 0 0-.274.89l1.491.204a1.234 1.234 0 0 1 .292-.717.893.893 0 0 1 1.227-.056.76.76 0 0 1 .222.568 1.002 1.002 0 0 1-.148.536 2.42 2.42 0 0 1-.389.472L6.244 11.77v1.295h4.742z">
+                          //                                    </path>
+                          //                                </svg>
+                          //                            </div>
+                          //                        </div>
+                          //                    </div>
+                          //                    ${document.getElementById("stationsSpawnInner").innerHTML}
+                          //`;
+                        }
+                        const promise = new Promise((resolve) => {
+                          arrivals.forEach((stop, index) => {
+                            const targets = document.querySelectorAll(
+                              `[id="station-${stop.StopCode}"]`
+                            );
 
-                          const twomins = document.querySelectorAll(
-                            `[id="2min-schedo-station-${stop.StopCode}"]`
-                          );
-                          const starts = document.querySelectorAll(
-                            `[id="start-schedo-station-${stop.StopCode}"]`
-                          );
+                            const twomins = document.querySelectorAll(
+                              `[id="2min-schedo-station-${stop.StopCode}"]`
+                            );
+                            const starts = document.querySelectorAll(
+                              `[id="start-schedo-station-${stop.StopCode}"]`
+                            );
 
-                          let toSpawn = stop.time;
-                          if (toSpawn === null) {
-                            toSpawn = `<img src="busNotFound.png" width="25px" height="25px">`;
-                            starts.forEach((target_single) => {
-                              target_single.style.display = "";
-                            });
-                            twomins.forEach((target_single) => {
-                              target_single.style.display = "none";
-                            });
-                          } else if (toSpawn === false) {
-                            toSpawn = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                            let toSpawn = stop.time;
+                            if (toSpawn === null) {
+                              toSpawn = `<img src="busNotFound.png" width="25px" height="25px">`;
+                              if (!intelligenceUnknown) {
+                                const station = intelligence.data.stations.find(
+                                  station => station.stopCode === stop.StopCode
+                                );
+                                const eta = station.estimateUntilBusIsThere
+                                if (eta !== 'Unknown' && eta !== null && eta !== false) {
+                                  toSpawn = `~${convertTime(eta)}`
+                                }
+                              }
+                              starts.forEach((target_single) => {
+                                target_single.style.display = "";
+                              });
+                              twomins.forEach((target_single) => {
+                                target_single.style.display = "none";
+                              });
+                            } else if (toSpawn === false) {
+                              toSpawn = `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path opacity="0.5" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#fff"/>
 <path d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z" fill="#fff"/>
 <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" fill="#fff"/>
 </svg>`;
-                            starts.forEach((target_single) => {
-                              target_single.style.display = "";
-                            });
-                            twomins.forEach((target_single) => {
-                              target_single.style.display = "none";
-                            });
-                          } else if (toSpawn === "OASAERR") {
-                            toSpawn = `Σφάλμα`;
-                            twomins.forEach((target_single) => {
-                              target_single.style.display = "none";
-                            });
-                          } else {
-                            if (Number(stop.time) <= 2) {
+                              if (!intelligenceUnknown) {
+                                const station = intelligence.data.stations.find(
+                                  station => station.stopCode === stop.StopCode
+                                );
+                                const eta = station.estimateUntilBusIsThere
+                                if (eta !== 'Unknown' && eta !== null && eta !== false) {
+                                  toSpawn = `~${convertTime(eta)}`
+                                }
+                              }
+                              starts.forEach((target_single) => {
+                                target_single.style.display = "";
+                              });
                               twomins.forEach((target_single) => {
                                 target_single.style.display = "none";
                               });
+                            } else if (toSpawn === "OASAERR") {
+                              toSpawn = `Σφάλμα`;
+                              twomins.forEach((target_single) => {
+                                target_single.style.display = "none";
+                              });
+                            } else {
+                              if (Number(stop.time) <= 2) {
+                                twomins.forEach((target_single) => {
+                                  target_single.style.display = "none";
+                                });
+                              }
+
+                              toSpawn += " λεπτά";
                             }
 
-                            toSpawn += " λεπτά";
-                          }
+                            targets.forEach((target_single) => {
+                              target_single.innerHTML = toSpawn;
+                            });
 
-                          targets.forEach((target_single) => {
-                            target_single.innerHTML = toSpawn;
+                            if (index === arrivals.length - 1) {
+                              resolve(); // Resolve when the last iteration is done
+                            }
                           });
-
-                          if (index === arrivals.length - 1) {
-                            resolve(); // Resolve when the last iteration is done
-                          }
                         });
-                      });
 
-                      promise.then(() => {
-                        console.log("All updates are complete.");
-                      });
+                        promise.then(() => {
+                          console.log("All updates are complete.");
+                        });
+                      }
+                      fetch(
+                        `https://oasa-intelligence.evoxs.xyz/times/${busInfo.bus}/${lineCode}/${new Date().toISOString()}/${comego}?vevox=${randomString()}`
+                      )
+                        .then((response) => response.json())
+                        .then((intelligence) => {
+
+                          console.log("Intelligence Results:", arrivals);
+                          console.log("OI2 Intelligence - 2 Results", intelligence)
+                          then(intelligence)
+                        })
+                        .catch((error) => {
+                          console.log("intelligence [2] error:", error);
+                          then()
+                        });
+
                     })
                     .catch((error) => {
                       const targets = document.querySelectorAll(
@@ -3303,7 +3346,9 @@ function showVerticalStations() {
                                     </div>`;
     });
 
-    function spawnIntelli(arrivals, isOld) {
+    function spawnIntelli(arrivals, isOld, intelligence2) {
+      const intelligenceUnknown = !intelligence2 || intelligence2 && intelligence2.message && intelligence2.message === 'Requested bus not found / saved'
+      console.warn('OI2-B', intelligence2, intelligenceUnknown)
       arrivals.sort((a, b) => a.RouteStopOrder - b.RouteStopOrder);
       const leastTime = arrivals
         .filter((item) => item.time !== false && item.time !== null)
@@ -3343,6 +3388,15 @@ function showVerticalStations() {
           activity[0].setAttribute("data-time", toSpawn);
           if (toSpawn === null) {
             toSpawn = `<img src="busNotFound.png" width="25px" height="25px">`;
+            if (!intelligenceUnknown) {
+              const station = intelligence2.data.stations.find(
+                station => station.stopCode === stop.StopCode
+              );
+              const eta = station.estimateUntilBusIsThere
+              if (eta !== 'Unknown' && eta !== null && eta !== false) {
+                toSpawn = `~${convertTime(eta)}`
+              }
+            }
             //show up at start
             if (localStorage.getItem("extVOASA")) {
               actions.style.display = "flex";
@@ -3361,6 +3415,15 @@ function showVerticalStations() {
 <path d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z" fill="#fff"/>
 <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" fill="#fff"/>
 </svg>`;
+            if (!intelligenceUnknown) {
+              const station = intelligence2.data.stations.find(
+                station => station.stopCode === stop.StopCode
+              );
+              const eta = station.estimateUntilBusIsThere
+              if (eta !== 'Unknown' && eta !== null && eta !== false) {
+                toSpawn = `~${convertTime(eta)}`
+              }
+            }
             //show up at count start
             if (localStorage.getItem("extVOASA")) {
               actions.style.display = "flex";
@@ -3448,7 +3511,72 @@ function showVerticalStations() {
         isFetching = false;
         console.log("Intelligence Results:", arrivals);
 
-        spawnIntelli(arrivals);
+        const busId = document.getElementById("busInfoID")?.innerText?.trim();
+
+        // --- Safe extraction of goCome ---
+        const goComeBlock = document
+          .getElementById("busGOCOME")
+          ?.querySelector(".Block.active");
+
+        let goCome = null;
+
+        if (goComeBlock) {
+          const onclickAttr = goComeBlock.getAttribute("onclick") || "";
+          const match = onclickAttr.match(/'([^']*)'/);
+          goCome = match ? match[1] : null;
+        }
+
+        const currentTime = new Date().toISOString();
+
+        // --- Find lineCode ---
+        const lines = evoxIds?.[activeEvoxId]?.multiple;
+
+        let result = null;
+
+        if (lines && Array.isArray(lines)) {
+          const activeBlock = document
+            .getElementById("multiple-routes")
+            ?.querySelector(".Block.active");
+
+          if (!activeBlock) return;
+
+          const selectedLine = activeBlock.innerText.trim();
+
+          result =
+            lines.find((line) => {
+              const extracted = line.LineDescr.match(/\((.*?)\)/)?.[1] || "";
+
+              const text = capitalizeWords(extracted.trim());
+              const fallback = capitalizeWords(line.LineDescr.trim());
+
+              const final = text || fallback;
+
+              return final.trim() === selectedLine;
+            }) || null;
+        } else {
+          // Only one line
+          result =
+            fullLine.find((block) => block.LineID === busId) || null;
+        }
+
+        console.warn("OI2", result)
+        fetch(
+          `https://oasa-intelligence.evoxs.xyz/times/${busId}/${result.LineCode}/${currentTime}/${goCome}?vevox=${randomString()}`
+        )
+          .then((response) => response.json())
+          .then((intelligence) => {
+            isFetching = false;
+            console.log("Intelligence Results:", arrivals);
+            console.log("Intelligence - 2 Results", intelligence)
+
+            spawnIntelli(arrivals, null, intelligence);
+          })
+          .catch((error) => {
+            console.log("intelligence [2] error:", error);
+            spawnIntelli(arrivals, null, null);
+          });
+
+
       })
       .catch((error) => {
         console.log("intelligence [1] error:", error);
@@ -6575,3 +6703,61 @@ function enableMapSelection() {
   });
 }
 
+function requestBusIntelligence() {
+  document.getElementById("slidingPopup").classList.remove("active")
+  const busId = document.getElementById("busInfoID").innerText
+  document.getElementById("addBusGuess").setAttribute("data-b", busId)
+  document.getElementById("addBusGuess").innerText = `Προσθήκη ${busId}`
+  document.getElementById('busGuessNotice').classList.add('active')
+}
+
+function showNoticeGeneral() {
+  document.getElementById("notice-card-general").style.display = "block";
+
+  setTimeout(function () {
+    document.getElementById("notice-card-general").style.opacity = "1";
+    setTimeout(function () {
+      document.getElementById("notice-card-general").style.opacity = "0";
+      setTimeout(function () {
+        document.getElementById("notice-card-general").style.display = "none";
+      }, 300);
+    }, 7000);
+  }, 200);
+}
+
+function editNoticeGeneral(t, d) {
+  document.getElementById("notice-card-general-title").innerText = t
+  document.getElementById("notice-card-general-description").innerText = d
+
+}
+
+function addGuessIntelli(el) {
+  if (!el.getAttribute("data-b")) return
+
+
+  const busId = el.getAttribute("data-b")
+  fetch(
+    `https://oasa-intelligence.evoxs.xyz/fetch/${busId}?vevox=${randomString()}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message && data.message === `Started fetch for bus: ${busId}`) {
+
+        editNoticeGeneral("Το λεωφορείο προστέθηκε!", `Σε λιγότερο από 24 ώρες θα μπορείτε να δείτε τις εκτιμήσεις για το λεωφορείο ${busId}`)
+        showNoticeGeneral()
+
+      } else {
+        //Something failed
+        editNoticeGeneral("Κάτι απέτυχε.", `Σφάλμα: ${data.message}`)
+        showNoticeGeneral()
+      }
+      document.getElementById('busGuessNotice').classList.remove('active')
+    }).catch((error) => {
+      document.getElementById('busGuessNotice').classList.remove('active')
+      editNoticeGeneral("Η σύνδεση απέτυχε.", `Ελέγξτε την σύνδεση σας στο διαδίκτυο ή δοκιμάστε αργότερα.`)
+      showNoticeGeneral()
+      console.log("Start fetch intelligence error:", error);
+    });
+}
+
+//

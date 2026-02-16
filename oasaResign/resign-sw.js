@@ -13,8 +13,8 @@ self.addEventListener('notificationclick', function (event) {
   );
 });
 
-const STATIC_CACHE_NAME = 'static-cache-v118';
-const APP_CACHE_NAME = 'app-cache-v118';
+const STATIC_CACHE_NAME = 'static-cache-v119';
+const APP_CACHE_NAME = 'app-cache-v119';
 const CACHE_STATIC = [
   '/oasaResign/',
   '/oasaResign/index.html',
@@ -175,14 +175,14 @@ self.addEventListener('activate', event => {
                   client.postMessage({ action: 'CACHE_UPDATE_STARTED' });
                 });
               });
-              setTimeout(function() {
+              setTimeout(function () {
                 self.clients.matchAll().then(clients => {
                   clients.forEach(client => {
                     client.postMessage({ action: 'CACHE_UPDATE_COMPLETED' });
                   });
                 });
               }, 4000)
-              
+
               return caches.delete(cacheName);
             }
           })
@@ -318,11 +318,11 @@ self.addEventListener('fetch', event => {
 
   // Skip handling requests to specific paths
   if (url.pathname.startsWith('/evox-epsilon-beta/Home/dist/') ||
-      url.pathname.startsWith('/events/v2') ||
-      url.pathname.startsWith('/fonts/v1/mapbox') ||
-      url.pathname.startsWith('/map-sessions/v1')||
-      url.pathname.includes('z-oasa-current-version.evox')) {
-        console.log('Bypassing cache:', url.pathname)
+    url.pathname.startsWith('/events/v2') ||
+    url.pathname.startsWith('/fonts/v1/mapbox') ||
+    url.pathname.startsWith('/map-sessions/v1') ||
+    url.pathname.includes('z-oasa-current-version.evox')) {
+    console.log('Bypassing cache:', url.pathname)
     return;
   }
 
