@@ -108,22 +108,24 @@ body {
 body.static_gradient {
   background-image:
     /* 1. The "Siri" Pink/Purple Bubble (Bottom Left) */
-    radial-gradient(circle 800px at 20% 80%,
+    radial-gradient(
+      circle 800px at 20% 80%,
       rgba(255, 45, 85, 0.15) 0%,
-      /* iOS Pink */
-      rgba(88, 86, 214, 0.1) 40%,
-      /* iOS Indigo */
-      transparent 80%),
+      /* iOS Pink */ rgba(88, 86, 214, 0.1) 40%,
+      /* iOS Indigo */ transparent 80%
+    ),
     /* 2. The "MacBook" Teal Glow (Top Right) */
-    radial-gradient(circle 600px at 85% 15%,
-      rgba(0, 199, 190, 0.12) 0%,
-      /* Apple Teal */
-      transparent 70%),
+    radial-gradient(
+        circle 600px at 85% 15%,
+        rgba(0, 199, 190, 0.12) 0%,
+        /* Apple Teal */ transparent 70%
+      ),
     /* 3. The Central Softening Glow (Slightly Offset) */
-    radial-gradient(circle 500px at 50% 50%,
-      rgba(255, 255, 255, 0.03) 0%,
-      /* Subtle white "sheen" */
-      transparent 100%);
+    radial-gradient(
+        circle 500px at 50% 50%,
+        rgba(255, 255, 255, 0.03) 0%,
+        /* Subtle white "sheen" */ transparent 100%
+      );
 
   /* This is the "secret sauce" for the Apple look */
   backdrop-filter: saturate(180%) blur(20px);
@@ -165,16 +167,16 @@ body::-webkit-scrollbar {
 .background-gradient {
   /* Background gradient to simulate light */
   background:
-    radial-gradient(circle at top,
-      /* Glow effect from the top */
-      rgba(0, 0, 0, 0.2),
-      /* Light purple with low opacity */
-      rgba(0, 0, 0, 0) 60%),
-    radial-gradient(circle at bottom,
-      /* Glow effect from the bottom */
-      rgba(44, 40, 10, 0.435),
-      /* Slightly lighter purple with lower opacity */
-      rgba(0, 0, 0, 0) 50%),
+    radial-gradient(
+      circle at top,
+      /* Glow effect from the top */ rgba(0, 0, 0, 0.2),
+      /* Light purple with low opacity */ rgba(0, 0, 0, 0) 60%
+    ),
+    radial-gradient(
+      circle at bottom,
+      /* Glow effect from the bottom */ rgba(44, 40, 10, 0.435),
+      /* Slightly lighter purple with lower opacity */ rgba(0, 0, 0, 0) 50%
+    ),
     rgb(var(--font-color-inverted));
   /* Base background color */
 
@@ -392,12 +394,14 @@ body::-webkit-scrollbar {
   text-align: center;
   padding: 20px 10px;
   font-size: 18px;
-  background: linear-gradient(145deg,
-      #1e1e1e,
-      #222222,
-      #1a1a1a,
-      #222222,
-      #1e1e1e);
+  background: linear-gradient(
+    145deg,
+    #1e1e1e,
+    #222222,
+    #1a1a1a,
+    #222222,
+    #1e1e1e
+  );
   transition: all 0.5s ease-in-out;
 }
 
@@ -723,7 +727,7 @@ body.lightMode img.lightFlex {
 .optionButton.svgOnRight svg,
 img {
   margin-right: 0;
-  margin-left: 5px;
+  margin-left: 0;
 }
 
 .multimatch {
@@ -1034,7 +1038,7 @@ img {
   display: none;
 }
 
-.app>* {
+.app > * {
   scroll-snap-align: start;
 }
 
@@ -1096,7 +1100,8 @@ img {
   /*20px*/
   fill: rgb(var(--font-color));
   /* Ensures the SVG fill is white */
-  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7)) drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7))
+    drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
   z-index: 9999;
 }
 
@@ -1209,8 +1214,7 @@ img {
   padding: 20px;
   box-shadow:
     8px 8px 16px rgba(0, 0, 0, 0.2),
-    /* Dark shadow */
-    -8px -8px 16px #1f1f1f88;
+    /* Dark shadow */ -8px -8px 16px #1f1f1f88;
   /* Light highlight */
   transition: transform 0.3s ease-in-out;
   z-index: 10;
@@ -1373,7 +1377,6 @@ img {
 }
 
 @keyframes cardShake {
-
   0%,
   100% {
     transform: translate(0, 0);
@@ -1397,7 +1400,7 @@ img {
   animation: cardShake 3s infinite ease-in-out;
 }
 
-.card>* {
+.card > * {
   position: relative;
   /* Ensure child elements are on top of the video */
   z-index: 2;
@@ -2031,7 +2034,8 @@ img {
   right: 5px;
   width: 17px;
   height: 17px;
-  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7)) drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7))
+    drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
   z-index: 2;
   /* Ensure SVG is on top */
 }
@@ -2053,6 +2057,7 @@ img {
     height 0.5s ease,
     width 0.5s ease,
     border-radius 0.5s ease;
+  aspect-ratio: 1/1;
 }
 
 .assets p span {
@@ -2118,7 +2123,7 @@ img {
   gap: 5px;
 }
 
-#tags>*:nth-last-child(1):nth-child(odd) {
+#tags > *:nth-last-child(1):nth-child(odd) {
   grid-column: span 2;
 }
 
@@ -2128,7 +2133,7 @@ img {
   gap: 5px;
 }
 
-.gridTag>*:nth-last-child(1):nth-child(odd) {
+.gridTag > *:nth-last-child(1):nth-child(odd) {
   grid-column: span 2;
 }
 
@@ -2331,7 +2336,7 @@ img {
   /* Add for visibility */
 }
 
-#socialSpawn> :last-child {
+#socialSpawn > :last-child {
   margin-bottom: 50px;
 }
 
@@ -2584,9 +2589,11 @@ img {
   overflow: hidden;
   top: 0;
   left: 0;
-  background: linear-gradient(45deg,
-      var(--color-background-effect-bg1),
-      var(--color-background-effect-bg2));
+  background: linear-gradient(
+    45deg,
+    var(--color-background-effect-bg1),
+    var(--color-background-effect-bg2)
+  );
 }
 
 .moving-elements {
@@ -2601,9 +2608,11 @@ img {
 .g5,
 .g6 {
   position: absolute;
-  background: radial-gradient(circle,
-      rgba(var(--color-background-effect-color1), 0.6) 0%,
-      rgba(var(--color-background-effect-color1), 0) 50%);
+  background: radial-gradient(
+    circle,
+    rgba(var(--color-background-effect-color1), 0.6) 0%,
+    rgba(var(--color-background-effect-color1), 0) 50%
+  );
   mix-blend-mode: var(--color-background-effect-blending);
   width: 450px;
   height: 450px;
@@ -2662,9 +2671,12 @@ img {
 
 .interactive {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color-interactive), 0.8) 0,
-      rgba(var(--color-interactive), 0) 50%) no-repeat;
+      rgba(var(--color-interactive), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: color;
   width: 100%;
   height: 100%;
@@ -2779,20 +2791,28 @@ img {
   --fade-color: rgb(var(--font-color-inverted));
 
   background:
-    radial-gradient(circle at 30% 30%,
+    radial-gradient(
+      circle at 30% 30%,
       rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 80%),
-    radial-gradient(circle at 70% 70%,
+      rgba(255, 255, 255, 0) 80%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
       rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 90%),
-    linear-gradient(to top right,
+      rgba(255, 255, 255, 0) 90%
+    ),
+    linear-gradient(
+      to top right,
       rgba(244, 31, 31, 0) 50%,
       rgba(244, 31, 31, 0.1) 75%,
-      rgba(244, 31, 31, 0.2) 100%),
-    linear-gradient(to bottom left,
+      rgba(244, 31, 31, 0.2) 100%
+    ),
+    linear-gradient(
+      to bottom left,
       rgba(255, 121, 121, 0) 50%,
       rgba(255, 121, 121, 0.1) 75%,
-      rgba(255, 121, 121, 0.2) 100%),
+      rgba(255, 121, 121, 0.2) 100%
+    ),
     var(--fade-color);
 
   background-repeat: no-repeat;
@@ -2841,9 +2861,12 @@ img {
 
 .gradient-bg .g1 {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color1), 0.8) 0,
-      rgba(var(--color1), 0) 50%) no-repeat;
+      rgba(var(--color1), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: var(--circle-size);
   height: var(--circle-size);
@@ -2856,9 +2879,12 @@ img {
 
 .gradient-bg .g2 {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color2), 0.8) 0,
-      rgba(var(--color2), 0) 50%) no-repeat;
+      rgba(var(--color2), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: var(--circle-size);
   height: var(--circle-size);
@@ -2871,9 +2897,12 @@ img {
 
 .gradient-bg .g3 {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color3), 0.8) 0,
-      rgba(var(--color3), 0) 50%) no-repeat;
+      rgba(var(--color3), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: var(--circle-size);
   height: var(--circle-size);
@@ -2886,9 +2915,12 @@ img {
 
 .gradient-bg .g4 {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color4), 0.8) 0,
-      rgba(var(--color4), 0) 50%) no-repeat;
+      rgba(var(--color4), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: var(--circle-size);
   height: var(--circle-size);
@@ -2901,9 +2933,12 @@ img {
 
 .gradient-bg .g5 {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgba(var(--color5), 0.8) 0,
-      rgba(var(--color5), 0) 50%) no-repeat;
+      rgba(var(--color5), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: calc(var(--circle-size) * 2);
   height: calc(var(--circle-size) * 2);
@@ -2916,9 +2951,12 @@ img {
 
 .gradient-bg .interactive {
   position: absolute;
-  background: radial-gradient(circle at center,
+  background: radial-gradient(
+      circle at center,
       rgb(255 190 79 / 58%) 0,
-      rgba(var(--color-interactive), 0) 50%) no-repeat;
+      rgba(var(--color-interactive), 0) 50%
+    )
+    no-repeat;
   mix-blend-mode: var(--blending);
   width: 100%;
   height: 100%;
@@ -2948,11 +2986,13 @@ img {
   /* Adjust height as needed */
   pointer-events: none;
   /* Ensure it doesn't block interactions */
-  background: linear-gradient(to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.8) 40%,
-      rgba(0, 0, 0, 0.3) 70%,
-      rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 40%,
+    rgba(0, 0, 0, 0.3) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
   transition: background 0.3s ease-in-out;
   /* Smooth transition */
 }
@@ -3269,7 +3309,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes starShake {
-
   0%,
   100% {
     transform: translate(0, 0);
@@ -4025,7 +4064,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes bounce {
-
   0%,
   100% {
     font-size: 0.75px;
@@ -4037,7 +4075,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes blast {
-
   0%,
   40% {
     font-size: 0.5px;
@@ -4111,13 +4148,15 @@ input:-webkit-autofill:active {
 .jelly-triangle::before {
   bottom: 6%;
   right: 0;
-  animation: grow7132 var(--uib-speed) ease calc(var(--uib-speed) * -0.666) infinite;
+  animation: grow7132 var(--uib-speed) ease calc(var(--uib-speed) * -0.666)
+    infinite;
 }
 
 .jelly-triangle::after {
   bottom: 6%;
   left: 0;
-  animation: grow7132 var(--uib-speed) ease calc(var(--uib-speed) * -0.333) infinite;
+  animation: grow7132 var(--uib-speed) ease calc(var(--uib-speed) * -0.333)
+    infinite;
 }
 
 .jelly-triangle__traveler {
@@ -4138,7 +4177,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes triangulate6214 {
-
   0%,
   100% {
     transform: none;
@@ -4154,7 +4192,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes grow7132 {
-
   0%,
   100% {
     transform: scale(1.5);
@@ -4310,7 +4347,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes bounce05 {
-
   85%,
   92%,
   100% {
@@ -4388,7 +4424,6 @@ input:-webkit-autofill:active {
 }
 
 @keyframes keyboard05 {
-
   5%,
   12%,
   21%,
@@ -4589,10 +4624,12 @@ input:-webkit-autofill:active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   animation: loadingS 1.5s infinite;
   border-radius: 15px;
 }
@@ -5051,10 +5088,12 @@ input:-webkit-autofill:active {
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg,
-      var(--skeleton-linear) 25%,
-      var(--skeleton-middle-linear) 50%,
-      var(--skeleton-linear) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-linear) 25%,
+    var(--skeleton-middle-linear) 50%,
+    var(--skeleton-linear) 75%
+  );
   /*1b1b1b*/
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -6650,19 +6689,23 @@ spanBold {
   grid-template-rows: 50% 50%;
 }
 
-.media-grid:has(:nth-child(3)):not(:has(:nth-child(4))) .image-wrapper:nth-child(1),
-.media-grid:has(:nth-child(3)):not(:has(:nth-child(4))) .image-wrapper:nth-child(2) {
+.media-grid:has(:nth-child(3)):not(:has(:nth-child(4)))
+  .image-wrapper:nth-child(1),
+.media-grid:has(:nth-child(3)):not(:has(:nth-child(4)))
+  .image-wrapper:nth-child(2) {
   float: left;
   width: 50%;
   height: 100%;
 }
 
-.media-grid:has(:nth-child(3)):not(:has(:nth-child(4))) .image-wrapper:nth-child(3) {
+.media-grid:has(:nth-child(3)):not(:has(:nth-child(4)))
+  .image-wrapper:nth-child(3) {
   width: 100%;
   height: 100%;
 }
 
-.media-grid:has(:nth-child(5)):not(:has(:nth-child(6))) .image-wrapper:nth-child(5) {
+.media-grid:has(:nth-child(5)):not(:has(:nth-child(6)))
+  .image-wrapper:nth-child(5) {
   grid-column: 1 / -1;
 }
 
@@ -6833,6 +6876,7 @@ spanBold {
   width: 50px;
   height: 50px;
   margin-left: auto;
+  flex-shrink: 0;
 }
 
 .settings-cont p {
@@ -6966,25 +7010,28 @@ spanBold {
   transition: color 0.3s ease-in-out;
 }
 
-.toggle-switch input[type="checkbox"]:checked+.toggle-switch-handle {
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch-handle {
   transform: translateX(20px);
   box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.2),
     0 0 0 3px #05c46b;
 }
 
-.toggle-switch input[type="checkbox"]:checked+.toggle-switch-background {
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch-background {
   background-color: #05c46b;
   box-shadow: inset 0 0 0 2px #04b360;
 }
 
-.toggle-switch input[type="checkbox"]:checked+.toggle-switch:before {
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch:before {
   content: "On";
   color: #05c46b;
   right: -15px;
 }
 
-.toggle-switch input[type="checkbox"]:checked+.toggle-switch-background .toggle-switch-handle {
+.toggle-switch
+  input[type="checkbox"]:checked
+  + .toggle-switch-background
+  .toggle-switch-handle {
   transform: translateX(19px);
 }
 
@@ -7224,7 +7271,6 @@ spanBold {
 }
 
 @keyframes float1 {
-
   0%,
   100% {
     transform: translateY(0);
@@ -7236,7 +7282,6 @@ spanBold {
 }
 
 @keyframes float2 {
-
   0%,
   100% {
     transform: translateY(0);
@@ -7248,7 +7293,6 @@ spanBold {
 }
 
 @keyframes float3 {
-
   0%,
   100% {
     transform: translateY(0);
@@ -7260,7 +7304,6 @@ spanBold {
 }
 
 @keyframes float4 {
-
   0%,
   100% {
     transform: translateY(0);
@@ -7632,7 +7675,7 @@ spanBold {
 }
 
 .postContainer.skel.loading {
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .media .topRight {
@@ -8635,4 +8678,22 @@ body.lightMode .navigation .bar {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+}
+
+.pfp-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* SVG bottom right */
+.edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  width: 15px;
+  height: 15px;
+
+  fill: rgb(var(--font-color));
 }

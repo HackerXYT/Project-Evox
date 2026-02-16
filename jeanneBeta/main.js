@@ -1,4 +1,4 @@
-const appVersion = "2.1.7";
+const appVersion = "2.1.8";
 const ELEMENTS_CURRENT_VERSIONING = 4;
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
   document.getElementById(`version${i + 1}`).innerText =
@@ -924,9 +924,9 @@ function removeMediaUploaded(serverMediaId) {
         const el = document.getElementById(`mediaServerId-${serverMediaId}`);
         if (el) {
           el.parentElement.remove();
-          console.warn("Found media element. Won't reload")
+          console.warn("Found media element. Won't reload");
         } else {
-          console.warn("Did not find media element. Reloading")
+          console.warn("Did not find media element. Reloading");
           showMedia(document.getElementById("carouselItem-3"));
         }
       }
@@ -1158,8 +1158,8 @@ function processFile(event, type) {
 function sendFile(e, up) {
   console.log(
     up === "upload" &&
-    sessionStorage.getItem("current_sline") &&
-    localStorage.getItem("t50-username"),
+      sessionStorage.getItem("current_sline") &&
+      localStorage.getItem("t50-username"),
   );
   if (e) {
     setTimeout(function () {
@@ -2255,10 +2255,11 @@ function autoLogin() {
           console.error("Progress error", error);
         });
     } else {
-
-
-
-      if (isPWAInstalled() && sessionStorage.getItem("isNewUser") === "true" && !localStorage.getItem("notificationsDenied")) {
+      if (
+        isPWAInstalled() &&
+        sessionStorage.getItem("isNewUser") === "true" &&
+        !localStorage.getItem("notificationsDenied")
+      ) {
         setTimeout(function () {
           EvalertNext({
             title: `Να επιτρέπεται στο "Evox" να σας στέλνει ειδοποιήσεις;`,
@@ -2266,13 +2267,14 @@ function autoLogin() {
               "Το Evox θα σας ενημερώνει για νέα αιτήματα, likes και άλλα σημαντικά γεγονότα, με δυνατότητα πλήρους διαχείρισης από τις ρυθμίσεις σας.",
             buttons: ["Να επιτρέπεται", "Να μην επιτρέπεται"],
             buttonAction: [
-              "notificationsStart();", "localStorage.setItem('notificationsDenied', 'true');",
+              "notificationsStart();",
+              "localStorage.setItem('notificationsDenied', 'true');",
             ],
             addons: [],
             clouds: true,
             clouds_data: ["SELF", "EVOX"],
           });
-        }, 5000)
+        }, 5000);
       }
     }
     document.getElementById("ait-main").checked =
@@ -2570,7 +2572,7 @@ function beginWritingTextAnimation() {
               const speed = 20;
               if (
                 document.getElementById("writingAnimation").textContent.length >
-                0 &&
+                  0 &&
                 document.getElementById("writingAnimation").textContent !== "⠀"
               ) {
                 let newVal = document
@@ -2610,7 +2612,7 @@ function installPWA() {
   };
   instructions.steps.forEach(
     (step, i) =>
-    (formed.description += `<ol style="text-align: left;padding-left: 20px; 
+      (formed.description += `<ol style="text-align: left;padding-left: 20px; 
   box-sizing: border-box; 
   margin-top: 10px;list-style-type: decimal;display:flex;align-items:center"><vo style="margin-right: 10px;">${i + 1}.</vo> ${step}</ol>`),
   );
@@ -2782,7 +2784,9 @@ function attach() {
         console.log("content:", content);
         document.getElementById("currentNotif").innerText = title;
         document.getElementById("currentNotif-desc").innerText = content;
-        let logoUrl = !isBranded ? `./appLogoV2.png` : "./appLogoV2-Branded.png";
+        let logoUrl = !isBranded
+          ? `./appLogoV2.png`
+          : "./appLogoV2-Branded.png";
         if (
           title.includes("AIT") ||
           title.includes("🪄") ||
@@ -2809,9 +2813,7 @@ function attach() {
           });
       }
     }, 250);
-  }, 500)
-
-
+  }, 500);
 }
 
 function dontShowInstallAgain() {
@@ -3740,7 +3742,7 @@ function goBackFromBook() {
   setTimeout(function () {
     document.getElementById("yearbook-container").style.display = "none";
   }, 500);
-  $("#app").fadeIn("fast", function () { });
+  $("#app").fadeIn("fast", function () {});
   document.getElementById("count-picked").style.opacity = "0";
   $("#buttonStartCont").fadeOut("fast");
 }
@@ -4646,7 +4648,7 @@ function grabberEvents(id) {
 
     // 2. Check for images or the image container
     // You can add specific classes here, e.g., target.closest('.your-image-class')
-    const isImage = tag === "img" || target.closest('.image-preview-container');
+    const isImage = tag === "img" || target.closest(".image-preview-container");
 
     if (isInput || isImage) return;
 
@@ -4884,7 +4886,7 @@ function goBackToLogin() {
       input.value = "";
       mirrorText.textContent = "";
       input.style.width = null;
-      $("#loginContainer").fadeIn("fast", function () { });
+      $("#loginContainer").fadeIn("fast", function () {});
       $("#loginByName").fadeOut("fast");
       $("#topLeftBack").fadeOut("fast");
       $("#boxUp")
@@ -4892,7 +4894,7 @@ function goBackToLogin() {
         .not(
           ".loginByName, #helpMe, #loginByIp, #loginByEmail, #loginByName, #setupInstagram, #ipLoginSection",
         )
-        .fadeIn(function () { });
+        .fadeIn(function () {});
       //document.getElementById("evoxContainer").classList.add("active")
       document
         .getElementById("welcome")
@@ -5068,7 +5070,7 @@ function searchByEmailComplete(el) {
       }
       el.classList.remove("loading");
     })
-    .catch((error) => { });
+    .catch((error) => {});
 }
 
 function help() {
@@ -5167,7 +5169,7 @@ function getHelpSend() {
       document.getElementById("getHelpInput").value = "";
       goBackToMain();
     })
-    .catch((error) => { });
+    .catch((error) => {});
 }
 
 function goBackFromHelp() {
@@ -5696,8 +5698,9 @@ function handleFileSelect() {
         //console.log(base64String);
         document.getElementById("darc-user-self-profile").src =
           "./reloading-pfp.gif";
-        document.getElementById("currentPic2").src =
-          "./reloading-pfp.gif";
+        document.getElementById("currentPic2").src = "./reloading-pfp.gif";
+        document.getElementById("selfPfp").src = "./reloading-pfp.gif";
+        document.getElementById("pfp-edit").src = "./reloading-pfp.gif";
         fetch(`https://data.evoxs.xyz/profiles`, {
           method: "POST",
           headers: {
@@ -5714,13 +5717,24 @@ function handleFileSelect() {
           .then((data) => {
             console.log(data);
             if (data === "done [JEANBRIDGE]") {
+              EvalertNext({
+                title: "Η εικόνα προφίλ ανανεώθηκε με επιτυχία.",
+                description:
+                  "Σύντομα θα μπορείτε να δείτε την νέα εικόνα προφίλ σας στην Jeanne d'Arc.",
+                buttons: ["Εντάξει"],
+                buttonAction: [],
+                addons: [],
+                clouds: false,
+                clouds_data: [],
+              });
               document.getElementById("instagramedProfile").style.display =
                 "none";
               document.getElementById("darc-user-self-profile").src =
                 base64String;
-              document.getElementById("currentPic2").src =
-                base64String;
+              document.getElementById("currentPic2").src = base64String;
+              document.getElementById("pfp-edit").src = base64String;
               document.getElementById("selfPfp").src = base64String;
+              openProfile(document.getElementById("profile-switch"), true);
             }
           })
           .catch((error) => {
@@ -5870,7 +5884,7 @@ function timeAgoInGreek(isoDate) {
   }
 }
 
-function loadSentByUser() {
+function loadSentByUser(reTriggerAfterEnd) {
   document.getElementById("sentByUser").innerHTML =
     `<div class="postContainer skel loading" style="padding-bottom: 10px;padding-top: 10px;">
                         <div class="post">
@@ -5976,6 +5990,8 @@ function loadSentByUser() {
                             
                         </div>
                     </div>`;
+
+  // return;
   const account_data = localStorage.getItem("jeanDarc_accountData");
   if (!account_data) {
     console.error("Llogaria nuk eshte ruajtur ne nivel lokal!?");
@@ -6058,16 +6074,17 @@ function loadSentByUser() {
                         </div>
                         <div class="postContent" style="height: auto;">
                             <p><vox onclick="extMention('${sent.marresi}')" class="mention ${getGender(removeTonos(sent.marresi.split(" ")[0])) === "Female" ? "female" : "male"}">@${sent.marresi}</vox>
-                                ${cleaned.includes("<img")
-            ? cleaned
-              .replace("100px", "auto")
-              .replace("280px", "auto")
-              .replace(
-                "height:auto;",
-                "height:auto;margin-left: 0;width: 90%;",
-              )
-            : cleaned
-          }
+                                ${
+                                  cleaned.includes("<img")
+                                    ? cleaned
+                                        .replace("100px", "auto")
+                                        .replace("280px", "auto")
+                                        .replace(
+                                          "height:auto;",
+                                          "height:auto;margin-left: 0;width: 90%;",
+                                        )
+                                    : cleaned
+                                }
                             </p>
                         </div>
                         <div class="mediaContainer"${hasMedia ? "style='margin-top: 10px;'" : ""}>
@@ -6135,6 +6152,9 @@ function loadSentByUser() {
                     </div>`;
       }
       console.log("All user posts have been rendered!");
+      if (reTriggerAfterEnd) {
+        openProfile(document.getElementById("profile-switch"));
+      }
       //document.getElementById("sentByUser").innerHTML = html;
       // Do something after everything is done
       if (local === true) {
@@ -6174,7 +6194,7 @@ function loadSentByUser() {
   }, 800);
 }
 
-function openProfile(el) {
+function openProfile(el, reTriggerAfterEnd) {
   if (socialeSelectedInterval.length > 0) {
     socialeSelectedInterval.forEach((interval) => {
       clearInterval(interval);
@@ -6216,7 +6236,7 @@ function openProfile(el) {
     });
     showProfile(null);
   });
-  loadSentByUser();
+  loadSentByUser(reTriggerAfterEnd);
   document.getElementById("home-switch").classList.remove("active");
   document.getElementById("discovery-switch").classList.remove("active");
   document.getElementById("search-switch").classList.remove("active");
@@ -7406,13 +7426,14 @@ function openDiscovery(el) {
                     <p>${value.have_participated}<vox class="smallto">/${value.total}</vox></p>
                     </div>
                     <div class="right">
-                        ${key === "ΓΥΓ"
-            ? `<svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-theme)" width="25px" height="25px" viewBox="0 0 32 32" version="1.1">
+                        ${
+                          key === "ΓΥΓ"
+                            ? `<svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-theme)" width="25px" height="25px" viewBox="0 0 32 32" version="1.1">
 <title>health</title>
 <path d="M29.125 10.375h-7.5v-7.5c0-1.036-0.839-1.875-1.875-1.875h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5c1.036 0 1.875-0.84 1.875-1.875v-7.5h7.5c1.035 0 1.875-0.839 1.875-1.875v-7.5c0-1.036-0.84-1.875-1.875-1.875z"/>
 </svg>`
-            : key.includes("ΓΑΝΘ")
-              ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
+                            : key.includes("ΓΑΝΘ")
+                              ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
 <polygon style="fill:#B4B4B4;" points="435.298,32.603 256,32.603 235.102,272.301 256,512 435.298,512 "/>
 <rect x="76.706" y="32.601" style="fill:#E0E0E0;" width="179.294" height="479.399"/>
 <g>
@@ -7432,14 +7453,14 @@ function openDiscovery(el) {
 <path style="fill:#424242;" d="M446.794,40.774l-10.449,24.432l10.449,24.432c13.493,0,24.432-10.938,24.432-24.432  S460.288,40.774,446.794,40.774z"/>
 <path style="fill:#707070;" d="M422.363,65.206c0,13.493,10.938,24.432,24.432,24.432V40.774  C433.301,40.774,422.363,51.712,422.363,65.206z"/>
 </svg>`
-              : key.includes("ΓΟΠ")
-                ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                              : key.includes("ΓΟΠ")
+                                ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM10.6158 9.5C11.0535 8.71823 11.8025 8 12.7498 8C13.284 8 13.819 8.23239 14.2923 8.70646C14.6824 9.09734 15.3156 9.09792 15.7065 8.70775C16.0973 8.31758 16.0979 7.68442 15.7077 7.29354C14.9274 6.51179 13.9042 6 12.7498 6C11.3289 6 10.1189 6.77025 9.29826 7.86449C8.93769 8.34528 8.64329 8.89783 8.42654 9.5H8C7.44772 9.5 7 9.94772 7 10.5C7 10.9581 7.30804 11.3443 7.72828 11.4626C7.82228 11.4891 7.91867 11.5 8.01613 11.5C7.99473 11.8304 7.99473 12.1696 8.01613 12.5C7.91867 12.5 7.82228 12.5109 7.72828 12.5374C7.30804 12.6557 7 13.0419 7 13.5C7 14.0523 7.44772 14.5 8 14.5H8.42654C8.64329 15.1022 8.93769 15.6547 9.29826 16.1355C10.1189 17.2298 11.3289 18 12.7498 18C13.9042 18 14.9274 17.4882 15.7077 16.7065C16.0979 16.3156 16.0973 15.6824 15.7065 15.2923C15.3156 14.9021 14.6824 14.9027 14.2923 15.2935C13.819 15.7676 13.284 16 12.7498 16C11.8025 16 11.0535 15.2818 10.6158 14.5H12C12.5523 14.5 13 14.0523 13 13.5C13 12.9477 12.5523 12.5 12 12.5H10.0217C9.99312 12.1735 9.99312 11.8265 10.0217 11.5H13C13.5523 11.5 14 11.0523 14 10.5C14 9.94772 13.5523 9.5 13 9.5H10.6158Z" fill="var(--color-theme)"/>
 </svg>`
-                : key.includes("ΓΘΤ")
-                  ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M857.7 583.1c-6.7-11.8-21.8-15.8-33.5-9-11.8 6.7-15.8 21.8-9.1 33.5 66.6 115.9 83.4 212.6 43.8 252.2-75.7 75.8-311.6-54.5-476-218.9-41.5-41.5-78.8-84.7-111.3-127.9 33.4-45.1 71.3-89.2 111.3-129.2C547.2 219.5 783.1 89.3 858.9 165c30.9 30.9 27.7 97.6-8.9 183-40.1 93.6-114.7 197.7-210 293-22.3 22.3-45.4 43.8-68.7 63.8-10.3 8.8-11.4 24.4-2.6 34.6 8.9 10.3 24.4 11.4 34.6 2.6 24.2-20.8 48.2-43.2 71.4-66.3 99.6-99.6 177.9-209.1 220.4-308.3 45.6-106.3 45-190.5-1.5-237C802 38.8 562.4 135 348.2 349.3c-39.9 39.9-75.7 80.7-107 121.2-28.1-41.7-51.4-83-68.3-122.4-36.6-85.3-39.8-152-8.9-183 39.6-39.6 136.1-22.9 252 43.6 11.7 6.7 26.8 2.7 33.5-9.1 6.7-11.8 2.7-26.8-9.1-33.5-140-80.3-253.4-93.4-311.1-35.7-46.6 46.6-47.1 130.7-1.5 237 20 46.8 48.2 95.8 82.6 145C97.5 674.2 60.7 825.9 129.3 894.5c23.8 23.8 57 35.5 97.6 35.5 58.7 0 132.9-24.6 216.5-73 11.7-6.8 15.7-21.8 8.9-33.6-6.8-11.7-21.8-15.7-33.6-8.9-117.1 68-214.7 85.3-254.7 45.3-51.6-51.6-7.5-177.6 77.8-304.7 31.6 40.9 67.3 81.5 106.3 120.5 99.6 99.6 209.1 177.8 308.4 220.4 52.5 22.5 99.7 33.8 139.6 33.8 40.8 0 73.9-11.8 97.5-35.3 57.7-57.7 44.6-171.2-35.9-311.4zM511.5 430.5c-45.2 0-81.9 36.7-81.9 81.9s36.7 81.9 81.9 81.9 81.9-36.7 81.9-81.9c-0.1-45.2-36.7-81.9-81.9-81.9z" fill="var(--color-theme)"/></svg>`
-                  : "error"
-          }
+                                : key.includes("ΓΘΤ")
+                                  ? `<svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M857.7 583.1c-6.7-11.8-21.8-15.8-33.5-9-11.8 6.7-15.8 21.8-9.1 33.5 66.6 115.9 83.4 212.6 43.8 252.2-75.7 75.8-311.6-54.5-476-218.9-41.5-41.5-78.8-84.7-111.3-127.9 33.4-45.1 71.3-89.2 111.3-129.2C547.2 219.5 783.1 89.3 858.9 165c30.9 30.9 27.7 97.6-8.9 183-40.1 93.6-114.7 197.7-210 293-22.3 22.3-45.4 43.8-68.7 63.8-10.3 8.8-11.4 24.4-2.6 34.6 8.9 10.3 24.4 11.4 34.6 2.6 24.2-20.8 48.2-43.2 71.4-66.3 99.6-99.6 177.9-209.1 220.4-308.3 45.6-106.3 45-190.5-1.5-237C802 38.8 562.4 135 348.2 349.3c-39.9 39.9-75.7 80.7-107 121.2-28.1-41.7-51.4-83-68.3-122.4-36.6-85.3-39.8-152-8.9-183 39.6-39.6 136.1-22.9 252 43.6 11.7 6.7 26.8 2.7 33.5-9.1 6.7-11.8 2.7-26.8-9.1-33.5-140-80.3-253.4-93.4-311.1-35.7-46.6 46.6-47.1 130.7-1.5 237 20 46.8 48.2 95.8 82.6 145C97.5 674.2 60.7 825.9 129.3 894.5c23.8 23.8 57 35.5 97.6 35.5 58.7 0 132.9-24.6 216.5-73 11.7-6.8 15.7-21.8 8.9-33.6-6.8-11.7-21.8-15.7-33.6-8.9-117.1 68-214.7 85.3-254.7 45.3-51.6-51.6-7.5-177.6 77.8-304.7 31.6 40.9 67.3 81.5 106.3 120.5 99.6 99.6 209.1 177.8 308.4 220.4 52.5 22.5 99.7 33.8 139.6 33.8 40.8 0 73.9-11.8 97.5-35.3 57.7-57.7 44.6-171.2-35.9-311.4zM511.5 430.5c-45.2 0-81.9 36.7-81.9 81.9s36.7 81.9 81.9 81.9 81.9-36.7 81.9-81.9c-0.1-45.2-36.7-81.9-81.9-81.9z" fill="var(--color-theme)"/></svg>`
+                                  : "error"
+                        }
                     </div>
                 </div>`;
         console.log(
@@ -7923,16 +7944,17 @@ function loadSentToUser(emri, redo) {
                                 </div>
                                 <div class="postContent" style="height: auto;">
                                     <p><vox onclick="extMention('${pars.name}')" class="mention ${getGender(removeTonos(pars.name.split(" ")[0])) === "Female" ? "female" : "male"}">@${pars.name}</vox>
-                                        ${block ? loremDummy : ""}${cleaned.includes("<img")
-            ? cleaned
-              .replace("100px", "auto")
-              .replace("280px", "auto")
-              .replace(
-                "height:auto;",
-                "height:auto;margin-left: 0;width: 90%;",
-              )
-            : cleaned
-          }
+                                        ${block ? loremDummy : ""}${
+                                          cleaned.includes("<img")
+                                            ? cleaned
+                                                .replace("100px", "auto")
+                                                .replace("280px", "auto")
+                                                .replace(
+                                                  "height:auto;",
+                                                  "height:auto;margin-left: 0;width: 90%;",
+                                                )
+                                            : cleaned
+                                        }
                                     </p>
                                 </div>
                                 <div class="mediaContainer"${hasMedia ? "style='margin-top: 10px;'" : ""}>
@@ -7960,15 +7982,16 @@ function loadSentToUser(emri, redo) {
                             </div>
                             
                         </div>
-                        ${block && semicount === 1
-            ? `<div style='z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: var(--descriptive-color-2);'>
+                        ${
+                          block && semicount === 1
+                            ? `<div style='z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: var(--descriptive-color-2);'>
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 -0.5 17 17" version="1.1" class="si-glyph si-glyph-deny"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <path d="M9.016,0.06 C4.616,0.06 1.047,3.629 1.047,8.029 C1.047,12.429 4.615,15.998 9.016,15.998 C13.418,15.998 16.985,12.429 16.985,8.029 C16.985,3.629 13.418,0.06 9.016,0.06 L9.016,0.06 Z M3.049,8.028 C3.049,4.739 5.726,2.062 9.016,2.062 C10.37,2.062 11.616,2.52 12.618,3.283 L4.271,11.631 C3.508,10.629 3.049,9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.544,13.583 5.569,12.889 L13.878,4.58 C14.571,5.555 14.982,6.743 14.982,8.028 C14.981,11.317 12.306,13.994 9.016,13.994 L9.016,13.994 Z" fill="#ff481bc5" class="si-glyph-fill">
                         </path></g></svg>
                         Δεν μπορείς να δεις τις αποδοχές.<br>Ακολούθησε τον χρήστη για να ξεκλειδώσεις αυτή τη λειτουργία.</div>
                         `
-            : ""
-          }
+                            : ""
+                        }
                     </div>
                    
                 `;
@@ -8393,16 +8416,17 @@ function showProfileInfo(emri) {
                             </div>
                             <div class="postContent" style="height: auto;">
                                 <p><vox ${sent.marresi === "AIT" ? "style='display: none'" : ""} onclick="extMention('${sent.marresi}')" class="mention ${getGender(removeTonos(sent.marresi.split(" ")[0])) === "Female" ? "female" : "male"}">@${sent.marresi}</vox>
-                                    ${cleaned.includes("<img")
-              ? cleaned
-                .replace("100px", "auto")
-                .replace("280px", "auto")
-                .replace(
-                  "height:auto;",
-                  "height:auto;margin-left: 0;width: 90%;",
-                )
-              : cleaned
-            }
+                                    ${
+                                      cleaned.includes("<img")
+                                        ? cleaned
+                                            .replace("100px", "auto")
+                                            .replace("280px", "auto")
+                                            .replace(
+                                              "height:auto;",
+                                              "height:auto;margin-left: 0;width: 90%;",
+                                            )
+                                        : cleaned
+                                    }
                                 </p>
                             </div>
                             <div class="mediaContainer"${hasMedia ? "style='margin-top: 10px;'" : ""}>
@@ -8490,15 +8514,16 @@ function showProfileInfo(emri) {
                     </div>
                         </div>
                     </div>
-                    ${index === 0
-                ? `<div style='z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: var(--descriptive-color-2);'>
+                    ${
+                      index === 0
+                        ? `<div style='z-index: 9999;position:absolute;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:10px;color: var(--descriptive-color-2);'>
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 -0.5 17 17" version="1.1" class="si-glyph si-glyph-deny"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <path d="M9.016,0.06 C4.616,0.06 1.047,3.629 1.047,8.029 C1.047,12.429 4.615,15.998 9.016,15.998 C13.418,15.998 16.985,12.429 16.985,8.029 C16.985,3.629 13.418,0.06 9.016,0.06 L9.016,0.06 Z M3.049,8.028 C3.049,4.739 5.726,2.062 9.016,2.062 C10.37,2.062 11.616,2.52 12.618,3.283 L4.271,11.631 C3.508,10.629 3.049,9.381 3.049,8.028 L3.049,8.028 Z M9.016,13.994 C7.731,13.994 6.544,13.583 5.569,12.889 L13.878,4.58 C14.571,5.555 14.982,6.743 14.982,8.028 C14.981,11.317 12.306,13.994 9.016,13.994 L9.016,13.994 Z" fill="#ff481bc5" class="si-glyph-fill">
                         </path></g></svg>
                         Δεν μπορείς να δεις τις ${document.getElementById("sentBySelectedUser").innerHTML !== "" ? "υπόλοιπες " : ""}καταχωρήσεις.<br>Ακολούθησε τον χρήστη για να ξεκλειδώσεις αυτή τη λειτουργία.</div>
                         `
-                : ""
-              }
+                        : ""
+                    }
                     </div>`;
           });
         });
@@ -8736,10 +8761,10 @@ function noticeFront(data) {
     const addon =
       data.function.icon === "JD"
         ? {
-          icon: "jeanne:logo",
-          title: "Jeanne d'Arc",
-          desc: data.function.innerAddonTxt,
-        }
+            icon: "jeanne:logo",
+            title: "Jeanne d'Arc",
+            desc: data.function.innerAddonTxt,
+          }
         : null; // Use null, not empty string
 
     EvalertNext({
@@ -9519,7 +9544,7 @@ function showMedia(el) {
 
         const img = new Image();
         img.className = "fade-in-slide-up";
-        img.id = `mediaServerId-${media}`
+        img.id = `mediaServerId-${media}`;
         img.src = `https://cdn.evoxs.xyz/jeannedarc/${foundName}/${media}/1?v=${getRandomNumber()}`;
 
         img.onload = () => {
@@ -10755,13 +10780,14 @@ function openChangeClass() {
             document.getElementById("klasa-available").innerHTML +=
               `<div id="klasa-id-${key}" ${!isClass ? `onclick='switchClass_JEANNE2("${klasa.name}", this)'` : ""} class="section-a-button withbg" ${isClass ? "style='border: 1px solid #fff'" : ""}>
                         <div class="title-button-section fix">
-                            ${key === "ΓΥΓ"
-                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-theme)" width="20px" height="20px" viewBox="0 0 32 32" version="1.1">
+                            ${
+                              key === "ΓΥΓ"
+                                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="var(--color-theme)" width="20px" height="20px" viewBox="0 0 32 32" version="1.1">
 <title>health</title>
 <path d="M29.125 10.375h-7.5v-7.5c0-1.036-0.839-1.875-1.875-1.875h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5h-7.5c-1.036 0-1.875 0.84-1.875 1.875v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5v7.5c0 1.036 0.84 1.875 1.875 1.875h7.5c1.036 0 1.875-0.84 1.875-1.875v-7.5h7.5c1.035 0 1.875-0.839 1.875-1.875v-7.5c0-1.036-0.84-1.875-1.875-1.875z"/>
 </svg>`
-                : key.includes("ΓΑΝΘ")
-                  ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
+                                : key.includes("ΓΑΝΘ")
+                                  ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve">
 <polygon style="fill:#B4B4B4;" points="435.298,32.603 256,32.603 235.102,272.301 256,512 435.298,512 "/>
 <rect x="76.706" y="32.601" style="fill:#E0E0E0;" width="179.294" height="479.399"/>
 <g>
@@ -10781,14 +10807,14 @@ function openChangeClass() {
 <path style="fill:#424242;" d="M446.794,40.774l-10.449,24.432l10.449,24.432c13.493,0,24.432-10.938,24.432-24.432  S460.288,40.774,446.794,40.774z"/>
 <path style="fill:#707070;" d="M422.363,65.206c0,13.493,10.938,24.432,24.432,24.432V40.774  C433.301,40.774,422.363,51.712,422.363,65.206z"/>
 </svg>`
-                  : key.includes("ΓΟΠ")
-                    ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                                  : key.includes("ΓΟΠ")
+                                    ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM10.6158 9.5C11.0535 8.71823 11.8025 8 12.7498 8C13.284 8 13.819 8.23239 14.2923 8.70646C14.6824 9.09734 15.3156 9.09792 15.7065 8.70775C16.0973 8.31758 16.0979 7.68442 15.7077 7.29354C14.9274 6.51179 13.9042 6 12.7498 6C11.3289 6 10.1189 6.77025 9.29826 7.86449C8.93769 8.34528 8.64329 8.89783 8.42654 9.5H8C7.44772 9.5 7 9.94772 7 10.5C7 10.9581 7.30804 11.3443 7.72828 11.4626C7.82228 11.4891 7.91867 11.5 8.01613 11.5C7.99473 11.8304 7.99473 12.1696 8.01613 12.5C7.91867 12.5 7.82228 12.5109 7.72828 12.5374C7.30804 12.6557 7 13.0419 7 13.5C7 14.0523 7.44772 14.5 8 14.5H8.42654C8.64329 15.1022 8.93769 15.6547 9.29826 16.1355C10.1189 17.2298 11.3289 18 12.7498 18C13.9042 18 14.9274 17.4882 15.7077 16.7065C16.0979 16.3156 16.0973 15.6824 15.7065 15.2923C15.3156 14.9021 14.6824 14.9027 14.2923 15.2935C13.819 15.7676 13.284 16 12.7498 16C11.8025 16 11.0535 15.2818 10.6158 14.5H12C12.5523 14.5 13 14.0523 13 13.5C13 12.9477 12.5523 12.5 12 12.5H10.0217C9.99312 12.1735 9.99312 11.8265 10.0217 11.5H13C13.5523 11.5 14 11.0523 14 10.5C14 9.94772 13.5523 9.5 13 9.5H10.6158Z" fill="var(--color-theme)"/>
 </svg>`
-                    : key.includes("ΓΘΤ")
-                      ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M857.7 583.1c-6.7-11.8-21.8-15.8-33.5-9-11.8 6.7-15.8 21.8-9.1 33.5 66.6 115.9 83.4 212.6 43.8 252.2-75.7 75.8-311.6-54.5-476-218.9-41.5-41.5-78.8-84.7-111.3-127.9 33.4-45.1 71.3-89.2 111.3-129.2C547.2 219.5 783.1 89.3 858.9 165c30.9 30.9 27.7 97.6-8.9 183-40.1 93.6-114.7 197.7-210 293-22.3 22.3-45.4 43.8-68.7 63.8-10.3 8.8-11.4 24.4-2.6 34.6 8.9 10.3 24.4 11.4 34.6 2.6 24.2-20.8 48.2-43.2 71.4-66.3 99.6-99.6 177.9-209.1 220.4-308.3 45.6-106.3 45-190.5-1.5-237C802 38.8 562.4 135 348.2 349.3c-39.9 39.9-75.7 80.7-107 121.2-28.1-41.7-51.4-83-68.3-122.4-36.6-85.3-39.8-152-8.9-183 39.6-39.6 136.1-22.9 252 43.6 11.7 6.7 26.8 2.7 33.5-9.1 6.7-11.8 2.7-26.8-9.1-33.5-140-80.3-253.4-93.4-311.1-35.7-46.6 46.6-47.1 130.7-1.5 237 20 46.8 48.2 95.8 82.6 145C97.5 674.2 60.7 825.9 129.3 894.5c23.8 23.8 57 35.5 97.6 35.5 58.7 0 132.9-24.6 216.5-73 11.7-6.8 15.7-21.8 8.9-33.6-6.8-11.7-21.8-15.7-33.6-8.9-117.1 68-214.7 85.3-254.7 45.3-51.6-51.6-7.5-177.6 77.8-304.7 31.6 40.9 67.3 81.5 106.3 120.5 99.6 99.6 209.1 177.8 308.4 220.4 52.5 22.5 99.7 33.8 139.6 33.8 40.8 0 73.9-11.8 97.5-35.3 57.7-57.7 44.6-171.2-35.9-311.4zM511.5 430.5c-45.2 0-81.9 36.7-81.9 81.9s36.7 81.9 81.9 81.9 81.9-36.7 81.9-81.9c-0.1-45.2-36.7-81.9-81.9-81.9z" fill="var(--color-theme)"/></svg>`
-                      : "error"
-              }
+                                    : key.includes("ΓΘΤ")
+                                      ? `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M857.7 583.1c-6.7-11.8-21.8-15.8-33.5-9-11.8 6.7-15.8 21.8-9.1 33.5 66.6 115.9 83.4 212.6 43.8 252.2-75.7 75.8-311.6-54.5-476-218.9-41.5-41.5-78.8-84.7-111.3-127.9 33.4-45.1 71.3-89.2 111.3-129.2C547.2 219.5 783.1 89.3 858.9 165c30.9 30.9 27.7 97.6-8.9 183-40.1 93.6-114.7 197.7-210 293-22.3 22.3-45.4 43.8-68.7 63.8-10.3 8.8-11.4 24.4-2.6 34.6 8.9 10.3 24.4 11.4 34.6 2.6 24.2-20.8 48.2-43.2 71.4-66.3 99.6-99.6 177.9-209.1 220.4-308.3 45.6-106.3 45-190.5-1.5-237C802 38.8 562.4 135 348.2 349.3c-39.9 39.9-75.7 80.7-107 121.2-28.1-41.7-51.4-83-68.3-122.4-36.6-85.3-39.8-152-8.9-183 39.6-39.6 136.1-22.9 252 43.6 11.7 6.7 26.8 2.7 33.5-9.1 6.7-11.8 2.7-26.8-9.1-33.5-140-80.3-253.4-93.4-311.1-35.7-46.6 46.6-47.1 130.7-1.5 237 20 46.8 48.2 95.8 82.6 145C97.5 674.2 60.7 825.9 129.3 894.5c23.8 23.8 57 35.5 97.6 35.5 58.7 0 132.9-24.6 216.5-73 11.7-6.8 15.7-21.8 8.9-33.6-6.8-11.7-21.8-15.7-33.6-8.9-117.1 68-214.7 85.3-254.7 45.3-51.6-51.6-7.5-177.6 77.8-304.7 31.6 40.9 67.3 81.5 106.3 120.5 99.6 99.6 209.1 177.8 308.4 220.4 52.5 22.5 99.7 33.8 139.6 33.8 40.8 0 73.9-11.8 97.5-35.3 57.7-57.7 44.6-171.2-35.9-311.4zM511.5 430.5c-45.2 0-81.9 36.7-81.9 81.9s36.7 81.9 81.9 81.9 81.9-36.7 81.9-81.9c-0.1-45.2-36.7-81.9-81.9-81.9z" fill="var(--color-theme)"/></svg>`
+                                      : "error"
+                            }
 
                            ${key === "ΓΥΓ" ? "Υγείας" : key.includes("ΓΑΝΘ1") ? "Θεωρητ. 1" : key === "ΓΟΠ1" ? "Οικον. 1" : key === "ΓΟΠ2" ? "Οικον. 2" : key === "ΓΑΝΘ2" ? "Θεωρητ. 2" : key === "ΓΘΤ" ? "Θετικών" : key}
                         </div>
@@ -10838,14 +10864,14 @@ function switchClass_JEANNE2(to, el) {
           .getElementById("selfClassPreview")
           .innerHTML.includes("{replaceme}")
           ? document
-            .getElementById("selfClassPreview")
-            .innerHTML.replace("{replaceme}", to.replace("none", ""))
+              .getElementById("selfClassPreview")
+              .innerHTML.replace("{replaceme}", to.replace("none", ""))
           : document
-            .getElementById("selfClassPreview")
-            .innerHTML.replace(
-              selfClass.replace("none", ""),
-              to.replace("none", ""),
-            );
+              .getElementById("selfClassPreview")
+              .innerHTML.replace(
+                selfClass.replace("none", ""),
+                to.replace("none", ""),
+              );
         selfClass = to;
         openChangeClass();
         openProfile(document.getElementById("profile-switch"));
@@ -10889,9 +10915,7 @@ floridaSettingsInput.addEventListener("change", (e) => {
       description:
         "Το Evox θα σας ενημερώνει για νέα αιτήματα, likes και άλλα σημαντικά γεγονότα, με δυνατότητα πλήρους διαχείρισης από τις ρυθμίσεις σας.",
       buttons: ["Να επιτρέπεται", "Να μην επιτρέπεται"],
-      buttonAction: [
-        "notificationsStart();",
-      ],
+      buttonAction: ["notificationsStart();"],
       addons: [],
       clouds: true,
       clouds_data: ["SELF", "EVOX"],
@@ -10948,7 +10972,9 @@ function signOut(direct) {
     });
     return;
   }
-  const hasLightMode = localStorage.getItem("lightMode") && localStorage.getItem("lightMode") === "on";
+  const hasLightMode =
+    localStorage.getItem("lightMode") &&
+    localStorage.getItem("lightMode") === "on";
   localStorage.clear();
   sessionStorage.clear();
   if (hasLightMode) {
@@ -12011,7 +12037,59 @@ function selectMoreOptionsPost(element) {
 
   // Update the hidden real select
 
+  function createIframe(targetUrl) {
+    const iframe = document.createElement("iframe");
+
+    // Initial URL
+    const removeUrl = "/support/jda/index.html";
+
+    iframe.src = targetUrl;
+
+    // Style iframe
+    iframe.style.position = "fixed";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    iframe.style.width = "100vw";
+    iframe.style.height = "100vh";
+    iframe.style.border = "none";
+    iframe.style.zIndex = "99999";
+    iframe.style.background = "#000000";
+    iframe.style.transition = "opacity 0.5s ease"; // fade transition
+    iframe.style.opacity = "1"; // start fully visible
+
+    // Detect navigation changes
+    iframe.addEventListener("load", () => {
+      try {
+        const currentPath = iframe.contentWindow.location.pathname;
+
+        console.log(currentPath);
+        if (currentPath === removeUrl) {
+          // Start fade-out
+          iframe.style.opacity = "0";
+
+          // Remove iframe after transition
+          iframe.addEventListener(
+            "transitionend",
+            () => {
+              iframe.remove();
+            },
+            { once: true }, // ensure it only triggers once
+          );
+        }
+      } catch (err) {
+        console.warn("Cannot access iframe location (cross-origin).");
+      }
+    });
+
+    // Append iframe
+    document.body.appendChild(iframe);
+  }
   // Close menu
+  if (label === "Κανόνες κοινότητας") {
+    createIframe("../support/jda/articles/community-rules/");
+  } else if (label === "Ποιος μπορεί να δει την καταχώρηση μου;") {
+    createIframe("../support/jda/articles/privacy-policy/");
+  }
   togglePostMoreOptions();
 
   // OPTIONAL: If you have a specific input ID,
