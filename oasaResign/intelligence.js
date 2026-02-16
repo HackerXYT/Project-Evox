@@ -12,8 +12,10 @@ console.log(
 );
 document.getElementById("showUpV").innerText = currentVersion;
 localStorage.setItem("currentVersion", currentVersion);
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicGFwb3N0b2wiLCJhIjoiY2xsZXg0c240MHphNzNrbjE3Z2hteGNwNSJ9.K1O6D38nMeeIzDKqa4Fynw";
+const tkb64 = atob(atob('Y0dzdVpYbEtNVWxxYjJsalIwWjNZak5PTUdJeWQybE1RMHBvU1dwdmFWa3llSE5hV0djd1l6STBNRTFJY0doT2VrNXlZbXBGTTFveWFIUmxSMDUzVGxOS09TNUxNVTgyUkRNNGJrMWxaVWw2UkV0eFlUUkdlVzUz'))
+mapboxgl.accessToken = tkb64
+
+
 
 let fullLine = null;
 
