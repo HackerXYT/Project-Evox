@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #9e9e9e;
+            --accent: #ffc964;
+            --accent-hover: #9965f4;
+            --border-color: #333333;
+            --item-bg: #2a2a2a;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .header-info h1 {
+            margin: 0;
+            color: var(--accent);
+        }
+
+        .header-info p {
+            margin: 5px 0 0 0;
+            color: var(--text-muted);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card-full-width {
+            grid-column: 1 / -1;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .value {
+            font-size: 1rem;
+            word-break: break-word;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: #3700b3;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .list-item {
+            background-color: var(--item-bg);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .list-item strong {
+            color: var(--accent);
+        }
+
+        .notice-box {
+            background-color: rgba(207, 102, 121, 0.1);
+            border-left: 4px solid #cf6679;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .notice-box h4 {
+            margin: 0 0 5px 0;
+            color: #cf6679;
+        }
+
+        .notice-box p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 50px;
+            color: #cf6679;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .download {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            padding: 10px;
+            box-sizing: border-box;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+    </div>
+
+    <div onclick="downloadJsonFromStorage('AccountData')" class="download">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+            <path
+                d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z"
+                fill="#000" />
+            <path
+                d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z"
+                fill="#000" />
+        </svg>
+    </div>
+    <script>
+
+        function downloadJsonFromStorage(storageKey, fileName = 'data.json') {
+            // 1. Get the value from localStorage
+            const storageValue = sessionStorage.getItem(storageKey);
+
+            // 2. Check if the value exists
+            if (storageValue === null) {
+                console.error(`Error: Key "${storageKey}" not found in localStorage.`);
+                return;
+            }
+
+            const data = JSON.parse(storageValue);
+
+
+            // 4. Convert to a JSON string (pretty-printed)
+            const jsonString = JSON.stringify(data.file, null, 4);
+
+            // 5. Create a Blob and trigger the download
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            // Ensure the filename ends with .json
+            link.download = fileName.toLowerCase().endsWith('.json') ? fileName : `${fileName}.json`;
+
+            // Append to body, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // 6. Clean up the URL object
+            URL.revokeObjectURL(url);
+
+            console.log(`Successfully downloaded "${storageKey}" as ${fileName}`);
+        }
+        // --- 1. MOCK DATA SETUP (FOR TESTING) ---
+        // If there's no data in sessionStorage, we inject your provided JSON so the UI can be previewed.
+        if (!sessionStorage.getItem('AccountData')) {
+            alert('No Account Data found in sessionStorage.');
+        }
+
+        // --- 2. UTILITY FUNCTIONS ---
+        const formatDate = (dateString) => {
+            if (!dateString) return 'N/A';
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+
+        const safeGet = (value, fallback = 'N/A') => {
+            return (value !== null && value !== undefined && value !== '') ? value : fallback;
+        };
+
+        // --- 3. RENDER LOGIC ---
+        function renderDashboard() {
+            const appDiv = document.getElementById('app');
+            const rawData = sessionStorage.getItem('AccountData');
+
+            if (!rawData) {
+                appDiv.innerHTML = '<div class="error-state"><h2>No Account Data found in sessionStorage.</h2></div>';
+                return;
+            }
+
+            let data;
+            try {
+                data = JSON.parse(rawData).file || {};
+            } catch (e) {
+                appDiv.innerHTML = '<div class="error-state"><h2>Failed to parse Account Data.</h2></div>';
+                return;
+            }
+
+            // Extract primary details safely
+            const fullName = data.instagramInfo?.full_name || data.variacionet?.[0] || 'Unknown User';
+            const pfpUrl = data.instagramInfo?.profile_pic_hd || data.instagramPFP || `https://arc.evoxs.xyz/foto/instagram/${data.sociale.instagram}.evox`;
+            const email = safeGet(data.email);
+            const klasa = safeGet(data.klasa);
+
+            let html = `
+                <header>
+                    <img src="${pfpUrl}" alt="Profile Picture" class="profile-img" onerror="this.src='https://arc.evoxs.xyz/foto/instagram/${data.sociale.instagram}.evox'">
+                    <div class="header-info">
+                        <h1>${fullName}</h1>
+                        <p>${email} | Class: ${klasa} | @${safeGet(data.evox_username, 'unknown')}</p>
+                    </div>
+                </header>
+                
+                <div class="container">
+            `;
+
+            // Active Notice (If exists)
+            if (data.notice) {
+                html += `
+                <div class="card card-full-width" style="border: 1px solid #cf6679;">
+                    <div class="notice-box">
+                        <h4>${safeGet(data.notice.title, 'Notice')}</h4>
+                        <p>${safeGet(data.notice.description, '')}</p>
+                    </div>
+                </div>`;
+            }
+
+            // Basic Info Card
+            html += `
+                <div class="card">
+                    <h2>Basic Information</h2>
+                    <div class="info-group">
+                        <span class="label">Primary Email</span>
+                        <span class="value">${email}</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">PIN</span>
+                        <span class="value">${safeGet(data.pin)}</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Account Status</span>
+                        <span class="value">${data.isEvox ? '✅ Evox Active' : '❌ Inactive'} (Participated: ${safeGet(data.has_participated)})</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Tags</span>
+                        <div class="tag-container">
+                            ${(data.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('') || '<span class="value">No tags</span>'}
+                        </div>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Name Variations</span>
+                        <span class="value" style="font-size: 0.85rem; color: var(--text-muted);">
+                            ${(data.variacionet || []).join(', ') || 'N/A'}
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            // Social & Network Card
+            html += `
+                <div class="card">
+                    <h2>Social Accounts</h2>
+                    <div class="info-group">
+                        <span class="label">Instagram</span>
+                        <span class="value">@${safeGet(data.sociale?.instagram)}</span>
+                        <span style="font-size:0.85rem; color: var(--text-muted)">
+                            Followers: ${data.instagramInfo?.followers ?? 'N/A'} | Following: ${data.instagramInfo?.following ?? 'N/A'}
+                        </span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Evox Network</span>
+                        <span class="value">
+                            Followers: ${data.sociale?.evox?.followers?.length || 0} | 
+                            Following: ${data.sociale?.evox?.following?.length || 0}
+                        </span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Previous IG Handles</span>
+                        <div class="tag-container" style="margin-top: 5px;">
+                            ${[...new Set(data.sociale?.previousInstagrams || [])].map(ig => `<span class="tag" style="background:#444;">${ig}</span>`).join('') || '<span class="value">None</span>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Activity & Security
+            html += `
+                <div class="card">
+                    <h2>Security & Activity</h2>
+                    <div class="info-group">
+                        <span class="label">Latest Login</span>
+                        <span class="value">${formatDate(data.latestLogin)}</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Latest IP</span>
+                        <span class="value">${safeGet(data.latestIp)}</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="label">Known IPs (${(data.ips || []).length})</span>
+                        <div style="max-height: 100px; overflow-y: auto; font-size: 0.85rem; color: var(--text-muted);">
+                            ${(data.ips || []).join('<br>') || 'N/A'}
+                        </div>
+                    </div>
+                    <div class="info-group" style="margin-top: 10px;">
+                        <span class="label">Pending Recovery Code</span>
+                        <span class="value">${safeGet(data.pendingCode)}</span>
+                    </div>
+                </div>
+            `;
+
+            // AIT Summary
+            if (data.AIT && data.AIT.response) {
+                html += `
+                    <div class="card card-full-width">
+                        <h2>AIT Summary (Generated: ${safeGet(data.AIT.date)})</h2>
+                        <div style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6;">${data.AIT.response}</div>
+                    </div>
+                `;
+            }
+
+            // Recent Searches
+            const searches = Object.entries(data.recentlySearched || {});
+            html += `
+                <div class="card">
+                    <h2>Recent Searches</h2>
+                    <div style="max-height: 250px; overflow-y: auto;" class="col">
+                        ${searches.length > 0
+                    ? searches.sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA)).map(([date, info]) => `
+                                <div class="list-item">
+                                    <strong>${info.emri}</strong><br>
+                                    <span style="font-size:0.75rem; color: var(--text-muted);">${formatDate(date)}</span>
+                                </div>
+                            `).join('')
+                    : '<span class="value">No recent searches.</span>'
+                }
+                    </div>
+                </div>
+            `;
+
+            // Notifications
+            html += `
+                <div class="card">
+                    <h2>Recent Notifications</h2>
+                    <div style="max-height: 250px; overflow-y: auto;" class="col">
+                        ${(data.notifications || []).length > 0
+                    ? data.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)).map(n => `
+                                <div class="list-item">
+                                    <strong>${n.notification?.title || 'Notification'}</strong><br>
+                                    <span style="font-size:0.85rem;">${n.notification?.description || ''}</span><br>
+                                    <span style="font-size:0.75rem; color: var(--text-muted);">${formatDate(n.date)}</span>
+                                </div>
+                            `).join('')
+                    : '<span class="value">No notifications.</span>'
+                }
+                    </div>
+                </div>
+            `;
+
+            // Saved Posts
+            html += `
+                <div class="card">
+                    <h2>Saved Posts</h2>
+                    <div style="max-height: 250px; overflow-y: auto;" class="col">
+                        ${(data.savedPosts || []).length > 0
+                    ? data.savedPosts.sort((a, b) => new Date(b.date) - new Date(a.date)).map(post => `
+                                <div class="list-item">
+                                    From: <strong>${post.userThatWrote || 'Unknown'}</strong><br>
+                                    Creator: ${post.creator || 'Unknown'}<br>
+                                    <span style="font-size:0.75rem; color: var(--text-muted);">${formatDate(post.date)}</span>
+                                </div>
+                            `).join('')
+                    : '<span class="value">No saved posts.</span>'
+                }
+                    </div>
+                </div>
+            `;
+
+            html += `</div>`; // Close grid container
+            appDiv.innerHTML = html;
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', renderDashboard);
+    </script>
+</body>
+
+</html>
