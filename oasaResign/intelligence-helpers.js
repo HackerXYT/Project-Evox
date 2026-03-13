@@ -1721,3 +1721,29 @@ function SpawnNewBusMarker(busId, location) {
   // NEW: Return the marker for assignment
   return marker;
 }
+async function checkPWACache() {
+  if (!('serviceWorker' in navigator)) {
+    alert("Service Workers are not supported in this browser.");
+    return;
+  }
+
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+
+    if (!registrations || registrations.length === 0) {
+      alert("No Service Worker is registered.");
+      return;
+    }
+
+    const cache = await caches.open('static-cache-v119');
+    const keys = await cache.keys();
+
+    alert("Service Worker is registered.\nCached requests: " + keys.length);
+    console.log("Cached requests:", keys.length);
+
+  } catch (err) {
+    console.error("Error checking cache:", err);
+    alert("Failed to read cache.");
+  }
+}
+
