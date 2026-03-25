@@ -1,0 +1,350 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('../Inter/Inter-VariableFont_opsz,wght.ttf');
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+}
+
+
+body {
+    background-color: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.container {
+    max-width: 70%;
+    width: fit-content;
+    background-color: #fff;
+    height: 100%;
+    max-height: 80%;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 85px;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.container .section {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 10px;
+    position: relative;
+}
+
+.container .section:first-child {
+    overflow: hidden;
+    border-radius: 40px;
+}
+
+.container .section .absoluteLogo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.container .section .absoluteText {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 60px);
+    gap: 10px;
+}
+
+
+.container .section .fullscreenImage {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.container .section .logoImg {
+    width: 40px;
+    height: 40px;
+
+}
+
+.container .section h1 {
+    margin: 0;
+}
+
+.container .section p {
+    margin: 0;
+    color: #656f77;
+}
+
+.loginContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.loginContainer p {
+    font-size: 18px;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+.loginContainer input {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border: none;
+    background-color: transparent;
+    border: 2px solid #656f77;
+    border-radius: 12px;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    width: 100%;
+}
+
+.loginContainer .loginBtn {
+    margin-top: 20px;
+    border: none;
+    background-color: #203988;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 25px;
+    color: #fff;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+}
+
+
+.container .section .absoluteText .absoluteSubheading {
+    font-size: 24px;
+    margin: 0;
+    color: #fff;
+}
+
+.container .section .absoluteText .absoluteHeading {
+    font-size: 45px;
+    max-width: 90%;
+    font-weight: bold;
+    margin: 0;
+    color: #fff;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    /* Vertically centers lines with text */
+    text-align: center;
+    color: #656f77;
+    /* Adjust text color */
+    font-family: sans-serif;
+    font-size: 14px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    /* Tells lines to grow and fill space */
+    border-bottom: 2px solid #656f77;
+    /* The line color and thickness */
+}
+
+.separator:not(:empty)::before {
+    margin-right: 15px;
+    margin-left: 40px;
+    /* Space between left line and text */
+}
+
+.separator:not(:empty)::after {
+    margin-left: 15px;
+    margin-right: 40px;
+    /* Space between text and right line */
+}
+
+.socialLogin {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 500px;
+    justify-content: space-evenly;
+
+}
+
+.socialLogin .socialBtn {
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 13px;
+    border: 0;
+    box-sizing: border-box;
+    padding: 10px 0;
+    width: 100%;
+    cursor: pointer;
+}
+
+p.helper {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 20px !important;
+}
+
+p.helper vox {
+    color: #203988;
+    margin-left: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+    .container {
+        max-width: 90%;
+        gap: 48px;
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        background-color: #fff;
+    }
+
+    body {
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .container {
+        max-width: 100%;
+        max-height: none;
+        min-height: calc(100dvh - 32px);
+        height: auto;
+        border-radius: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 24px;
+        padding: 16px;
+    }
+
+    .container .section {
+        height: auto;
+    }
+
+    .container .section:first-child {
+        display: none;
+    }
+
+    .container .section .fullscreenImage {
+        max-height: 320px;
+    }
+
+    .container .section .absoluteLogo {
+        top: 16px;
+        left: 16px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .container .section .absoluteText {
+        left: 16px;
+        bottom: 16px;
+        width: calc(100% - 32px);
+    }
+
+    .container .section .absoluteText .absoluteSubheading {
+        font-size: 18px;
+    }
+
+    .container .section .absoluteText .absoluteHeading {
+        font-size: 30px;
+        max-width: 100%;
+    }
+
+    .loginContainer,
+    .separator,
+    .socialLogin,
+    p.helper {
+        max-width: 100%;
+    }
+
+    .separator:not(:empty)::before {
+        margin-left: 0;
+    }
+
+    .separator:not(:empty)::after {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    body {
+        background-color: #fff;
+    }
+
+    .container {
+        border-radius: 0;
+        padding: 14px;
+    }
+
+    .container .section .absoluteText .absoluteHeading {
+        font-size: 24px;
+    }
+
+    .loginContainer p {
+        font-size: 16px;
+    }
+
+    .loginContainer input,
+    .loginContainer .loginBtn {
+        padding: 13px 16px;
+    }
+
+    .socialLogin {
+        gap: 10px;
+    }
+
+    .socialLogin .socialBtn {
+        padding: 10px;
+    }
+
+    p.helper {
+        text-align: center;
+        line-height: 1.4;
+    }
+}

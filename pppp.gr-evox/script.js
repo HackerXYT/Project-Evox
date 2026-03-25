@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   if (mobileMenuToggle && mobileMenu) {
     mobileMenuToggle.addEventListener("click", function () {
-        if(mobileMenuToggle.innerHTML.includes("span")) {
-            mobileMenu.classList.toggle("active");
-        } else {
-            closePopup()
-            mobileMenuToggle.innerHTML = `<span></span><span></span><span></span>`
-        }
+      if (mobileMenuToggle.innerHTML.includes("span")) {
+        mobileMenu.classList.toggle("active");
+      } else {
+        closePopup()
+        mobileMenuToggle.innerHTML = `<span></span><span></span><span></span>`
+      }
     });
 
     document.addEventListener("click", function (e) {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     });
   }
-  fetch("http://192.168.1.116:1974/status")
+  fetch("http://192.168.1.116:1972/status")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .then((data) => {
       if (data.status === 200) {
         console.log("Server Okay");
-        fetch("http://192.168.1.116:1974/reviews")
+        fetch("http://192.168.1.116:1972/reviews")
           .then((response) => {
             if (!response.ok) {
               throw new Error("Network response was not ok");
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
               do {
                 selectedReview =
                   dictionary_ratings[
-                    Math.floor(Math.random() * dictionary_ratings.length)
+                  Math.floor(Math.random() * dictionary_ratings.length)
                   ];
                 selectedKey =
                   selectedReview.name + "|" + selectedReview.review_gr; // unique key

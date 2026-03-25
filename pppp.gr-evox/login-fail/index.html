@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Σύνδεση | Δρ. Παπαποστόλου Απόστολος</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../mobile.css">
+    <link rel="icon" type="image/png" href="../apple.png">
+    <link rel="apple-touch-icon-precomposed" href="../apple.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="pppp">
+    <style>
+        /* Login page specific overrides & new classes – keeping the exact design language */
+        body {
+            background: linear-gradient(140deg, #b2d7ff 0%, #ffffff 100%);
+        }
+
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px;
+            box-sizing: border-box;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(29, 58, 135, 0.08);
+            max-width: 420px;
+            width: 100%;
+            padding: 50px 40px;
+            box-sizing: border-box;
+            margin: 30px 20px;
+        }
+
+        .login-card .aboutLabel {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #58b5a8;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .login-card .aboutTitle {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #203988;
+            margin-bottom: 12px;
+        }
+
+        .login-card .aboutDescription {
+            text-align: center;
+            font-size: 15px;
+            color: #656f77;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-form label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #203988;
+            margin-bottom: 6px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e3e4e3;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #1d3a87;
+            box-shadow: 0 0 0 4px rgba(29, 58, 135, 0.12);
+        }
+
+        .login-form .password-row {
+            position: relative;
+        }
+
+        .login-form .show-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5FA898;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #656f77;
+            cursor: pointer;
+        }
+
+        .remember-forgot a {
+            color: #1d3a87;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background-color: #1d3a87;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #132b6b;
+            transform: translateY(-2px);
+        }
+
+        .create-account {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 15px;
+            color: #656f77;
+        }
+
+        .create-account a {
+            color: #1d3a87;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+
+        /* Small visual tweaks for perfect alignment with the main site */
+        .navigator {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 40px 25px;
+                margin: 20px;
+            }
+
+            .login-card .aboutTitle {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Same navigator as the main site – fully consistent styling -->
+    <div class="navigator">
+        <div class="left section">
+            <div class="icon">
+                <img src="../logo.png" width="25px" height="25px">
+            </div>
+            <p class="name">Δρ. Παπαποστόλου Απόστολος</p>
+        </div>
+        <div class="right section">
+            <a href="../" class="item" style="text-decoration:none; color:#86898a;">Αρχική</a>
+            <a href="../#learnMore" class="item" style="text-decoration:none; color:#86898a;">Βιογραφικό</a>
+            <a href="../#services" class="item" style="text-decoration:none; color:#86898a;">Υπηρεσίες</a>
+            <a href="../#contact" class="item" style="text-decoration:none; color:#86898a;">Επικοινωνία</a>
+            <a href="../" class="buttonExt book_appointment" style="text-decoration:none;">Κλείστε ραντεβού</a>
+        </div>
+        <div id="hamburger" class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Login content – centered, clean, modern and 100% matching the site’s aesthetic -->
+    <div class="login-screen">
+        <div class="login-card">
+            <div class="aboutLabel">ΑΣΦΑΛΗΣ ΠΡΟΣΒΑΣΗ</div>
+            <div class="aboutTitle">Σύνδεση στον λογαριασμό σας</div>
+            <div class="aboutDescription">
+                Για να κλείσετε ραντεβού online<br>
+                και να διαχειριστείτε τις επισκέψεις σας
+            </div>
+
+            <form class="login-form" action="#" method="POST">
+                <label for="email">Email ή τηλέφωνο</label>
+                <input type="text" id="email" placeholder="example@email.com" required autocomplete="email">
+
+                <label for="password">Κωδικός πρόσβασης</label>
+                <div class="password-row">
+                    <input type="password" id="password" placeholder="••••••••" required
+                        autocomplete="current-password">
+                    <span class="show-password" onclick="togglePassword()">Εμφάνιση</span>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox" style="accent-color:#1d3a87;"> Να με θυμάσαι
+                    </label>
+                    <a href="#">Ξέχασα τον κωδικό</a>
+                </div>
+
+                <button type="submit" class="login-btn">Σύνδεση</button>
+            </form>
+
+            <div class="create-account">
+                Δεν έχετε λογαριασμό;
+                <a href="../">Δημιουργία λογαριασμού</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer for consistency -->
+    <div class="footer" style="margin-top:auto; position:relative; z-index:2;">
+        Papapostolou Apostolos © 2025 All Rights Reserved | Made with ❤️ by Papapostolou
+    </div>
+
+    <script>
+        // Tiny helper for password visibility (no external JS dependency)
+        function togglePassword() {
+            const pw = document.getElementById('password');
+            const toggleText = document.querySelector('.show-password');
+            if (pw.type === 'password') {
+                pw.type = 'text';
+                toggleText.textContent = 'Απόκρυψη';
+            } else {
+                pw.type = 'password';
+                toggleText.textContent = 'Εμφάνιση';
+            }
+        }
+
+        // Simple mobile menu toggle (matching main site behaviour)
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                alert('Μενού κινητού – επιστροφή στην αρχική για πλήρη λειτουργικότητα');
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1787,38 +1787,27 @@ function securelineHome(data, appending) {
             console.log("All friends have been loaded and displayed.");
             const securelinePopup = document.querySelector('#secureline');
 
-            // Get the viewport height
-            const viewportHeight = window.innerHeight;
+            // Keep desktop height controlled by CSS (.securelinePopup/.active).
+            // Preserve prior mobile behavior where inline height may still be adjusted.
+            if (isMobileDevice()) {
+                const viewportHeight = window.innerHeight;
 
-            // Get any offsets or margins from the viewport height if applicable
-            // Adjust these values as needed for your specific layout
-
-
-
-
-
-            if (data.length >= 1 && data.length <= 15) {
-                securelinePopup.style.height = `${250 + (data.length * 50)}px`;
-            } else {
-                const topOffset = 20; // example value, adjust based on actual layout
-                const bottomOffset = 20; // example value, adjust based on actual layout
-                //// Calculate the available height for the #secureline element
-                const availableHeight = viewportHeight - topOffset - bottomOffset;
-
-                //// Calculate the maximum height for the element (80% of the viewport height)
-                const maxHeight = viewportHeight * 0.8;
-
-                //// Calculate the content height
-                const contentHeight = securelinePopup.scrollHeight;
-
-                //// Determine the new height to set
-                const newHeight = Math.min(availableHeight, maxHeight, contentHeight);
-
-                //// Set the height if the new height is different from the current height
-                const currentHeight = parseFloat(window.getComputedStyle(securelinePopup).height);
-                if (newHeight !== currentHeight) {
-                    securelinePopup.style.height = newHeight + 'px';
+                if (data.length >= 1 && data.length <= 15) {
+                    securelinePopup.style.height = `${250 + (data.length * 50)}px`;
+                } else {
+                    const topOffset = 20;
+                    const bottomOffset = 20;
+                    const availableHeight = viewportHeight - topOffset - bottomOffset;
+                    const maxHeight = viewportHeight * 0.8;
+                    const contentHeight = securelinePopup.scrollHeight;
+                    const newHeight = Math.min(availableHeight, maxHeight, contentHeight);
+                    const currentHeight = parseFloat(window.getComputedStyle(securelinePopup).height);
+                    if (newHeight !== currentHeight) {
+                        securelinePopup.style.height = newHeight + 'px';
+                    }
                 }
+            } else {
+                securelinePopup.style.height = '';
             }
 
 

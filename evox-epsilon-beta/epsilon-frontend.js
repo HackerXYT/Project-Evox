@@ -1464,6 +1464,7 @@ function showHideGalaxy(e) {
         document.getElementById("secureline").style.height = '50px'
         e.setAttribute('data-c', 'true')
     } else {
+        
         document.getElementById("secureline").style.height = previousHeight
         e.setAttribute('data-c', 'false')
         isGalaxied = false
