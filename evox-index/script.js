@@ -370,3 +370,100 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+const id = 'MTQ4NjUxMzA1MzQwMTg3ODU3OQ=='
+const tkn = 'VVBqT0tGRXBhOVdDLXBtZWt0bTRlQWpVQXR2SXY5cVRuSk5yQTgyQzZETWdibmZzUzFxdV9fMGlreW1yX0xveFhRVWs='
+const endpoint = `${atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mve2lkfS97dGtufQ==').replace('{id}', atob(id)).replace('{tkn}', atob(tkn))}`;
+
+function getOrCreateFormStatus() {
+    let status = document.getElementById('contactFormStatus');
+    if (status) return status;
+
+    status = document.createElement('div');
+    status.id = 'contactFormStatus';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    status.style.display = 'none';
+    status.style.marginTop = '12px';
+    status.style.padding = '10px 12px';
+    status.style.borderRadius = '10px';
+    status.style.fontSize = '14px';
+    status.style.fontWeight = '600';
+    status.style.lineHeight = '1.4';
+
+    const sendBtn = document.querySelector('button[onclick="sendMessage()"]');
+    if (sendBtn) {
+        sendBtn.insertAdjacentElement('afterend', status);
+    }
+
+    return status;
+}
+
+function showFormStatus(message, type = 'info') {
+    const status = getOrCreateFormStatus();
+    if (!status) return;
+
+    const statusStyles = {
+        success: {
+            color: '#155724',
+            background: '#d4edda',
+            border: '1px solid #c3e6cb'
+        },
+        error: {
+            color: '#721c24',
+            background: '#f8d7da',
+            border: '1px solid #f5c6cb'
+        },
+        info: {
+            color: '#0c5460',
+            background: '#d1ecf1',
+            border: '1px solid #bee5eb'
+        }
+    };
+
+    const palette = statusStyles[type] || statusStyles.info;
+    status.textContent = message;
+    status.style.display = 'block';
+    status.style.color = palette.color;
+    status.style.backgroundColor = palette.background;
+    status.style.border = palette.border;
+}
+
+async function sendMessage() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const inquiryType = document.getElementById('selectValue').innerText;
+    const message = document.getElementById('message').value.trim();
+
+    if(!name || !email || !message) {
+        showFormStatus('Please fill in all required fields.', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: `Name: ${name}\nEmail: ${email}\nInquiry Type: ${inquiryType}\nMessage: ${message}`
+            })
+        });
+
+        if (!response.ok) {
+            console.error("Error sending message:", response.statusText);
+            showFormStatus('Something went wrong while sending your message. Please try again.', 'error');
+            return;
+        }
+
+        showFormStatus('Your message has been sent successfully!', 'success');
+        // Clear form
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('selectValue').innerText = 'Technical Support';
+        document.getElementById('message').value = '';
+    } catch (error) {
+        console.error('Network error while sending message:', error);
+        showFormStatus('Network error. Please check your connection and try again.', 'error');
+    }
+}

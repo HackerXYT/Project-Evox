@@ -192,7 +192,7 @@ nav {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   padding: 40px 20px;
   flex-grow: 1;
@@ -448,6 +448,13 @@ footer {
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+}
+
+/* --- SMALLER DESKTOPS (2 columns) --- */
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -724,6 +731,7 @@ select option {
 }
 
 .select-options {
+  display: none;
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
@@ -734,18 +742,12 @@ select option {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-m);
   overflow: hidden;
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .custom-select.active .select-options {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  display: block;
 }
 
 .option {
@@ -830,47 +832,11 @@ html {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.custom-select {
-  position: relative;
-  user-select: none;
-}
-
-.select-options {
-  display: none;
-  /* Hidden by default */
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: #1c1c1e;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  margin-top: 8px;
-  z-index: 1000;
-  min-width: 100px;
-  overflow: hidden;
-}
-
-/* This is what makes it open */
-.custom-select.active .select-options {
-  display: block;
-}
-
-.option {
-  padding: 10px 16px;
-  cursor: pointer;
-  color: white;
-  transition: background 0.2s;
-}
-
-.option:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
 
 /* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 768px) {
   :root {
     --radius-l: 18px;
-    /* Slightly smaller radius for mobile */
   }
 
   /* Navigation: Allow wrapping or hide links */
@@ -880,7 +846,6 @@ html {
     min-height: var(--nav-height);
     flex-wrap: wrap;
     justify-content: center;
-    /* Center items on very small screens */
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -905,9 +870,9 @@ html {
     width: 70px;
   }
 
-  /* Hero adjustments */
+  /* Hero: account for the taller wrapped nav */
   .hero {
-    margin-top: calc(var(--nav-height) + 40px);
+    margin-top: calc(var(--nav-height) + 80px);
   }
 
   .hero h1 {
@@ -920,7 +885,7 @@ html {
     padding: 0 15px;
   }
 
-  /* Segmented Control: Make it scrollable and touch-friendly */
+  /* Segmented Control: horizontally scrollable, no squishing */
   .segmented-control {
     width: 90%;
     margin: 0 auto;
@@ -929,28 +894,28 @@ html {
   }
 
   .tab-btn {
-    padding: 8px 16px;
-    flex: 1;
-    /* Stretch buttons to fill space */
+    padding: 8px 14px;
+    flex: 0 0 auto;
     text-align: center;
+    font-size: 0.8rem;
   }
 
   /* Grid Adjustments */
   .grid-container {
     grid-template-columns: 1fr;
-    /* Force single column */
     padding: 20px 15px;
     gap: 16px;
   }
 
   .card {
     padding: 24px;
+    min-height: auto;
   }
 
   .btn-launch {
     max-width: none;
-    /* Full width buttons on mobile */
     width: 100%;
+    margin-right: 0;
   }
 
   /* About Section Bento Fix */
@@ -986,7 +951,6 @@ html {
 
   .form-row {
     grid-template-columns: 1fr;
-    /* Stack First/Last Name */
   }
 }
 
