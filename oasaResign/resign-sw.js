@@ -13,8 +13,8 @@ self.addEventListener('notificationclick', function (event) {
   );
 });
 
-const STATIC_CACHE_NAME = 'static-cache-v120';
-const APP_CACHE_NAME = 'app-cache-v120';
+const STATIC_CACHE_NAME = 'static-cache-v121';
+const APP_CACHE_NAME = 'app-cache-v121';
 const CACHE_STATIC = [
   '/oasaResign/',
   '/oasaResign/index.html',
@@ -77,228 +77,53 @@ const CACHE_APP = [
   '/oasaResign/intelligence.js'
 ];
 
-// Install event: Cache static and app resources
+// Build a Set of known static paths for fast lookup in the fetch handler
+const CACHE_STATIC_SET = new Set(CACHE_STATIC);
+
+// Install event: pre-cache all static assets
 self.addEventListener('install', event => {
   event.waitUntil(
     Promise.all([
       caches.open(STATIC_CACHE_NAME),
       caches.open(APP_CACHE_NAME)
     ]).then(([staticCache, appCache]) => {
-      console.log('Caches opened and resources added.');
       return Promise.all([
         staticCache.addAll(CACHE_STATIC),
         appCache.addAll(CACHE_APP)
       ]);
-    }).then(() => {
-      return self.skipWaiting(); // Activate the new service worker immediately
+    }).then(() => self.skipWaiting())
+  );
+});
+
+// Activate event: delete every cache that isn't the current version
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames
+            .filter(name => name !== STATIC_CACHE_NAME && name !== APP_CACHE_NAME)
+            .map(name => {
+              console.log('Deleting old cache:', name);
+              return caches.delete(name);
+            })
+        );
+      })
+    ]).then(() => {
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => client.postMessage({ action: 'CACHE_UPDATE_COMPLETED' }));
+      });
     })
   );
 });
 
-// Activate event: Clean up old caches and claim clients
-//self.addEventListener('activate', event => {
-//  event.waitUntil(
-//    Promise.all([
-//      self.clients.claim(), // Take control of all clients immediately
-//      caches.keys().then(cacheNames => {
-//        return Promise.all(
-//          cacheNames.map(cacheName => {
-//            if (cacheName !== STATIC_CACHE_NAME && cacheName !== APP_CACHE_NAME) {
-//              console.log('Deleting old cache:', cacheName);
-//              return caches.delete(cacheName);
-//            }
-//          })
-//        );
-//      })
-//    ])
-//  );
-//});
-
-// Fetch event: Serve cached content when offline and update cache with network responses
-//self.addEventListener('fetch', event => {
-//  event.respondWith(
-//    caches.match(event.request).then(response => {
-//      if (response) {
-//        return response; // Cache hit - return the cached response
-//      }
-//
-//      // Fetch from the network and update the cache
-//      return fetch(event.request).then(networkResponse => {
-//        if (networkResponse && networkResponse.status === 200) {
-//          caches.open(STATIC_CACHE_NAME).then(cache => {
-//            cache.put(event.request, networkResponse.clone());
-//          });
-//        }
-//        return networkResponse;
-//      }).catch(() => {
-//        return caches.match('/oasaResign/offline.html'); // Serve offline page if network fails
-//      });
-//    })
-//  );
-//});
-
-// Function to manually update the cache
-async function updateCache() {
-  const cacheNames = await caches.keys();
-  const oldCaches = cacheNames.filter(cacheName => cacheName !== STATIC_CACHE_NAME && cacheName !== APP_CACHE_NAME);
-
-  // Open current caches
-  const [staticCache, appCache] = await Promise.all([
-    caches.open(STATIC_CACHE_NAME),
-    caches.open(APP_CACHE_NAME)
-  ]);
-
-  // Add updated resources to the current caches
-  await Promise.all([
-    staticCache.addAll(CACHE_STATIC),
-    appCache.addAll(CACHE_APP)
-  ]);
-
-  // Delete old caches
-  await Promise.all(oldCaches.map(cacheName => caches.delete(cacheName)));
-
-  console.log('Cache updated and old caches cleared.');
-}
-
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    Promise.all([
-      self.clients.claim(), // Take control of all clients immediately
-      caches.keys().then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== STATIC_CACHE_NAME && cacheName !== APP_CACHE_NAME) {
-              console.log('Deleting old cache:', cacheName);
-              self.clients.matchAll().then(clients => {
-                clients.forEach(client => {
-                  client.postMessage({ action: 'CACHE_UPDATE_STARTED' });
-                });
-              });
-              setTimeout(function () {
-                self.clients.matchAll().then(clients => {
-                  clients.forEach(client => {
-                    client.postMessage({ action: 'CACHE_UPDATE_COMPLETED' });
-                  });
-                });
-              }, 4000)
-
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-    ])
-  );
-});
-
-async function addResourcesToCache(cache, resources) {
-  const addPromises = resources.map(async (resource) => {
-    try {
-      await cache.add(resource);
-      console.log(`Resource added to cache: ${resource}`);
-    } catch (error) {
-      console.error(`Failed to add resource to cache: ${resource}`, error);
-    }
-  });
-  await Promise.all(addPromises);
-}
-
-async function updateCache() {
-  const cacheNames = await caches.keys();
-  const oldCaches = cacheNames.filter(cacheName => cacheName !== STATIC_CACHE_NAME && cacheName !== APP_CACHE_NAME);
-
-  // Notify clients that cache update has started
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ action: 'CACHE_UPDATE_STARTED' });
-    });
-  });
-
-  // Open current caches
-  const [staticCache, appCache] = await Promise.all([
-    caches.open(STATIC_CACHE_NAME),
-    caches.open(APP_CACHE_NAME)
-  ]);
-
-  // Add updated resources to the current caches
-  await Promise.all([
-    addResourcesToCache(staticCache, CACHE_STATIC),
-    addResourcesToCache(appCache, CACHE_APP)
-  ]);
-
-  // Delete old caches
-  await Promise.all(oldCaches.map(cacheName => caches.delete(cacheName)));
-
-  console.log('Cache updated and old caches cleared.');
-
-  // Notify clients that cache update is complete
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ action: 'CACHE_UPDATE_COMPLETED' });
-    });
-  });
-}
-
-// Fetch event: Serve cached content when offline and update cache with network responses
-//self.addEventListener('fetch', event => {
-//  // Filter out requests with unsupported schemes
-//  if (event.request.url.startsWith('chrome-extension:')) {
-//    // Skip caching requests with unsupported schemes
-//    return;
-//  }
-//
-//  const url = new URL(event.request.url);
-//  if (url.pathname.startsWith('/evox-epsilon-beta/Home/dist/')) {
-//    return; // Skip handling requests to this path
-//  }
-//
-//  //console.warn("PATH!", url.pathname)
-//  if (url.pathname.startsWith('/events/v2') || url.pathname.startsWith('/fonts/v1/mapbox') || url.pathname.startsWith('/map-sessions/v1')) {
-//    return; // Skip handling requests to this path
-//  }
-//
-//  event.respondWith(
-//    caches.match(event.request).then(response => {
-//      if (response) {
-//        return response; // Cache hit - return the cached response
-//      }
-//
-//      // Fetch from the network and update the cache
-//      return fetch(event.request).then(networkResponse => {
-//        if (networkResponse && networkResponse.status === 200) {
-//          // Clone the response because the response stream can only be consumed once
-//          const responseClone = networkResponse.clone();
-//
-//          // Open cache and put the cloned response
-//          caches.open(STATIC_CACHE_NAME).then(cache => {
-//            if (!event.request.url.startsWith('chrome-extension:')) {
-//              cache.put(event.request, responseClone).catch(err => {
-//                console.error('Failed to cache the request:', event.request.url, err);
-//              });
-//            }
-//          });
-//        }
-//        return networkResponse; // Return network response
-//      }).catch((error) => {
-//        console.warn("SW Fetch failed:", error, event.request)
-//        //throw error; // Optionally handle fetch error
-//        return caches.match('/oasaResign/offline.html');
-//        //return caches.match('/evox-epsilon-beta/ohNoEvoxError.html'); // Serve offline page if network fails
-//      });
-//    })
-//  );
-//});
-
+// Fetch event: serve pre-cached assets from cache; everything else goes to network only
 self.addEventListener('fetch', event => {
-  // Filter out requests with unsupported schemes
-  if (event.request.url.startsWith('chrome-extension:')) {
-    return; // Skip handling these requests
-  }
+  if (event.request.url.startsWith('chrome-extension:')) return;
 
   const url = new URL(event.request.url);
 
-  // Define a list of URLs or patterns to exclude
   const excludedPatterns = [
     /^https:\/\/data\.evoxs\.xyz\/proxy\?key=21&targetUrl=.*telematics\.oasa\.gr\/api\/\?act=getScheduleDaysMasterline.*/,
     /^https:\/\/data\.evoxs\.xyz\/proxy\?key=21&targetUrl=.*telematics\.oasa\.gr\/api\/\?act=getDailySchedule.*/,
@@ -309,65 +134,71 @@ self.addEventListener('fetch', event => {
     /^https:\/\/data\.evoxs\.xyz\/proxy\?key=21&targetUrl=.*telematics\.oasa\.gr\/api\/\?act=getStopArrivals.*/
   ];
 
-  // Check if the request URL matches any excluded pattern
-  const shouldExclude = excludedPatterns.some(pattern => pattern.test(event.request.url));
+  if (excludedPatterns.some(pattern => pattern.test(event.request.url))) return;
 
-  if (shouldExclude) {
-    return; // Skip handling these requests
-  }
-
-  // Skip handling requests to specific paths
-  if (url.pathname.startsWith('/evox-epsilon-beta/Home/dist/') ||
+  if (
+    url.pathname.startsWith('/evox-epsilon-beta/Home/dist/') ||
     url.pathname.startsWith('/events/v2') ||
     url.pathname.startsWith('/fonts/v1/mapbox') ||
     url.pathname.startsWith('/map-sessions/v1') ||
-    url.pathname.includes('z-oasa-current-version.evox')) {
-    console.log('Bypassing cache:', url.pathname)
-    return;
-  }
+    url.pathname.includes('z-oasa-current-version.evox')
+  ) return;
+
+  // Only serve from cache for known pre-cached assets; never auto-add to cache
+  const isStaticAsset = CACHE_STATIC_SET.has(url.pathname);
 
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response; // Cache hit - return the cached response
-      }
-
-      // Fetch from the network and update the cache
-      return fetch(event.request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200) {
-          const responseClone = networkResponse.clone();
-
-          caches.open(STATIC_CACHE_NAME).then(cache => {
-            if (!event.request.url.startsWith('chrome-extension:')) {
-              cache.put(event.request, responseClone).catch(err => {
-                console.error('Failed to cache the request:', event.request.url, err);
-              });
-            }
-          });
-        }
-        return networkResponse;
-      }).catch(error => {
-        console.warn("SW Fetch failed:", error, event.request);
-        return caches.match('/oasaResign/offline.html');
-      });
-    })
+    isStaticAsset
+      ? caches.match(event.request).then(response => response || fetch(event.request))
+      : fetch(event.request).catch(() => caches.match('/oasaResign/offline.html'))
   );
 });
 
+async function addResourcesToCache(cache, resources) {
+  await Promise.all(resources.map(async resource => {
+    try {
+      await cache.add(resource);
+    } catch (error) {
+      console.error(`Failed to add resource to cache: ${resource}`, error);
+    }
+  }));
+}
+
+async function updateCache() {
+  // Notify start
+  const clients = await self.clients.matchAll();
+  clients.forEach(client => client.postMessage({ action: 'CACHE_UPDATE_STARTED' }));
+
+  const cacheNames = await caches.keys();
+  const oldCaches = cacheNames.filter(name => name !== STATIC_CACHE_NAME && name !== APP_CACHE_NAME);
+
+  const [staticCache, appCache] = await Promise.all([
+    caches.open(STATIC_CACHE_NAME),
+    caches.open(APP_CACHE_NAME)
+  ]);
+
+  await Promise.all([
+    addResourcesToCache(staticCache, CACHE_STATIC),
+    addResourcesToCache(appCache, CACHE_APP)
+  ]);
+
+  await Promise.all(oldCaches.map(name => caches.delete(name)));
+
+  console.log('Cache updated and old caches cleared.');
+
+  const updatedClients = await self.clients.matchAll();
+  updatedClients.forEach(client => client.postMessage({ action: 'CACHE_UPDATE_COMPLETED' }));
+}
 
 // Handle messages from the client to manually update the cache
 self.addEventListener('message', event => {
   if (event.data && event.data.action === 'UPDATE_CACHE') {
     event.waitUntil(
       updateCache().then(() => {
-        // Notify the client that the cache update is complete
         self.clients.matchAll().then(clients => {
-          clients.forEach(client => {
-            client.postMessage({ action: 'CACHE_UPDATED' });
-          });
+          clients.forEach(client => client.postMessage({ action: 'CACHE_UPDATED' }));
         });
       })
     );
   }
 });
-
