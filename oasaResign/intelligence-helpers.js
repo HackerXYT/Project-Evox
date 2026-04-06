@@ -470,7 +470,8 @@ function getName() {
   ) {
     return localStorage.getItem("t50-username");
   } else {
-    return "Επισκέπτη";
+    return localStorage.getItem("t50-username");
+    //return "Επισκέπτη";
   }
 
   //check for first and second name

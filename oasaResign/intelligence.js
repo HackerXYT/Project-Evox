@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.4";
+const currentVersion = "2.3.45";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -1101,7 +1101,7 @@ function processInfo(evoxId, type, addMore, comego) {
           console.error("Failed to load routes");
         }
       } else {
-         document.getElementById(
+        document.getElementById(
           "multiple-routes"
         ).innerHTML = ""
       }
@@ -4786,13 +4786,20 @@ function openNotificationsView() {
         </g>
     </g>
 </svg>`;
-      withLastUsed.forEach((device) => {
+      withLastUsed.forEach((device, i) => {
+        if (i >= 10) return;
         devices.innerHTML += `<div class="timeItem">
                                         <p>${device.os === "macOS" ? apple : linux
           }</p>
-                                        <span>${device.extV}</span>
+          <div class="deviceInfoCol">
+          <p>${device.os === "macOS" ? "IOS" : "Android"}</p>
+          <span>${device.extV}</span>
+          </div>
+                                        
                                         <div class="actions">
-                                            ${device.last_used}
+                                            ${device.last_used.replace("months ago", "μήνες πριν").replace("days ago", "μέρες πριν").replace("hours ago", "ώρες πριν").replace("minutes ago", "λεπτά πριν").replace("seconds ago", "δευτερόλεπτα πριν").replace("weeks ago", "εβδομάδες πριν")
+                                              .replace("month ago", "μήνας πριν").replace("day ago", "μέρα πριν").replace("hour ago", "ώρα πριν").replace("minute ago", "λεπτό πριν").replace("second ago", "δευτερόλεπτο πριν").replace("week ago", "εβδομάδα πριν")
+                                            }
                                         </div>
                                     </div>`;
       });
@@ -4820,8 +4827,9 @@ function openNotificationsView() {
       if (f === false) {
         document.getElementById(
           "current-device"
-        ).innerHTML = `<div class="timeItem">
-                                        <span style="display:flex;flex-direction:row;align-items:center;gap:5px;">Florida OFF<svg fill="#fff" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 24 24" version="1.1" xml:space="preserve">
+        ).innerHTML = `
+        <div style="display:flex;flex-direction:column;width:100%;justify-content:center;align-items:center;text-align:center">
+        <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35px" height="35px" viewBox="0 0 24 24" version="1.1" xml:space="preserve">
 
 <style type="text/css">
 	.st0{opacity:0.2;fill:none;stroke:#fff;stroke-width:5.000000e-02;stroke-miterlimit:10;}
@@ -4845,8 +4853,9 @@ function openNotificationsView() {
 <path d="M4,10c0.6,0,1-0.4,1-1S4.6,8,4,8H2C1.4,8,1,8.4,1,9s0.4,1,1,1H4z"/>
 
 
-</svg></span>
-                                    </div>`;
+</svg>
+        <span>Οι ειδοποιήσεις είναι ανενεργές.</span>
+        </div>`;
       } else {
         //document.getElementById("current-device").innerHTML += `<div class="timeItem">
         //                              <span>Device</span>
@@ -5238,7 +5247,7 @@ function loginFlorida(el) {
       console.log("Florida Response", data);
       if (!data.includes("Exists")) {
         localStorage.setItem("t50-username", username);
-        localStorage.setItem("t50-pswd", btoa(password));
+        localStorage.setItem("t50pswd", btoa(password));
         localStorage.setItem("t50pswd", btoa(password));
         localStorage.setItem("t50-email", `${username}@evoxs.xyz`);
         document.getElementById("nameterms").innerText = username;
@@ -5526,6 +5535,11 @@ function changeScreen(el) {
 
       if (activePage === 2) {
         //Evox Account
+        $("#buttons-in-evx").fadeIn("fast")
+        $("#cards-in-evx").fadeIn("fast")
+        $("#evox-connect-off").fadeOut("fast")
+        $("#evox-connect-now").fadeOut("fast")
+        $("#evox-connect").fadeOut("fast")
         document
           .getElementById("evoxAccount")
           .classList.add("fade-in-slide-up");
@@ -6676,6 +6690,34 @@ function loadSetMap() {
   }
 }
 
+document.getElementById("evxConnection").addEventListener("click", () => {
+  if (document.getElementById("evxConnection").innerText === "Ενεργή") {
+    return;
+  }
+  $("#buttons-in-evx").fadeOut("fast")
+  $("#cards-in-evx").fadeOut("fast", function () {
+    fetch(
+      `
+https://data.evoxs.xyz/accounts?email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&autologin=true&ip=null&vevox=${randomString()}`
+    )
+      .then((response) => response.text())
+      .then((data) => {
+        if (data === "Credentials Incorrect" || data === "Account Doesn't Exist") {
+          $("#evox-connect-off").fadeIn("fast")
+          $("#evox-connect-now").fadeIn("fast")
+          document.getElementById("evox-connect-status").innerText = "Ο λογαριασμός ΟΑΣΑ σας δεν έχει συνδεθεί με λογαριασμό Evox."
+        }
+      })
+      .catch((error) => {
+        console.log("Load Florida List Error:", error);
+      });
+    $("#evox-connect").fadeIn("fast")
+  })
+})
+
+function connectWithEvox() {
+  window.location.href = "../evox-epsilon-beta/?redirectLogin=oasa";
+}
 function enableMapSelection() {
   const container = document.getElementById("settings-page-2");
 

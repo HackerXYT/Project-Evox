@@ -1240,6 +1240,8 @@ function verificationComplete() {
         console.error("Cookies Failed!")
     }
 
+    checkForOasaCompatibility()
+
     console.log("Verification Complete.")
     console.log("Scanning For Query Notifications")
     let hasPendingNotification = false;
@@ -1298,6 +1300,7 @@ function verificationComplete() {
         }
 
     }
+    
     getQueryParams();
 
     $("#connectionContainer").fadeOut("fast")
@@ -1464,7 +1467,7 @@ function showHideGalaxy(e) {
         document.getElementById("secureline").style.height = '50px'
         e.setAttribute('data-c', 'true')
     } else {
-        
+
         document.getElementById("secureline").style.height = previousHeight
         e.setAttribute('data-c', 'false')
         isGalaxied = false
@@ -3968,7 +3971,21 @@ function checkForOasaCompatibility() {
     if (params.has('redirectLogin')) {
         const value = params.get('redirectLogin');
         if (value === 'oasa') {
-            window.location.href = `../oasaResign/?loginAs=localStorage`
+            fetch(
+                `
+https://data.evoxs.xyz/accounts?email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&autologin=true&ip=null`
+            )
+                .then((response) => response.text())
+                .then((data) => {
+                    console.warn("OASA COMPATIBILITY MODE ENABLED", data)
+                    if (data !== "Credentials Incorrect" && data !== "Account Doesn't Exist") {
+                        window.location.href = `../oasaResign/?loginAs=localStorage`
+                    }
+                })
+                .catch((error) => {
+                    console.log("Load Florida List Error:", error);
+                });
+
             return;
         }
     }

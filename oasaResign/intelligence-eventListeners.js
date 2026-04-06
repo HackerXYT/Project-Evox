@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const check2 =
       localStorage.getItem("t50-username") &&
       localStorage.getItem("t50-email") &&
-      localStorage.getItem("t50-pswd");
+      localStorage.getItem("t50pswd");
 
     const loggedInGlobally = check1 || check2;
 
