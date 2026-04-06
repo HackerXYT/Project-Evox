@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.31";
+const currentVersion = "2.3.4";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -1047,9 +1047,13 @@ function processInfo(evoxId, type, addMore, comego) {
     document.getElementById("searchIntelli").classList.add("notLoaded");
     if (type === "getTimes") {
       document.getElementById("showMoreBusStart").style.display = "none";
-      document.getElementById("busGOCOME").innerHTML = "";
+      document.getElementById("busGOCOME").innerHTML = `
+  <div class="Block skeleton skeleton-button" style="width: 145px;min-width: 145px;max-width: 145px;"></div>
+`.repeat(5);
       const days = document.getElementById("busInfoDaySelector");
-      days.innerHTML = "";
+      days.innerHTML = `
+  <div class="Block skeleton skeleton-button" style="width: 145px;min-width: 145px;max-width: 145px;"></div>
+`.repeat(5);
       const busInfo = evoxIds[evoxId];
       let matchingLines = fullLine.filter(
         (line) => line.LineID === busInfo.bus
@@ -1071,8 +1075,13 @@ function processInfo(evoxId, type, addMore, comego) {
       let formattedText = descr.replace(/\((.*)\)/, "<br>($1)");
       document.getElementById("busInfoDesc").innerHTML =
         capitalizeWords(formattedText);
-      document.getElementById("multiple-routes").innerHTML = "";
+      document.getElementById("multiple-routes").innerHTML = `
+  <div class="Block skeleton skeleton-button" style="width: 145px;min-width: 145px;max-width: 145px;"></div>
+`.repeat(5);
       if (busInfo.multiple) {
+        document.getElementById(
+          "multiple-routes"
+        ).innerHTML = ""
         try {
           busInfo.multiple.forEach((aroute) => {
             const text = capitalizeWords(
@@ -1091,9 +1100,14 @@ function processInfo(evoxId, type, addMore, comego) {
         } catch (err) {
           console.error("Failed to load routes");
         }
+      } else {
+         document.getElementById(
+          "multiple-routes"
+        ).innerHTML = ""
       }
 
       function workOnSchedules(data) {
+        days.innerHTML = "";
         days.innerHTML += `<div class="Block active">
                                         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z" fill="#fff"/>
@@ -1167,6 +1181,7 @@ function processInfo(evoxId, type, addMore, comego) {
           console.log("result", busInfo.descr);
           const result = splitter.getSecondPart(); // Trim any leading or trailing spaces
           console.log("result", result);
+          document.getElementById("busGOCOME").innerHTML = ""
           document.getElementById("busGOCOME").innerHTML += `<div class="Block${comego === "go" ? " active" : ""
             }" onclick="switchTo('go', this)">
                                         <svg width="20px" height="20px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -5140,7 +5155,7 @@ function openNotificationsView() {
 
 
       if (totalNotifis === 0) {
-        notifications.innerHTML += `
+        notifications.innerHTML = `
         <div style="display:flex;flex-direction:column;width:100%;justify-content:center;align-items:center;text-align:center">
         <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 24 24" fill="none">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9498 8.46447C17.3404 8.07394 17.3404 7.44078 16.9498 7.05025C16.5593 6.65973 15.9261 6.65973 15.5356 7.05025L12.0001 10.5858L8.46455 7.05025C8.07402 6.65973 7.44086 6.65973 7.05033 7.05025C6.65981 7.44078 6.65981 8.07394 7.05033 8.46447L10.5859 12L7.05033 15.5355C6.65981 15.9261 6.65981 16.5592 7.05033 16.9497C7.44086 17.3403 8.07402 17.3403 8.46455 16.9497L12.0001 13.4142L15.5356 16.9497C15.9261 17.3403 16.5593 17.3403 16.9498 16.9497C17.3404 16.5592 17.3404 15.9261 16.9498 15.5355L13.4143 12L16.9498 8.46447Z" fill="#fff"/>
@@ -5645,6 +5660,7 @@ function setupSettings() {
 
 function toggleLightModeStyles() {
   //helper
+  return;
   const phone = document.getElementById("phone");
   const loaders = document.querySelectorAll(".fullScreenLoader");
 
