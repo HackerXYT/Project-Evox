@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.45";
+const currentVersion = "2.3.5";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -561,7 +561,11 @@ function loadSection(section, bus) {
     const result = matchingLines.filter(
       (item) => item.LineCode === searchLineCode
     );
-    ({ LineDescr: descr, LineCode: lineCode } = result[0]);
+    if (result.length === 0) {
+      console.warn(`Intelligence: no match for LineCode ${searchLineCode}, falling back to default.`);
+    } else {
+      ({ LineDescr: descr, LineCode: lineCode } = result[0]);
+    }
     if (result.length > 1) {
       alert(
         `More than one matches found. Will proceed with first. ${JSON.stringify(

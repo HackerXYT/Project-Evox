@@ -4630,3 +4630,178 @@ button.uploadBugMedia svg {
   font-size: 16px !important;
   margin: 0 !important;
 }
+
+/* ─── Component Polish ─────────────────────────────────────────────────────── */
+
+/* Setup screen — buttonNext */
+.setup .info .buttonNext {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.setup .info .buttonNext:hover {
+  background-color: #3fa3ff70;
+}
+.setup .info .buttonNext:active {
+  transform: scale(0.98);
+  background-color: #2280e870;
+}
+
+/* Setup screen — skip & back */
+.setup .skip {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s ease-out;
+}
+.setup .skip:hover { opacity: 1; }
+.setup .skip:active { opacity: 0.5; }
+
+.setup .goBackL {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.setup .goBackL:hover { background-color: #1a1a1a; }
+.setup .goBackL:active { transform: scale(0.92); }
+
+/* Setup btn — active/focus polish */
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+.btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 3px;
+}
+.btn.good:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0px 0px 60px 0px #9917FF;
+}
+
+/* Search trigger pill */
+.triggerSearch {
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.triggerSearch:hover { background-color: #ffffff2d; }
+.triggerSearch:active { transform: scale(0.92); background-color: #ffffff3d; }
+
+/* Search back button */
+.backToSearch {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.backToSearch:hover { background-color: #ffffff15; }
+.backToSearch:active { transform: scale(0.9); }
+
+/* Recommendation / stop chips */
+.topSearch.recommend .Block,
+.busInfo-2 .Block {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.topSearch.recommend .Block:active,
+.busInfo-2 .Block:active {
+  transform: scale(0.94);
+  background-color: #5a5f6f80;
+}
+
+/* Nav switch */
+.navigate .switch {
+  transition: opacity 0.15s ease-out;
+}
+.navigate .switch:active { opacity: 0.6; }
+
+/* Menu buttons (expanded nav) */
+.menu-options button:active {
+  transform: scale(0.97);
+  background: #ffffff40;
+}
+.menu-options button:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.4);
+  outline-offset: 2px;
+}
+
+/* arrowFar circular buttons */
+.arrowFar,
+.feedItem .arrowFar,
+.timetableItem .topDefines .arrowFar {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.arrowFar:hover,
+.feedItem .arrowFar:hover {
+  background-color: #ffffff30;
+}
+.arrowFar:active,
+.feedItem .arrowFar:active {
+  transform: scale(0.88);
+  background-color: #ffffff40;
+}
+
+/* buttonMore & themeButton pill buttons */
+.buttonMore,
+.feedItem .buttonMore,
+.topDefines .buttonMore,
+.themeButton {
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.buttonMore:hover,
+.feedItem .buttonMore:hover,
+.topDefines .buttonMore:hover,
+.themeButton:hover {
+  background-color: #ffffff2d;
+}
+.buttonMore:active,
+.feedItem .buttonMore:active,
+.topDefines .buttonMore:active,
+.themeButton:active {
+  transform: scale(0.96);
+  background-color: #ffffff3d;
+}
+
+/* Notifications pill */
+.notificationsCC {
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+.notificationsCC:hover { background-color: rgba(255,255,255,0.22); }
+.notificationsCC:active { transform: scale(0.95); }
+
+/* Pinned-favorites cards */
+.pinned-favorites .item {
+  cursor: pointer;
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+.pinned-favorites .item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+.pinned-favorites .item:active {
+  transform: scale(0.97);
+  box-shadow: none;
+}
+
+/* Feed & timetable item entrance animation */
+@keyframes feedSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.Userfeed .feedItem {
+  animation: feedSlideUp 0.35s ease-out both;
+}
+.Userfeed .feedItem:nth-child(1) { animation-delay: 0ms; }
+.Userfeed .feedItem:nth-child(2) { animation-delay: 50ms; }
+.Userfeed .feedItem:nth-child(3) { animation-delay: 100ms; }
+.Userfeed .feedItem:nth-child(4) { animation-delay: 150ms; }
+.Userfeed .feedItem:nth-child(5) { animation-delay: 200ms; }
+.Userfeed .feedItem:nth-child(n+6) { animation-delay: 250ms; }
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
