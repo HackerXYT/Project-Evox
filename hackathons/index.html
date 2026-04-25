@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackathons — Evox</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="../evox-epsilon-beta/epsilon-transparent.png">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <img src="../evox-epsilon-beta/EvoxEPSILON.png" alt="Evox">
+            Evox Projects
+        </div>
+        <div class="nav-links">
+            <a href="../">Application Hub</a>
+            <a href="../#about">About Evox</a>
+            <a href="../#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <span class="hero-pill">
+            <span class="hero-pill-dot"></span>
+            Competitions
+        </span>
+        <h1>Hackathon Portfolio</h1>
+        <p>Projects and prototypes built during intensive hackathons.</p>
+    </section>
+
+    <main class="content">
+        <div class="timeline">
+
+            <!-- ── Card 1 ── -->
+            <div class="card" onclick="toggleProject(this)">
+                <div class="card-header">
+                    <div class="card-meta">
+                        <h3 class="event-title">Techbiz AI &amp; ML Hackathon</h3>
+                        <div class="event-location">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                            Athens, Greece
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge ongoing">March 2026</span>
+                        <span class="toggle-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="project-details">
+                    <div class="details-divider"></div>
+
+                    <!-- Project name & tagline -->
+                    <div class="project-header">
+                        <h4 class="project-name">e-poptis</h4>
+                        <p class="project-tagline">A cloud-native Human-in-the-Loop Gateway — the unified human escalation protocol for AI agents.</p>
+                    </div>
+
+                    <!-- Context -->
+                    <div class="detail-section">
+                        <span class="detail-label">The Basics</span>
+                        <div class="context-grid">
+                            <div class="context-item">
+                                <span class="context-item-label">Duration</span>
+                                <span class="context-item-value">24 Hours</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Dates</span>
+                                <span class="context-item-value">March 27–28, 2026</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Format</span>
+                                <span class="context-item-value">In-person</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Venue</span>
+                                <span class="context-item-value">OTEACADEMY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem & Solution -->
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">The Problem</span>
+                                <p class="detail-text">Every AI agent implements its own isolated escalation method — there's no unified HITL layer. Communication is strictly channel-dependent (Teams-only or email-only), making it impossible to reach the right person at the right time. No standard exists for governance, audit trails, or SLA enforcement at risk-sensitive decision points.</p>
+                            </div>
+                            <div class="detail-block">
+                                <span class="detail-label">The Solution</span>
+                                <p class="detail-text">e-poptis is a centralized HITL Gateway: agents submit human-input requests specifying only role, urgency, and context. The gateway routes to the right person by role, delivers via the company's preferred channel (Microsoft Teams, SMS, WhatsApp), and maintains a full audit trail while the agent waits for the approval to continue its flow.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack -->
+                    <div class="detail-section">
+                        <span class="detail-label">Tech Stack</span>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Azure OpenAI</span>
+                            <span class="tech-tag">Azure Functions</span>
+                            <span class="tech-tag">Azure API Management</span>
+                            <span class="tech-tag">Azure Service Bus</span>
+                            <span class="tech-tag">Microsoft Teams Bot</span>
+                            <span class="tech-tag">Azure Communication Services</span>
+                            <span class="tech-tag">Microsoft Entra ID</span>
+                            <span class="tech-tag">Cosmos DB</span>
+                            <span class="tech-tag">Azure Monitor</span>
+                        </div>
+                    </div>
+
+                    <!-- Team & Role -->
+                    <div class="detail-section">
+                        <span class="detail-label">The Team</span>
+                        <div class="team-roster">
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/me.png" alt="Grigorios Papapostolou">
+                                </div>
+                                <span class="team-member-name">Grigorios Papapostolou</span>
+                                <span class="team-member-role">Student, BSc Business Administration @ UNIWA</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                                </div>
+                                <span class="team-member-name">Marita Milatou</span>
+                                <span class="team-member-role">Student, BSc International and European Studies @ AUEB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">MY ROLE</span>
+                        <p class="detail-text">Handled all software engineering end-to-end — the AI agent implementation, frontend, backend, HITL Request API, smart routing logic, and the state &amp; callback mechanism. Teammate handled the business research, market analysis, and pitch presentation.</p>
+                    </div>
+
+                    <!-- Media / Demo -->
+                    <div class="detail-section">
+                        <span class="detail-label">Demo &amp; Media</span>
+                        <div class="media-placeholder" onclick="event.stopPropagation()">
+                            <div class="media-play-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                            <div class="media-placeholder-text">
+                                <span>Demo Video / Screenshots</span>
+                                <span class="media-placeholder-sub">To be added.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Links & Outcome row -->
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">Links</span>
+                                <div class="project-links" onclick="event.stopPropagation()">
+                                    <a href="#" class="project-link-btn">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                                        GitHub Repo
+                                    </a>
+                                    <a href="#" class="project-link-btn secondary">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                        Live Demo
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+
+            <!-- ── Card 2 ── -->
+            <div class="card" onclick="toggleProject(this)">
+                <div class="card-header">
+                    <div class="card-meta">
+                        <h3 class="event-title">ACE AI Hackathon</h3>
+                        <div class="event-location">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                            Athens, Greece
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge beta">March 2026</span>
+                        <span class="toggle-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="project-details">
+                    <div class="details-divider"></div>
+
+                    <div class="project-header">
+                        <h4 class="project-name">Aria</h4>
+                        <p class="project-tagline">An AI-powered customer support agent for airlines — resolves flight disruptions end-to-end, from GDPR-compliant intent detection to automatic rebooking, refunds, and meal vouchers.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">The Basics</span>
+                        <div class="context-grid">
+                            <div class="context-item">
+                                <span class="context-item-label">Duration</span>
+                                <span class="context-item-value">72 Hours</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Dates</span>
+                                <span class="context-item-value">March 6–8, 2026</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Format</span>
+                                <span class="context-item-value">In-person</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Sponsor</span>
+                                <span class="context-item-value">Netcompany (Gold)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">The Problem</span>
+                                <p class="detail-text">218,000 delayed EU flights per year cost airlines €6.5 billion annually in compensation (EU261). Affected passengers spend 30–60+ minutes queuing at help desks or calling call centers to rebook or claim refunds — with a satisfaction score of just 3.13/10 after a disruption.</p>
+                            </div>
+                            <div class="detail-block">
+                                <span class="detail-label">The Solution</span>
+                                <p class="detail-text">Aria — a multi-agent AI pipeline where a Customer Support Agent receives the passenger request, Presidio masks PII for GDPR compliance, an LLM Agent performs intent detection and sentiment analysis against EU261 rules and airline policies, and an Action Agent executes the resolution: rebooking, refund, accommodation, or digital meal vouchers — all in under 90 seconds.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">Tech Stack</span>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">LLM Agent</span>
+                            <span class="tech-tag">Presidio (GDPR/PII)</span>
+                            <span class="tech-tag">Multi-agent Architecture</span>
+                            <span class="tech-tag">Aviation APIs</span>
+                            <span class="tech-tag">EU261 Compliance Rules</span>
+                            <span class="tech-tag">React.js</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">The Team</span>
+                        <div class="team-roster">
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/me.png" alt="Grigorios Papapostolou">
+                                </div>
+                                <span class="team-member-name">Grigorios Papapostolou</span>
+                                <span class="team-member-role">Student, BSc Business Administration @ UNIWA</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/dimitris-xenias.png" alt="Dimitris Xenias">
+                                </div>
+                                <span class="team-member-name">Dimitris Xenias</span>
+                                <span class="team-member-role">Software Engineer</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/teo-iliadis.png" alt="Theodoros Iliadis">
+                                </div>
+                                <span class="team-member-name">Theodoros Iliadis</span>
+                                <span class="team-member-role">CS Student, UniPi</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/michail-filippou.png" alt="Michail Filippou">
+                                </div>
+                                <span class="team-member-name">Michail Filippou</span>
+                                <span class="team-member-role">PhD Candidate, ECE NTUA</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">MY ROLE</span>
+                        <p class="detail-text">Built the entire frontend and backend implementation — handling the UI, API layer, and data flow. Teammates handled the agent implementation, planning, research, and AI-agent integrations.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">Demo &amp; Media</span>
+                        <div class="media-placeholder" onclick="event.stopPropagation()">
+                            <div class="media-play-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                            <div class="media-placeholder-text">
+                                <span>Demo Video / Screenshots</span>
+                                <span class="media-placeholder-sub">To be added.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">Links</span>
+                                <div class="project-links" onclick="event.stopPropagation()">
+                                    <a href="#" class="project-link-btn">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                                        GitHub Repo
+                                    </a>
+                                    <a href="#" class="project-link-btn secondary">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                        Live Demo
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="detail-block">
+                                <span class="detail-label">Outcome</span>
+                                <div class="outcome-card">
+                                    <span class="outcome-icon">🏆</span>
+                                    <span>7th Place Out Of 16 Teams</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+
+            <!-- ── Card 3 ── -->
+            <div class="card" onclick="toggleProject(this)">
+                <div class="card-header">
+                    <div class="card-meta">
+                        <h3 class="event-title">Hustle Hours AI Hackathon</h3>
+                        <div class="event-location">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                            Athens, Greece
+                            <span class="invite-tag">Invite-only</span>
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge stable">Feb 2026</span>
+                        <span class="toggle-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="project-details">
+                    <div class="details-divider"></div>
+
+                    <div class="project-header">
+                        <h4 class="project-name">Scalebot</h4>
+                        <p class="project-tagline">The first platform that deploys a full AI marketing department — 4 autonomous agents working 24/7 at a fraction of the cost of a traditional agency.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">The Basics</span>
+                        <div class="context-grid">
+                            <div class="context-item">
+                                <span class="context-item-label">Duration</span>
+                                <span class="context-item-value">24 Hours</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Dates</span>
+                                <span class="context-item-value">Feb 28 – Mar 1, 2026</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Format</span>
+                                <span class="context-item-value">In-person</span>
+                            </div>
+                            <div class="context-item">
+                                <span class="context-item-label">Team Name</span>
+                                <span class="context-item-value">Men in Black</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">The Problem</span>
+                                <p class="detail-text">Businesses face an impossible choice: pay €1,000+/month to a marketing agency and wait weeks for results, or try to manage everything themselves and drown in data — with no affordable middle ground.</p>
+                            </div>
+                            <div class="detail-block">
+                                <span class="detail-label">The Solution</span>
+                                <p class="detail-text">Scalebot installs a complete marketing department with 4 autonomous AI agents running 24/7. Setup takes minutes instead of 4 weeks, response is instant instead of hours-long, and the price starts at €300/month — where a traditional agency charges €3,000+.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">Tech Stack</span>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Multi-agent AI</span>
+                            <span class="tech-tag">Google Ads API</span>
+                            <span class="tech-tag">LangChain</span>
+                            <span class="tech-tag">React.js</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">The Team</span>
+                        <div class="team-roster">
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/me.png" alt="Grigorios Papapostolou">
+                                </div>
+                                <span class="team-member-name">Grigorios Papapostolou</span>
+                                <span class="team-member-role">Student, BSc Business Administration @ UNIWA</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/michail-filippou.png" alt="Michail Filippou">
+                                </div>
+                                <span class="team-member-name">Michail Filippou</span>
+                                <span class="team-member-role">PhD Candidate, ECE NTUA</span>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <img src="./images/dimitris-xenias.png" alt="Dimitris Xenias">
+                                </div>
+                                <span class="team-member-name">Dimitris Xenias</span>
+                                <span class="team-member-role">Software Engineer, MEng ECE NTUA</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <span class="detail-label">MY ROLE</span>
+                        <p class="detail-text">Built the entire frontend and middleware backend — handling API routing, data flow between the UI and the AI agents, and the full user-facing experience. Teammates handled the AI agent logic and infrastructure.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <span class="detail-label">Demo &amp; Media</span>
+                        <div class="media-placeholder" onclick="event.stopPropagation()">
+                            <div class="media-play-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                            <div class="media-placeholder-text">
+                                <span>Demo Video / Screenshots</span>
+                                <span class="media-placeholder-sub">To be added.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-pair">
+                            <div class="detail-block">
+                                <span class="detail-label">Links</span>
+                                <div class="project-links" onclick="event.stopPropagation()">
+                                    <a href="#" class="project-link-btn">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                                        GitHub Repo
+                                    </a>
+                                    <a href="#" class="project-link-btn secondary">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                        Live Demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../privacy">Privacy Policy</a>
+            <a href="../support">Support</a>
+        </div>
+        <div class="copyright">© 2026 Evox Systems. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function toggleProject(card) {
+            const details = card.querySelector('.project-details');
+            const icon = card.querySelector('.toggle-icon');
+            const isOpen = card.classList.contains('open');
+
+            if (isOpen) {
+                card.classList.remove('open');
+                details.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                card.classList.add('open');
+                details.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>
