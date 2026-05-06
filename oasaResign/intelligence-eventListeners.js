@@ -280,16 +280,21 @@ document.addEventListener("DOMContentLoaded", () => {
         famousBuses = uniqueBuses;
         console.log("famous buses");
 
-        // If allLines already loaded, render immediately; otherwise runOASABridge will do it
-        if (fullLine) {
-          famousBuses.forEach((bus) => {
-            try {
-              loadSection("famous", bus);
-            } catch (err) {
-              console.error(err);
-            }
-          });
-        }
+        const pre = setInterval(function () {
+          if (fullLine) {
+            clearInterval(pre);
+            famousBuses.forEach((bus) => {
+              try {
+                loadSection("famous", bus);
+              } catch (err) {
+                console.error(err);
+              }
+            });
+          } else {
+            console.warn("fullLine not found! CRITICAL");
+            connectOASABridge();
+          }
+        }, 100);
       })
       .catch((error) => {
         $("#famousFeed").fadeOut("fast");
@@ -310,13 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function runOASABridge(data) {
       fullLine = data;
       loadOasa(); //BETA
-      famousBuses.forEach((bus) => {
-        try {
-          loadSection("famous", bus);
-        } catch (err) {
-          console.error(err);
-        }
-      });
       if (data) {
         let lc = localStorage.getItem("oasa_favorites");
         if (lc) {
