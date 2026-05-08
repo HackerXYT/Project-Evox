@@ -3,7 +3,7 @@ const bottomSearchParent = document.getElementById("bottomSearchParent");
 const iconInC = document.getElementById("iconInC");
 const triggerSearch = document.getElementById("triggerSearch");
 const searchIntelli = document.getElementById("searchIntelli");
-const currentVersion = "2.3.6";
+const currentVersion = "2.3.62";
 
 let serverIP = "https://data.evoxs.xyz/";
 console.log(
@@ -561,6 +561,10 @@ function loadSection(section, bus) {
     const result = matchingLines.filter(
       (item) => item.LineCode === searchLineCode
     );
+    if (result.length === 0) {
+      console.warn(`No matching line found for LineCode: ${searchLineCode}`);
+      return;
+    }
     ({ LineDescr: descr, LineCode: lineCode } = result[0]);
     if (result.length > 1) {
       alert(
@@ -3122,7 +3126,11 @@ function spawnAndShowInfo(bus, remain, verification, comego, el, saveSearch) {
                 userLng
               );
               //addIt(workOn[bus]);
-              addIt(workOn[bus], nearestStop);
+              const cached_coords_for_map = workOn[bus].map((stop) => ({
+                lat: parseFloat(stop.StopLat),
+                lng: parseFloat(stop.StopLng),
+              }));
+              addIt(workOn[bus], nearestStop, cached_coords_for_map);
               console.log("Nearest Stop:", nearestStop);
             },
             (error) => console.error("Error getting location:", error),
@@ -3733,70 +3741,43 @@ function showStopDetails(stopCode, stopName) {
       .catch((error) => {
         console.log("intelligence [1] error:", error);
       });
-    const skeletonItems = 10
-    document.getElementById("busesComingtoStation").innerHTML = ''
-    for (let i = 0; i < skeletonItems; i++) {
-      document.getElementById("busesComingtoStation").innerHTML += `<div class="timeItem skeleton-button2"></div>`;
-    }
+    document.getElementById("busesComingtoStation").innerHTML =
+      '<div class="timeItem skeleton-button2"></div>'.repeat(10);
     const stop_url_1 = encodeURIComponent(
       `https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`
     );
-    fetch(
-      `${serverIP}proxy?key=21&targetUrl=${stop_url_1}&vevox=${randomString()}`
-    )
-      .then((response) => response.json())
-      .then((stop) => {
+    const stop_url = encodeURIComponent(
+      `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
+    );
+    Promise.all([
+      fetch(`${serverIP}proxy?key=21&targetUrl=${stop_url_1}&vevox=${randomString()}`).then((r) => r.json()),
+      fetch(`${serverIP}proxy?key=21&targetUrl=${stop_url}&vevox=${randomString()}`).then((r) => r.json()),
+    ])
+      .then(([stop, arrivals]) => {
+        if (arrivals === null) arrivals = [];
         let start = {};
-        let isReady = false;
-        let count = 0;
-        let finale = "";
-        const stop_url = encodeURIComponent(
-          `https://telematics.oasa.gr/api/?act=getStopArrivals&p1=${stopCode}&keyOrigin=evoxEpsilon`
-        );
-        fetch(
-          `${serverIP}proxy?key=21&targetUrl=${stop_url}&vevox=${randomString()}`
-        )
-          .then((response) => response.json())
-          .then((arrivals) => {
-            if (arrivals === null) {
-              arrivals = [];
-            }
-            document.getElementById("busesComingtoStation").innerHTML = "";
-            let matchFound = false;
-            let busesArrivals = {}; // Object to keep track of buses and their arrival times
-            stop.forEach((data) => {
-              count++;
-              start[data.LineID] = {
-                desc: data.LineDescr,
-                lineCode: data.LineCode,
-                routeCode: data.RouteCode,
-                id: data.LineID,
-              };
-              if (count === stop.length) {
-                isReady = true;
+        let busesArrivals = {};
+        stop.forEach((data) => {
+          start[data.LineID] = {
+            desc: data.LineDescr,
+            lineCode: data.LineCode,
+            routeCode: data.RouteCode,
+            id: data.LineID,
+          };
+          arrivals.forEach((arrive) => {
+            if (arrive.route_code === data.RouteCode) {
+              if (!busesArrivals[data.LineID]) {
+                busesArrivals[data.LineID] = new Set();
               }
-              arrivals.forEach((arrive) => {
-                if (arrive.route_code === data.RouteCode) {
-                  if (!busesArrivals[data.LineID]) {
-                    busesArrivals[data.LineID] = new Set(); // Initialize a Set for this bus to store unique times
-                  }
-                  busesArrivals[data.LineID].add(arrive.btime2); // Add the new arrival time to the Set (automatically handles duplicates)
-                  matchFound = true; // Set flag to true if a match is found
-                }
-              });
-            });
-            //Get all the buses that are able to come to that station
-            fetch(
-              `${serverIP}proxy?key=21&targetUrl=${encodeURIComponent(`https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=${stopCode}&keyOrigin=evoxEpsilon`)}&vevox=${randomString()}`
-            )
-              .then((response) => response.json())
-              .then((busesToStation) => {
-                Object.keys(busesArrivals).forEach((lineID) => {
-                  const arrivalTimes = Array.from(busesArrivals[lineID]).join(
-                    "', "
-                  ); // Convert Set to array and join times with a comma
-                  const busDesc = start[lineID].desc;
-                  document.getElementById("busesComingtoStation").innerHTML += `
+              busesArrivals[data.LineID].add(arrive.btime2);
+            }
+          });
+        });
+        let html = "";
+        Object.keys(busesArrivals).forEach((lineID) => {
+          const arrivalTimes = Array.from(busesArrivals[lineID]).join("', ");
+          const busDesc = start[lineID].desc;
+          html += `
                           <div onclick="openExtLineId('${lineID}', '${busDesc}', this)" class="timeItem">
                               <p>${lineID}</p>
                               <div class="actions">
@@ -3809,23 +3790,17 @@ function showStopDetails(stopCode, stopName) {
                               </div>
                           </div>
                       `;
-                });
-                let spawnedToStation = {}
-                busesToStation.forEach((bus) => {
-                  if (!busesArrivals[bus.LineID]) {
-                    if (spawnedToStation[bus.LineID]) {
-                      spawnedToStation[bus.LineID]++
-                      sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr)
-                      if (document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p span")) {
-                        document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p span").innerHTML = spawnedToStation[bus.LineID]
-                      } else {
-                        document.getElementById(`stationGeneraleNotComing-${bus.LineID}`).querySelector("p").innerHTML += `<span onclick="showOtherLines(this, '${bus.LineID}', event)" class="circle_howManyBusLinesFound">${spawnedToStation[bus.LineID]}</span>`
-                      }
-                      return;
-                    }
-                    spawnedToStation[bus.LineID] = 1
-                    sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr)
-                    document.getElementById("busesComingtoStation").innerHTML += `
+        });
+        let spawnedToStation = {};
+        stop.forEach((bus) => {
+          if (!busesArrivals[bus.LineID]) {
+            if (spawnedToStation[bus.LineID]) {
+              spawnedToStation[bus.LineID]++;
+              sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr);
+            } else {
+              spawnedToStation[bus.LineID] = 1;
+              sessionStorage.setItem(`${bus.LineID}-${spawnedToStation[bus.LineID]}`, bus.RouteDescr);
+              html += `
                           <div id="stationGeneraleNotComing-${bus.LineID}" onclick="openExtLineId('${bus.LineID}', '${bus.RouteDescr}', this)" class="timeItem">
                               <p class="readyToShowMore">${bus.LineID}</p>
                               <div class="actions">
@@ -3838,34 +3813,29 @@ function showStopDetails(stopCode, stopName) {
                               </div>
                           </div>
                       `;
-                  }
-                })
-              })
-              .catch((error) => {
-                console.log("getStopGeneralBuses [1] error:", error);
-              });
-          })
-          .catch((error) => {
-            document.getElementById("busesComingtoStation").innerHTML = `
+            }
+          }
+        });
+        document.getElementById("busesComingtoStation").innerHTML = html;
+        // Update duplicate line badges after DOM is set
+        Object.keys(spawnedToStation).forEach((lineID) => {
+          if (spawnedToStation[lineID] > 1) {
+            const el = document.getElementById(`stationGeneraleNotComing-${lineID}`);
+            if (el) {
+              el.querySelector("p").innerHTML += `<span onclick="showOtherLines(this, '${lineID}', event)" class="circle_howManyBusLinesFound">${spawnedToStation[lineID]}</span>`;
+            }
+          }
+        });
+      })
+      .catch((error) => {
+        document.getElementById("busesComingtoStation").innerHTML = `
                       <div class="failed">
                           <img src="snap.png" class="failed-icon">
                           <vox class="failed-message">Δεν βρέθηκαν λεωφορεία</vox>
                           <span class="failed-subtext">Κανένα λεωφορείο δεν κατευθύνεται προς την στάση ${stopName}</span>
                       </div>
                   `;
-            console.log("getStop [65] error:", error);
-          });
-      })
-      .catch((error) => {
-        document.getElementById(
-          "busesComingtoStation"
-        ).innerHTML = `<div class="failed">
-      <img src="snap.png" class="failed-icon">
-      <vox class="failed-message">Δεν βρέθηκαν λεωφορεία</vox>
-      <span class="failed-subtext">Κανένα λεωφορείο δεν κατευθύνεται προς την στάση ${stopName}</span>
-  </div>`;
-        //alert("Δεν βρέθηκαν αντιστοιχίες για την καθορισμένη διαδρομή. [E]");
-        console.log("getStop [63] error:", error);
+        console.log("getStop error:", error);
       });
   } catch (error) {
     console.error("new funcs failed", error);
@@ -4242,6 +4212,10 @@ function openStation(code, descr, busId, busDescr) {
       .then((response) => response.json())
       .then((busesToStation) => {
         console.log("busesToStation", busesToStation)
+        if (!busesToStation || busesToStation.length === 0) {
+          console.warn("No buses found for station:", code, descr);
+          return;
+        }
         openStation(code, descr, busesToStation[0].LineID, busesToStation[0].LineDescr)
 
       }).catch((error) => {
