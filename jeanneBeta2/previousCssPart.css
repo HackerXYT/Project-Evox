@@ -1,0 +1,241 @@
+.progress {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+/* Card Style */
+.progress-card {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    background: linear-gradient(145deg, #3c3b3f, #6e6f58);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 2px 2px 16px #141414, -2px -2px 16px #28282e;
+    /* Optional: Set max-width */
+    width: 100%;
+    border: 2px #6e6f58 solid;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: transform 0.3s ease-in-out;
+    z-index: 10;
+}
+
+/* Circular Progress */
+.progress-ring {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    /* Prevents shrinking */
+}
+
+.progress-ring svg {
+    width: 100%;
+    height: 100%;
+}
+
+.progress-ring circle {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+}
+
+.progress-ring circle.track {
+    stroke: #33334d;
+}
+
+.progress-ring circle.progress {
+    stroke: #ffffff;
+    stroke-dasharray: 176;
+    stroke-dashoffset: calc(176 - (176 * var(--progress)) / 100);
+    /* Use CSS variable */
+    transform: rotate(-90deg);
+    /* Start from the top */
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.9s ease-in-out;
+    /* Animate the stroke-dashoffset */
+}
+
+/* Centering the Percentage */
+.percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Text Content */
+.text-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+    /* Limits text width */
+}
+
+.message {
+    margin-top: 5px;
+}
+
+.message vo {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-family: "SF";
+
+}
+
+.message span {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.card {
+    position: relative;
+    /* This is fine for stacking context */
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Optional: semi-transparent background for readability */
+    border-radius: 30px;
+    width: 100%;
+    height: 190px;
+    padding: 20px;
+    overflow: hidden;
+    /* Prevent overflow from the video */
+    margin-bottom: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card .background {
+    position: absolute;
+    /* Positioned behind other elements */
+    top: 50%;
+    /* Center vertically */
+    left: 50%;
+    /* Center horizontally */
+    width: auto;
+    /* Allow width to adjust based on aspect ratio */
+    height: 100%;
+    /* Full height of the card */
+    min-width: 100%;
+    /* Ensure it covers full width */
+    min-height: auto;
+    /* Allow height to adjust */
+    transform: translate(-50%, -50%);
+    /* Center the video */
+
+    z-index: 1;
+    /* Set a lower z-index so it's behind content */
+}
+
+.card .background video {
+    filter: brightness(0.5);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Cover the area without distortion */
+}
+
+.card .background img {
+    filter: brightness(0.5);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Cover the area without distortion */
+}
+
+.card>* {
+    position: relative;
+    /* Ensure child elements are on top of the video */
+    z-index: 2;
+    /* Higher z-index to be above the video */
+}
+
+.cards-container {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.tag {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 15px;
+    font-size: 13px;
+    padding: 5px 12px;
+    display: inline;
+    align-self: flex-start;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.tag.green {
+    background-color: #10b76fc5;
+}
+
+.tag.settings {
+    background-color: #5c605ec5;
+}
+
+.card .arrow {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card .arrow svg {
+    transition: transform 0.5s ease-in-out;
+}
+
+.card .title {
+    font-size: 25px;
+    margin-top: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
+    /* Subtle shadow */
+}
+
+.progress-bar {
+    margin-top: 15px;
+    position: relative;
+    width: 100%;
+    height: 5px;
+    background-color: #ffffff48;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff48;
+    border-radius: 25px;
+}
+
+.progress-each {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    background-color: #ffffff;
+    /*Bar Color*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+}

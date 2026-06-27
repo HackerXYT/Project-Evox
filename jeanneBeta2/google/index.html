@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In Example</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+
+  <!-- Google Sign-In Initialization -->
+  <div id="g_id_onload"
+       data-client_id="314460881843-j7t0rt5f7202s4tqmv09tghlcceum8fg.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse"
+       data-auto_prompt="true">
+  </div>
+
+  <!-- Google Sign-In Button -->
+  <div class="g_id_signin"
+       data-type="standard"
+       data-size="large"
+       data-theme="outline"
+       data-text="sign_in_with"
+       data-shape="rectangular"
+       data-logo_alignment="left">
+  </div>
+
+  <script>
+    // This function will be triggered after a successful sign-in
+    function handleCredentialResponse(response) {
+      console.log('Encoded JWT ID token:', response.credential);
+
+      // Decode the JWT for user info (optional)
+      const user_info = JSON.parse(atob(response.credential.split('.')[1]));
+      console.log('User Info:', user_info);
+
+      // Example: send the account name to your server
+      fetch('https://arc.evoxs.xyz/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accountName: user_info.name }),
+      })
+        .then(response => response.json())
+        .then(data => console.log('Server Response:', data))
+        .catch(err => console.error('Error:', err));
+    }
+  </script>
+</body>
+</html>

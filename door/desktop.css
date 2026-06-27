@@ -1,0 +1,81 @@
+/* =========================================
+   DESKTOP / TABLET RESPONSIVE OVERRIDES
+   ========================================= */
+
+@media screen and (min-width: 900px) {
+
+    /* 1. Reset Body to center the "App" */
+    body {
+        padding: 40px;
+        align-items: center;
+        background-color: #d8d8d8;
+        /* Slightly darker to make card pop */
+    }
+
+    /* 2. Transform Phone Frame into Dashboard Card */
+    .phone-frame {
+        max-width: 700px;
+        height: auto;
+        min-height: 500px;
+        margin: 0 auto;
+        border-radius: 40px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+
+        /* Switch to Grid Layout */
+        display: grid;
+        grid-template-columns: 45% 55%;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "header header"
+            "visuals controls";
+        overflow: hidden;
+    }
+
+    /* 3. Hide Mobile-specific elements */
+    .status-bar {
+        display: none;
+    }
+
+    /* 4. Header spans full width */
+    .header {
+        grid-area: header;
+        padding: 25px 40px;
+        background-color: var(--bg-color);
+        z-index: 10;
+    }
+
+    /* 5. Left Panel: Door Visual */
+    .door-section {
+        grid-area: visuals;
+        height: 100%;
+        padding: 40px;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 0;
+    }
+
+    .gate-scene {
+        width: 240px;
+        height: 170px;
+    }
+
+    /* 6. Right Panel: Controls */
+    .controls-container {
+        grid-area: controls;
+        height: 100%;
+        border-radius: 0 0 40px 0;
+        padding: 40px;
+        justify-content: center;
+        background: #f0f0f0;
+    }
+
+    .power-card {
+        padding: 25px;
+    }
+
+    /* 7. Loading Screen Desktop Fix */
+    .loadingIndicator {
+        position: absolute;
+        border-radius: 40px;
+    }
+}

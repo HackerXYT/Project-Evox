@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Circular UI</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 90vw;
+            max-width: 400px;
+            height: 90vw;
+            max-height: 400px;
+            animation: triggerAnimation 1s ease-in-out;
+        }
+
+        @keyframes triggerAnimation {
+            0% {
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .color-circle {
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-circle > div {
+            position: absolute;
+            width: 10%;
+            height: 10%;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .color-circle .red { background: red; top: 10%; left: 50%; transform: translate(-50%, 0); }
+        .color-circle .blue { background: blue; bottom: 10%; left: 50%; transform: translate(-50%, 0); }
+        .color-circle .green { background: green; left: 10%; top: 50%; transform: translate(0, -50%); }
+        .color-circle .yellow { background: yellow; right: 10%; top: 50%; transform: translate(0, -50%); }
+
+        .size-circle {
+            width: 50%;
+            height: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 25%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .size-circle span {
+            position: absolute;
+            font-size: 4vw;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .size-circle .s { top: 10%; left: 50%; transform: translate(-50%, -50%); }
+        .size-circle .m { bottom: 10%; left: 50%; transform: translate(-50%, 50%); }
+        .size-circle .l { right: 10%; top: 50%; transform: translate(50%, -50%); }
+
+        .number-circle {
+            width: 20%;
+            height: 20%;
+            background: white;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5vw;
+            font-weight: bold;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .buy-button {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            background: #007BFF;
+            color: white;
+            font-size: 4vw;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            bottom: 5%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease-in-out;
+        }
+
+        .buy-button:hover {
+            background: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .circle-container {
+                width: 100vw;
+                height: 100vw;
+            }
+            .size-circle span {
+                font-size: 5vw;
+            }
+            .number-circle {
+                font-size: 6vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-container">
+        <!-- Outer Circle for Colors -->
+        <div class="circle color-circle">
+            <div class="red"></div>
+            <div class="blue"></div>
+            <div class="green"></div>
+            <div class="yellow"></div>
+        </div>
+
+        <!-- Inner Circle for Sizes -->
+        <div class="circle size-circle">
+            <span class="s">S</span>
+            <span class="m">M</span>
+            <span class="l">L</span>
+        </div>
+
+        <!-- Small Circle for Number -->
+        <div class="circle number-circle">
+            1
+        </div>
+
+        <!-- Center Buy Button -->
+        <div class="buy-button">Buy</div>
+    </div>
+</body>
+</html>
