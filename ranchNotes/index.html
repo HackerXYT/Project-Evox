@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Σημειώσεις</title>
+</head>
+<body>
+    <div id="home" class="main page" data-page="write">
+        <div class="content">
+            <div class="day-block" id="todayBlock">
+                <p class="day-date" id="date"></p>
+                <p class="day-name" id="dateText"></p>
+                <p class="day-label today-label">Σήμερα</p>
+                <div id="todayEntries"></div>
+                <p class="entry" id="addEntry" onclick="createNew()">
+                    <span class="bullet">&bull;</span>
+                    <span id="addEntryText" class="entry-text placeholder">Τι έγινε σήμερα;</span>
+                </p>
+            </div>
+            <div id="pastEntries"></div>
+        </div>
+    </div>
+
+    <div id="entriesPage" class="main page" data-page="entries">
+        <div class="content">
+            <p class="page-title">Καταχωρήσεις</p>
+            <div id="entriesList"></div>
+        </div>
+    </div>
+
+    <div id="historyPage" class="main page" data-page="history">
+        <div class="content">
+            <p class="page-title">Σαν σήμερα</p>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <div id="menuPage" class="main page" data-page="menu">
+        <div class="content">
+            <p class="page-title">Μενού</p>
+            <div class="menu-card">
+                <p class="menu-stat-num" id="entryCount">0</p>
+                <p class="menu-stat-label">καταχωρήσεις αποθηκευμένες σε αυτή τη συσκευή</p>
+            </div>
+            <button type="button" class="menu-row danger" onclick="clearAll()">Διαγραφή όλων των καταχωρήσεων</button>
+            <p class="menu-note">Οι σημειώσεις αποθηκεύονται μόνο σε αυτόν τον browser (localStorage). Τίποτα δεν ανεβαίνει online, δεν υπάρχει λογαριασμός ή σύνδεση.</p>
+        </div>
+    </div>
+
+    <nav class="tabbar" id="tabbar">
+        <button type="button" class="tab active" data-tab="write" onclick="showPage('write')" aria-label="Νέα σημείωση">
+            <svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+        </button>
+        <button type="button" class="tab" data-tab="entries" onclick="showPage('entries')" aria-label="Καταχωρήσεις">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        </button>
+        <button type="button" class="tab" data-tab="history" onclick="showPage('history')" aria-label="Ιστορικό">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+        </button>
+        <button type="button" class="tab" data-tab="menu" onclick="showPage('menu')" aria-label="Μενού">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </nav>
+
+    <div class="main newNote" id="newNote">
+        <div class="newNote-top">
+            <button type="button" class="icon-button" onclick="closeNote()" aria-label="Πίσω">
+                <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            <button type="button" class="icon-button" id="deleteButton" onclick="deleteNote()" aria-label="Διαγραφή">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+            </button>
+        </div>
+        <p class="editor-date" id="editorDate"></p>
+        <textarea id="note" placeholder="Τι έγινε σήμερα;" autofocus></textarea>
+    </div>
+
+    <div class="modal-overlay" id="confirmOverlay">
+        <div class="modal-card">
+            <p class="modal-message" id="confirmMessage"></p>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn" id="confirmCancel">Ακύρωση</button>
+                <button type="button" class="modal-btn danger" id="confirmOk">Διαγραφή</button>
+            </div>
+        </div>
+    </div>
+<script>
+    const dateEl = document.getElementById("date");
+    const dateTextEl = document.getElementById("dateText");
+    const editorDateEl = document.getElementById("editorDate");
+    const noteEl = document.getElementById("note");
+    const todayEntriesEl = document.getElementById("todayEntries");
+    const addEntryText = document.getElementById("addEntryText");
+    const pastEntriesEl = document.getElementById("pastEntries");
+    const entriesListEl = document.getElementById("entriesList");
+    const historyListEl = document.getElementById("historyList");
+    const entryCountEl = document.getElementById("entryCount");
+    const deleteButton = document.getElementById("deleteButton");
+    const newNoteEl = document.getElementById("newNote");
+    const confirmOverlay = document.getElementById("confirmOverlay");
+    const confirmMessage = document.getElementById("confirmMessage");
+    const confirmCancel = document.getElementById("confirmCancel");
+    const confirmOk = document.getElementById("confirmOk");
+
+    let editingId = null;
+    let currentPage = "write";
+    let autosaveTimer = null;
+
+    function askConfirm(message) {
+        return new Promise(resolve => {
+            confirmMessage.textContent = message;
+            confirmOverlay.classList.add("open");
+            const cleanup = (result) => {
+                confirmOverlay.classList.remove("open");
+                confirmOk.onclick = null;
+                confirmCancel.onclick = null;
+                resolve(result);
+            };
+            confirmOk.onclick = () => cleanup(true);
+            confirmCancel.onclick = () => cleanup(false);
+        });
+    }
+
+    function dayKey(d) {
+        return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+    }
+
+    const MONTHS = ["Ιαν", "Φεβ", "Μαρ", "Απρ", "Μαΐ", "Ιουν", "Ιουλ", "Αυγ", "Σεπ", "Οκτ", "Νοε", "Δεκ"];
+    const DAY_NAMES = ["Κυριακή", "Δευτέρα", "Τρίτη", "Τετάρτη", "Πέμπτη", "Παρασκευή", "Σάββατο"];
+
+    function formatDate(d) {
+        return {
+            dayName: DAY_NAMES[d.getDay()],
+            monthDay: MONTHS[d.getMonth()] + " " + d.getDate()
+        };
+    }
+
+    function formatTime(d) {
+        let h = d.getHours();
+        const m = d.getMinutes().toString().padStart(2, "0");
+        const ampm = h >= 12 ? "μμ" : "πμ";
+        h = h % 12 || 12;
+        return h + ":" + m + " " + ampm;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function renderHeaderDate() {
+        const { dayName, monthDay } = formatDate(new Date());
+        dateEl.innerHTML = monthDay;
+        dateTextEl.innerHTML = dayName;
+    }
+
+    function getNotes() {
+        return JSON.parse(localStorage.getItem("notes") || "[]");
+    }
+
+    function saveNotes(notes) {
+        localStorage.setItem("notes", JSON.stringify(notes));
+    }
+
+    function makeBullet(note, onClick) {
+        const p = document.createElement("p");
+        p.className = "entry";
+        p.innerHTML = `<span class="bullet">&bull;</span><span class="entry-text">${escapeHtml(note.text.split("\n")[0]) || "Χωρίς τίτλο"}</span>`;
+        p.onclick = onClick;
+        return p;
+    }
+
+    function renderWritePage() {
+        const notes = getNotes().sort((a, b) => b.createdAt - a.createdAt);
+        const todayNotes = notes.filter(n => dayKey(new Date(n.createdAt)) === dayKey(new Date()));
+
+        todayEntriesEl.innerHTML = "";
+        todayNotes.forEach(note => todayEntriesEl.appendChild(makeBullet(note, () => openNote(note.id))));
+
+        addEntryText.textContent = todayNotes.length ? "Προσθήκη ακόμα" : "Τι έγινε σήμερα;";
+        addEntryText.classList.toggle("placeholder", true);
+
+        pastEntriesEl.innerHTML = "";
+        const pastByDay = new Map();
+        notes
+            .filter(n => dayKey(new Date(n.createdAt)) !== dayKey(new Date()))
+            .forEach(n => {
+                const key = dayKey(new Date(n.createdAt));
+                if (!pastByDay.has(key)) pastByDay.set(key, []);
+                pastByDay.get(key).push(n);
+            });
+
+        pastByDay.forEach(dayNotes => {
+            const { dayName, monthDay } = formatDate(new Date(dayNotes[0].createdAt));
+            const block = document.createElement("div");
+            block.className = "day-block";
+            block.innerHTML = `<p class="day-date">${monthDay}</p><p class="day-name">${dayName}</p>`;
+            dayNotes.forEach(note => block.appendChild(makeBullet(note, () => openNote(note.id))));
+            pastEntriesEl.appendChild(block);
+        });
+    }
+
+    function renderEntriesPage() {
+        const notes = getNotes().sort((a, b) => b.createdAt - a.createdAt);
+        entriesListEl.innerHTML = "";
+
+        if (!notes.length) {
+            entriesListEl.innerHTML = `<p class="empty-state">Δεν υπάρχουν ακόμα καταχωρήσεις. Πάτησε το εικονίδιο του φτερού για να γράψεις την πρώτη σου.</p>`;
+            return;
+        }
+
+        notes.forEach(note => {
+            const d = new Date(note.createdAt);
+            const { monthDay } = formatDate(d);
+            const row = document.createElement("div");
+            row.className = "entry-row";
+            row.innerHTML = `
+                <div class="entry-row-main">
+                    <p class="entry-row-date">${monthDay} · ${formatTime(d)}</p>
+                    <p class="entry-row-text">${escapeHtml(note.text.split("\n")[0]) || "Χωρίς τίτλο"}</p>
+                </div>
+                <button type="button" class="entry-row-delete" aria-label="Διαγραφή καταχώρησης">
+                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+                </button>
+            `;
+            row.querySelector(".entry-row-main").onclick = () => openNote(note.id);
+            row.querySelector(".entry-row-delete").onclick = async (e) => {
+                e.stopPropagation();
+                if (await askConfirm("Διαγραφή αυτής της καταχώρησης; Δεν μπορεί να αναιρεθεί.")) {
+                    saveNotes(getNotes().filter(n => n.id !== note.id));
+                    renderEntriesPage();
+                    renderWritePage();
+                    renderHistoryPage();
+                    renderMenuPage();
+                }
+            };
+            entriesListEl.appendChild(row);
+        });
+    }
+
+    function renderHistoryPage() {
+        const today = new Date();
+        const notes = getNotes()
+            .filter(n => {
+                const d = new Date(n.createdAt);
+                return d.getMonth() === today.getMonth() &&
+                       d.getDate() === today.getDate() &&
+                       d.getFullYear() !== today.getFullYear();
+            })
+            .sort((a, b) => b.createdAt - a.createdAt);
+
+        historyListEl.innerHTML = "";
+        if (!notes.length) {
+            historyListEl.innerHTML = `<p class="empty-state">Δεν υπάρχουν ακόμα αναμνήσεις από αυτή τη μέρα σε προηγούμενα χρόνια.</p>`;
+            return;
+        }
+
+        const byYear = new Map();
+        notes.forEach(n => {
+            const y = new Date(n.createdAt).getFullYear();
+            if (!byYear.has(y)) byYear.set(y, []);
+            byYear.get(y).push(n);
+        });
+
+        byYear.forEach((yearNotes, year) => {
+            const block = document.createElement("div");
+            block.className = "day-block";
+            block.innerHTML = `<p class="day-name">${year}</p>`;
+            yearNotes.forEach(note => block.appendChild(makeBullet(note, () => openNote(note.id))));
+            historyListEl.appendChild(block);
+        });
+    }
+
+    function renderMenuPage() {
+        entryCountEl.textContent = getNotes().length;
+    }
+
+    function renderAll() {
+        renderWritePage();
+        renderEntriesPage();
+        renderHistoryPage();
+        renderMenuPage();
+    }
+
+    function resizeTextarea() {
+        noteEl.style.height = "auto";
+        noteEl.style.height = noteEl.scrollHeight + "px";
+    }
+    noteEl.addEventListener("input", () => {
+        resizeTextarea();
+        clearTimeout(autosaveTimer);
+        autosaveTimer = setTimeout(saveNote, 600);
+    });
+
+    function showPage(name) {
+        currentPage = name;
+        document.querySelectorAll(".page").forEach(p => p.style.display = p.dataset.page === name ? "flex" : "none");
+        document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+        if (name === "entries") renderEntriesPage();
+        if (name === "history") renderHistoryPage();
+        if (name === "menu") renderMenuPage();
+        if (name === "write") renderWritePage();
+    }
+
+    function openEditor() {
+        newNoteEl.classList.add("open");
+        requestAnimationFrame(() => {
+            resizeTextarea();
+            noteEl.focus();
+            const end = noteEl.value.length;
+            noteEl.setSelectionRange(end, end);
+        });
+    }
+
+    function closeEditor() {
+        newNoteEl.classList.remove("open");
+    }
+
+    function createNew() {
+        editingId = null;
+        noteEl.value = "";
+        deleteButton.style.visibility = "hidden";
+        const { dayName, monthDay } = formatDate(new Date());
+        editorDateEl.textContent = monthDay + " · " + dayName;
+        openEditor();
+    }
+
+    function openNote(id) {
+        const note = getNotes().find(n => n.id === id);
+        if (!note) return;
+        editingId = id;
+        noteEl.value = note.text;
+        deleteButton.style.visibility = "visible";
+        const { dayName, monthDay } = formatDate(new Date(note.createdAt));
+        editorDateEl.textContent = monthDay + " · " + dayName;
+        openEditor();
+    }
+
+    function closeNote() {
+        clearTimeout(autosaveTimer);
+        saveNote();
+        closeEditor();
+        renderAll();
+        showPage(currentPage);
+    }
+
+    function saveNote() {
+        const text = noteEl.value.trim();
+        const notes = getNotes();
+        if (!text) {
+            if (editingId) {
+                saveNotes(notes.filter(n => n.id !== editingId));
+                editingId = null;
+            }
+            return;
+        }
+        if (editingId) {
+            const note = notes.find(n => n.id === editingId);
+            note.text = text;
+            note.updatedAt = Date.now();
+        } else {
+            const now = Date.now();
+            const note = { id: crypto.randomUUID(), text, createdAt: now, updatedAt: now };
+            notes.push(note);
+            editingId = note.id;
+            deleteButton.style.visibility = "visible";
+        }
+        saveNotes(notes);
+    }
+
+    async function deleteNote() {
+        if (!editingId) return;
+        if (!(await askConfirm("Διαγραφή αυτής της καταχώρησης; Δεν μπορεί να αναιρεθεί."))) return;
+        clearTimeout(autosaveTimer);
+        saveNotes(getNotes().filter(n => n.id !== editingId));
+        editingId = null;
+        noteEl.value = "";
+        closeEditor();
+        renderAll();
+        showPage(currentPage);
+    }
+
+    noteEl.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" || ((e.metaKey || e.ctrlKey) && e.key === "Enter")) {
+            e.preventDefault();
+            closeNote();
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden" && newNoteEl.classList.contains("open")) {
+            clearTimeout(autosaveTimer);
+            saveNote();
+        }
+    });
+    window.addEventListener("pagehide", () => {
+        if (newNoteEl.classList.contains("open")) saveNote();
+    });
+
+    async function clearAll() {
+        if (!getNotes().length) return;
+        if (await askConfirm("Διαγραφή όλων των καταχωρήσεων; Δεν μπορεί να αναιρεθεί.")) {
+            saveNotes([]);
+            renderAll();
+        }
+    }
+
+    renderHeaderDate();
+    renderAll();
+    showPage("write");
+</script>
+</body>
+</html>
