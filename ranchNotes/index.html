@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Σημειώσεις</title>
+    <style>
+        /* Minimal extra styles for the new credentials card + recovery modal inputs */
+        .menu-credential { font-size: 13px; word-break: break-all; margin: 2px 0; opacity: 0.8; }
+        .modal-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+        .modal-error { font-size: 13px; margin-top: 4px; }
+    </style>
 </head>
 <body>
     <div id="home" class="main page" data-page="write">
@@ -44,8 +58,14 @@
                 <p class="menu-stat-num" id="entryCount">0</p>
                 <p class="menu-stat-label">καταχωρήσεις αποθηκευμένες σε αυτή τη συσκευή</p>
             </div>
+            <div class="menu-card">
+                <p class="menu-stat-label">Τα διαπιστευτήριά σου (κράτησέ τα κάπου ασφαλές — τα χρειάζεσαι για ανάκτηση σε άλλη συσκευή):</p>
+                <p class="menu-credential" id="credUuid">UUID: —</p>
+                <p class="menu-credential" id="credPassword">Κωδικός: —</p>
+            </div>
+            <button type="button" class="menu-row" onclick="openRecovery()">Ανάκτηση δεδομένων</button>
             <button type="button" class="menu-row danger" onclick="clearAll()">Διαγραφή όλων των καταχωρήσεων</button>
-            <p class="menu-note">Οι σημειώσεις αποθηκεύονται μόνο σε αυτόν τον browser (localStorage). Τίποτα δεν ανεβαίνει online, δεν υπάρχει λογαριασμός ή σύνδεση.</p>
+            <p class="menu-note">Οι σημειώσεις αποθηκεύονται σε αυτόν τον browser και συγχρονίζονται αυτόματα με τον server ώστε να μπορείς να τις ανακτήσεις σε άλλη συσκευή με το UUID και τον κωδικό σου.</p>
         </div>
     </div>
 
@@ -86,7 +106,71 @@
             </div>
         </div>
     </div>
+
+    <div class="modal-overlay" id="recoveryOverlay">
+        <div class="modal-card">
+            <p class="modal-message">Ανάκτηση δεδομένων</p>
+            <input type="text" id="recoveryUuid" class="modal-input" placeholder="UUID" autocomplete="off">
+            <input type="text" id="recoveryPassword" class="modal-input" placeholder="Κωδικός" autocomplete="off">
+            <p class="modal-error" id="recoveryError" style="display:none;"></p>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn" id="recoveryCancel">Ακύρωση</button>
+                <button type="button" class="modal-btn" id="recoveryOk">Ανάκτηση</button>
+            </div>
+        </div>
+    </div>
 <script>
+    // ---------------- API sync configuration ----------------
+    // Point this at wherever server.js is running.
+    const API_BASE = "https://rn-temp.evoxs.xyz";
+
+    let apiUuid = localStorage.getItem("apiUuid");
+    let apiPassword = localStorage.getItem("apiPassword");
+
+    async function ensureRegistered() {
+        if (apiUuid && apiPassword) return;
+        try {
+            const res = await fetch(`${API_BASE}/api/register`, { method: "POST" });
+            if (!res.ok) throw new Error("register failed");
+            const data = await res.json();
+            apiUuid = data.uuid;
+            apiPassword = data.password;
+            localStorage.setItem("apiUuid", apiUuid);
+            localStorage.setItem("apiPassword", apiPassword);
+            renderMenuPage();
+
+            // Any notes that already existed locally (e.g. from before this device
+            // had an account) get pushed to the API right away, not debounced.
+            const existingNotes = getNotes();
+            if (existingNotes.length) {
+                await fetch(`${API_BASE}/api/notes/sync`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uuid: apiUuid, password: apiPassword, notes: existingNotes })
+                });
+            }
+        } catch (err) {
+            console.error("Δεν ήταν δυνατή η εγγραφή στον server:", err);
+        }
+    }
+
+    let syncTimer = null;
+    function syncNotes(notes) {
+        if (!apiUuid || !apiPassword) return;
+        clearTimeout(syncTimer);
+        syncTimer = setTimeout(async () => {
+            try {
+                await fetch(`${API_BASE}/api/notes/sync`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uuid: apiUuid, password: apiPassword, notes })
+                });
+            } catch (err) {
+                console.error("Ο συγχρονισμός απέτυχε:", err);
+            }
+        }, 500);
+    }
+
     const dateEl = document.getElementById("date");
     const dateTextEl = document.getElementById("dateText");
     const editorDateEl = document.getElementById("editorDate");
@@ -104,9 +188,38 @@
     const confirmCancel = document.getElementById("confirmCancel");
     const confirmOk = document.getElementById("confirmOk");
 
+    const recoveryOverlay = document.getElementById("recoveryOverlay");
+    const recoveryUuidInput = document.getElementById("recoveryUuid");
+    const recoveryPasswordInput = document.getElementById("recoveryPassword");
+    const recoveryError = document.getElementById("recoveryError");
+    const recoveryCancel = document.getElementById("recoveryCancel");
+    const recoveryOk = document.getElementById("recoveryOk");
+
     let editingId = null;
     let currentPage = "write";
     let autosaveTimer = null;
+
+    // crypto.randomUUID() only exists in secure contexts (https, or localhost).
+    // Fall back to a manual UUID v4 generator when served over plain http.
+    function generateUUID() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+            return window.crypto.randomUUID();
+        }
+        if (window.crypto && typeof window.crypto.getRandomValues === "function") {
+            const bytes = new Uint8Array(16);
+            window.crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = [...bytes].map(b => b.toString(16).padStart(2, "0"));
+            return `${hex.slice(0,4).join("")}-${hex.slice(4,6).join("")}-${hex.slice(6,8).join("")}-${hex.slice(8,10).join("")}-${hex.slice(10,16).join("")}`;
+        }
+        // last-resort fallback, not cryptographically strong
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0;
+            const v = c === "x" ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
 
     function askConfirm(message) {
         return new Promise(resolve => {
@@ -122,6 +235,54 @@
             confirmCancel.onclick = () => cleanup(false);
         });
     }
+
+    function openRecovery() {
+        recoveryUuidInput.value = "";
+        recoveryPasswordInput.value = "";
+        recoveryError.style.display = "none";
+        recoveryOverlay.classList.add("open");
+    }
+    function closeRecovery() {
+        recoveryOverlay.classList.remove("open");
+    }
+    recoveryCancel.onclick = closeRecovery;
+    recoveryOk.onclick = async () => {
+        const uuid = recoveryUuidInput.value.trim();
+        const password = recoveryPasswordInput.value.trim();
+        if (!uuid || !password) {
+            recoveryError.textContent = "Συμπλήρωσε και τα δύο πεδία.";
+            recoveryError.style.display = "block";
+            return;
+        }
+        recoveryOk.disabled = true;
+        try {
+            const res = await fetch(`${API_BASE}/api/notes/retrieve`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uuid, password })
+            });
+            if (!res.ok) {
+                recoveryError.textContent = "Λάθος UUID ή κωδικός.";
+                recoveryError.style.display = "block";
+                recoveryOk.disabled = false;
+                return;
+            }
+            const data = await res.json();
+            localStorage.setItem("notes", JSON.stringify(data.notes || []));
+            apiUuid = uuid;
+            apiPassword = password;
+            localStorage.setItem("apiUuid", uuid);
+            localStorage.setItem("apiPassword", password);
+            recoveryOk.disabled = false;
+            closeRecovery();
+            renderAll();
+            showPage(currentPage);
+        } catch (err) {
+            recoveryError.textContent = "Σφάλμα σύνδεσης με τον server.";
+            recoveryError.style.display = "block";
+            recoveryOk.disabled = false;
+        }
+    };
 
     function dayKey(d) {
         return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
@@ -163,6 +324,7 @@
 
     function saveNotes(notes) {
         localStorage.setItem("notes", JSON.stringify(notes));
+        syncNotes(notes);
     }
 
     function makeBullet(note, onClick) {
@@ -276,6 +438,10 @@
 
     function renderMenuPage() {
         entryCountEl.textContent = getNotes().length;
+        const credUuidEl = document.getElementById("credUuid");
+        const credPasswordEl = document.getElementById("credPassword");
+        if (credUuidEl) credUuidEl.textContent = "UUID: " + (apiUuid || "—");
+        if (credPasswordEl) credPasswordEl.textContent = "Κωδικός: " + (apiPassword || "—");
     }
 
     function renderAll() {
@@ -363,7 +529,7 @@
             note.updatedAt = Date.now();
         } else {
             const now = Date.now();
-            const note = { id: crypto.randomUUID(), text, createdAt: now, updatedAt: now };
+            const note = { id: generateUUID(), text, createdAt: now, updatedAt: now };
             notes.push(note);
             editingId = note.id;
             deleteButton.style.visibility = "visible";
@@ -411,6 +577,7 @@
     renderHeaderDate();
     renderAll();
     showPage("write");
+    ensureRegistered();
 </script>
 </body>
 </html>
