@@ -69,10 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.reload()
         return;
     }
-    
+
     document.getElementById("username").innerText = localStorage.getItem("t50-username")
     document.getElementById("greeting").innerHTML = getGreeting() + ","
-    getProfileData(loggedIn.username)
+    try {
+        getProfileData(loggedIn.username)
+    } catch (error) {
+        console.error('Error retrieving profile data:', error);
+    }
     fetch(`https://data.evoxs.xyz/profiles?authorize=351c3669b3760b20615808bdee568f33&pfp=${loggedIn.username}`)
         .then(response => {
             if (!response.ok) {
@@ -126,9 +130,17 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.error(err)
                         });
                 } else {
-                    document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
+                    if (data !== "Account Not Found") {
+                        document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn">
                             No chats
                         </div>`
+                    } else {
+                        document.getElementById("prevChats").innerHTML = `<div class="roundedBoxBtn" style="text-align: center;flex-direction: column;">
+                            Your account is not valid. Please login via Evox Epsilon Nexus.
+                            <div style="width: 100%;cursor: pointer;display:flex;padding:10px;background-color:#000;color:#fff;box-sizing:border-box;text-align: center;border-radius: 13px;justify-content: center;align-items: center;" onclick="window.location.href='../evox-epsilon-beta/'">Redirect to Epsilon Nexus</div>
+                        </div>`
+                    }
+
                 }
 
             })
@@ -214,6 +226,10 @@ function createNewChat() {
     post({ requestMethod: 'createChat', username: localStorage.getItem("t50-username"), password: userPassword(), email: localStorage.getItem("t50-email") })
         .then(data => {
             console.log(data)
+            if (data === "Account Not Found" || data === "Password Incorrect" || data === "Client Error;Username Mismatch" || data === "Account Disabled") {
+                alert("Your account is not valid. Please login via Evox Epsilon Nexus.")
+                return;
+            }
             const parsed = JSON.parse(data)
             loggedIn.token = parsed.token
             loggedIn.activeChat = parsed.chatId
