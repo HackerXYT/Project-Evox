@@ -459,6 +459,171 @@ function beginLogin(ipLogin, matches, username) {
 
 }
 
+function beginRegister() {
+
+
+    document.getElementById("part1reg").classList.add('shown')
+    document.getElementById("part2reg").classList.remove('shown')
+    document.getElementById("part3reg").classList.remove('shown')
+    document.getElementById("headerVox").classList.remove('active')
+    document.getElementById("optionsVox").classList.remove('active')
+    setTimeout(function () {
+        document.getElementById("formRegister").style.display = 'flex'
+        document.getElementById("formLoginByIP").style.display = 'none'
+        setTimeout(function () {
+            document.getElementById("epsilonLogoLogin").style.opacity = "0"
+            document.getElementById("formRegister").classList.add('active')
+            //document.getElementById("formLogin").style.paddingBottom = "100px"
+        }, 50)
+    }, 920)
+}
+
+function returnToLoginMenuByReg() {
+    document.getElementById("epsilonLogoLogin").style.opacity = "1"
+    document.getElementById("formRegister").classList.remove('active')
+    setTimeout(function () {
+        document.getElementById("formRegister").style.display = 'none'
+        document.getElementById("headerVox").classList.add('active')
+        document.getElementById("optionsVox").classList.add('active')
+    }, 1000)
+}
+
+let part = 1
+const registerObject = {}
+function startRegister() {
+    if (part === 1) {
+        const username = document.getElementById("voxUsernameReg").value
+        const password = document.getElementById("voxPasswordReg").value
+        const confirmPassword = document.getElementById("voxConfirmPasswordReg").value
+        if (username && password && confirmPassword) {
+            console.log("Part 1 Filled")
+            if (password !== confirmPassword) {
+                warn("Passwords do not match!")
+                return;
+            }
+            fetch(`${srv}/accounts?method=getemailbyusername&username=${username}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    if (data !== "none") {
+                        warn("Username Already Exists!")
+                    } else {
+                        document.getElementById("formRegister").classList.remove('active')
+                        setTimeout(function () {
+                            document.getElementById("welcomeText2").innerText = "Part 2 of 3"
+                            document.getElementById("formRegister").classList.add('active')
+                            document.getElementById("part1reg").classList.remove('shown')
+                            document.getElementById("part2reg").classList.add('shown')
+                            part++
+                            registerObject.username = username
+                            registerObject.password = password
+                        }, 1000)
+                    }
+
+                }).catch(error => {
+                    //setNetworkStatus('off')
+                    console.error('Fetch error:', error);
+                });
+        } else {
+            warn("Please Fill All The Fields!")
+        }
+    } else if (part === 2) {
+        const name = document.getElementById("voxNameReg").value
+        const email = document.getElementById("voxEmailReg").value
+        const phone = document.getElementById("voxPhoneReg").value
+        const isValidEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+        if (name && email && phone) {
+            console.log("Part 2 Filled")
+            if (!isValidEmail(email)) {
+                warn("Invalid Email Address!")
+                return;
+            }
+            fetch(`${srv}/accounts?method=getUserbyEmail&email=${email}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    if (data !== "Account Not Found") {
+                        warn("Email Already Exists!")
+                    } else {
+                        document.getElementById("formRegister").classList.remove('active')
+                        setTimeout(function () {
+                            document.getElementById("welcomeText2").innerText = "Part 3 of 3"
+                            document.getElementById("formRegister").classList.add('active')
+                            document.getElementById("part2reg").classList.remove('shown')
+                            document.getElementById("part3reg").classList.add('shown')
+                            part++
+                            registerObject.name = name
+                            registerObject.email = email
+                            registerObject.phone = phone
+                        }, 1000)
+                    }
+
+                }).catch(error => {
+                    //setNetworkStatus('off')
+                    console.error('Fetch error:', error);
+                });
+        } else {
+            warn("Please Fill All The Fields!")
+        }
+    } else if (part === 3) {
+        const inviteCode = document.getElementById("voxInviteReg").value
+        if (inviteCode) {
+            console.log("Part 3 Filled")
+            fetch('https://data.evoxs.xyz/accounts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: registerObject.username,
+                    email: registerObject.email,
+                    password: registerObject.password,
+                    phone: registerObject.phone,
+                    first_name: registerObject.name.split(' ')[0],
+                    last_name: registerObject.name.split(' ')[1] || ' ',
+                    inviteCode: inviteCode
+                })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    if (data === "Welcome Abroad") {
+                        warn("Account Created Successfully!")
+                        document.getElementById("epsilonLogoLogin").style.opacity = "1"
+                        document.getElementById("formRegister").classList.remove('active')
+                        setTimeout(function () {
+                            document.getElementById("formRegister").style.display = 'none'
+                            document.getElementById("headerVox").classList.add('active')
+                            document.getElementById("optionsVox").classList.add('active')
+                            beginLogin()
+                            document.getElementById("voxEmail").value = registerObject.email
+                            document.getElementById("voxPassword").value = registerObject.password
+                            startLogin()
+                        }, 1000)
+
+                    } else if (data.includes("Hey")) {
+                        warn("Invalid Invite Code!")
+                    } else {
+                        warn(`Error: ${data}`)
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }
+
+
+
+}
 function returnToLoginMenu(nosound) {
     if (!nosound) {
         aitPlay('mind_changed')
@@ -671,6 +836,8 @@ voxEmailInput.addEventListener('input', function (event) {
         }, 400)
     }
 });
+
+
 
 let isPswdShown = false
 
@@ -1300,7 +1467,7 @@ function verificationComplete() {
         }
 
     }
-    
+
     getQueryParams();
 
     $("#connectionContainer").fadeOut("fast")

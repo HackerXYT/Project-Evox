@@ -1440,6 +1440,7 @@ img {
 #epsilonLogoLogin {
   width: 220px;
   height: auto;
+
 }
 
 .popup-close {
@@ -4767,7 +4768,7 @@ input:autofill {
   z-index: 999;
   opacity: 0.8;
   object-fit: cover;
-  transition: top 1s ease-in-out, left 1s ease-in-out, transform 1s ease-in-out;
+  transition: top 1s ease-in-out, left 1s ease-in-out, transform 1s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .glass h2 {
@@ -4921,6 +4922,9 @@ a {
   margin-left: 5px;
   margin-right: 0;
   transition: opacity 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inv-button.creds input {
@@ -7723,4 +7727,18 @@ vox.svgIconAnimated {
   .vo-container {
     justify-content: center;
   }
+}
+
+.registerSection {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.registerSection.shown {
+  display: flex;
 }
