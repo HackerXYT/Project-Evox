@@ -7720,12 +7720,53 @@ vox.svgIconAnimated {
     border-radius: 20px;
   }
 
+  #user-video-forDisplay {
+    position: fixed !important;
+    bottom: 2px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 768px;
+    left: auto !important;
+    border-radius: 20px;
+  }
+
+  .socialPopup {
+    position: fixed;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1000;
+  }
+
+  .bottomActionsSocial {
+    position: fixed;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1000;
+  }
+
   .evox-info {
     justify-content: center;
   }
 
   .vo-container {
     justify-content: center;
+  }
+
+  .settingsPopup {
+    position: fixed;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1000;
   }
 }
 

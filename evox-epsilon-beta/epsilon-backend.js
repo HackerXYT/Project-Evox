@@ -321,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.5'
+const appVersion = '8.3.51'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
@@ -2806,6 +2806,12 @@ const threshold = 10; // Threshold in pixels from the top where dragging upwards
 
 let settingsGrabCloseTrigger = 694
 let hideThreshold = 100
+grab.addEventListener('click', function (e) {
+    hideSettings()
+    setTimeout(function () {
+        popIt.style.top = '';
+    }, 600)
+})
 grab.addEventListener('touchstart', function (e) {
     const touch = e.touches[0];
     startY = touch.clientY;
@@ -4619,9 +4625,9 @@ function updateSocialInfo(type, value) {
     }
     if (type === 'firstname') {
         toset.first_name = value
-    } else if(type === "lastname") {
+    } else if (type === "lastname") {
         toset.last_name = value
-    } else if(type === "phone") {
+    } else if (type === "phone") {
         toset.phone = value
     }
 
