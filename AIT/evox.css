@@ -85,7 +85,7 @@ body {
     position: fixed;
     top: calc(-1 * env(safe-area-inset-top));
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: calc(100vh + env(safe-area-inset-top) + env(safe-area-inset-bottom));
     background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
     z-index: -1;
@@ -545,4 +545,21 @@ body {
     
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+}
+@media only screen and (min-width: 1024px) {
+
+  /*PC*/
+  .PC {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1000;
+  }
 }
