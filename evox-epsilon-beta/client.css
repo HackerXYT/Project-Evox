@@ -6624,7 +6624,7 @@ a {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 235px;
+  height: 50%;
   display: block;
   padding: 0 30px 30px 30px;
   align-items: center;
@@ -6876,7 +6876,7 @@ vo input {
 
 .option svg {
   margin-left: auto;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 
@@ -7782,4 +7782,130 @@ vox.svgIconAnimated {
 
 .registerSection.shown {
   display: flex;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.row-flex {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  padding: 20px 0px 0px 5px;
+
+}
+
+.backButton-relative {
+  background-color: rgba(60, 62, 70, 0.614);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  flex-direction: column;
+  /* Not needed if align-items and justify-content are enough */
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  /* Start hidden but still in document flow */
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+#backButton-settings {
+  display: none;
+}
+
+.settingsFooter {
+  width: 100%;
+  font-size: 15px;
+  font-weight: normal;
+  margin: 0;
+  margin-top: 25px;
+  color: #8b8b8b;
+}
+
+.iconChevron {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.securelineCarousel .slUser.skeleton {
+  scroll-snap-align: center;
+  flex: 0 0 155px;
+  margin-left: 5px;
+  width: 155px;
+  height: 155px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.08);
+  animation: slSkeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes slSkeletonPulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.securelineCarousel .slUserPFP.skeleton {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: slSkeletonShimmer 1.5s infinite;
+}
+
+@keyframes slSkeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.socialInfo .socialUser.skeleton {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+}
+
+.slUserPFP.social.skeleton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: slSkeletonShimmer 1.5s infinite;
 }

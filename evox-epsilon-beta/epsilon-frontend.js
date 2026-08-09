@@ -222,7 +222,7 @@ function clientVerified() {
                                 } else if (data === "Exists") {
                                     verificationComplete()
                                 } else {
-                                    notice(`Authorization IP Ops Failed`)
+                                    warn(`Authorization IP Ops Failed`)
                                 }
                             }).catch(error => {
                                 //setNetworkStatus('off')
@@ -312,7 +312,7 @@ function clientVerified() {
                 })
                 .catch(error => {
                     //setNetworkStatus('off')
-                    notice("Oh Snap! Evox Is Offline.<br>Please Retry Later.")
+                    warn("Oh Snap! Evox Is Offline.<br>Please Retry Later.")
 
                     console.error('Fetch error:', error);
                 });
@@ -321,7 +321,7 @@ function clientVerified() {
 
     } else {
         if (ip !== 'error') {
-            notice("IP Verification Failed!")
+            warn("IP Verification Failed!")
         }
 
     }
@@ -3262,6 +3262,36 @@ function backgroundSwitch(colorScheme) { //purple, blue, default
 
 }
 
+let depth = 0
+function backSettings() {
+    if (depth === 1) {
+        document.getElementById("settings").querySelectorAll(".settings-panel").forEach(div => {
+            if (div.id === "settings-security") return;
+            if (div.style.display !== "none") {
+                $(`#${div.id}`).fadeOut("fast", function () {
+                    $(`#settings-security`).fadeIn("fast")
+
+                })
+            }
+        })
+        document.getElementById("backButton-settings").style.display = 'none'
+        document.getElementById("settings-heading").innerText = "Account Settings"
+        depth = 0
+    } else if (depth === 2) {
+        document.getElementById("settings").querySelectorAll(".settings-panel").forEach(div => {
+            if (div.id === "settings-security") return;
+            if (div.style.display !== "none") {
+                $(`#${div.id}`).fadeOut("fast", function () {
+                    $(`#settings-personal`).fadeIn("fast")
+                })
+            }
+        })
+        document.getElementById("settings-heading").innerText = "Personal Settings"
+        depth = 1
+    }
+
+}
+
 function settingsOpen(panel) {
     play('openSettings')
     //panel -> security or epsilon
@@ -3276,11 +3306,11 @@ function settingsOpen(panel) {
     }
 
     //reset heights
-    document.getElementById("settings").style.height = '235px'
+    //document.getElementById("settings").style.height = '235px'
     settingsGrabCloseTrigger = 694
     hideThreshold = 100
     if (panel === 'security') {
-        document.getElementById("settings").style.height = '285px'
+        //document.getElementById("settings").style.height = '285px'
         settingsGrabCloseTrigger = 662
         document.getElementById("accountSettingsIcon").style.transform = 'rotate(40deg)'
         setTimeout(function () {
@@ -3351,14 +3381,56 @@ function hideSettings() {
     }, 500)
 }
 
-function attachSettingsData(data, container) {// data -> personal, security, cypher
+const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16.78 9.7L11.11 15.37C10.97 15.51 10.78 15.59 10.58 15.59C10.38 15.59 10.19 15.51 10.05 15.37L7.22 12.54C6.93 12.25 6.93 11.77 7.22 11.48C7.51 11.19 7.99 11.19 8.28 11.48L10.58 13.78L15.72 8.64C16.01 8.35 16.49 8.35 16.78 8.64C17.07 8.93 17.07 9.4 16.78 9.7Z" fill="#fff"></path>
+    </svg>`
+function removeEmail(email, el) {
+    el.innerHTML = `<svg version="1.1" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+              y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+              <path fill="#fff"
+                  d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                  <animateTransform attributeType="XML" attributeName="transform" type="rotate" from="0 25 25"
+                      to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+              </path>
+          </svg>`
+    fetch(`${srv}/accounts?method=removeemail&email=${email}&password=${atob(localStorage.getItem("t50pswd"))}&mainemail=${localStorage.getItem("t50-email")}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(data => {
+            if (data === "Complete") {
+                el.innerHTML = checkIcon
+                setTimeout(function () {
+                    emailListLoad()
+                }, 500)
+            } else {
+                console.error("Unknown response:", data)
+                warn(`Failed to remove email. Please try again.<br>Error Code: EBETAEMAIL_UNKNOWN`)
+            }
+
+
+        }).catch(error => {
+            console.error(error)
+            warn(`Failed to remove email. Please try again.<br>Error Code: EBETAEMAIL_REMOVE`)
+        })
+
+}
+
+function attachSettingsData(data, container, el) {// data -> personal, security, cypher
     setTimeout(function () {//set to allow the user to view the onhover effect
         if (data) {
+            document.getElementById("backButton-settings").style.display = 'flex'
+            document.getElementById("settings-heading").innerText = el.querySelector("span").innerText
             if (document.getElementById(`settings-${data}`)) {
                 let hiding = null
                 if (container === 1) {
+                    depth = 1
                     hiding = "#settings-security"
                 } else if (container === 3) {
+                    depth = 2
                     hiding = "#settings-personal"
                 } else if (container === 2) {
                     hiding = "#settings-epsilon"
@@ -3371,25 +3443,25 @@ function attachSettingsData(data, container) {// data -> personal, security, cyp
                 })
                 if (data === 'customize') {
                     settingsGrabCloseTrigger = 726
-                    document.getElementById("settings").style.height = '200px'
+                    //document.getElementById("settings").style.height = '200px'
                 } else if (data === 'personal') {
                     pickRandFromDict('personal_info')
                     settingsGrabCloseTrigger = 427
                     loadPersonal()
-                    document.getElementById("settings").style.height = '300px'
+                    //document.getElementById("settings").style.height = '300px'
                 } else if (data === 'name') {
                     settingsGrabCloseTrigger = 726
-                    document.getElementById("settings").style.height = '250px'
+                    //document.getElementById("settings").style.height = '250px'
                 } else if (data === 'about') {
                     loadAppAbout()
                     settingsGrabCloseTrigger = 520
                     hideThreshold = 618
-                    document.getElementById("settings").style.height = '435px'
+                    //document.getElementById("settings").style.height = '435px'
                 } else if (data === 'notifications') {
                     loadFlorida()
                 } else if (data === "signin_security") {
                     settingsGrabCloseTrigger = 527
-                    document.getElementById("settings").style.height = '400px'
+                    //document.getElementById("settings").style.height = '400px'
 
                     //Move me to main function
                     const myUser = localStorage.getItem("t50-username")
@@ -3407,6 +3479,10 @@ function attachSettingsData(data, container) {// data -> personal, security, cyp
                         .catch(error => {
                             console.log('phone Error:', error);
                         });
+                } else if (data === "username") {
+                    document.getElementById("inner-username").innerText = document.getElementById("username-preview").innerText
+                } else if (data === "emails") {
+                    emailListLoad()
                 }
             } else {
                 console.log("EBETA404")
@@ -3416,6 +3492,32 @@ function attachSettingsData(data, container) {// data -> personal, security, cyp
     }, 100)
 }
 
+function emailListLoad() {
+    const template = `<div class="option">
+                    <span>[EVX-EMAIL]</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+
+                        <vo [EVX-STYLE] onclick="removeEmail('[EVX-EMAIL]', this);event.stopPropagation();" style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;">
+                        <svg style="margin-left: 0;" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg></vo>
+                    </div>
+                    </div>`
+    document.getElementById("emails-list").innerHTML = template.replace("[EVX-EMAIL]", localStorage.getItem("t50-email")).replace("[EVX-STYLE]", "style='display: none;'")
+    fetch(`${srv}/accounts?method=getemails&email=${localStorage.getItem("t50-email")}&password=${atob(localStorage.getItem("t50pswd"))}&v=${Math.floor(Math.random() * 100000)}`)
+        .then(response => response.json())
+        .then(emails => {
+            emails.forEach(email => {
+                document.getElementById("emails-list").innerHTML += template.replaceAll("[EVX-EMAIL]", email).replace("[EVX-STYLE]", "")
+            })
+        })
+        .catch(error => {
+            console.log('Name Error:', error);
+        });
+}
 function loadPersonal() {
     const myUser = localStorage.getItem("t50-username")
     fetch(`${srv}/accounts?method=getName&username=${myUser}&v=${Math.floor(Math.random() * 100000)}`)
@@ -3644,11 +3746,11 @@ function changeBackgroundSlider(elem) {
     if (openSlider) {
         openSlider = false
         document.getElementById("backgroundOpenSlider").style.transform = 'rotate(90deg)';
-        document.getElementById("settings").style.height = '200px';
+        // document.getElementById("settings").style.height = '200px';
     } else {
         openSlider = true
         document.getElementById("backgroundOpenSlider").style.transform = 'rotate(270deg)';
-        document.getElementById("settings").style.height = '280px';
+        // document.getElementById("settings").style.height = '280px';
     }
     //$("#bgBox").fadeIn("fast");  // Show the bgBox with fade-in effect
 }

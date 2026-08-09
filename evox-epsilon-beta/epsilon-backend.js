@@ -321,7 +321,7 @@ function checkForUpdates() {
 }
 
 
-const appVersion = '8.3.51'
+const appVersion = '8.3.6'
 function loadAppAbout() {
     document.getElementById("appVersion").innerHTML = appVersion
     try {
@@ -2831,10 +2831,10 @@ function moveDiv(e) {
 
     console.log(newTop)
     // Restrict movement downwards only
-    if (newTop < settingsGrabCloseTrigger) {
+    if (newTop < 0) {
         return;
     }
-    if (newTop > hideThreshold) {
+    if (newTop > window.innerHeight / 3) {
         hideSettings()
         setTimeout(function () {
             popIt.style.top = '';

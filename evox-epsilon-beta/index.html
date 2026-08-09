@@ -735,31 +735,17 @@
                 <div id="card-secureline" class="card">
                     <img class="banner" src="securelineBanner.png">
                     <div id="securelineCarousel" class="securelineCarousel">
-                        <div class="slUser">
-                            <img class="slUserPFP" src="tascoPoster.png">
+                        <div class="slUser skeleton">
+                            <div class="slUserPFP skeleton"></div>
                         </div>
-                        <div class="slUser">
-                            <img class="slUserPFP" src="tascoPoster.png">
+                        <div class="slUser skeleton">
+                            <div class="slUserPFP skeleton"></div>
                         </div>
-                        <div class="slUser add">
-
-                            <img class="slUserPFP" src="tascoPoster.png">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M11 17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13V7C13 6.44771 12.5523 6 12 6C11.4477 6 11 6.44771 11 7V11H7C6.44772 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11V17Z"
-                                    fill="#fff" />
-                            </svg>
+                        <div class="slUser skeleton">
+                            <div class="slUserPFP skeleton"></div>
                         </div>
-                        <div class="slUser add">
-
-                            <img class="slUserPFP" src="tascoPoster.png">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"
-                                fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M11 17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13V7C13 6.44771 12.5523 6 12 6C11.4477 6 11 6.44771 11 7V11H7C6.44772 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11V17Z"
-                                    fill="#fff" />
-                            </svg>
+                        <div class="slUser skeleton">
+                            <div class="slUserPFP skeleton"></div>
                         </div>
                     </div>
                     <div class="bottomButtonsSline">
@@ -788,19 +774,14 @@
                 <div id="card-social" class="card">
                     <h2>Friends</h2>
                     <div id="socialInfo" class="socialInfo">
-                        <div class="socialUser">
-                            <img class="slUserPFP social" src="tascoPoster.png">
-                            <p>Username</p><span>20 days</span>
-
+                        <div class="socialUser skeleton">
+                            <div class="slUserPFP social skeleton"></div>
                         </div>
-                        <div class="socialUser">
-                            <img class="slUserPFP social" src="tascoPoster.png">
-                            <p>papostol</p><span>1 hour</span>
+                        <div class="socialUser skeleton">
+                            <div class="slUserPFP social skeleton"></div>
                         </div>
-                        <div class="socialUser">
-
-                            <img class="slUserPFP social" src="tascoPoster.png">
-                            <p>Avengers</p><span>30 weeks</span>
+                        <div class="socialUser skeleton">
+                            <div class="slUserPFP social skeleton"></div>
                         </div>
 
                     </div>
@@ -1361,13 +1342,30 @@
     <div class="settingsPopup" id="settings">
 
         <div id="settings-grab" class="grabbable"></div>
+        <div class="row-flex">
+            <button onclick="backSettings()" class="backButton-relative" id="backButton-settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
+                    <g clip-path="url(#clip0_429_11257)">
+                        <path d="M14 7L9 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path d="M9 12L14 17" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_429_11257">
+                            <rect width="24" height="24" fill="white"></rect>
+                        </clipPath>
+                    </defs>
+                </svg></button>
+            <p id="settings-heading" class="heading">Account Settings</p>
+        </div>
         <!--Account Settings -->
         <div id="settings-security" class="settings-panel" style="display: none;">
             <div class="buttonsContainer">
-                <div onclick="attachSettingsData('personal', 1);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('personal', 1, this);event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/personal.png"><span>Personal
                         Information</span>
-                    <div style="margin-left: auto;margin-right: 10px;"><svg style="margin-left: 0;margin-right: 0;"
+                    <div class="iconChevron"><svg style="margin-left: 0;margin-right: 0;"
                             xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
                             fill="none">
                             <path
@@ -1375,19 +1373,19 @@
                                 fill="#fff"></path>
                         </svg></div>
                 </div>
-                <div onclick="attachSettingsData('signin_security', 1);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('signin_security', 1, this);event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/signin.png"><span>Sign
                         In & Security</span>
-                    <div style="margin-left: auto;margin-right: 10px;" id="changingICON2"><svg
-                            style="margin-left: 0;margin-right: 0;" xmlns="http://www.w3.org/2000/svg" width="20px"
-                            height="20px" viewBox="0 0 24 24" fill="none">
+                    <div class="iconChevron" id="changingICON2"><svg style="margin-left: 0;margin-right: 0;"
+                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                            fill="none">
                             <path
                                 d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
                                 fill="#fff"></path>
                         </svg></div>
                 </div>
-                <div onclick="attachSettingsData('cypher', 1);event.stopPropagation();" class="option">
-                    <img src="epsilon-frontend-assets/cypher.png"><span>Ciphering</span><svg
+                <div onclick="attachSettingsData('cypher', 1, this);event.stopPropagation();" class="option">
+                    <img src="epsilon-frontend-assets/cypher.png"><span>Ciphering</span><svg class="iconChevron"
                         xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
                         <path
                             d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
@@ -1396,8 +1394,8 @@
                 </div>
                 <div onclick="logOut();event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/logout.png"><span>Log
-                        Out</span><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                        fill="none">
+                        Out</span><svg class="iconChevron" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                        viewBox="0 0 24 24" fill="none">
                         <path
                             d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
                             fill="#fff"></path>
@@ -1414,7 +1412,7 @@
         <div id="settings-personal" class="settings-panel" style="display: none;">
             <!--<p>Will get:<br>-Emails<br>-Phone number<br>-2FA Stats<br><br>Will Show:<br>-Change password (button)</p>-->
             <div class="buttonsContainer">
-                <div onclick="attachSettingsData('name', 3);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('name', 3, this);event.stopPropagation();" class="option">
                     <span>Name</span>
                     <div style="margin-left: auto;margin-right: 10px;">
                         <vo id="name-preview" style="display: inline-flex;
@@ -1429,7 +1427,7 @@
                             </svg></vo>
                     </div>
                 </div>
-                <div class="option">
+                <div onclick="attachSettingsData('username', 3, this);event.stopPropagation();" class="option">
                     <span>Username</span>
                     <div style="margin-left: auto;margin-right: 10px;">
                         <vo style="display: inline-flex;
@@ -1444,7 +1442,7 @@
                             </svg></vo>
                     </div>
                 </div>
-                <div class="option">
+                <div onclick="attachSettingsData('emails', 3, this);event.stopPropagation();" class="option">
                     <span>Emails</span>
                     <div style="margin-left: auto;margin-right: 10px;">
                         <vo id="email-preview" style="display: inline-flex;
@@ -1461,16 +1459,19 @@
                 </div>
                 <div class="option">
                     <span>Phone Number</span>
-                    <vo id="phone-preview" style="display: inline-flex;
+                    <div style="margin-left: auto;margin-right: 10px;">
+                        <vo id="phone-preview" style="display: inline-flex;
                     align-items: center;
                     margin-left: auto;
                     vertical-align: middle;margin-right: 0;">null<svg style="margin-left: 0;"
-                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path
-                                d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
-                                fill="#fff"></path>
-                        </svg></vo>
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
+
                 </div>
                 <!--<div onclick="setup_begin()" class="option">
                     <img src="epsilon-frontend-assets/ipaddresses.png"><span>Logged In & IP Addresses</span><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
@@ -1479,6 +1480,56 @@
                 </div>-->
 
             </div>
+
+        </div>
+
+        <div id="settings-cypher" class="settings-panel" style="display: none;">
+            <!--<p>Will get:<br>-Emails<br>-Phone number<br>-2FA Stats<br><br>Will Show:<br>-Change password (button)</p>-->
+            <div class="buttonsContainer">
+                <div onclick="attachSettingsData('name', 3, this);event.stopPropagation();" class="option">
+                    <span>Cryptox Operations</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+
+                        <vo style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;">Active<svg style="margin-left: 0;"
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
+                </div>
+            </div>
+            <div class="buttonsContainer">
+
+                <div class="option">
+                    <span>Encryption IV</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+                        <vo style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;" id="username-preview">null</vo>
+                    </div>
+                </div>
+                <div class="option">
+                    <span>Encryption Key</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+                        <vo style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;">***********</vo>
+                    </div>
+                </div>
+            </div>
+            <p class="settingsFooter">
+                Your Cryptox credentials consist of a <b>key</b> and an
+                <b>iv</b>.<br>To enhance security, only the iv is transferred over the internet, minimizing the risk
+                of data breaches.<!--<br>To update your Cryptox credentials, toggle Cryptox off and then back
+                on.-->
+            </p>
 
         </div>
 
@@ -1560,16 +1611,18 @@
                         </svg>
                     </div>
                     <span>Cryptox Operations</span>
-                    <vo style="display: inline-flex;
+                    <div style="margin-left: auto;margin-right: 10px;">
+                        <vo style="display: inline-flex;
                     align-items: center;
                     margin-left: auto;
                     vertical-align: middle;margin-right: 0;">Auto<svg style="margin-left: 0;"
-                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path
-                                d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
-                                fill="#fff"></path>
-                        </svg></vo>
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
                 </div>
                 <div class="option">
                     <img src="./epsilon-frontend-assets/evxlogin.png">
@@ -1616,7 +1669,7 @@
                             </g>
                         </svg>
                     </div><span>2FA</span>
-                    <div style="margin-left: auto;">
+                    <div style="margin-left: auto;margin-right: 10px;">
                         <vo id="2fa-preview" style="display: inline-flex;
                         align-items: center;
                         margin-left: auto;
@@ -1631,16 +1684,18 @@
                 </div>
                 <div class="option"><!--When the password was last changed.-->
                     <img src="epsilon-frontend-assets/signin.png"><span>Password</span>
-                    <vo style="display: inline-flex;
+                    <div style="margin-left: auto;margin-right: 10px;">
+                        <vo style="display: inline-flex;
                     align-items: center;
                     margin-left: auto;
                     vertical-align: middle;margin-right: 0;"><svg style="margin-left: 0;"
-                            xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
-                            fill="none">
-                            <path
-                                d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
-                                fill="#fff"></path>
-                        </svg></vo>
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
                 </div>
                 <!--<div onclick="setup_begin()" class="option">
                     <img src="epsilon-frontend-assets/ipaddresses.png"><span>Logged In & IP Addresses</span><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
@@ -1669,10 +1724,68 @@
             <span style="display:none;font-size: 15px;color: red"><code>names
                         are not yet saved.(<6.6.1)</code>.</span>
         </div>
+
+        <div id="settings-username" class="settings-panel" style="display: none;">
+            <div class="buttonsContainer">
+                <div class="option">
+                    <span>Username</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+
+                        <vo id="inner-username" style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;">loading..<svg style="margin-left: 0;"
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
+                </div>
+            </div>
+            <p class="settingsFooter">
+                Your <b>username</b> is used <b>for other users to find you</b> across the Evox network.<br>You cannot
+                change your username once it is set.
+            </p>
+        </div>
+
+        <div id="settings-emails" class="settings-panel" style="display: none;">
+            <p class="settingsFooter">
+                Your emails
+            </p>
+            <div id="emails-list" class="buttonsContainer" style="margin-top: 5px;">
+
+            </div>
+
+            <div class="buttonsContainer">
+                <div class="option">
+                    <span>Add new email</span>
+                    <div style="margin-left: auto;margin-right: 10px;">
+
+                        <vo style="display: inline-flex;
+                        align-items: center;
+                        margin-left: auto;
+                        vertical-align: middle;margin-right: 0;"><svg style="margin-left: 0;"
+                                xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                    fill="#fff"></path>
+                            </svg></vo>
+                    </div>
+                </div>
+            </div>
+            <p class="settingsFooter">
+                Above are the emails associated with your account. You can add or remove emails as needed.<br><b>Please
+                    ensure that you have access to the email addresses you add, as they may be used for account recovery
+                    and notifications.</b>
+            </p>
+        </div>
         <!-- Epsilon Settings -->
         <div id="settings-epsilon" class="settings-panel" style="display: none;">
             <div class="buttonsContainer">
-                <div onclick="attachSettingsData('about', 2);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('about', 2, this);event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/epsilon.png"><span>About</span>
                     <div style="margin-left: auto;margin-right: 10px;"><svg style="margin-left: 0;margin-right: 0;"
                             xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"
@@ -1682,7 +1795,7 @@
                                 fill="#fff"></path>
                         </svg></div>
                 </div>
-                <div onclick="attachSettingsData('notifications', 2);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('notifications', 2, this);event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/notifications.png"><span>Push
                         Notifications</span>
                     <div style="margin-left: auto;margin-right: 10px;" id="changingICON2"><svg
@@ -1693,14 +1806,16 @@
                                 fill="#fff"></path>
                         </svg></div>
                 </div>
-                <div onclick="attachSettingsData('customize', 2);event.stopPropagation();" class="option">
+                <div onclick="attachSettingsData('customize', 2, this);event.stopPropagation();" class="option">
                     <img src="epsilon-frontend-assets/customize.png"><span>Customize
-                        Epsilon</span><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
-                        viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
-                            fill="#fff"></path>
-                    </svg>
+                        Epsilon</span>
+                    <div style="margin-left: auto;margin-right: 10px;"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z"
+                                fill="#fff"></path>
+                        </svg>
+                    </div>
                 </div>
                 <!--<div onclick="setup_begin()" class="option">
                     <img src="epsilon-frontend-assets/ipaddresses.png"><span>Logged In & IP Addresses</span><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
