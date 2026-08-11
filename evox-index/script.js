@@ -434,7 +434,7 @@ async function sendMessage() {
     const inquiryType = document.getElementById('selectValue').innerText;
     const message = document.getElementById('message').value.trim();
 
-    if(!name || !email || !message) {
+    if (!name || !email || !message) {
         showFormStatus('Please fill in all required fields.', 'error');
         return;
     }
@@ -466,4 +466,53 @@ async function sendMessage() {
         console.error('Network error while sending message:', error);
         showFormStatus('Network error. Please check your connection and try again.', 'error');
     }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const currentLang = localStorage.getItem('evoxLang') || 'en';
+    fetch(`https://status.evoxs.xyz/details`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(serverStatus => {
+            console.log('Server status fetched:', serverStatus);
+            if (serverStatus.status === 'DOWN') {
+                console.log('Server is down, showing warning.');
+                const msg = serverStatus.message
+                let frontendMsg = ''
+                if (msg === "outage") {
+                    frontendMsg = currentLang !== 'en' ? "Τοπική διακοπή ρεύματος" : "Local power outage"
+                } else if (msg === "working") {
+                    frontendMsg = currentLang !== 'en' ? "Προγραμματισμένη Συντήρηση" : "Scheduled Maintenance"
+                } else if (msg === "attack") {
+                    frontendMsg = currentLang !== 'en' ? "Διακομιστής υπό επίθεση" : "Server Under Attack"
+                } else if (msg === "unknown") {
+                    frontendMsg = currentLang !== 'en' ? "Άγνωστο πρόβλημα διακομιστή" : "Unknown Server Issue"
+                }
+
+                if (currentLang !== 'en') {
+                    document.getElementById('outage-head').textContent = "To Evox είναι προσωρινά μη διαθέσιμο.";
+                    document.getElementById('outage-description').textContent = "Το φροντίζουμε, παρακαλούμε ελέγξτε ξανά σε λίγα λεπτά.";
+                    document.getElementById('downmsg').textContent = `Λόγος: ${frontendMsg}`;
+                    document.getElementById("outage-btn").textContent = "Συνέχεια ούτως ή άλλως";
+
+                } else {
+                    document.getElementById('outage-head').textContent = "Evox is temporarily unavailable.";
+                    document.getElementById('outage-description').textContent = "We're on it, please check back in a few minutes.";
+                    document.getElementById('downmsg').textContent = `Reason: ${frontendMsg}`;
+                    document.getElementById("outage-btn").textContent = "Continue anyway";
+
+                }
+                document.querySelector('.downWarning').style.display = 'flex';
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+})
+
+function hideOutage() {
+    document.querySelector('.downWarning').style.display = 'none';
 }
