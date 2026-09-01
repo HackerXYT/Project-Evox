@@ -1,4 +1,4 @@
-const appVersion = "2.1.8";
+const appVersion = "2.1.81";
 const ELEMENTS_CURRENT_VERSIONING = 4;
 for (let i = 0; i < ELEMENTS_CURRENT_VERSIONING; i++) {
   document.getElementById(`version${i + 1}`).innerText =
@@ -2628,7 +2628,7 @@ function installPWA() {
 let myInfo = null;
 function attach() {
   //document.getElementById("comingSoon")
-  document.getElementById("foryou").style.display = "none";
+  // document.getElementById("foryou").style.display = "none";
   // Wait for the notification queue to be completely empty before starting profile downloads
   // This ensures PWA, PIN change, and other initial notifications are shown and dismissed first
   onQueueEmpty(() => {
@@ -3126,7 +3126,7 @@ function downloadProfiles() {
         if (percentage === 100 && hasProfilesFrontShown === false) {
           hasProfilesFrontShown = true;
           document.getElementById("downloadingFiles").style.display = "none";
-          document.getElementById("comingSoonInner").style.display = "flex";
+          // document.getElementById("comingSoonInner").style.display = "flex";
           clearInterval(intmain);
         }
         if (
@@ -9613,7 +9613,9 @@ function showForyou() {
   document.getElementById("mentioned-carousel").classList.remove("active");
   document.getElementById("fixed-foryou").classList.add("active");
   document.getElementById("fixed-mentioned").classList.remove("active");
-  // document.getElementById("foryou").style.display = null
+   
+  document.getElementById("foryou").style.display = null
+
   document.getElementById("comingSoon").style.display = null;
   document.getElementById("mentioned").classList.add("mentioned");
 }
