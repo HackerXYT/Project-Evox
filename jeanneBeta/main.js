@@ -1864,6 +1864,10 @@ function clickPIN(element) {
                               .fadeOut(function () {
                                 $("#setupInstagram").fadeIn("fast");
                               });
+
+                            if (!localStorage.getItem("notice_yb")) {
+                              showYearbookNotice();
+                            }
                           }, 500);
                         }, 300);
                       }, 2500);
@@ -2222,6 +2226,10 @@ function autoLogin() {
       localStorage.getItem("lightMode") === "on";
     if (lightMode) {
       lightModeSettingsInput.checked = true;
+    }
+
+    if (!localStorage.getItem("notice_yb")) {
+      showYearbookNotice();
     }
     if (
       localStorage.getItem("isJeanneFloridaReady") &&
@@ -9613,8 +9621,8 @@ function showForyou() {
   document.getElementById("mentioned-carousel").classList.remove("active");
   document.getElementById("fixed-foryou").classList.add("active");
   document.getElementById("fixed-mentioned").classList.remove("active");
-   
-  document.getElementById("foryou").style.display = null
+
+  document.getElementById("foryou").style.display = null;
 
   document.getElementById("comingSoon").style.display = null;
   document.getElementById("mentioned").classList.add("mentioned");
@@ -12097,4 +12105,21 @@ function selectMoreOptionsPost(element) {
   // OPTIONAL: If you have a specific input ID,
   // you can force it to stay active:
   // document.getElementById('your-input-id').focus();
+}
+
+
+function showYearbookNotice() {
+  EvalertNext({
+    title: "Φιλική σημείωση",
+    description:
+      `Οι μαθητές της Γ' Λυκείου του σχολικού έτους 2024–2025 έχουν πλέον πρόσβαση στις καταχωρήσεις της επετηρίδας στις οποίες αναφέρονται.
+      <br>Η εφαρμογή και τα σχετικά δεδομένα θα παραμείνουν διαθέσιμα στο διαδίκτυο για περιορισμένο χρονικό διάστημα.
+      <br>Για οποιοδήποτε πρόβλημα ή απορία σχετικά με την εφαρμογή, απευθυνθείτε αποκλειστικά στην Υποστήριξη Evox.
+      <br><br><span onclick=' window.open("https://evoxs.xyz/#contact","_blank","noopener",);' style="color: #a5a5a5;font-size: 16px;">https://evoxs.xyz/#contact</span>`,
+    buttons: ["Εντάξει"],
+    buttonAction: ["localStorage.setItem('notice_yb', 'true')"],
+    addons: [],
+    clouds: true,
+    clouds_data: ["JEANNE-POS_MAIN"],
+  });
 }
